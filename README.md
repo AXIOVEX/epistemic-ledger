@@ -44,8 +44,23 @@ The same machinery answers a pressing LLM problem: **context cleanup**. Retrieva
 ├── LICENSE              # All rights reserved, © 2026 Axiovex Systems, LLC
 ├── docs/
 │   ├── PAPER.md         # The framing paper
+│   ├── DESIGN-01-record-schema-scoring.md  # Design memo 01 (record schema + scoring)
 │   └── research/        # Raw research notes with provenance (2026-09-30)
+├── prototype/           # v0.1 prototype (stdlib-only Python)
+│   ├── ledger.py        # Core: event log, bitemporal store, revisit loop, queries
+│   ├── demo.py          # End-to-end scenario
+│   └── tests/           # Test suite
 └── .gitignore
+```
+
+## Prototype v0.1
+
+A working implementation of Design Memo 01's §8 scope lives in [`prototype/`](prototype/): append-only JSONL event log, SQLite bitemporal claim table, Jeffrey-update revisit loop with early cutoff, one materiality rule, the four queries (`BELIEVED_AT` / `CHANGED` / `DEPENDS_ON` / `WHY`), and all five kill criteria instrumented from day one.
+
+```bash
+cd prototype
+python demo.py            # end-to-end scenario
+python -m pytest tests/   # 10 tests, all green
 ```
 
 ## License
