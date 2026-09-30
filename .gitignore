@@ -1,0 +1,18 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# Python (future implementation)
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Node (future tooling)
+node_modules/
+
+# Build
+dist/
+build/
