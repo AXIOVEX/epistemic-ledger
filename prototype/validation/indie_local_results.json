@@ -1,0 +1,116 @@
+{
+ "part1": {
+  "n": 144,
+  "correct": 140,
+  "accuracy": 0.9722,
+  "fact_wrong": 1,
+  "value_wrong": 3,
+  "errors": 0,
+  "seconds": 25.0,
+  "calls": 144,
+  "failures": [
+   {
+    "sentence": "[blog-d] \"AstraCorp\u2019s CEO, John Rodriguez, was instrumental in this year's merger,\" stated the CFO in Wednesday's press briefing.",
+    "expected": [
+     0,
+     false
+    ],
+    "got": [
+     11,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[blog-d] \u2018We did it! Team Falcons won the championship!\u2019 exclaimed head coach Maria Lopez during the post-game interview.",
+    "expected": [
+     2,
+     true
+    ],
+    "got": [
+     2,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[blog-c] \u2018As part of our growth strategy, QuantumLeap has enacted a 2-for-1 stock split,\u2019 CEO Linda Choi said during the annual meeting in San Francisco.",
+    "expected": [
+     4,
+     true
+    ],
+    "got": [
+     4,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[blog-c] \u2018We are delighted to announce that the Kestrel pipeline is operational,\u2019 said CEO Dana Miller during a media call on Friday.",
+    "expected": [
+     6,
+     true
+    ],
+    "got": [
+     6,
+     false
+    ],
+    "error": null
+   }
+  ]
+ },
+ "indie_seeds": {
+  "0": {
+   "ledger_err": 0.12083333333333333,
+   "naive_err": 0.13541666666666666,
+   "quizzes": 960,
+   "ledger_derived_err": 0.09583333333333334,
+   "naive_derived_err": 0.15416666666666667,
+   "extract_calls": 984,
+   "seconds": 277.7
+  },
+  "1": {
+   "ledger_err": 0.16354166666666667,
+   "naive_err": 0.16458333333333333,
+   "quizzes": 960,
+   "ledger_derived_err": 0.2125,
+   "naive_derived_err": 0.21666666666666667,
+   "extract_calls": 984,
+   "seconds": 311.3
+  },
+  "2": {
+   "ledger_err": 0.121875,
+   "naive_err": 0.190625,
+   "quizzes": 960,
+   "ledger_derived_err": 0.14583333333333334,
+   "naive_derived_err": 0.42083333333333334,
+   "extract_calls": 984,
+   "seconds": 309.8
+  },
+  "3": {
+   "ledger_err": 0.165625,
+   "naive_err": 0.13645833333333332,
+   "quizzes": 960,
+   "ledger_derived_err": 0.18333333333333332,
+   "naive_derived_err": 0.06666666666666667,
+   "extract_calls": 984,
+   "seconds": 301.8
+  },
+  "4": {
+   "ledger_err": 0.10729166666666666,
+   "naive_err": 0.23333333333333334,
+   "quizzes": 960,
+   "ledger_derived_err": 0.09583333333333334,
+   "naive_derived_err": 0.6,
+   "extract_calls": 984,
+   "seconds": 295.0
+  }
+ },
+ "indie_aggregate": {
+  "ledger_err": 0.1358,
+  "naive_err": 0.1721,
+  "ledger_derived_err": 0.1467,
+  "naive_derived_err": 0.2917,
+  "total_quizzes": 4800
+ }
+}
