@@ -1,0 +1,252 @@
+{
+ "part1": {
+  "seconds": 30.6,
+  "calls": 166,
+  "pool": {
+   "n": 144,
+   "correct": 140,
+   "accuracy": 0.9722,
+   "fact_wrong": 0,
+   "value_wrong": 4,
+   "errors": 0,
+   "failures": [
+    {
+     "sentence": "[blog-d] The board passed over Maria Chen, keeping the chief executive role with its incumbent.",
+     "expected": [
+      0,
+      false
+     ],
+     "got": [
+      0,
+      true
+     ],
+     "error": null
+    },
+    {
+     "sentence": "[wire-b] Lawmakers in Vantia remain in session; no dissolution occurred.",
+     "expected": [
+      7,
+      false
+     ],
+     "got": [
+      7,
+      true
+     ],
+     "error": null
+    },
+    {
+     "sentence": "[blog-d] Parliament in Vantia is very much alive, debating bills this week.",
+     "expected": [
+      7,
+      false
+     ],
+     "got": [
+      7,
+      true
+     ],
+     "error": null
+    },
+    {
+     "sentence": "[rumor-f] Vantia's legislature remains in place and in session.",
+     "expected": [
+      7,
+      false
+     ],
+     "got": [
+      7,
+      true
+     ],
+     "error": null
+    }
+   ]
+  },
+  "hard": {
+   "n": 8,
+   "correct": 6,
+   "accuracy": 0.75,
+   "fact_wrong": 0,
+   "value_wrong": 2,
+   "errors": 0,
+   "failures": [
+    {
+     "sentence": "[blog-c] Reports that Maria Chen does not lead AstraCorp were dismissed by the board as baseless.",
+     "expected": [
+      0,
+      true
+     ],
+     "got": [
+      0,
+      false
+     ],
+     "error": null
+    },
+    {
+     "sentence": "[rumor-f] Not everyone believes the Solstice probe landed on Mars, but the agency insists it did.",
+     "expected": [
+      8,
+      true
+     ],
+     "got": [
+      8,
+      false
+     ],
+     "error": null
+    }
+   ]
+  },
+  "observations": [
+   {
+    "sentence": "[blog-c] Whether the Meridian referendum passed remains disputed, with both sides claiming victory.",
+    "got": [
+     3,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[blog-d] Thorne, who many expected to win the Novum Prize, attended the ceremony.",
+    "got": [
+     5,
+     true
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[rumor-e] The Kestrel pipeline, built over six years, was designed to carry gas north.",
+    "got": [
+     6,
+     true
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[rumor-f] Analysts would not be surprised if QuantumLeap split its stock.",
+    "got": [
+     4,
+     true
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[wire-a] Skylink's CEO declined to confirm a merger with Northwind.",
+    "got": [
+     11,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[wire-b] Harlow Bridge toll revenue rose this quarter, the authority said.",
+    "got": [
+     1,
+     true
+    ],
+    "error": null
+   }
+  ],
+  "distractors": [
+   {
+    "sentence": "[blog-c] The city council approved funding for road repairs on Tuesday.",
+    "mapped_to_fact": -1,
+    "says_true": false,
+    "error": null
+   },
+   {
+    "sentence": "[blog-d] Local farmers expect a strong harvest this autumn.",
+    "mapped_to_fact": -1,
+    "says_true": true,
+    "error": null
+   },
+   {
+    "sentence": "[rumor-e] The symphony orchestra announced its winter program.",
+    "mapped_to_fact": -1,
+    "says_true": false,
+    "error": null
+   },
+   {
+    "sentence": "[rumor-f] Interest rates held steady as markets awaited the jobs report.",
+    "mapped_to_fact": -1,
+    "says_true": true,
+    "error": null
+   },
+   {
+    "sentence": "[wire-a] A new bakery opened on Fifth Street to long queues.",
+    "mapped_to_fact": -1,
+    "says_true": false,
+    "error": null
+   },
+   {
+    "sentence": "[wire-b] The university's football team hired a new coach.",
+    "mapped_to_fact": -1,
+    "says_true": false,
+    "error": null
+   },
+   {
+    "sentence": "[blog-c] Shares of AstraCorp rose two percent in early trading.",
+    "mapped_to_fact": 0,
+    "says_true": true,
+    "error": null
+   },
+   {
+    "sentence": "[blog-d] Copper miners in Chile announced a strike over pay.",
+    "mapped_to_fact": 9,
+    "says_true": false,
+    "error": null
+   }
+  ]
+ },
+ "freetext_seeds": {
+  "0": {
+   "ledger_err": 0.14270833333333333,
+   "naive_err": 0.146875,
+   "quizzes": 960,
+   "ledger_derived_err": 0.1375,
+   "naive_derived_err": 0.15416666666666667,
+   "extract_calls": 984,
+   "seconds": 400.3
+  },
+  "1": {
+   "ledger_err": 0.15625,
+   "naive_err": 0.15104166666666666,
+   "quizzes": 960,
+   "ledger_derived_err": 0.15416666666666667,
+   "naive_derived_err": 0.13333333333333333,
+   "extract_calls": 984,
+   "seconds": 296.6
+  },
+  "2": {
+   "ledger_err": 0.15104166666666666,
+   "naive_err": 0.18125,
+   "quizzes": 960,
+   "ledger_derived_err": 0.2,
+   "naive_derived_err": 0.32083333333333336,
+   "extract_calls": 984,
+   "seconds": 293.4
+  },
+  "3": {
+   "ledger_err": 0.121875,
+   "naive_err": 0.11041666666666666,
+   "quizzes": 960,
+   "ledger_derived_err": 0.1125,
+   "naive_derived_err": 0.06666666666666667,
+   "extract_calls": 984,
+   "seconds": 293.3
+  },
+  "4": {
+   "ledger_err": 0.11354166666666667,
+   "naive_err": 0.234375,
+   "quizzes": 960,
+   "ledger_derived_err": 0.11666666666666667,
+   "naive_derived_err": 0.6,
+   "extract_calls": 984,
+   "seconds": 327.2
+  }
+ },
+ "freetext_aggregate": {
+  "ledger_err": 0.1371,
+  "naive_err": 0.1648,
+  "ledger_derived_err": 0.1442,
+  "naive_derived_err": 0.255,
+  "total_quizzes": 4800
+ }
+}
