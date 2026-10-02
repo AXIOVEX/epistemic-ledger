@@ -1,0 +1,884 @@
+{
+ "realwire_seeds": {
+  "0": {
+   "ledger_err": 0.33645833333333336,
+   "naive_err": 0.33541666666666664,
+   "quizzes": 960,
+   "ledger_derived_err": 0.2375,
+   "naive_derived_err": 0.23333333333333334,
+   "extract_calls": 984,
+   "seconds": 299.6
+  },
+  "1": {
+   "ledger_err": 0.428125,
+   "naive_err": 0.4552083333333333,
+   "quizzes": 960,
+   "ledger_derived_err": 0.37083333333333335,
+   "naive_derived_err": 0.4791666666666667,
+   "extract_calls": 984,
+   "seconds": 294.4
+  },
+  "2": {
+   "ledger_err": 0.47604166666666664,
+   "naive_err": 0.4708333333333333,
+   "quizzes": 960,
+   "ledger_derived_err": 0.275,
+   "naive_derived_err": 0.25416666666666665,
+   "extract_calls": 984,
+   "seconds": 291.4
+  },
+  "3": {
+   "ledger_err": 0.55625,
+   "naive_err": 0.56875,
+   "quizzes": 960,
+   "ledger_derived_err": 0.5458333333333333,
+   "naive_derived_err": 0.5958333333333333,
+   "extract_calls": 984,
+   "seconds": 292.5
+  },
+  "4": {
+   "ledger_err": 0.521875,
+   "naive_err": 0.5885416666666666,
+   "quizzes": 960,
+   "ledger_derived_err": 0.45,
+   "naive_derived_err": 0.7166666666666667,
+   "extract_calls": 984,
+   "seconds": 301.4
+  }
+ },
+ "realwire_aggregate": {
+  "ledger_err": 0.4637,
+  "naive_err": 0.4837,
+  "ledger_derived_err": 0.3758,
+  "naive_derived_err": 0.4558,
+  "total_quizzes": 4800
+ },
+ "part1": {
+  "n": 131,
+  "correct": 63,
+  "accuracy": 0.4809,
+  "fact_wrong": 9,
+  "value_wrong": 59,
+  "errors": 0,
+  "seconds": 22.9,
+  "calls": 131,
+  "failures": [
+   {
+    "sentence": "[wire-a] DEWEY DEFEATS TRUMAN",
+    "expected": [
+     0,
+     true
+    ],
+    "got": [
+     0,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[wire-b] Dewey and Warren won a sweeping victory in the presidential election yesterday.",
+    "expected": [
+     0,
+     true
+    ],
+    "got": [
+     0,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[blog-c] Dewey Victory Seen as Mandate to Open New Era of Government\u2013Business Harmony, Public Confidence",
+    "expected": [
+     0,
+     true
+    ],
+    "got": [
+     0,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[blog-d] Although the president is ahead by 1,200,000 votes, he is undoubtedly beaten.",
+    "expected": [
+     0,
+     true
+    ],
+    "got": [
+     0,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[rumor-e] We can now announce that Governor Dewey has won because the returns are in from New York and New York has gone for Governor Dewey.",
+    "expected": [
+     0,
+     true
+    ],
+    "got": [
+     0,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[rumor-f] The indications were that the complete returns would disclose that Dewey won the Presidency by an overwhelming majority of electoral votes.",
+    "expected": [
+     0,
+     true
+    ],
+    "got": [
+     0,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[wire-a] Breaking: Two Explosions in the White House and Barack Obama is injured.",
+    "expected": [
+     1,
+     true
+    ],
+    "got": [
+     1,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[wire-b] Breaking: Two Explosions in the White House and Barack Obama is injured.",
+    "expected": [
+     1,
+     true
+    ],
+    "got": [
+     1,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[blog-c] Breaking: Two Explosions in the White House and Barack Obama is injured.",
+    "expected": [
+     1,
+     true
+    ],
+    "got": [
+     1,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[blog-d] Breaking: Two explosions in the White House and the President is injured.",
+    "expected": [
+     1,
+     true
+    ],
+    "got": [
+     1,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[rumor-e] Breaking: Two Explosions in the White House and Barack Obama is injured.",
+    "expected": [
+     1,
+     true
+    ],
+    "got": [
+     1,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[rumor-f] Breaking: Two Explosions in the White House and Barack Obama is injured.",
+    "expected": [
+     1,
+     true
+    ],
+    "got": [
+     1,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[wire-b] It was a bogus tweet.",
+    "expected": [
+     1,
+     false
+    ],
+    "got": [
+     0,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[wire-a] I WON THIS ELECTION, BY A LOT!",
+    "expected": [
+     2,
+     true
+    ],
+    "got": [
+     0,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[wire-b] I WON THE ELECTION!",
+    "expected": [
+     2,
+     true
+    ],
+    "got": [
+     0,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[blog-c] Frankly, we did win this election.",
+    "expected": [
+     2,
+     true
+    ],
+    "got": [
+     0,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[blog-d] I WON THE ELECTION IN A LANDSLIDE, but remember, I only think in terms of legal votes, not all of the fake voters and fraud that miraculously floated in from everywhere!",
+    "expected": [
+     2,
+     true
+    ],
+    "got": [
+     0,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[rumor-e] President Trump won by a landslide.",
+    "expected": [
+     2,
+     true
+    ],
+    "got": [
+     2,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[rumor-f] We\u2019re fixin\u2019 to overturn the results of the election in multiple states, and President Trump won by not just hundreds of thousands of votes but by millions of votes that were shifted by this software that was designed expressly for that purpose.",
+    "expected": [
+     2,
+     true
+    ],
+    "got": [
+     2,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[blog-c] Congress certified President-elect Joe Biden and Vice President-elect Kamala Harris' victory early on Thursday, the end of a long day and night marked by chaos and violence in Washington, D.C.",
+    "expected": [
+     2,
+     false
+    ],
+    "got": [
+     0,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[wire-a] Barack Obama, the first African-American president of the Harvard Law Review, was born in Kenya and raised in Indonesia and Hawaii.",
+    "expected": [
+     3,
+     true
+    ],
+    "got": [
+     3,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[wire-b] Kenyan-born US Senate hopeful, Barrack Obama, appeared set to take over the Illinois Senate seat after his main rival, Jack Ryan, dropped out of the race on Friday night amid a furor over lurid sex club allegations.",
+    "expected": [
+     3,
+     true
+    ],
+    "got": [
+     3,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[wire-b] We have had every official in Hawaii, Democrat and Republican, every news outlet that has investigated this confirm that, yes, in fact I was born in Hawaii, August 4 1961 at Kapiolani Hospital.",
+    "expected": [
+     3,
+     false
+    ],
+    "got": [
+     3,
+     true
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[blog-c] Their conclusion: NASA faked the moon landings!",
+    "expected": [
+     4,
+     true
+    ],
+    "got": [
+     4,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[blog-d] \"The only way to make it, was to fake it\", he said was the underground motto of the staff.",
+    "expected": [
+     4,
+     true
+    ],
+    "got": [
+     4,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[rumor-e] The above-right picture, allegedly taken on the Moon in sunlight, was obviously not taken on the Moon at all, rather in a photographic film studio illuminated with electrical light.",
+    "expected": [
+     4,
+     true
+    ],
+    "got": [
+     4,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[rumor-f] Death Bed Confession: NASA faked the Moon landings",
+    "expected": [
+     4,
+     true
+    ],
+    "got": [
+     4,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[wire-a] He argued that the Moon landing was staged in a studio.",
+    "expected": [
+     4,
+     true
+    ],
+    "got": [
+     4,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[wire-b] In 2001 the Fox TV documentary Conspiracy Theory: Did We Land on the Moon? claimed NASA, in order to win the \"Space Race\" against the Soviet Union, faked the first moon landing in 1969.",
+    "expected": [
+     4,
+     true
+    ],
+    "got": [
+     4,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[blog-c] But it is the sheer size and variety of this record that proves every one of these claims to be false.",
+    "expected": [
+     4,
+     false
+    ],
+    "got": [
+     0,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[blog-c] Reasonable, intelligent people have always recognized that the earth is flat.",
+    "expected": [
+     5,
+     true
+    ],
+    "got": [
+     5,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[blog-d] If earth were a ball spinning in space, there would be no up or down.",
+    "expected": [
+     5,
+     true
+    ],
+    "got": [
+     5,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[rumor-f] The earth is flat and its flatness has been experimentally verified.",
+    "expected": [
+     5,
+     true
+    ],
+    "got": [
+     5,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[wire-b] As reported by LiveScience and in Creation magazine's Fall 2011 issue, the Flat Earth Society's president Daniel Shenton not only believes that the earth is flat, but he also believes in global warming and Darwinian evolution.",
+    "expected": [
+     5,
+     true
+    ],
+    "got": [
+     5,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[wire-b] The Earth was never flat.",
+    "expected": [
+     5,
+     false
+    ],
+    "got": [
+     5,
+     true
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[blog-c] It is the longest and most massive structure ever built by man, and the only one visible from outer space.",
+    "expected": [
+     6,
+     true
+    ],
+    "got": [
+     6,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[blog-d] In the most egregious example, the Ming Great Wall of China is \"the only man-made artifact visible from space today.\"",
+    "expected": [
+     6,
+     true
+    ],
+    "got": [
+     6,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[rumor-e] The Great Wall of China is the Only Man-Made Structure Visible from Space",
+    "expected": [
+     6,
+     true
+    ],
+    "got": [
+     6,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[rumor-f] The Great Wall of China is the only man-made structure visible from space.",
+    "expected": [
+     6,
+     true
+    ],
+    "got": [
+     6,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[wire-a] 6. Einstein failed math.",
+    "expected": [
+     7,
+     true
+    ],
+    "got": [
+     7,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[wire-b] Even Albert Einstein failed math in school!",
+    "expected": [
+     7,
+     true
+    ],
+    "got": [
+     7,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[blog-c] 4. Albert Einstein failed math in school",
+    "expected": [
+     7,
+     true
+    ],
+    "got": [
+     7,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[wire-a] The story has inspired generations of students facing difficult exams\u2014but it simply isn't true.",
+    "expected": [
+     7,
+     false
+    ],
+    "got": [
+     0,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[blog-d] Baghdad has chemical and biological weapons as well as missiles with ranges in excess of UN restrictions.",
+    "expected": [
+     8,
+     true
+    ],
+    "got": [
+     8,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[rumor-e] Saddam probably has stocked at least 100 metric tons (MT) and possibly as much as 500 MT of CW agents \u2013 much of it added in the last year.",
+    "expected": [
+     8,
+     true
+    ],
+    "got": [
+     8,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[rumor-f] We judge Iraq has some lethal and incapacitating BW agents and is capable of quickly producing and weaponizing a variety of such agents, including anthrax, for delivery by bombs, missiles, aerial sprayers, and covert operatives.",
+    "expected": [
+     8,
+     true
+    ],
+    "got": [
+     8,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[wire-a] We do know that the Iraqi regime has chemical and biological weapons of mass destruction.",
+    "expected": [
+     8,
+     true
+    ],
+    "got": [
+     8,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[wire-b] Simply stated, there is no doubt that Saddam Hussein now has weapons of mass destruction.",
+    "expected": [
+     8,
+     true
+    ],
+    "got": [
+     8,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[blog-c] The Iraqi regime possesses biological and chemical weapons.",
+    "expected": [
+     8,
+     true
+    ],
+    "got": [
+     8,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[blog-d] In 1998, former British physician Andrew Wakefield and colleagues published a paper in the Lancet that the MMR vaccine caused intestinal inflammation, which brought into the body, proteins harmful to the brain, and as a consequence caused autism.",
+    "expected": [
+     9,
+     true
+    ],
+    "got": [
+     9,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[rumor-e] Without a doubt in my mind, I believe that vaccinations triggered Evan's autism.",
+    "expected": [
+     9,
+     true
+    ],
+    "got": [
+     9,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[rumor-f] The viruses in the vaccines themselves can be causing it, too.",
+    "expected": [
+     9,
+     true
+    ],
+    "got": [
+     9,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[wire-a] Ms McCarthy\u2019s son, Evan, now 10, was diagnosed with Autism in 2005, and she has spent a vast amount of time campaigning publicly against early vaccination in children against Measles, Mumps and Rubella, as she believes that these vaccines caused her son\u2019s Autism.",
+    "expected": [
+     9,
+     true
+    ],
+    "got": [
+     9,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[rumor-f] The MMR vaccine does not cause inflammatory bowel disease or autism.",
+    "expected": [
+     9,
+     false
+    ],
+    "got": [
+     9,
+     true
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[wire-b] Elvis Presley Has Been Found Alive At Age 90\u2026!? (NEW FOOTAGE & DNA TEST)",
+    "expected": [
+     10,
+     true
+    ],
+    "got": [
+     10,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[blog-c] In 1987, a woman named Louise Welling claimed to have seen Presley at a Burger King in Kalamazoo, Michigan.",
+    "expected": [
+     10,
+     true
+    ],
+    "got": [
+     10,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[blog-d] Smith authored a book entitled Memphis Mystery on the subject and claimed to be in current communication with Presley, releasing recordings that were purportedly of his voice recorded after 1977.",
+    "expected": [
+     10,
+     true
+    ],
+    "got": [
+     10,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[rumor-e] The semi-humorous Weekly World News tabloid ran hyper-exaggerated and sensationalised stories about Presley being alive for several years beginning in the late 1980s.",
+    "expected": [
+     10,
+     true
+    ],
+    "got": [
+     10,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[wire-a] In 1988, Tennessee medical examiner Dr. Charles Harlan publicly reiterated that Presley had, in fact, died in 1977, responding to the persistent rumors that continued to circulate more than a decade later.",
+    "expected": [
+     10,
+     false
+    ],
+    "got": [
+     10,
+     true
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[blog-d] However, there is no credible evidence that Elvis Presley is alive.",
+    "expected": [
+     10,
+     false
+    ],
+    "got": [
+     10,
+     true
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[rumor-f] Scientists and psychologists tell us we use only about TEN PERCENT of our brain power.",
+    "expected": [
+     11,
+     true
+    ],
+    "got": [
+     11,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[wire-b] Most of us only use 10 percent of our brains if that.",
+    "expected": [
+     11,
+     true
+    ],
+    "got": [
+     11,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[blog-c] If you're like most people, you're using only ten percent of your brainpower.",
+    "expected": [
+     11,
+     true
+    ],
+    "got": [
+     11,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[blog-d] Because as Science says, you are only using one-tenth of your real brain-power!",
+    "expected": [
+     11,
+     true
+    ],
+    "got": [
+     11,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[rumor-e] The average person uses 10% of their brain capacity.",
+    "expected": [
+     11,
+     true
+    ],
+    "got": [
+     11,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[rumor-f] Despite this detailed reconnaissance, no quiet areas awaiting new assignments have emerged.",
+    "expected": [
+     11,
+     false
+    ],
+    "got": [
+     0,
+     false
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[blog-c] Functional Magnetic Resonance Imaging (fMRI) has shown that all parts of the brain are active during various activities.",
+    "expected": [
+     11,
+     false
+    ],
+    "got": [
+     11,
+     true
+    ],
+    "error": null
+   },
+   {
+    "sentence": "[blog-d] The truth is that we use all of them: there is no spare neural matter lying around waiting to be given a job to do.",
+    "expected": [
+     11,
+     false
+    ],
+    "got": [
+     11,
+     true
+    ],
+    "error": null
+   }
+  ]
+ }
+}
