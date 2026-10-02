@@ -15,6 +15,8 @@ Stdlib only. No distributed anything.
 import json
 import sqlite3
 import uuid
+
+import ed25519
 from collections import deque
 from datetime import datetime, timezone
 
@@ -84,6 +86,7 @@ CREATE TABLE IF NOT EXISTS writers(
   txn_from  TEXT NOT NULL,
   txn_to    TEXT,
   tier      TEXT NOT NULL,
+  pubkey    TEXT,
   PRIMARY KEY (writer_id, txn_from)
 );
 CREATE TABLE IF NOT EXISTS policies(
@@ -184,6 +187,11 @@ class Ledger:
                 self.db.execute("PRAGMA table_info(claims)")]
         if "writer" not in cols:
             self.db.execute("ALTER TABLE claims ADD COLUMN writer TEXT")
+        # pubkey column on writers (added in v0.9; backfill old DBs)
+        cols = [r["name"] for r in
+                self.db.execute("PRAGMA table_info(writers)")]
+        if "pubkey" not in cols:
+            self.db.execute("ALTER TABLE writers ADD COLUMN pubkey TEXT")
         self.db.commit()
         # default governance policy lives in the store (Design Memo 06)
         name, desc = DEFAULT_POLICY
@@ -530,20 +538,32 @@ class Ledger:
     # ------------------------------------------------------------------
     # governance (Design Memo 06, Quipu-informed)
     # ------------------------------------------------------------------
-    def register_writer(self, writer_id, tier, actor="system", t=None):
-        """Register (or re-tier) a writer. Tiers are bitemporal."""
+    def register_writer(self, writer_id, tier, actor="system", t=None,
+                        public_key=None):
+        """Register (or re-tier) a writer. Tiers are bitemporal.
+
+        public_key (v0.9, Design Memo 10): hex ed25519 public key.
+        None preserves the writer's current key (re-tiering must not
+        silently strip signing); pass a key to set or rotate."""
         if tier not in WRITER_TIERS:
             raise ValueError(f"tier must be one of {WRITER_TIERS}")
+        if public_key is not None:
+            if len(bytes.fromhex(public_key)) != 32:
+                raise ValueError("public_key must be 32 bytes, hex")
         t = t or _now()
+        if public_key is None:
+            public_key = self.get_writer_pubkey(writer_id)
         self.db.execute(
             "UPDATE writers SET txn_to = ? WHERE writer_id = ? AND txn_to IS NULL",
             (t, writer_id))
         self.db.execute(
-            "INSERT INTO writers(writer_id, txn_from, tier) VALUES (?, ?, ?)",
-            (writer_id, t, tier))
+            "INSERT INTO writers(writer_id, txn_from, tier, pubkey)"
+            " VALUES (?, ?, ?, ?)",
+            (writer_id, t, tier, public_key))
         self.db.commit()
         self._emit("writer_registered",
-                   {"writer_id": writer_id, "tier": tier}, actor=actor, t=t)
+                   {"writer_id": writer_id, "tier": tier,
+                    "pubkey": public_key}, actor=actor, t=t)
 
     def get_writer(self, writer_id):
         """Live trust tier of a writer, or None if unregistered."""
@@ -551,6 +571,79 @@ class Ledger:
             "SELECT tier FROM writers WHERE writer_id = ? AND txn_to IS NULL",
             (writer_id,)).fetchone()
         return r["tier"] if r else None
+
+    def get_writer_pubkey(self, writer_id):
+        """Live ed25519 public key (hex) of a writer, or None."""
+        if writer_id is None:
+            return None
+        r = self.db.execute(
+            "SELECT pubkey FROM writers WHERE writer_id = ?"
+            " AND txn_to IS NULL", (writer_id,)).fetchone()
+        return r["pubkey"] if r else None
+
+    # ------------------------------------------------------------------
+    # signed verdicts (v0.9, Design Memo 10)
+    # ------------------------------------------------------------------
+    @staticmethod
+    def verdict_message(action, target_id, writer, decision=None):
+        """Canonical bytes a writer signs for a verdict action."""
+        msg = (f"axiovex-ledger/verdict/v1|action={action}"
+               f"|id={target_id}|writer={writer}")
+        if decision is not None:
+            msg += f"|decision={decision}"
+        return msg
+
+    def _require_verdict_signature(self, writer, signature, message):
+        """Enforce the signed-verdict rule: a writer WITH a registered
+        key must sign; writers without keys act unsigned (pre-v0.9
+        behavior). Returns payload fields to record, or None."""
+        if writer is None:
+            return None
+        pub = self.get_writer_pubkey(writer)
+        if pub is None:
+            return None
+        if not signature:
+            raise PermissionError(
+                f"writer {writer} has a registered key: verdict "
+                "requires a signature")
+        try:
+            ok = ed25519.verify(bytes.fromhex(pub),
+                                message.encode(),
+                                bytes.fromhex(signature))
+        except Exception:
+            ok = False
+        if not ok:
+            raise PermissionError(
+                f"invalid verdict signature for writer {writer}")
+        return {"signer": writer, "signature": signature,
+                "signed_message": message}
+
+    def verify_verdict_signatures(self):
+        """Audit: re-verify every signed verdict in the log against
+        the signer's CURRENT registered key (rotation caveat: see
+        Design Memo 10)."""
+        checked = valid = 0
+        invalid = []
+        for e in self._events():
+            p = e["payload"]
+            if "signature" not in p or "signed_message" not in p:
+                continue
+            checked += 1
+            pub = self.get_writer_pubkey(p.get("signer"))
+            ok = False
+            if pub is not None:
+                try:
+                    ok = ed25519.verify(
+                        bytes.fromhex(pub),
+                        p["signed_message"].encode(),
+                        bytes.fromhex(p["signature"]))
+                except Exception:
+                    ok = False
+            if ok:
+                valid += 1
+            else:
+                invalid.append(e["event_id"])
+        return {"checked": checked, "valid": valid, "invalid": invalid}
 
     def get_entrenchment(self, claim_id):
         """Live entrenchment of a claim (float)."""
@@ -776,8 +869,10 @@ class Ledger:
                 "contradiction_held",
                 {"policy": DEFAULT_POLICY[0], "claim_a": claim_a,
                  "claim_b": claim_b, "writer": writer, "tier": tier,
+                 "p_loser_given_winner": float(p_loser_given_winner),
                  "outcome": "held",
-                 "remediation": "owner must declare_contradiction to proceed"},
+                 "remediation": "owner must escalate_contradiction"
+                                " (release or dismiss)"},
                 actor=actor, t=t)
             return ev["event_id"]
         ev = self._emit("contradiction",
@@ -789,14 +884,61 @@ class Ledger:
         return ev["event_id"]
 
     def held_contradictions(self):
-        """Held declarations minus pairs an owner has since declared."""
+        """Held declarations minus released pairs (an owner escalated
+        to a real declaration) and minus dismissed held ids."""
         evs = self._events()
         open_pairs = {(e["payload"]["claim_a"], e["payload"]["claim_b"])
                       for e in evs if e["type"] == "contradiction"}
+        dismissed = {e["payload"]["held_id"] for e in evs
+                     if e["type"] == "contradiction_dismissed"}
         return [e for e in evs
                 if e["type"] == "contradiction_held"
+                and e["event_id"] not in dismissed
                 and (e["payload"]["claim_a"], e["payload"]["claim_b"])
                 not in open_pairs]
+
+    def escalate_contradiction(self, held_id, decision, writer=None,
+                               signature=None, actor="system", t=None):
+        """Owner verdict on a held contradiction (Design Memo 10).
+
+        decision="release": the declaration enters the open queue as
+        a normal contradiction (the held event's cross-likelihood is
+        preserved). decision="dismiss": the hold is closed without a
+        declaration. Owner tier required; a keyed owner must sign."""
+        t = t or _now()
+        if decision not in ("release", "dismiss"):
+            raise ValueError("decision must be 'release' or 'dismiss'")
+        if self.get_writer(writer) != "owner":
+            raise PermissionError(
+                "escalation requires an owner-tier writer")
+        held = next((e for e in self.held_contradictions()
+                     if e["event_id"] == held_id), None)
+        if held is None:
+            raise KeyError(f"no held contradiction {held_id}")
+        msg = self.verdict_message("escalate", held_id, writer, decision)
+        verdict = self._require_verdict_signature(writer, signature, msg)
+        hp = held["payload"]
+        a, b = hp["claim_a"], hp["claim_b"]
+        if decision == "dismiss":
+            payload = {"held_id": held_id, "claim_a": a, "claim_b": b,
+                       "escalated_by": writer}
+            if verdict:
+                payload.update(verdict)
+            ev = self._emit("contradiction_dismissed", payload,
+                            actor=actor, t=t)
+            return {"decision": "dismiss", "held_id": held_id,
+                    "event_id": ev["event_id"]}
+        payload = {"claim_a": a, "claim_b": b,
+                   "p_loser_given_winner":
+                       float(hp.get("p_loser_given_winner", 0.05)),
+                   "writer": hp.get("writer"), "auto": False,
+                   "signal": "escalation-release",
+                   "released_from": held_id, "escalated_by": writer}
+        if verdict:
+            payload.update(verdict)
+        ev = self._emit("contradiction", payload, actor=actor, t=t)
+        return {"decision": "release", "held_id": held_id,
+                "contradiction_id": ev["event_id"]}
 
     @staticmethod
     def _interval_conflict(b1, p1, b2, p2):
@@ -906,7 +1048,7 @@ class Ledger:
                 and e["event_id"] not in resolved]
 
     def resolve_contradiction(self, contradiction_id, actor="system", t=None,
-                              epsilon=0.005):
+                              epsilon=0.005, writer=None, signature=None):
         """Entrenchment-ordered contraction. The less-entrenched claim is
         revised down via Jeffrey against the winner's score, then its
         dependents are re-propagated. Ties go to a human."""
@@ -916,7 +1058,7 @@ class Ledger:
             return {"resolved": False, "held": True,
                     "contradiction_id": contradiction_id,
                     "hint": "held for owner review; an owner must "
-                            "declare_contradiction to proceed"}
+                            "escalate_contradiction (release/dismiss)"}
         if all(e["event_id"] != contradiction_id
                for e in self.open_contradictions()):
             return {"resolved": True, "already": True,
@@ -940,6 +1082,8 @@ class Ledger:
                        actor=actor, t=t)
             return {"resolved": False, "reason": "tie",
                     "contradiction_id": contradiction_id}
+        msg = self.verdict_message("resolve", contradiction_id, writer)
+        verdict = self._require_verdict_signature(writer, signature, msg)
         loser, winner = (a, b) if ea < eb else (b, a)
         rl, rw = self._live_claim(loser), self._live_claim(winner)
         sl, sw = float(rl["score"]), float(rw["score"])
@@ -955,9 +1099,11 @@ class Ledger:
                     "loser_entrenchment": min(ea, eb),
                     "winner_entrenchment": max(ea, eb)},
                    actor=actor, t=t)
-        self._emit("contradiction_resolved",
-                   {"contradiction_id": contradiction_id,
-                    "loser": loser, "winner": winner},
+        resolved_payload = {"contradiction_id": contradiction_id,
+                            "loser": loser, "winner": winner}
+        if verdict:
+            resolved_payload.update(verdict)
+        self._emit("contradiction_resolved", resolved_payload,
                    actor=actor, t=t)
         rep = self._revisit(loser, {loser: new_l}, actor=actor, t=t,
                             epsilon=epsilon)

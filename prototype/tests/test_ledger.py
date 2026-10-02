@@ -754,3 +754,156 @@ def test_churn_detail_one_directional(ledger):
     d = ledger.kill_metrics()["churn_detail"][c]
     assert d["raw"] == 0 and d["material_churn"] == 0
     assert d["conflict_balance"] == 0.0
+
+
+# ----------------------------------------------------------------------
+# v0.9: ed25519 vectors, escalation, signed verdicts (Design Memo 10)
+# ----------------------------------------------------------------------
+
+import ed25519 as _ed
+
+_RFC_VECTORS = [
+    ("9d61b19deffd5a60ba844af492ec2cc44449c5697b326919703bac031cae7f60",
+     "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+     "",
+     "e5564300c360ac729086e2cc806e828a84877f1eb8e5d974d873e06522490155"
+     "5fb8821590a33bacc61e39701cf9b46bd25bf5f0595bbe24655141438e7a100b"),
+    ("4ccd089b28ff96da9db6c346ec114e0f5b8a319f35aba624da8cf6ed4fb8a6fb",
+     "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+     "72",
+     "92a009a9f0d4cab8720e820b5f642540a2b27b5416503f8fb3762223ebdb69da"
+     "085ac1e43e15996e458f3613d0f11d8c387b2eaeb4302aeeb00d291612bb0c00"),
+    ("c5aa8df43f9f837bedb7442f31dcb7b166d38535076f094b85ce3a2e0b4458f7",
+     "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+     "af82",
+     "6291d657deec24024827e69c3abe01a30ce548a284743a445e3680d7db5ac3ac"
+     "18ff9b538d16f290ae67f760984dc6594a7c15e9716ed28dc027beceea1ec40a"),
+]
+
+
+def test_ed25519_rfc8032_vectors():
+    for sk, pk, msg, sig in _RFC_VECTORS:
+        sk_b, pk_b = bytes.fromhex(sk), bytes.fromhex(pk)
+        msg_b, sig_b = bytes.fromhex(msg), bytes.fromhex(sig)
+        assert _ed.publickey(sk_b) == pk_b
+        assert _ed.sign(sk_b, msg_b) == sig_b  # deterministic
+        assert _ed.verify(pk_b, msg_b, sig_b)
+        bad = bytearray(sig_b)
+        bad[0] ^= 1
+        assert not _ed.verify(pk_b, msg_b, bytes(bad))
+
+
+_OWNER_SEED = bytes(range(32))
+
+
+def _governed(ledger, keyed=True):
+    """Axiom + challenger + a held contradiction. Returns (held_id,)."""
+    ledger.register_writer("owner-1", "owner",
+                           public_key=(_ed.publickey(_OWNER_SEED).hex()
+                                       if keyed else None))
+    ledger.register_writer("contrib-1", "contributor")
+    axiom = ledger.assert_claim("the axiom", 0.9, entrenchment=1.0)
+    chal = ledger.assert_claim("the challenger", 0.8, entrenchment=0.5)
+    held_id = ledger.declare_contradiction(
+        axiom, chal, p_loser_given_winner=0.11, writer="contrib-1")
+    assert len(ledger.held_contradictions()) == 1
+    return held_id, axiom, chal
+
+
+def _sign(msg):
+    return _ed.sign(_OWNER_SEED, msg.encode()).hex()
+
+
+def test_escalation_release_flow(ledger):
+    held_id, axiom, chal = _governed(ledger, keyed=False)
+    out = ledger.escalate_contradiction(held_id, "release",
+                                        writer="owner-1")
+    assert out["decision"] == "release"
+    assert ledger.held_contradictions() == []
+    open_cs = ledger.open_contradictions()
+    assert [e["event_id"] for e in open_cs] == [out["contradiction_id"]]
+    # challenger's elicited cross-likelihood survived the hold
+    assert open_cs[0]["payload"]["p_loser_given_winner"] == 0.11
+    # and the released contradiction resolves normally
+    res = ledger.resolve_contradiction(out["contradiction_id"])
+    assert res["resolved"] and res["loser"] == chal
+
+
+def test_escalation_dismiss_flow(ledger):
+    held_id, _, _ = _governed(ledger, keyed=False)
+    out = ledger.escalate_contradiction(held_id, "dismiss",
+                                        writer="owner-1")
+    assert out["decision"] == "dismiss"
+    assert ledger.held_contradictions() == []
+    assert ledger.open_contradictions() == []
+    with pytest.raises(KeyError):  # no longer held: no double verdict
+        ledger.escalate_contradiction(held_id, "dismiss",
+                                      writer="owner-1")
+
+
+def test_escalation_requires_owner(ledger):
+    held_id, _, _ = _governed(ledger)
+    with pytest.raises(PermissionError):
+        ledger.escalate_contradiction(held_id, "release",
+                                      writer="contrib-1")
+    with pytest.raises(PermissionError):
+        ledger.escalate_contradiction(held_id, "release", writer=None)
+    with pytest.raises(KeyError):
+        ledger.escalate_contradiction("E-nope", "release",
+                                      writer="owner-1")
+
+
+def test_keyed_owner_must_sign_escalation(ledger):
+    held_id, _, _ = _governed(ledger, keyed=True)
+    with pytest.raises(PermissionError):  # missing signature
+        ledger.escalate_contradiction(held_id, "release",
+                                      writer="owner-1")
+    msg = ledger.verdict_message("escalate", held_id, "owner-1", "dismiss")
+    with pytest.raises(PermissionError):  # signature for wrong decision
+        ledger.escalate_contradiction(held_id, "release",
+                                      writer="owner-1", signature=_sign(msg))
+    msg = ledger.verdict_message("escalate", held_id, "owner-1", "release")
+    out = ledger.escalate_contradiction(held_id, "release",
+                                        writer="owner-1",
+                                        signature=_sign(msg))
+    assert out["decision"] == "release"
+    audit = ledger.verify_verdict_signatures()
+    assert audit == {"checked": 1, "valid": 1, "invalid": []}
+
+
+def test_keyed_writer_must_sign_resolution(ledger):
+    ledger.register_writer(
+        "owner-1", "owner",
+        public_key=_ed.publickey(_OWNER_SEED).hex())
+    a = ledger.assert_claim("claim a", 0.9, entrenchment=0.75)
+    b = ledger.assert_claim("claim b", 0.8, entrenchment=0.25)
+    cid = ledger.declare_contradiction(a, b, writer="owner-1")
+    with pytest.raises(PermissionError):
+        ledger.resolve_contradiction(cid, writer="owner-1")
+    msg = ledger.verdict_message("resolve", cid, "owner-1")
+    res = ledger.resolve_contradiction(cid, writer="owner-1",
+                                       signature=_sign(msg))
+    assert res["resolved"] and res["loser"] == b
+    audit = ledger.verify_verdict_signatures()
+    assert audit["checked"] == 1 and audit["valid"] == 1
+    # unkeyed writers are untouched by the rule (back-compat)
+    a2 = ledger.assert_claim("claim a2", 0.9, entrenchment=0.75)
+    b2 = ledger.assert_claim("claim b2", 0.8, entrenchment=0.25)
+    cid2 = ledger.declare_contradiction(a2, b2, writer="contrib-x")
+    assert ledger.resolve_contradiction(
+        cid2, writer="contrib-x")["resolved"]
+
+
+def test_signature_audit_detects_key_rotation(ledger):
+    held_id, _, _ = _governed(ledger, keyed=True)
+    msg = ledger.verdict_message("escalate", held_id, "owner-1", "dismiss")
+    ledger.escalate_contradiction(held_id, "dismiss", writer="owner-1",
+                                  signature=_sign(msg))
+    assert ledger.verify_verdict_signatures()["valid"] == 1
+    other = _ed.publickey(bytes(range(32, 64))).hex()
+    ledger.register_writer("owner-1", "owner", public_key=other)
+    audit = ledger.verify_verdict_signatures()
+    assert audit["valid"] == 0 and len(audit["invalid"]) == 1
+    # re-registering without a key preserves it (no silent strip)
+    ledger.register_writer("owner-1", "owner")
+    assert ledger.get_writer_pubkey("owner-1") == other
