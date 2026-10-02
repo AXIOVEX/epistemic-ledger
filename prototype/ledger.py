@@ -1094,18 +1094,54 @@ class Ledger:
         #    audit judges recall later; here we expose the raw decisions).
         trigger_log = [e["payload"] for e in revs]
 
-        # 2. churn: sign changes of score deltas over each claim's history.
+        # 2. churn: sign changes of score deltas over each claim's history,
+        #    plus the conflict-normalized variant (Design Memo 09):
+        #    material churn. Walk the score trajectory with a hysteresis
+        #    anchor at the claim's materiality: only moves >= materiality
+        #    register, and churn counts direction reversals among them.
+        #    Sub-materiality tug-of-war (balanced adversarial reports,
+        #    propagation residue) is absorbed - it changes no decision.
         by_claim = {}
         for e in score_revs:
             p = e["payload"]
             by_claim.setdefault(p["claim_id"], []).append(
-                (e["t"], p["new_score"] - p["old_score"]))
+                (e["t"], p["old_score"], p["new_score"]))
+        mat_of = {r["claim_id"]: float(r["materiality"])
+                  for r in self.db.execute(
+                      "SELECT claim_id, materiality FROM claims"
+                      " WHERE txn_to IS NULL")}
         churn = {}
+        churn_detail = {}
         for cid, hist in by_claim.items():
             hist.sort()
-            deltas = [d for _, d in hist[-10:] if abs(d) > 1e-9]
+            deltas = [n - o for _, o, n in hist[-10:]
+                      if abs(n - o) > 1e-9]
             signs = [1 if d > 0 else -1 for d in deltas]
-            churn[cid] = sum(1 for a, b in zip(signs, signs[1:]) if a != b)
+            raw = sum(1 for a, b in zip(signs, signs[1:]) if a != b)
+            churn[cid] = raw
+            gross = sum(abs(d) for d in deltas)
+            up = sum(d for d in deltas if d > 0)
+            down = -sum(d for d in deltas if d < 0)
+            balance = (2.0 * min(up, down) / (up + down)
+                       if up + down > 0 else 0.0)
+            band = mat_of.get(cid, 0.05)
+            win = hist[-10:]
+            scores = [win[0][1]] + [n for _, _, n in win]
+            anchor = scores[0]
+            move_dirs = []
+            for s in scores[1:]:
+                if abs(s - anchor) >= band:
+                    move_dirs.append(1 if s > anchor else -1)
+                    anchor = s
+            mat_churn = sum(1 for a, b in zip(move_dirs, move_dirs[1:])
+                            if a != b)
+            churn_detail[cid] = {
+                "raw": raw,
+                "gross_travel": gross,
+                "conflict_balance": balance,
+                "material_moves": len(move_dirs),
+                "material_churn": mat_churn,
+            }
 
         # 3. support-graph blowup: transitive support fan-out per claim.
         live = [r["claim_id"] for r in self.db.execute(
@@ -1149,6 +1185,7 @@ class Ledger:
         return {
             "trigger_log": trigger_log,
             "churn": churn,
+            "churn_detail": churn_detail,
             "fanout": fanout,
             "brier": brier,
             "override_rate": override_rate,
@@ -1167,13 +1204,18 @@ class Ledger:
         "trigger_precision": 0.60,   # held-out audit; measured 0.715
         "mean_flags": 25.0,          # measured 17.1
         "max_flags": 60.0,           # measured max 52 (hub facts)
-        "max_churn": 8,              # provisional; was 4 (no data) -> 8 =
-                                    # max observed healthy tracking in
-                                    # NEWSROOM-01. NOTE: churn-as-defined
-                                    # (sign changes / 10 revs) conflates
-                                    # healthy tracking of conflicting
-                                    # evidence with loop instability; needs
-                                    # a conflict-normalized metric.
+        "max_material_churn": 8,     # Design Memo 09 (supersedes raw
+                                    # max_churn as the gate; raw churn
+                                    # stays reported in values, ungated —
+                                    # NEWSROOM-01 finding 3: raw churn
+                                    # conflates healthy tracking with
+                                    # instability). Calibrated CHURN-01:
+                                    # healthy newsroom worst 7 (seed 4),
+                                    # jitter absorbed at 0, synthetic
+                                    # material oscillation 9. Trips only
+                                    # on near-total position instability;
+                                    # integrator quality below that is
+                                    # the Brier bar's job.
         "max_fanout": 100,           # provisional: transitive support size
         "brier": 0.25,               # worse than chance = dead
         "override_rate": 0.20,       # humans override >20% = loop untrusted
@@ -1193,6 +1235,9 @@ class Ledger:
             "mean_flags": (sum(flags) / len(flags)) if flags else 0.0,
             "max_flags": max(flags) if flags else 0,
             "max_churn": max(m["churn"].values()) if m["churn"] else 0,
+            "max_material_churn": (
+                max(d["material_churn"] for d in m["churn_detail"].values())
+                if m["churn_detail"] else 0),
             "max_fanout": m["fanout"]["max"],
             "brier": m["brier"],
             "override_rate": m["override_rate"],

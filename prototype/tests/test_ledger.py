@@ -706,3 +706,51 @@ def test_parse_relations_robust():
     assert rel["supports"] == [("C", "D")]  # self-pair dropped
     with pytest.raises(ValueError):
         consolidation.parse_relations("no json here")
+
+
+# ----------------------------------------------------------------------
+# v0.8: conflict-normalized (material) churn (Design Memo 09)
+# ----------------------------------------------------------------------
+
+def test_material_churn_absorbs_jitter(ledger):
+    jitter = ledger.assert_claim("jitter claim", 0.5)
+    for i in range(10):
+        ledger.manual_score(jitter, 0.51 if i % 2 == 0 else 0.49)
+    d = ledger.kill_metrics()["churn_detail"][jitter]
+    assert d["raw"] >= 8                 # raw churn screams
+    assert d["material_moves"] == 0      # ...about nothing material
+    assert d["material_churn"] == 0
+
+
+def test_material_churn_catches_oscillation(ledger):
+    osc = ledger.assert_claim("oscillating claim", 0.5)
+    for i in range(10):
+        ledger.manual_score(osc, 0.7 if i % 2 == 0 else 0.3)
+    d = ledger.kill_metrics()["churn_detail"][osc]
+    assert d["material_moves"] == 10
+    assert d["material_churn"] == 9
+    res = ledger.check_kill_bars()
+    assert res["values"]["max_material_churn"] == 9
+    assert any(b["criterion"] == "max_material_churn"
+               for b in res["breached"])
+
+
+def test_material_churn_counts_real_reversal_once(ledger):
+    c = ledger.assert_claim("contested claim", 0.5)
+    # sub-materiality tugs, then a genuine move up, then a genuine
+    # move back down: exactly one material reversal
+    for s in (0.53, 0.50, 0.53, 0.56, 0.53, 0.50):
+        ledger.manual_score(c, s)
+    d = ledger.kill_metrics()["churn_detail"][c]
+    assert d["material_moves"] == 2
+    assert d["material_churn"] == 1
+    assert d["conflict_balance"] > 0.5
+
+
+def test_churn_detail_one_directional(ledger):
+    c = ledger.assert_claim("steady claim", 0.1)
+    for s in (0.2, 0.3, 0.4, 0.5):
+        ledger.manual_score(c, s)
+    d = ledger.kill_metrics()["churn_detail"][c]
+    assert d["raw"] == 0 and d["material_churn"] == 0
+    assert d["conflict_balance"] == 0.0
