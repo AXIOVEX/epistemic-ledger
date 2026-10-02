@@ -157,3 +157,83 @@ def test_llm_support_kind_flagged(ledger):
     ledger.add_support(c, f, "llm-generated", p_given=0.8, p_given_not=0.4,
                        t="2026-01-02T00:00:00+00:00")
     assert ledger.why(c)[0]["kind"] == "llm-generated"
+
+
+# ----------------------------------------------------------------------
+# v0.2: entrenchment-based contradiction resolution (Design Memo 02)
+# ----------------------------------------------------------------------
+
+from ledger import ENTRENCHMENT_TIERS  # noqa: E402
+
+
+def test_entrenchment_tiers(ledger):
+    c = ledger.assert_claim("C", 0.5, t="2026-01-01T00:00:00+00:00")
+    old, new = ledger.apply_tier(c, "provisional",
+                                 t="2026-01-02T00:00:00+00:00")
+    assert (old, new) == (0.5, 0.25)
+    assert ledger._live_claim(c)["entrenchment"] == pytest.approx(0.25)
+    assert ledger._live_claim(c)["score"] == pytest.approx(0.5)  # untouched
+    with pytest.raises(KeyError):
+        ledger.apply_tier(c, "nonsense")
+    with pytest.raises(ValueError):
+        ledger.set_entrenchment(c, 1.5)
+    # bitemporal: the old entrenchment is still queryable
+    jan = {r["claim_id"]: r for r in
+           ledger.believed_at("2026-01-01T12:00:00+00:00")}
+    assert jan[c]["entrenchment"] == pytest.approx(0.5)
+
+
+def test_contradiction_resolution(ledger):
+    a = ledger.assert_claim("A: steel frame", 0.90,
+                            t="2026-01-01T00:00:00+00:00")
+    b = ledger.assert_claim("B: timber frame", 0.85,
+                            t="2026-01-01T00:00:00+00:00")
+    ledger.apply_tier(a, "measured", t="2026-01-02T00:00:00+00:00")    # 0.75
+    ledger.apply_tier(b, "provisional", t="2026-01-02T00:00:00+00:00")  # 0.25
+    cid = ledger.declare_contradiction(a, b, actor="human",
+                                       t="2026-01-03T00:00:00+00:00")
+    assert len(ledger.open_contradictions()) == 1
+    res = ledger.resolve_contradiction(cid, t="2026-01-04T00:00:00+00:00")
+    assert res["resolved"] is True
+    assert res["loser"] == b and res["winner"] == a
+    # Jeffrey against the winner: P(B|A)=0.05, P(B|~A)=0.85, P(A)=0.90
+    assert res["new"] == pytest.approx(0.05 * 0.90 + 0.85 * 0.10)
+    assert ledger._live_claim(b)["score"] == pytest.approx(res["new"])
+    assert ledger._live_claim(a)["score"] == pytest.approx(0.90)  # untouched
+    assert ledger.open_contradictions() == []
+    # resolving again is a no-op
+    assert ledger.resolve_contradiction(cid)["already"] is True
+
+
+def test_contradiction_tie_goes_to_human(ledger):
+    a = ledger.assert_claim("A", 0.9, t="2026-01-01T00:00:00+00:00")
+    b = ledger.assert_claim("B", 0.9, t="2026-01-01T00:00:00+00:00")
+    cid = ledger.declare_contradiction(a, b, t="2026-01-02T00:00:00+00:00")
+    res = ledger.resolve_contradiction(cid, t="2026-01-03T00:00:00+00:00")
+    assert res["resolved"] is False and res["reason"] == "tie"
+    assert len(ledger.open_contradictions()) == 1
+    assert ledger._live_claim(a)["score"] == pytest.approx(0.9)
+    assert ledger._live_claim(b)["score"] == pytest.approx(0.9)
+    m = ledger.kill_metrics()
+    assert m["n_open_contradictions"] == 1
+
+
+def test_contradiction_propagates_to_dependents(ledger):
+    a = ledger.assert_claim("A", 0.90, t="2026-01-01T00:00:00+00:00")
+    b = ledger.assert_claim("B", 0.85, t="2026-01-01T00:00:00+00:00")
+    c = ledger.assert_claim("C: project viable", 0.80,
+                            t="2026-01-01T00:00:00+00:00")
+    ledger.apply_tier(a, "measured", t="2026-01-02T00:00:00+00:00")
+    ledger.apply_tier(b, "provisional", t="2026-01-02T00:00:00+00:00")
+    ledger.add_support(c, b, "evidential", p_given=0.95, p_given_not=0.40,
+                       t="2026-01-02T00:00:00+00:00")
+    cid = ledger.declare_contradiction(a, b, t="2026-01-03T00:00:00+00:00")
+    res = ledger.resolve_contradiction(cid, t="2026-01-04T00:00:00+00:00")
+    assert res["resolved"] is True
+    # C depended on B; B contracted -> C weakens too.
+    assert ledger._live_claim(c)["score"] < 0.80
+    # And the contraction is visible in the change log.
+    types = {e["type"] for e in ledger.changed("2026-01-03T00:00:00+00:00",
+                                              "2026-01-05T00:00:00+00:00")}
+    assert {"contradiction", "contract", "contradiction_resolved",
+            "score_revision"} <= types

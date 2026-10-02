@@ -27,6 +27,14 @@ trigger recall, precision, flag volume, and runtime. Findings are in
 `../docs/TRIGGER-STRESS-01.md`. Current empirical defaults: epsilon=0.005,
 materiality=0.05.
 
+## v0.2: contradiction resolution
+
+`declare_contradiction(a, b)` + `resolve_contradiction(id)`: entrenchment-ordered
+contraction (Design Memo 02, `../docs/DESIGN-02-contradiction-resolution.md`).
+Ties go to a human; the loser is Jeffrey-contracted against the winner and its
+dependents re-propagate. Manual entrenchment tiers via `apply_tier`
+(axiomatic/measured/inferred/provisional/deprecated); learned tiers deferred.
+
 ## Known v0.1 simplifications (documented, not hidden)
 
 - Multi-supporter Jeffrey updates apply sequentially in edge order (naive).

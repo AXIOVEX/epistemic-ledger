@@ -20,6 +20,15 @@ from datetime import datetime, timezone
 
 SUPPORT_KINDS = ("deductive", "evidential", "llm-generated", "human-asserted")
 
+# Entrenchment tiers (manual in v0.2; learned tiers deferred to v0.3).
+ENTRENCHMENT_TIERS = {
+    "axiomatic": 1.0,    # definitional; loses only to another 1.0 (-> human)
+    "measured": 0.75,    # directly observed / instrumented
+    "inferred": 0.5,     # default for derived conclusions
+    "provisional": 0.25, # LLM-generated or single weak source
+    "deprecated": 0.0,   # superseded soon; loses every tie-break
+}
+
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS claims(
   claim_id    TEXT NOT NULL,
@@ -138,13 +147,12 @@ class Ledger:
                               "prior": float(prior)}, actor=actor, t=t)
         return claim_id
 
-    def _set_score(self, claim_id, new_score, triggering_event_id, actor="system", t=None):
-        """Bitemporal score update: close the old version, open a new one."""
-        t = t or _now()
+    def _new_version(self, claim_id, score, entrenchment, t):
+        """Bitemporal versioning: close the old row, open a new one."""
         row = self._live_claim(claim_id)
         if row is None:
             raise KeyError(f"unknown claim {claim_id}")
-        old = float(row["score"])
+        old_score, old_entr = float(row["score"]), float(row["entrenchment"])
         self._close_claim_version(claim_id, t)
         self.db.execute(
             """INSERT INTO claims(claim_id, txn_from, statement, valid_from,
@@ -152,16 +160,47 @@ class Ledger:
                                   materiality, critical, entrenchment)
                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
             (claim_id, t, row["statement"], row["valid_from"], row["valid_to"],
-             float(new_score), row["score_kind"], row["status"],
-             row["materiality"], row["critical"], row["entrenchment"]),
+             float(score), row["score_kind"], row["status"],
+             row["materiality"], row["critical"], float(entrenchment)),
         )
         self.db.commit()
+        return old_score, old_entr
+
+    def _set_score(self, claim_id, new_score, triggering_event_id, actor="system", t=None):
+        """Bitemporal score update: close the old version, open a new one."""
+        t = t or _now()
+        row = self._live_claim(claim_id)
+        entrenchment = float(row["entrenchment"]) if row else 0.5
+        old, _ = self._new_version(claim_id, new_score, entrenchment, t)
         self._emit("score_revision",
                    {"claim_id": claim_id, "old_score": old,
                     "new_score": float(new_score),
                     "triggering_event_id": triggering_event_id},
                    actor=actor, t=t)
         return old, float(new_score)
+
+    def set_entrenchment(self, claim_id, value, actor="human", t=None):
+        """Manual entrenchment assignment (v0.2). Versioned bitemporally;
+        score untouched. Emits entrenchment_set."""
+        t = t or _now()
+        value = float(value)
+        if not 0.0 <= value <= 1.0:
+            raise ValueError("entrenchment must be in [0, 1]")
+        row = self._live_claim(claim_id)
+        if row is None:
+            raise KeyError(f"unknown claim {claim_id}")
+        _, old_entr = self._new_version(claim_id, float(row["score"]), value, t)
+        self._emit("entrenchment_set",
+                   {"claim_id": claim_id, "old": old_entr, "new": value},
+                   actor=actor, t=t)
+        return old_entr, value
+
+    def apply_tier(self, claim_id, tier, actor="human", t=None):
+        """Assign a named entrenchment tier (see ENTRENCHMENT_TIERS)."""
+        if tier not in ENTRENCHMENT_TIERS:
+            raise KeyError(f"unknown tier {tier!r}; choose from {sorted(ENTRENCHMENT_TIERS)}")
+        return self.set_entrenchment(claim_id, ENTRENCHMENT_TIERS[tier],
+                                     actor=actor, t=t)
 
     def manual_score(self, claim_id, score, actor="human", t=None):
         """A human hand-sets a score. Counts toward the override-rate metric."""
@@ -317,6 +356,88 @@ class Ledger:
         return report
 
     # ------------------------------------------------------------------
+    # contradiction resolution (Design Memo 02)
+    # ------------------------------------------------------------------
+    def declare_contradiction(self, claim_a, claim_b, p_loser_given_winner=0.05,
+                              actor="human", t=None):
+        """Two active claims cannot both hold. Records the incompatibility;
+        resolution is separate (resolve_contradiction). The cross-likelihood
+        P(loser | winner) is elicited here; P(loser | ~winner) defaults to
+        the loser's current score at resolve time."""
+        t = t or _now()
+        for c in (claim_a, claim_b):
+            if self._live_claim(c) is None:
+                raise KeyError(f"unknown claim {c}")
+        ev = self._emit("contradiction",
+                        {"claim_a": claim_a, "claim_b": claim_b,
+                         "p_loser_given_winner": float(p_loser_given_winner)},
+                        actor=actor, t=t)
+        return ev["event_id"]
+
+    def open_contradictions(self):
+        """Declared contradictions minus resolved ones (event-sourced)."""
+        evs = self._events()
+        resolved = {e["payload"]["contradiction_id"] for e in evs
+                    if e["type"] == "contradiction_resolved"}
+        return [e for e in evs
+                if e["type"] == "contradiction"
+                and e["event_id"] not in resolved]
+
+    def resolve_contradiction(self, contradiction_id, actor="system", t=None,
+                              epsilon=0.005):
+        """Entrenchment-ordered contraction. The less-entrenched claim is
+        revised down via Jeffrey against the winner's score, then its
+        dependents are re-propagated. Ties go to a human."""
+        t = t or _now()
+        if all(e["event_id"] != contradiction_id
+               for e in self.open_contradictions()):
+            return {"resolved": True, "already": True,
+                    "contradiction_id": contradiction_id}
+        ce = next(e for e in self._events()
+                  if e["event_id"] == contradiction_id)
+        a, b = ce["payload"]["claim_a"], ce["payload"]["claim_b"]
+        ra, rb = self._live_claim(a), self._live_claim(b)
+        if ra is None or rb is None:
+            self._emit("contradiction_unresolved",
+                       {"contradiction_id": contradiction_id,
+                        "reason": "claim no longer live"},
+                       actor=actor, t=t)
+            return {"resolved": False, "reason": "claim not live",
+                    "contradiction_id": contradiction_id}
+        ea, eb = float(ra["entrenchment"]), float(rb["entrenchment"])
+        if abs(ea - eb) < 1e-9:
+            self._emit("contradiction_unresolved",
+                       {"contradiction_id": contradiction_id,
+                        "reason": "entrenchment tie", "entrenchment": ea},
+                       actor=actor, t=t)
+            return {"resolved": False, "reason": "tie",
+                    "contradiction_id": contradiction_id}
+        loser, winner = (a, b) if ea < eb else (b, a)
+        rl, rw = self._live_claim(loser), self._live_claim(winner)
+        sl, sw = float(rl["score"]), float(rw["score"])
+        p_lw = float(ce["payload"]["p_loser_given_winner"])
+        # P(loser | ~winner) = loser's current score: the winner's falsity
+        # tells us nothing new about the loser.
+        new_l = jeffrey(sl, p_lw, sl, sw)
+        self._set_score(loser, new_l, contradiction_id, actor=actor, t=t)
+        self._emit("contract",
+                   {"contradiction_id": contradiction_id,
+                    "loser": loser, "winner": winner,
+                    "old": sl, "new": new_l,
+                    "loser_entrenchment": min(ea, eb),
+                    "winner_entrenchment": max(ea, eb)},
+                   actor=actor, t=t)
+        self._emit("contradiction_resolved",
+                   {"contradiction_id": contradiction_id,
+                    "loser": loser, "winner": winner},
+                   actor=actor, t=t)
+        rep = self._revisit(loser, {loser: new_l}, actor=actor, t=t,
+                            epsilon=epsilon)
+        return {"resolved": True, "loser": loser, "winner": winner,
+                "old": sl, "new": new_l,
+                "contradiction_id": contradiction_id, "revisit": rep}
+
+    # ------------------------------------------------------------------
     # queries
     # ------------------------------------------------------------------
     def believed_at(self, t):
@@ -425,4 +546,5 @@ class Ledger:
             "override_rate": override_rate,
             "n_score_revisions": len(score_revs),
             "n_manual_overrides": len(manual),
+            "n_open_contradictions": len(self.open_contradictions()),
         }
