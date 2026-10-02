@@ -52,6 +52,11 @@ def part1(res):
     if "part1" in res:
         print("part 1: already done", flush=True)
         return
+    # LocalExtractor snapshots the fact list at construction; rebind
+    # BEFORE constructing it or the census runs against the fictional
+    # newsroom facts. (The indie runner needed no rebind: its
+    # statements were identical to newsroom.FACTS.)
+    newsroom.FACTS = rc.REALWIRE_FACTS
     ext = LocalExtractor()
     jobs = []
     k = 0
