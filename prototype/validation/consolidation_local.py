@@ -64,9 +64,11 @@ ARMS = {
     "default": {},
     "repeat_penalty_1_1": {"repeat_penalty": 1.1},
     # diagnostic: is the failure a reasoning failure? Qwen3's
-    # template default (thinking on), generous token budget, served
-    # at a larger per-slot context (see LOCAL-CONSOLIDATION-01).
-    "thinking": {"thinking": True, "max_tokens": 6000},
+    # template default (thinking on). Budget 12000: the measured
+    # h2h reasoning trace is ~5.1k tokens, and a 6000 budget
+    # intermittently truncates before the answer (see report).
+    # Served at parallel 1 / ctx 16384 (slot 16384).
+    "thinking": {"thinking": True, "max_tokens": 12000},
 }
 
 
