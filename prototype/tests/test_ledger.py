@@ -304,3 +304,324 @@ def test_interval_refuses_pathological_conflict(ledger):
     assert r["conflict"] == pytest.approx(0.99)
     # interval unchanged after refusal
     assert ledger.get_interval(c) == pytest.approx((0.99, 1.0))
+
+
+# ----------------------------------------------------------------------
+# v0.4: joint likelihoods (Design Memo 05)
+# ----------------------------------------------------------------------
+
+def test_noisy_and_semantics(ledger):
+    d = ledger.assert_claim("D", 0.5, t="2026-01-01T00:00:00+00:00")
+    ps = [ledger.assert_claim(f"P{i}", 0.99, t="2026-01-01T00:00:00+00:00")
+          for i in range(3)]
+    for p in ps:
+        ledger.add_support(d, p, "evidential",
+                           t="2026-01-02T00:00:00+00:00")
+    ledger.set_combo(d, "noisy-and", t="2026-01-03T00:00:00+00:00")
+    # all parents true -> ~1
+    r = ledger._revisit(ps[0], {p: 0.99 for p in ps},
+                        t="2026-01-04T00:00:00+00:00")
+    assert ledger._live_claim(d)["score"] == pytest.approx(0.99 ** 3, abs=1e-6)
+    # one parent false -> ~leak (0.0)
+    r = ledger._revisit(ps[0], {ps[0]: 0.01, ps[1]: 0.99, ps[2]: 0.99},
+                        t="2026-01-05T00:00:00+00:00")
+    assert ledger._live_claim(d)["score"] == pytest.approx(0.01 * 0.99 ** 2,
+                                                           abs=1e-6)
+
+
+def test_noisy_or_semantics(ledger):
+    d = ledger.assert_claim("D", 0.5, t="2026-01-01T00:00:00+00:00")
+    ps = [ledger.assert_claim(f"P{i}", 0.01, t="2026-01-01T00:00:00+00:00")
+          for i in range(3)]
+    for p in ps:
+        ledger.add_support(d, p, "evidential",
+                           t="2026-01-02T00:00:00+00:00")
+    ledger.set_combo(d, "noisy-or", leak=0.05,
+                     t="2026-01-03T00:00:00+00:00")
+    # all false -> leak
+    ledger._revisit(ps[0], {p: 0.01 for p in ps},
+                    t="2026-01-04T00:00:00+00:00")
+    assert ledger._live_claim(d)["score"] == pytest.approx(
+        1 - 0.95 * (1 - 0.01) ** 3, abs=1e-6)
+    # one true -> ~1
+    ledger._revisit(ps[0], {ps[0]: 0.99, ps[1]: 0.01, ps[2]: 0.01},
+                    t="2026-01-05T00:00:00+00:00")
+    assert ledger._live_claim(d)["score"] == pytest.approx(
+        1 - 0.95 * (1 - 0.99) * (1 - 0.01) ** 2, abs=1e-6)
+
+
+def test_combo_strengths_and_leak(ledger):
+    d = ledger.assert_claim("D", 0.5, t="2026-01-01T00:00:00+00:00")
+    p1 = ledger.assert_claim("P1", 0.99, t="2026-01-01T00:00:00+00:00")
+    p2 = ledger.assert_claim("P2", 0.99, t="2026-01-01T00:00:00+00:00")
+    ledger.add_support(d, p1, "evidential", t="2026-01-02T00:00:00+00:00")
+    ledger.add_support(d, p2, "evidential", t="2026-01-02T00:00:00+00:00")
+    # p2 irrelevant (strength 0): D follows p1 alone
+    ledger.set_combo(d, "noisy-and", strengths={p2: 0.0},
+                     t="2026-01-03T00:00:00+00:00")
+    ledger._revisit(p1, {p1: 0.01, p2: 0.99},
+                    t="2026-01-04T00:00:00+00:00")
+    assert ledger._live_claim(d)["score"] == pytest.approx(0.01, abs=1e-6)
+    # combo metadata round-trips
+    name, leak, strengths = ledger.get_combo(d)
+    assert name == "noisy-and" and leak == pytest.approx(0.0)
+    assert strengths[p2] == pytest.approx(0.0)
+    with pytest.raises(ValueError):
+        ledger.set_combo(d, "noisy-xor")
+
+
+def test_combo_determinism_across_builds(ledger):
+    # products commute: parent insertion order must not matter
+    import tempfile, shutil
+    from ledger import Ledger as L2
+    scores = []
+    for flip in (False, True):
+        dd = tempfile.mkdtemp()
+        L = L2(dd)
+        d = L.assert_claim("D", 0.5)
+        order = [0, 1, 2] if not flip else [2, 1, 0]
+        ps = {}
+        for i in order:
+            ps[i] = L.assert_claim(f"P{i}", 0.9)
+        for i in order:
+            L.add_support(d, ps[i], "evidential")
+        L.set_combo(d, "noisy-and")
+        L._revisit(ps[0], {ps[0]: 0.7, ps[1]: 0.8, ps[2]: 0.9})
+        scores.append(L._live_claim(d)["score"])
+        shutil.rmtree(dd)
+    assert scores[0] == pytest.approx(scores[1])
+
+
+# ----------------------------------------------------------------------
+# v0.6: governance (Design Memo 06, Quipu-informed)
+# ----------------------------------------------------------------------
+
+def test_writer_tier_default_entrenchment(ledger):
+    ledger.register_writer("tristen", "owner")
+    ledger.register_writer("agent7", "contributor")
+    ledger.register_writer("scraper", "provisional")
+    c_owner = ledger.assert_claim("owner claim", 0.6, writer="tristen")
+    c_contrib = ledger.assert_claim("contrib claim", 0.6, writer="agent7")
+    c_prov = ledger.assert_claim("prov claim", 0.6, writer="scraper")
+    c_unknown = ledger.assert_claim("unknown claim", 0.6, writer="mallory")
+    c_system = ledger.assert_claim("system claim", 0.6)
+    assert ledger.get_entrenchment(c_owner) == pytest.approx(0.75)
+    assert ledger.get_entrenchment(c_contrib) == pytest.approx(0.5)
+    assert ledger.get_entrenchment(c_prov) == pytest.approx(0.25)
+    assert ledger.get_entrenchment(c_unknown) == pytest.approx(0.25)
+    assert ledger.get_entrenchment(c_system) == pytest.approx(0.5)
+    # explicit entrenchment overrides the tier default
+    c_exp = ledger.assert_claim("explicit", 0.6, writer="scraper",
+                                entrenchment=0.9)
+    assert ledger.get_entrenchment(c_exp) == pytest.approx(0.9)
+    # writer recorded and carried across versions
+    assert ledger._live_claim(c_owner)["writer"] == "tristen"
+    ledger._set_score(c_owner, 0.7, None)
+    assert ledger._live_claim(c_owner)["writer"] == "tristen"
+    with pytest.raises(ValueError):
+        ledger.register_writer("x", "superuser")
+
+
+def test_contradiction_gate_holds_non_owner_vs_axiomatic(ledger):
+    ledger.register_writer("tristen", "owner")
+    ledger.register_writer("agent7", "contributor")
+    ax = ledger.assert_claim("axiom", 0.99, entrenchment="axiomatic")
+    other = ledger.assert_claim("challenger", 0.4, writer="agent7")
+    # non-owner vs axiomatic -> held, not queued
+    hid = ledger.declare_contradiction(ax, other, writer="agent7")
+    assert len(ledger.open_contradictions()) == 0
+    held = ledger.held_contradictions()
+    assert len(held) == 1 and held[0]["event_id"] == hid
+    assert held[0]["payload"]["outcome"] == "held"
+    assert held[0]["payload"]["policy"] == "challenge-axiom-requires-owner"
+    # resolving a held id explains itself
+    r = ledger.resolve_contradiction(hid)
+    assert r["resolved"] is False and r["held"] is True
+    # owner declaring the same pair enters the queue; hold clears
+    oid = ledger.declare_contradiction(ax, other, writer="tristen")
+    assert len(ledger.open_contradictions()) == 1
+    assert ledger.open_contradictions()[0]["event_id"] == oid
+    assert len(ledger.held_contradictions()) == 0
+
+
+def test_contradiction_gate_passes_non_axiomatic(ledger):
+    ledger.register_writer("agent7", "contributor")
+    a = ledger.assert_claim("a", 0.8)
+    b = ledger.assert_claim("b", 0.2, writer="agent7")
+    cid = ledger.declare_contradiction(a, b, writer="agent7")
+    assert len(ledger.open_contradictions()) == 1
+    assert len(ledger.held_contradictions()) == 0
+
+
+def test_policies_are_facts_and_bitemporal(ledger):
+    p = ledger.audit_policy("challenge-axiom-requires-owner")
+    assert p is not None and p["version"] == 1
+    # supersede the policy with an explicit later t; as-of queries see the
+    # rule that was in force at T (times relative to actual registration)
+    t_init = next(e for e in ledger._events()
+                  if e["type"] == "policy_registered")["t"]
+    ledger.register_policy("challenge-axiom-requires-owner",
+                           "stricter version", version=2)
+    assert ledger.audit_policy(
+        "challenge-axiom-requires-owner")["version"] == 2
+    assert ledger.audit_policy(
+        "challenge-axiom-requires-owner", t=t_init)["version"] == 1
+    # idempotent re-registration
+    n0 = len([e for e in ledger._events()
+              if e["type"] == "policy_registered"])
+    ledger.register_policy("challenge-axiom-requires-owner",
+                           "stricter version", version=2)
+    n1 = len([e for e in ledger._events()
+              if e["type"] == "policy_registered"])
+    assert n0 == n1
+
+
+# ----------------------------------------------------------------------
+# v0.6: automatic contradiction detection
+# ----------------------------------------------------------------------
+
+def _opposing_pair(ledger, shared=True):
+    s = ledger.assert_claim("shared supporter", 0.9)
+    a = ledger.assert_claim("claim A", 0.5)
+    b = ledger.assert_claim("claim B", 0.5)
+    ledger.add_support(a, s, "evidential", 0.95, 0.05)
+    if shared:
+        ledger.add_support(b, s, "evidential", 0.05, 0.95)
+    else:
+        t = ledger.assert_claim("other supporter", 0.9)
+        ledger.add_support(b, t, "evidential", 0.05, 0.95)
+    return a, b
+
+
+def test_detect_score_opposition_shared_dependency(ledger):
+    a, b = _opposing_pair(ledger, shared=True)
+    ledger._set_score(a, 0.95, None)
+    ledger._set_score(b, 0.05, None)
+    found = ledger.detect_contradictions()
+    assert len(found) == 1
+    opened = ledger.open_contradictions()
+    assert len(opened) == 1
+    assert opened[0]["payload"]["auto"] is True
+    assert opened[0]["payload"]["signal"] == "score-opposition"
+    # idempotent: second run declares nothing new
+    assert ledger.detect_contradictions() == []
+
+
+def test_detect_ignores_unrelated_opposition(ledger):
+    a, b = _opposing_pair(ledger, shared=False)
+    ledger._set_score(a, 0.95, None)
+    ledger._set_score(b, 0.05, None)
+    assert ledger.detect_contradictions() == []
+    assert ledger.open_contradictions() == []
+
+
+def test_detect_interval_conflict(ledger):
+    a = ledger.assert_claim("interval A", 0.5)
+    b = ledger.assert_claim("interval B", 0.5)
+    ledger.set_interval(a, 0.9, 0.95)   # strongly true
+    ledger.set_interval(b, 0.0, 0.05)   # strongly false
+    found = ledger.detect_contradictions()
+    assert len(found) == 1
+    opened = ledger.open_contradictions()
+    assert opened[0]["payload"]["signal"].startswith("interval-conflict")
+
+
+def test_detect_respects_governance_gate(ledger):
+    ledger.register_writer("agent7", "contributor")
+    ax = ledger.assert_claim("axiom", 0.99, entrenchment="axiomatic")
+    s = ledger.assert_claim("supporter", 0.9)
+    ledger.add_support(ax, s, "evidential", 0.95, 0.05)
+    c = ledger.assert_claim("challenger", 0.5)
+    ledger.add_support(c, s, "evidential", 0.05, 0.95)
+    ledger._set_score(c, 0.05, None)
+    found = ledger.detect_contradictions()
+    assert len(found) == 1
+    assert ledger.open_contradictions() == []          # gated...
+    assert len(ledger.held_contradictions()) == 1      # ...into the hold
+
+
+# ----------------------------------------------------------------------
+# v0.6: small batch (stability decay, n-ary D-S, abstention, elicitation,
+#         kill bars)
+# ----------------------------------------------------------------------
+
+def test_stability_decay_for_churn_without_outcomes(ledger):
+    from ledger import ENTRENCHMENT_TIERS
+    flippy = ledger.assert_claim("flip-flopper", 0.9,
+                                 entrenchment="measured")  # 0.75
+    steady = ledger.assert_claim("steady", 0.9, entrenchment="measured")
+    for i in range(6):
+        ledger._set_score(flippy, 0.1 if i % 2 == 0 else 0.9, None)
+        ledger._set_score(steady, 0.9, None)
+    rep = ledger.learn_entrenchment()
+    by_cid = {r["claim_id"]: r for r in rep}
+    assert by_cid[flippy]["basis"] == "stability"
+    assert by_cid[flippy]["flips"] == 6
+    # decay = min(0.5, 6/7) = 0.5 -> 0.75 * 0.5
+    assert ledger.get_entrenchment(flippy) == pytest.approx(0.375)
+    assert steady not in by_cid  # no flips: untouched
+    assert ledger.get_entrenchment(steady) == pytest.approx(0.75)
+
+
+def test_dempster_combine_ternary():
+    from ledger import dempster_combine, interval_to_mass
+    A, B, C = frozenset({"A"}), frozenset({"B"}), frozenset({"C"})
+    ABC = frozenset({"A", "B", "C"})
+    m1 = {A: 0.6, ABC: 0.4}
+    m2 = {B: 0.6, ABC: 0.4}
+    combined, K = dempster_combine(m1, m2)
+    assert K == pytest.approx(0.36)
+    assert combined[A] == pytest.approx(0.375)
+    assert combined[B] == pytest.approx(0.375)
+    assert combined[ABC] == pytest.approx(0.25)
+    # binary intervals are the {'T','F'} special case: same K as before
+    _, Kb = dempster_combine(interval_to_mass(0.9, 0.95),
+                             interval_to_mass(0.0, 0.05))
+    assert Kb == pytest.approx(0.9 * 0.95 + 0.05 * 0.0)  # = 0.855
+    # total conflict raises instead of producing nonsense
+    with pytest.raises(ValueError):
+        dempster_combine({A: 1.0}, {B: 1.0})
+
+
+def test_abstention_policies_caller_owned(ledger):
+    import policies
+    a = ledger.assert_claim("ignorant claim", 0.5)
+    b = ledger.assert_claim("sharp claim", 0.85)
+    ledger.set_interval(a, 0.1, 0.9)   # ignorance 0.8
+    ledger.set_interval(b, 0.8, 0.9)   # ignorance 0.1
+    r1 = policies.ignorance_gated_policy(ledger, a, threshold=0.5)
+    r2 = policies.ignorance_gated_policy(ledger, b, threshold=0.5)
+    assert r1["action"] == "abstain" and r1["ignorance"] == pytest.approx(0.8)
+    assert r2["action"] == "act" and r2["ignorance"] == pytest.approx(0.1)
+    r3 = policies.credence_band_policy(ledger, b)
+    assert r3["action"] == "act"
+
+
+def test_elicit_pair_anchors_and_warning(ledger):
+    import elicit
+    import warnings
+    assert elicit.verbal_to_p("very likely") == pytest.approx(0.85)
+    p_given, p_not = elicit.elicit_pair("very likely", "unlikely")
+    assert (p_given, p_not) == pytest.approx((0.85, 0.30))
+    with pytest.raises(KeyError):
+        elicit.verbal_to_p("kinda sorta")
+    with warnings.catch_warnings(record=True) as w:
+        warnings.simplefilter("always")
+        elicit.elicit_pair("unlikely", "very likely")  # counter-evidence
+        assert len(w) == 1 and "counter-evidence" in str(w[0].message)
+
+
+def test_kill_bars_ok_and_breached(ledger):
+    rep = ledger.check_kill_bars(trigger_recall=0.96, trigger_precision=0.72)
+    assert rep["ok"] is True and rep["breached"] == []
+    assert rep["bars"]["brier"] == 0.25
+    # pile up unresolved contradictions -> trip the pile-up bar (> 10)
+    cs = [ledger.assert_claim(f"c{i}", 0.5) for i in range(24)]
+    for i in range(0, 24, 2):
+        ledger.declare_contradiction(cs[i], cs[i + 1])
+    rep2 = ledger.check_kill_bars()
+    breached = {b["criterion"] for b in rep2["breached"]}
+    assert "n_open_contradictions" in breached
+    assert rep2["ok"] is False
+    # None metrics (no outcomes yet) are skipped, not assumed
+    assert rep2["values"]["brier"] is None

@@ -54,17 +54,33 @@ class AgentMemory:
         self.fact_claims = {}
         self.derived = {}
 
-    def setup(self, chains):
-        # chains: [(fact_name, d1_name, d2_name), ...]
-        for fname, d1, d2 in chains:
-            self.fact_claims[fname] = self.L.assert_claim(f"world fact {fname}", 0.5)
-            c1 = self.L.assert_claim(f"derived {d1}", 0.5)
-            c2 = self.L.assert_claim(f"derived {d2}", 0.5)
-            self.L.add_support(c1, self.fact_claims[fname], "deductive", 0.95, 0.05)
-            self.L.add_support(c2, c1, "deductive", 0.95, 0.05)
-            self.derived[d1] = c1
-            self.derived[d2] = c2
-        self.chains = chains
+    def setup(self, chains, semantics="chain"):
+        # chains: [(fact_name, d1_name, d2_name), ...]  (chain)
+        #      or [(d_name, [fact_names...]), ...]       (and)
+        self.semantics = semantics
+        if semantics == "chain":
+            for fname, d1, d2 in chains:
+                self.fact_claims[fname] = self.L.assert_claim(f"world fact {fname}", 0.5)
+                c1 = self.L.assert_claim(f"derived {d1}", 0.5)
+                c2 = self.L.assert_claim(f"derived {d2}", 0.5)
+                self.L.add_support(c1, self.fact_claims[fname], "deductive", 0.95, 0.05)
+                self.L.add_support(c2, c1, "deductive", 0.95, 0.05)
+                self.derived[d1] = c1
+                self.derived[d2] = c2
+            self.chains = chains
+        else:
+            for dname, fnames in chains:
+                for fn in fnames:
+                    if fn not in self.fact_claims:
+                        self.fact_claims[fn] = self.L.assert_claim(
+                            f"world fact {fn}", 0.5)
+                did = self.L.assert_claim(f"derived {dname}", 0.5)
+                for fn in fnames:
+                    self.L.add_support(did, self.fact_claims[fn],
+                                       "evidential")
+                self.L.set_combo(did, "noisy-and")
+                self.derived[dname] = did
+            self.chains = chains
 
     def observe(self, name, value, credence):
         cid = self.fact_claims[name]
@@ -84,13 +100,17 @@ class AgentMemory:
 class NaiveMemory:
     """Frozen-context baseline: derived conclusions never revised."""
 
-    def setup(self, chains, initial_obs):
+    def setup(self, chains, initial_obs, semantics="chain"):
         self.facts = dict(initial_obs)
         self.derived = {}
-        for fname, d1, d2 in chains:
-            v = self.facts[fname]
-            self.derived[d1] = v
-            self.derived[d2] = v
+        if semantics == "chain":
+            for fname, d1, d2 in chains:
+                v = self.facts[fname]
+                self.derived[d1] = v
+                self.derived[d2] = v
+        else:
+            for dname, fnames in chains:
+                self.derived[dname] = all(self.facts[f] for f in fnames)
 
     def observe(self, name, value, credence):
         self.facts[name] = value  # facts update; derived do NOT
@@ -99,13 +119,23 @@ class NaiveMemory:
         return self.derived[dname]
 
 
-def run_trial(seed, n_chains=8, steps=60, flip_p=0.05, obs_p=0.5):
+def run_trial(seed, n_chains=8, steps=60, flip_p=0.05, obs_p=0.5,
+              semantics="chain"):
     rng = random.Random(seed)
-    world = World(rng, n_chains, flip_p)
-    fnames = list(world.facts)
-    chains = [(fn, f"D1_{i}", f"D2_{i}") for i, fn in enumerate(fnames)]
+    if semantics == "chain":
+        world = World(rng, n_chains, flip_p)
+        fnames = list(world.facts)
+        chains = [(fn, f"D1_{i}", f"D2_{i}") for i, fn in enumerate(fnames)]
+        derived_names = [d for _, d1, d2 in chains for d in (d1, d2)]
+    else:
+        world = World(rng, 12, flip_p)
+        fnames = list(world.facts)
+        chains = [(f"D{j}", rng.sample(fnames, rng.randint(2, 3)))
+                  for j in range(8)]
+        fnames = sorted({f for _, fs in chains for f in fs})  # only used facts
+        derived_names = [d for d, _ in chains]
     mem = AgentMemory()
-    mem.setup(chains)
+    mem.setup(chains, semantics=semantics)
     naive = NaiveMemory()
     init = {}
     for name in fnames:  # initial observation sweep (noisy)
@@ -113,7 +143,14 @@ def run_trial(seed, n_chains=8, steps=60, flip_p=0.05, obs_p=0.5):
         obs = v if rng.random() < 0.9 else not v
         init[name] = obs
         mem.observe(name, obs, 0.8)
-    naive.setup(chains, init)
+    naive.setup(chains, init, semantics=semantics)
+
+    def truth_of(d):
+        if semantics == "chain":
+            fname = next(fn for fn, d1, d2 in chains if d in (d1, d2))
+            return world.facts[fname]
+        return all(world.facts[f]
+                   for d0, fs in chains if d0 == d for f in fs)
 
     ledger_err = naive_err = quizzes = 0
     for _ in range(steps):
@@ -124,24 +161,24 @@ def run_trial(seed, n_chains=8, steps=60, flip_p=0.05, obs_p=0.5):
                 obs = v if rng.random() < 0.9 else not v
                 mem.observe(name, obs, 0.8)
                 naive.observe(name, obs, 0.8)
-        for fname, d1, d2 in chains:
-            truth = world.facts[fname]  # D1 = D2 = F by construction
-            for d in (d1, d2):
-                quizzes += 1
-                ledger_err += mem.answer(d) != truth
-                naive_err += naive.answer(d) != truth
+        for d in derived_names:
+            truth = truth_of(d)
+            quizzes += 1
+            ledger_err += mem.answer(d) != truth
+            naive_err += naive.answer(d) != truth
     mem.close()
     return ledger_err / quizzes, naive_err / quizzes
 
 
 if __name__ == "__main__":
+    semantics = sys.argv[1] if len(sys.argv) > 1 else "chain"
     ls, ns = [], []
     for seed in range(5):
-        le, ne = run_trial(seed)
+        le, ne = run_trial(seed, semantics=semantics)
         ls.append(le)
         ns.append(ne)
         print(f"seed {seed}: ledger_err={le:.3f} naive_err={ne:.3f}")
     l, n = sum(ls) / 5, sum(ns) / 5
-    print(f"\nmean ledger_err={l:.3f} mean naive_err={n:.3f}")
+    print(f"\n[{semantics}] mean ledger_err={l:.3f} mean naive_err={n:.3f}")
     print(f"staleness reduction = {n - l:.3f} "
           f"({(n - l) / n * 100:.1f}% of naive errors eliminated)")

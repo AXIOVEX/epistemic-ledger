@@ -34,6 +34,25 @@ An earlier version of this experiment used AND-structured derived beliefs (D tru
 
 This is a genuine expressiveness boundary of the v0.3 propagation model, not a bug: the ledger currently handles chains and single-parent dependencies exactly, but not joint/interacting evidence. Fixing it means joint likelihoods (noisy-AND/OR) on multi-parent nodes — recorded as future work, not patched mid-experiment.
 
+## Addendum v0.4 — AND boundary closed (2026-10-01)
+
+Re-ran the AND-structured variant with `noisy-and` combos on the derived nodes
+(`python experiment.py and`):
+
+| seed | ledger err | naive err |
+|---:|---:|---:|
+| 0 | 0.087 | 0.177 |
+| 1 | 0.140 | 0.527 |
+| 2 | 0.096 | 0.123 |
+| 3 | 0.104 | 0.402 |
+| 4 | 0.142 | 0.300 |
+| **mean** | **0.114** | **0.306** |
+
+**Staleness reduction: 0.192 — the ledger eliminates 62.8% of naive errors on
+AND-structured beliefs.** Where v0.3 lost (0.403 vs 0.313), v0.4 wins. Joint
+likelihoods (Design Memo 05) close the expressiveness boundary; per-edge
+independent Jeffrey remains the default for single-parent chains.
+
 ## Limitations
 
 - Toy world: binary facts, single-parent chains, thresholded answers.
