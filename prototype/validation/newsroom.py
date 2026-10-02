@@ -167,16 +167,34 @@ class ModeledExtractor(Extractor):
 
 
 class LLMExtractor(Extractor):
-    """Interface-ready stub for real NL parsing.
+    """Real NL parsing via an LLM (OpenRouter), one call per report.
 
-    Requires an approved LLM API spend (OpenRouter/OpenAI via the
-    connected credential). Swap in for ModeledExtractor to test the
-    full pipeline including parsing. Not wired: do not run without
-    Tristen's explicit approval of the spend."""
+    Extraction is a cheap task: default model gpt-4o-mini. The prompt
+    lists the 12 fact statements; the model returns the fact index and
+    whether the sentence asserts it true or false."""
 
-    def __init__(self, *a, **k):
-        raise RuntimeError(
-            "LLMExtractor needs an approved API spend; use ModeledExtractor")
+    def __init__(self, model="openai/gpt-4o-mini", cap_usd=5.00):
+        import consolidation
+        self.client = consolidation.OpenRouterClient(model=model,
+                                                     cap_usd=cap_usd)
+        self.facts_block = "\n".join(
+            f"{i}. {s}" for i, (s, _, _) in enumerate(FACTS))
+
+    def extract(self, sentence, source):
+        import json as _json
+        import re as _re
+        body = sentence.split("] ", 1)[1] if "] " in sentence else sentence
+        prompt = (f"Facts:\n{self.facts_block}\n\n"
+                  f'Sentence: "{body}"\n\n'
+                  "Which fact does the sentence report on, and does it "
+                  "assert that fact is TRUE or FALSE? Return ONLY JSON: "
+                  '{"fact": <index>, "says_true": <true|false>}')
+        text, _ = self.client.complete(
+            prompt, system="You extract structured data. "
+                           "Return only JSON.")
+        m = _re.search(r"\{.*\}", text, _re.S)
+        data = _json.loads(m.group(0))
+        return int(data["fact"]), bool(data["says_true"])
 
 
 def bayes_update(prior, says_true, acc):
@@ -193,11 +211,12 @@ def bayes_update(prior, says_true, acc):
 class NewsroomAgent:
     """Ledger-backed newsroom memory."""
 
-    def __init__(self, rng):
+    def __init__(self, rng, extractor=None):
         self.rng = rng
         self.dir = tempfile.mkdtemp(prefix="newsroom-")
         self.L = Ledger(self.dir)
-        self.extractor = ModeledExtractor(rng)
+        self.extractor = extractor if extractor is not None \
+            else ModeledExtractor(rng)
         for name, tier, _, _ in SOURCES:
             if tier:
                 self.L.register_writer(name, tier)
@@ -219,7 +238,9 @@ class NewsroomAgent:
         combos = [("D1", "noisy-and", [1, 2]), ("D2", "noisy-or", [1, 2]),
                   ("D3", "noisy-and", [3, 4, 5]), ("D4", "noisy-or", [6, 7])]
         for name, kind, parents in combos:
-            did = self.L.assert_claim(f"derived {name}", 0.5)
+            joiner = " AND " if kind == "noisy-and" else " OR "
+            stmt = joiner.join(FACTS[p][0] for p in parents)
+            did = self.L.assert_claim(f"derived {name}: {stmt}", 0.5)
             for p in parents:
                 self.L.add_support(did, self.facts[p], "evidential")
             self.L.set_combo(did, kind)
@@ -334,8 +355,8 @@ class NewsroomAgent:
 class NaiveNewsroom(NewsroomAgent):
     """Frozen baseline: identical processing, derived frozen at step 5."""
 
-    def __init__(self, rng):
-        super().__init__(rng)
+    def __init__(self, rng, extractor=None):
+        super().__init__(rng, extractor=extractor)
         self.frozen_derived = None
 
     def freeze(self):
@@ -351,11 +372,12 @@ class NaiveNewsroom(NewsroomAgent):
 # run
 # ----------------------------------------------------------------------
 
-def run_trial(seed, steps=60, flip_p=0.04):
+def run_trial(seed, steps=60, flip_p=0.04, extractor_factory=None):
     rng = random.Random(seed)
     truth = [{i: rng.random() < 0.5 for i in range(N_FACTS)}]
-    agent = NewsroomAgent(rng)
-    naive = NaiveNewsroom(rng)
+    shared_ext = extractor_factory(rng) if extractor_factory else None
+    agent = NewsroomAgent(rng, extractor=shared_ext)
+    naive = NaiveNewsroom(rng, extractor=shared_ext)
     truth_history = [dict(truth[0])]
     # initial report sweep so both agents start informed (shared extraction)
     for i in range(N_FACTS):

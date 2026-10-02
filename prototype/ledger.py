@@ -94,6 +94,13 @@ CREATE TABLE IF NOT EXISTS policies(
   version     INTEGER NOT NULL,
   PRIMARY KEY (name, txn_from)
 );
+CREATE TABLE IF NOT EXISTS claim_topics(
+  claim_id TEXT NOT NULL,
+  txn_from TEXT NOT NULL,
+  txn_to   TEXT,
+  topic    TEXT NOT NULL,
+  PRIMARY KEY (claim_id, txn_from)
+);
 """
 
 COMBO_KINDS = ("noisy-and", "noisy-or")
@@ -586,6 +593,33 @@ class Ledger:
             " ORDER BY txn_from DESC LIMIT 1",
             (name, t, t)).fetchone()
         return dict(r) if r else None
+
+    def assign_topic(self, claim_id, topic, actor="system", t=None):
+        """Assign a proposition-identity topic to a claim (bitemporal).
+        Topics are how the ledger knows two claims are about the same
+        proposition; the consolidation pass assigns them, humans can
+        override, detect_contradictions consumes them via topic_of."""
+        if self._live_claim(claim_id) is None:
+            raise KeyError(f"unknown claim {claim_id}")
+        t = t or _now()
+        self.db.execute(
+            "UPDATE claim_topics SET txn_to = ?"
+            " WHERE claim_id = ? AND txn_to IS NULL", (t, claim_id))
+        self.db.execute(
+            "INSERT INTO claim_topics(claim_id, txn_from, topic)"
+            " VALUES (?, ?, ?)", (claim_id, t, str(topic)))
+        self.db.commit()
+        self._emit("topic_assigned",
+                   {"claim_id": claim_id, "topic": str(topic)},
+                   actor=actor, t=t)
+
+    def get_topic(self, claim_id):
+        """Live topic of a claim, or None."""
+        r = self.db.execute(
+            "SELECT topic FROM claim_topics"
+            " WHERE claim_id = ? AND txn_to IS NULL",
+            (claim_id,)).fetchone()
+        return r["topic"] if r else None
 
     def retract_support(self, claim_id, supports_id, actor="system", t=None):
         t = t or _now()

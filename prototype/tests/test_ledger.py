@@ -650,3 +650,59 @@ def test_detect_unfiltered_interval_low_precision_documented(ledger):
     ledger.set_interval(a, 0.9, 0.95)
     ledger.set_interval(b, 0.0, 0.05)
     assert len(ledger.detect_contradictions()) == 1
+
+
+# ----------------------------------------------------------------------
+# v0.7: topics + consolidation pass (Design Memo 08)
+# ----------------------------------------------------------------------
+
+def test_topics_bitemporal(ledger):
+    a = ledger.assert_claim("some claim", 0.5)
+    assert ledger.get_topic(a) is None
+    ledger.assign_topic(a, "prop:weather")
+    assert ledger.get_topic(a) == "prop:weather"
+    ledger.assign_topic(a, "prop:climate")
+    assert ledger.get_topic(a) == "prop:climate"
+    # detect consumes topics via get_topic
+    b = ledger.assert_claim("other claim", 0.5)
+    ledger.set_interval(a, 0.9, 0.95)
+    ledger.set_interval(b, 0.0, 0.05)
+    assert ledger.detect_contradictions(topic_of=ledger.get_topic) == []
+    ledger.assign_topic(b, "prop:climate")
+    assert len(ledger.detect_contradictions(
+        topic_of=ledger.get_topic)) == 1
+
+
+def test_consolidator_with_fake_llm(ledger):
+    import consolidation
+    a = ledger.assert_claim("The bridge is safe", 0.9)
+    b = ledger.assert_claim("The bridge is unsafe", 0.85)
+    c = ledger.assert_claim("The bridge passed inspection", 0.8)
+    d = ledger.assert_claim("Bridge deemed safe by inspectors", 0.8)
+    reply = ('{"contradicts": [["%s","%s"]], "same": [["%s","%s"]], '
+             '"supports": [["%s","%s"]]}' % (a, b, a, d, c, a))
+    fake = consolidation.FakeLLM(reply)
+    rep = consolidation.Consolidator(ledger, fake).run()
+    assert len(rep["contradictions_declared"]) == 1
+    assert ledger.open_contradictions()[0]["payload"]["signal"] == \
+        "llm-consolidation"
+    assert ledger.get_topic(a) == ledger.get_topic(d)
+    assert ledger.get_topic(a) == f"prop:{min(a, d)}"
+    assert rep["supports_proposed"] == [(c, a)]
+    assert rep["cost_usd"] == 0.0
+    # unknown ids in a reply are dropped, not crashed on
+    bad = consolidation.FakeLLM(
+        '{"contradicts": [["NOPE","%s"]], "same": [], "supports": []}' % a)
+    rep2 = consolidation.Consolidator(ledger, bad).run()
+    assert rep2["contradictions_declared"] == []
+
+
+def test_parse_relations_robust():
+    import consolidation
+    text = 'Here you go:\n{"contradicts": [["A","B"]], "same": [], ' \
+           '"supports": [["A","A"],["C","D"]]} trailing'
+    rel = consolidation.parse_relations(text)
+    assert rel["contradicts"] == [("A", "B")]
+    assert rel["supports"] == [("C", "D")]  # self-pair dropped
+    with pytest.raises(ValueError):
+        consolidation.parse_relations("no json here")
