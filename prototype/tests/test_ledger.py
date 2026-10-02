@@ -146,7 +146,10 @@ def test_kill_metrics(ledger):
     assert m["brier"] is not None and 0.0 <= m["brier"] <= 1.0
     assert m["n_manual_overrides"] == 1
     assert m["override_rate"] == pytest.approx(1 / m["n_score_revisions"])
-    assert len(m["trigger_log"]) == 1
+    # Two revisit passes logged: the explicit evidence revisit, plus the
+    # one manual_score runs over dependents since v0.11.1 (c has none,
+    # but the pass itself is audited).
+    assert len(m["trigger_log"]) == 2
     # Churn: scores moved twice in the same direction -> no sign change.
     assert m["churn"][c] == 0
 
@@ -1080,3 +1083,27 @@ def test_verify_store_detects_log_corruption(ledger, tmp_path):
     rep = ledger.verify_store()
     assert not rep["ok"]
     assert any("unparseable" in p for p in rep["problems"])
+
+
+def test_kill_metrics_tolerates_mixed_t_types(ledger):
+    # Regression (OVERRIDE-CAL-01): a step-clocked (int t) revision
+    # history plus a wall-clock (ISO string t) human manual_score used
+    # to crash kill_metrics at hist.sort() — int vs str comparison.
+    cid = ledger.assert_claim("mixed clock claim", 0.5)
+    ledger._set_score(cid, 0.7, None, t=3)
+    ledger.manual_score(cid, 0.2)  # default t: ISO string
+    km = ledger.kill_metrics()
+    assert km["n_manual_overrides"] == 1
+    assert km["override_rate"] is not None and km["override_rate"] > 0
+
+
+def test_manual_score_propagates_to_dependents(ledger):
+    # v0.11.1: a human correction re-derives dependents, like evidence.
+    fact = ledger.assert_claim("propagation fact", 0.5)
+    dep = ledger.assert_claim("propagation dependent", 0.5)
+    ledger.add_support(dep, fact, "evidential", p_given=0.9,
+                       p_given_not=0.1)
+    before = ledger.get_score(dep)
+    ledger.manual_score(fact, 0.95)
+    after = ledger.get_score(dep)
+    assert after > before + 0.05

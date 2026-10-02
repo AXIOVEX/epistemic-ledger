@@ -1,0 +1,407 @@
+{
+ "baseline": [
+  {
+   "seed": 0,
+   "ledger_err": 0.140625,
+   "naive_err": 0.221875,
+   "ledger_derived_err": 0.12916666666666668,
+   "override_rate": 0.0
+  },
+  {
+   "seed": 1,
+   "ledger_err": 0.1375,
+   "naive_err": 0.184375,
+   "ledger_derived_err": 0.20833333333333334,
+   "override_rate": 0.0
+  },
+  {
+   "seed": 2,
+   "ledger_err": 0.16979166666666667,
+   "naive_err": 0.178125,
+   "ledger_derived_err": 0.16666666666666666,
+   "override_rate": 0.0
+  },
+  {
+   "seed": 3,
+   "ledger_err": 0.15208333333333332,
+   "naive_err": 0.14895833333333333,
+   "ledger_derived_err": 0.11666666666666667,
+   "override_rate": 0.0
+  },
+  {
+   "seed": 4,
+   "ledger_err": 0.12604166666666666,
+   "naive_err": 0.18333333333333332,
+   "ledger_derived_err": 0.10416666666666667,
+   "override_rate": 0.0
+  }
+ ],
+ "personas": [
+  {
+   "persona": "diligent",
+   "per_seed": [
+    {
+     "seed": 0,
+     "ledger_err": 0.09270833333333334,
+     "naive_err": 0.221875,
+     "ledger_derived_err": 0.1,
+     "override_rate": 0.01948051948051948,
+     "n_manual_overrides": 24,
+     "reviewer_calls": 24,
+     "breached": []
+    },
+    {
+     "seed": 1,
+     "ledger_err": 0.06770833333333333,
+     "naive_err": 0.184375,
+     "ledger_derived_err": 0.10833333333333334,
+     "override_rate": 0.016116035455278,
+     "n_manual_overrides": 20,
+     "reviewer_calls": 20,
+     "breached": []
+    },
+    {
+     "seed": 2,
+     "ledger_err": 0.06041666666666667,
+     "naive_err": 0.178125,
+     "ledger_derived_err": 0.07083333333333333,
+     "override_rate": 0.02434928631402183,
+     "n_manual_overrides": 29,
+     "reviewer_calls": 29,
+     "breached": []
+    },
+    {
+     "seed": 3,
+     "ledger_err": 0.075,
+     "naive_err": 0.14895833333333333,
+     "ledger_derived_err": 0.08333333333333333,
+     "override_rate": 0.020338983050847456,
+     "n_manual_overrides": 24,
+     "reviewer_calls": 24,
+     "breached": []
+    },
+    {
+     "seed": 4,
+     "ledger_err": 0.08333333333333333,
+     "naive_err": 0.18333333333333332,
+     "ledger_derived_err": 0.06666666666666667,
+     "override_rate": 0.0199479618386817,
+     "n_manual_overrides": 23,
+     "reviewer_calls": 23,
+     "breached": []
+    }
+   ],
+   "mean": {
+    "ledger_err": 0.07583333333333334,
+    "ledger_derived_err": 0.08583333333333334,
+    "override_rate": 0.020046557227869695,
+    "n_manual_overrides": 24.0
+   }
+  },
+  {
+   "persona": "diligent+prop",
+   "per_seed": [
+    {
+     "seed": 0,
+     "ledger_err": 0.09270833333333334,
+     "naive_err": 0.221875,
+     "ledger_derived_err": 0.1,
+     "override_rate": 0.01948051948051948,
+     "n_manual_overrides": 24,
+     "reviewer_calls": 24,
+     "breached": []
+    },
+    {
+     "seed": 1,
+     "ledger_err": 0.06770833333333333,
+     "naive_err": 0.184375,
+     "ledger_derived_err": 0.10833333333333334,
+     "override_rate": 0.016116035455278,
+     "n_manual_overrides": 20,
+     "reviewer_calls": 20,
+     "breached": []
+    },
+    {
+     "seed": 2,
+     "ledger_err": 0.06041666666666667,
+     "naive_err": 0.178125,
+     "ledger_derived_err": 0.07083333333333333,
+     "override_rate": 0.02434928631402183,
+     "n_manual_overrides": 29,
+     "reviewer_calls": 29,
+     "breached": []
+    },
+    {
+     "seed": 3,
+     "ledger_err": 0.075,
+     "naive_err": 0.14895833333333333,
+     "ledger_derived_err": 0.08333333333333333,
+     "override_rate": 0.020338983050847456,
+     "n_manual_overrides": 24,
+     "reviewer_calls": 24,
+     "breached": []
+    },
+    {
+     "seed": 4,
+     "ledger_err": 0.08333333333333333,
+     "naive_err": 0.18333333333333332,
+     "ledger_derived_err": 0.06666666666666667,
+     "override_rate": 0.0199479618386817,
+     "n_manual_overrides": 23,
+     "reviewer_calls": 23,
+     "breached": []
+    }
+   ],
+   "mean": {
+    "ledger_err": 0.07583333333333334,
+    "ledger_derived_err": 0.08583333333333334,
+    "override_rate": 0.020046557227869695,
+    "n_manual_overrides": 24.0
+   }
+  },
+  {
+   "persona": "spot",
+   "per_seed": [
+    {
+     "seed": 0,
+     "ledger_err": 0.14270833333333333,
+     "naive_err": 0.221875,
+     "ledger_derived_err": 0.13333333333333333,
+     "override_rate": 0.004095004095004095,
+     "n_manual_overrides": 5,
+     "reviewer_calls": 5,
+     "breached": []
+    },
+    {
+     "seed": 1,
+     "ledger_err": 0.096875,
+     "naive_err": 0.184375,
+     "ledger_derived_err": 0.14166666666666666,
+     "override_rate": 0.004971002485501243,
+     "n_manual_overrides": 6,
+     "reviewer_calls": 6,
+     "breached": []
+    },
+    {
+     "seed": 2,
+     "ledger_err": 0.12708333333333333,
+     "naive_err": 0.178125,
+     "ledger_derived_err": 0.11666666666666667,
+     "override_rate": 0.004979253112033195,
+     "n_manual_overrides": 6,
+     "reviewer_calls": 6,
+     "breached": []
+    },
+    {
+     "seed": 3,
+     "ledger_err": 0.13229166666666667,
+     "naive_err": 0.14895833333333333,
+     "ledger_derived_err": 0.09166666666666666,
+     "override_rate": 0.005203816131830009,
+     "n_manual_overrides": 6,
+     "reviewer_calls": 6,
+     "breached": []
+    },
+    {
+     "seed": 4,
+     "ledger_err": 0.10520833333333333,
+     "naive_err": 0.18333333333333332,
+     "ledger_derived_err": 0.07916666666666666,
+     "override_rate": 0.0044014084507042256,
+     "n_manual_overrides": 5,
+     "reviewer_calls": 5,
+     "breached": []
+    }
+   ],
+   "mean": {
+    "ledger_err": 0.12083333333333332,
+    "ledger_derived_err": 0.1125,
+    "override_rate": 0.0047300968550145536,
+    "n_manual_overrides": 5.6
+   }
+  },
+  {
+   "persona": "noisy",
+   "per_seed": [
+    {
+     "seed": 0,
+     "ledger_err": 0.07395833333333333,
+     "naive_err": 0.221875,
+     "ledger_derived_err": 0.0625,
+     "override_rate": 0.022453889334402566,
+     "n_manual_overrides": 28,
+     "reviewer_calls": 28,
+     "breached": []
+    },
+    {
+     "seed": 1,
+     "ledger_err": 0.07083333333333333,
+     "naive_err": 0.184375,
+     "ledger_derived_err": 0.11666666666666667,
+     "override_rate": 0.01862348178137652,
+     "n_manual_overrides": 23,
+     "reviewer_calls": 23,
+     "breached": []
+    },
+    {
+     "seed": 2,
+     "ledger_err": 0.07083333333333333,
+     "naive_err": 0.178125,
+     "ledger_derived_err": 0.09166666666666666,
+     "override_rate": 0.02512562814070352,
+     "n_manual_overrides": 30,
+     "reviewer_calls": 30,
+     "breached": []
+    },
+    {
+     "seed": 3,
+     "ledger_err": 0.08125,
+     "naive_err": 0.14895833333333333,
+     "ledger_derived_err": 0.09166666666666666,
+     "override_rate": 0.022670025188916875,
+     "n_manual_overrides": 27,
+     "reviewer_calls": 27,
+     "breached": []
+    },
+    {
+     "seed": 4,
+     "ledger_err": 0.08958333333333333,
+     "naive_err": 0.18333333333333332,
+     "ledger_derived_err": 0.06666666666666667,
+     "override_rate": 0.02129471890971039,
+     "n_manual_overrides": 25,
+     "reviewer_calls": 25,
+     "breached": []
+    }
+   ],
+   "mean": {
+    "ledger_err": 0.07729166666666668,
+    "ledger_derived_err": 0.08583333333333333,
+    "override_rate": 0.022033548671021974,
+    "n_manual_overrides": 26.6
+   }
+  },
+  {
+   "persona": "diligent-cad1",
+   "per_seed": [
+    {
+     "seed": 0,
+     "ledger_err": 0.008333333333333333,
+     "naive_err": 0.221875,
+     "ledger_derived_err": 0.0125,
+     "override_rate": 0.03656597774244833,
+     "n_manual_overrides": 46,
+     "reviewer_calls": 46,
+     "breached": []
+    },
+    {
+     "seed": 1,
+     "ledger_err": 0.007291666666666667,
+     "naive_err": 0.184375,
+     "ledger_derived_err": 0.0125,
+     "override_rate": 0.0267639902676399,
+     "n_manual_overrides": 33,
+     "reviewer_calls": 33,
+     "breached": []
+    },
+    {
+     "seed": 2,
+     "ledger_err": 0.005208333333333333,
+     "naive_err": 0.178125,
+     "ledger_derived_err": 0.004166666666666667,
+     "override_rate": 0.03940886699507389,
+     "n_manual_overrides": 48,
+     "reviewer_calls": 48,
+     "breached": []
+    },
+    {
+     "seed": 3,
+     "ledger_err": 0.008333333333333333,
+     "naive_err": 0.14895833333333333,
+     "ledger_derived_err": 0.0,
+     "override_rate": 0.038174273858921165,
+     "n_manual_overrides": 46,
+     "reviewer_calls": 46,
+     "breached": []
+    },
+    {
+     "seed": 4,
+     "ledger_err": 0.0010416666666666667,
+     "naive_err": 0.18333333333333332,
+     "ledger_derived_err": 0.0,
+     "override_rate": 0.03469210754553339,
+     "n_manual_overrides": 40,
+     "reviewer_calls": 40,
+     "breached": []
+    }
+   ],
+   "mean": {
+    "ledger_err": 0.0060416666666666665,
+    "ledger_derived_err": 0.005833333333333334,
+    "override_rate": 0.035121043281923336,
+    "n_manual_overrides": 42.6
+   }
+  },
+  {
+   "persona": "diligent-cad15",
+   "per_seed": [
+    {
+     "seed": 0,
+     "ledger_err": 0.14479166666666668,
+     "naive_err": 0.221875,
+     "ledger_derived_err": 0.15416666666666667,
+     "override_rate": 0.008835341365461847,
+     "n_manual_overrides": 11,
+     "reviewer_calls": 11,
+     "breached": []
+    },
+    {
+     "seed": 1,
+     "ledger_err": 0.10729166666666666,
+     "naive_err": 0.184375,
+     "ledger_derived_err": 0.15833333333333333,
+     "override_rate": 0.009884678747940691,
+     "n_manual_overrides": 12,
+     "reviewer_calls": 12,
+     "breached": []
+    },
+    {
+     "seed": 2,
+     "ledger_err": 0.11979166666666667,
+     "naive_err": 0.178125,
+     "ledger_derived_err": 0.12083333333333333,
+     "override_rate": 0.013008130081300813,
+     "n_manual_overrides": 16,
+     "reviewer_calls": 16,
+     "breached": []
+    },
+    {
+     "seed": 3,
+     "ledger_err": 0.14270833333333333,
+     "naive_err": 0.14895833333333333,
+     "ledger_derived_err": 0.12916666666666668,
+     "override_rate": 0.00847457627118644,
+     "n_manual_overrides": 10,
+     "reviewer_calls": 10,
+     "breached": []
+    },
+    {
+     "seed": 4,
+     "ledger_err": 0.09791666666666667,
+     "naive_err": 0.18333333333333332,
+     "ledger_derived_err": 0.08333333333333333,
+     "override_rate": 0.007785467128027681,
+     "n_manual_overrides": 9,
+     "reviewer_calls": 9,
+     "breached": []
+    }
+   ],
+   "mean": {
+    "ledger_err": 0.12250000000000001,
+    "ledger_derived_err": 0.12916666666666668,
+    "override_rate": 0.009597638718783493,
+    "n_manual_overrides": 11.6
+   }
+  }
+ ]
+}

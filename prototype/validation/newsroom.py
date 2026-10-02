@@ -445,7 +445,11 @@ class NaiveNewsroom(NewsroomAgent):
 # ----------------------------------------------------------------------
 
 def run_trial(seed, steps=60, flip_p=0.04, extractor_factory=None,
-              temper=1.0):
+              temper=1.0, reviewer=None):
+    """reviewer: optional callable(agent, cur_truth, step) invoked each
+    step after trust verification and before the quiz — a scripted
+    human-in-the-loop hook (OVERRIDE-CAL-01). None = published
+    behavior, exact."""
     rng = random.Random(seed)
     truth = [{i: rng.random() < 0.5 for i in range(N_FACTS)}]
     shared_ext = extractor_factory(rng) if extractor_factory else None
@@ -511,6 +515,8 @@ def run_trial(seed, steps=60, flip_p=0.04, extractor_factory=None,
                 naive.ingest_extracted(fact_id, extracted, name, step)
         agent.verify_trust(step, truth_history)
         naive.verify_trust(step, truth_history)
+        if reviewer is not None:
+            reviewer(agent, cur, step)
         if step == 5:
             naive.freeze()
         if step in (5, 10, 15, 20, 25, 30):
@@ -538,7 +544,9 @@ def run_trial(seed, steps=60, flip_p=0.04, extractor_factory=None,
              "dropped_extractions": agent.dropped_extractions,
              "kill_ok": bars["ok"],
              "breached": [b["criterion"] for b in bars["breached"]],
-             "n_open_contra": km["n_open_contradictions"]})
+             "n_open_contra": km["n_open_contradictions"],
+             "n_manual_overrides": km["n_manual_overrides"],
+             "override_rate": km["override_rate"]})
 
 
 if __name__ == "__main__":

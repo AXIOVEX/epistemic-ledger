@@ -621,10 +621,18 @@ class Ledger:
         return report
 
     def manual_score(self, claim_id, score, actor="human", t=None):
-        """A human hand-sets a score. Counts toward the override-rate metric."""
+        """A human hand-sets a score. Counts toward the override-rate
+        metric. Propagates to dependents: a human correction is new
+        information, and the revisit contract (dependents re-derive)
+        applies to it exactly as to ingested evidence. Before
+        v0.11.1 the dependents were left stale until evidence next
+        touched the parent — OVERRIDE-CAL-01 measured that gap at
+        ~2 points of derived error under an identical reviewer."""
         t = t or _now()
         old, new = self._set_score(claim_id, score, None, actor=actor, t=t)
-        return {"claim_id": claim_id, "old": old, "new": new}
+        rep = self._revisit(claim_id, {claim_id: new}, actor=actor, t=t)
+        return {"claim_id": claim_id, "old": old, "new": new,
+                "revisited": len(rep["updates"])}
 
     def supersede(self, old_claim_id, statement, prior, actor="system", t=None):
         """Correction: close the old claim's transaction-time interval, open a new claim."""
@@ -1615,10 +1623,15 @@ class Ledger:
         #    Sub-materiality tug-of-war (balanced adversarial reports,
         #    propagation residue) is absorbed - it changes no decision.
         by_claim = {}
-        for e in score_revs:
+        for seq, e in enumerate(score_revs):
             p = e["payload"]
+            # Order by log sequence, not by t: t is caller-supplied and
+            # may mix types (ISO strings from _now(), ints from logical
+            # clocks) — sorting on it crashed kill_metrics the first
+            # time a human manual_score met a step-clocked trial
+            # (OVERRIDE-CAL-01). Append order IS transaction order.
             by_claim.setdefault(p["claim_id"], []).append(
-                (e["t"], p["old_score"], p["new_score"]))
+                (seq, p["old_score"], p["new_score"]))
         mat_of = {r["claim_id"]: float(r["materiality"])
                   for r in self.db.execute(
                       "SELECT claim_id, materiality FROM claims"
@@ -1743,7 +1756,12 @@ class Ledger:
                                     # the Brier bar's job.
         "max_fanout": 100,           # provisional: transitive support size
         "brier": 0.25,               # worse than chance = dead
-        "override_rate": 0.20,       # humans override >20% = loop untrusted
+        "override_rate": 0.20,       # OVERRIDE-CAL-01: scripted reviewers
+                                    # (incl. an every-step corrector) land
+                                    # at 0.005-0.036 in the newsroom — the
+                                    # bar can only trip in quiet ledgers,
+                                    # where hand edits dominate revisions:
+                                    # the condition it exists to catch.
         "n_open_contradictions": 10,  # provisional: unresolved pile-up
     }
 
