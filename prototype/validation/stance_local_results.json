@@ -1,0 +1,983 @@
+{
+ "A:realwire": {
+  "correct": 62,
+  "fact_wrong": 9,
+  "value_wrong": 60,
+  "errors": 0,
+  "n": 131,
+  "pools": {
+   "assert": {
+    "correct": 2,
+    "fact_wrong": 4,
+    "value_wrong": 53,
+    "errors": 0,
+    "n": 59
+   },
+   "deny": {
+    "correct": 60,
+    "fact_wrong": 5,
+    "value_wrong": 7,
+    "errors": 0,
+    "n": 72
+   }
+  },
+  "per_fact": {
+   "0": {
+    "correct": 6,
+    "fact_wrong": 0,
+    "value_wrong": 6,
+    "errors": 0,
+    "n": 12
+   },
+   "1": {
+    "correct": 5,
+    "fact_wrong": 1,
+    "value_wrong": 6,
+    "errors": 0,
+    "n": 12
+   },
+   "2": {
+    "correct": 5,
+    "fact_wrong": 5,
+    "value_wrong": 2,
+    "errors": 0,
+    "n": 12
+   },
+   "3": {
+    "correct": 5,
+    "fact_wrong": 0,
+    "value_wrong": 3,
+    "errors": 0,
+    "n": 8
+   },
+   "4": {
+    "correct": 5,
+    "fact_wrong": 1,
+    "value_wrong": 6,
+    "errors": 0,
+    "n": 12
+   },
+   "5": {
+    "correct": 7,
+    "fact_wrong": 0,
+    "value_wrong": 5,
+    "errors": 0,
+    "n": 12
+   },
+   "6": {
+    "correct": 6,
+    "fact_wrong": 0,
+    "value_wrong": 4,
+    "errors": 0,
+    "n": 10
+   },
+   "7": {
+    "correct": 5,
+    "fact_wrong": 1,
+    "value_wrong": 3,
+    "errors": 0,
+    "n": 9
+   },
+   "8": {
+    "correct": 6,
+    "fact_wrong": 0,
+    "value_wrong": 6,
+    "errors": 0,
+    "n": 12
+   },
+   "9": {
+    "correct": 5,
+    "fact_wrong": 0,
+    "value_wrong": 5,
+    "errors": 0,
+    "n": 10
+   },
+   "10": {
+    "correct": 4,
+    "fact_wrong": 0,
+    "value_wrong": 6,
+    "errors": 0,
+    "n": 10
+   },
+   "11": {
+    "correct": 3,
+    "fact_wrong": 1,
+    "value_wrong": 8,
+    "errors": 0,
+    "n": 12
+   }
+  }
+ },
+ "A:realwire_t": {
+  "correct": 115,
+  "fact_wrong": 3,
+  "value_wrong": 9,
+  "errors": 0,
+  "n": 127,
+  "pools": {
+   "assert": {
+    "correct": 69,
+    "fact_wrong": 0,
+    "value_wrong": 3,
+    "errors": 0,
+    "n": 72
+   },
+   "deny": {
+    "correct": 46,
+    "fact_wrong": 3,
+    "value_wrong": 6,
+    "errors": 0,
+    "n": 55
+   }
+  },
+  "per_fact": {
+   "0": {
+    "correct": 10,
+    "fact_wrong": 0,
+    "value_wrong": 1,
+    "errors": 0,
+    "n": 11
+   },
+   "1": {
+    "correct": 7,
+    "fact_wrong": 2,
+    "value_wrong": 3,
+    "errors": 0,
+    "n": 12
+   },
+   "2": {
+    "correct": 12,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 0,
+    "n": 12
+   },
+   "3": {
+    "correct": 12,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 0,
+    "n": 12
+   },
+   "4": {
+    "correct": 10,
+    "fact_wrong": 0,
+    "value_wrong": 1,
+    "errors": 0,
+    "n": 11
+   },
+   "5": {
+    "correct": 7,
+    "fact_wrong": 0,
+    "value_wrong": 2,
+    "errors": 0,
+    "n": 9
+   },
+   "6": {
+    "correct": 12,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 0,
+    "n": 12
+   },
+   "7": {
+    "correct": 12,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 0,
+    "n": 12
+   },
+   "8": {
+    "correct": 7,
+    "fact_wrong": 1,
+    "value_wrong": 0,
+    "errors": 0,
+    "n": 8
+   },
+   "9": {
+    "correct": 12,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 0,
+    "n": 12
+   },
+   "10": {
+    "correct": 6,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 0,
+    "n": 6
+   },
+   "11": {
+    "correct": 8,
+    "fact_wrong": 0,
+    "value_wrong": 2,
+    "errors": 0,
+    "n": 10
+   }
+  }
+ },
+ "B:realwire": {
+  "correct": 85,
+  "fact_wrong": 10,
+  "value_wrong": 36,
+  "errors": 0,
+  "n": 131,
+  "pools": {
+   "assert": {
+    "correct": 54,
+    "fact_wrong": 4,
+    "value_wrong": 1,
+    "errors": 0,
+    "n": 59
+   },
+   "deny": {
+    "correct": 31,
+    "fact_wrong": 6,
+    "value_wrong": 35,
+    "errors": 0,
+    "n": 72
+   }
+  },
+  "per_fact": {
+   "0": {
+    "correct": 8,
+    "fact_wrong": 0,
+    "value_wrong": 4,
+    "errors": 0,
+    "n": 12
+   },
+   "1": {
+    "correct": 9,
+    "fact_wrong": 1,
+    "value_wrong": 2,
+    "errors": 0,
+    "n": 12
+   },
+   "2": {
+    "correct": 5,
+    "fact_wrong": 6,
+    "value_wrong": 1,
+    "errors": 0,
+    "n": 12
+   },
+   "3": {
+    "correct": 3,
+    "fact_wrong": 0,
+    "value_wrong": 5,
+    "errors": 0,
+    "n": 8
+   },
+   "4": {
+    "correct": 7,
+    "fact_wrong": 1,
+    "value_wrong": 4,
+    "errors": 0,
+    "n": 12
+   },
+   "5": {
+    "correct": 7,
+    "fact_wrong": 0,
+    "value_wrong": 5,
+    "errors": 0,
+    "n": 12
+   },
+   "6": {
+    "correct": 10,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 0,
+    "n": 10
+   },
+   "7": {
+    "correct": 5,
+    "fact_wrong": 1,
+    "value_wrong": 3,
+    "errors": 0,
+    "n": 9
+   },
+   "8": {
+    "correct": 12,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 0,
+    "n": 12
+   },
+   "9": {
+    "correct": 8,
+    "fact_wrong": 0,
+    "value_wrong": 2,
+    "errors": 0,
+    "n": 10
+   },
+   "10": {
+    "correct": 4,
+    "fact_wrong": 0,
+    "value_wrong": 6,
+    "errors": 0,
+    "n": 10
+   },
+   "11": {
+    "correct": 7,
+    "fact_wrong": 1,
+    "value_wrong": 4,
+    "errors": 0,
+    "n": 12
+   }
+  }
+ },
+ "B:realwire_t": {
+  "correct": 95,
+  "fact_wrong": 2,
+  "value_wrong": 30,
+  "errors": 0,
+  "n": 127,
+  "pools": {
+   "assert": {
+    "correct": 68,
+    "fact_wrong": 1,
+    "value_wrong": 3,
+    "errors": 0,
+    "n": 72
+   },
+   "deny": {
+    "correct": 27,
+    "fact_wrong": 1,
+    "value_wrong": 27,
+    "errors": 0,
+    "n": 55
+   }
+  },
+  "per_fact": {
+   "0": {
+    "correct": 10,
+    "fact_wrong": 0,
+    "value_wrong": 1,
+    "errors": 0,
+    "n": 11
+   },
+   "1": {
+    "correct": 7,
+    "fact_wrong": 0,
+    "value_wrong": 5,
+    "errors": 0,
+    "n": 12
+   },
+   "2": {
+    "correct": 12,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 0,
+    "n": 12
+   },
+   "3": {
+    "correct": 10,
+    "fact_wrong": 0,
+    "value_wrong": 2,
+    "errors": 0,
+    "n": 12
+   },
+   "4": {
+    "correct": 5,
+    "fact_wrong": 0,
+    "value_wrong": 6,
+    "errors": 0,
+    "n": 11
+   },
+   "5": {
+    "correct": 7,
+    "fact_wrong": 1,
+    "value_wrong": 1,
+    "errors": 0,
+    "n": 9
+   },
+   "6": {
+    "correct": 6,
+    "fact_wrong": 0,
+    "value_wrong": 6,
+    "errors": 0,
+    "n": 12
+   },
+   "7": {
+    "correct": 6,
+    "fact_wrong": 0,
+    "value_wrong": 6,
+    "errors": 0,
+    "n": 12
+   },
+   "8": {
+    "correct": 7,
+    "fact_wrong": 0,
+    "value_wrong": 1,
+    "errors": 0,
+    "n": 8
+   },
+   "9": {
+    "correct": 12,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 0,
+    "n": 12
+   },
+   "10": {
+    "correct": 6,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 0,
+    "n": 6
+   },
+   "11": {
+    "correct": 7,
+    "fact_wrong": 1,
+    "value_wrong": 2,
+    "errors": 0,
+    "n": 10
+   }
+  }
+ },
+ "C:realwire": {
+  "correct": 66,
+  "fact_wrong": 9,
+  "value_wrong": 52,
+  "errors": 4,
+  "n": 131,
+  "pools": {
+   "assert": {
+    "correct": 28,
+    "fact_wrong": 5,
+    "value_wrong": 23,
+    "errors": 3,
+    "n": 59
+   },
+   "deny": {
+    "correct": 38,
+    "fact_wrong": 4,
+    "value_wrong": 29,
+    "errors": 1,
+    "n": 72
+   }
+  },
+  "per_fact": {
+   "0": {
+    "correct": 7,
+    "fact_wrong": 1,
+    "value_wrong": 4,
+    "errors": 0,
+    "n": 12
+   },
+   "1": {
+    "correct": 5,
+    "fact_wrong": 1,
+    "value_wrong": 6,
+    "errors": 0,
+    "n": 12
+   },
+   "2": {
+    "correct": 7,
+    "fact_wrong": 4,
+    "value_wrong": 1,
+    "errors": 0,
+    "n": 12
+   },
+   "3": {
+    "correct": 7,
+    "fact_wrong": 0,
+    "value_wrong": 1,
+    "errors": 0,
+    "n": 8
+   },
+   "4": {
+    "correct": 5,
+    "fact_wrong": 1,
+    "value_wrong": 4,
+    "errors": 2,
+    "n": 12
+   },
+   "5": {
+    "correct": 2,
+    "fact_wrong": 0,
+    "value_wrong": 10,
+    "errors": 0,
+    "n": 12
+   },
+   "6": {
+    "correct": 8,
+    "fact_wrong": 0,
+    "value_wrong": 2,
+    "errors": 0,
+    "n": 10
+   },
+   "7": {
+    "correct": 5,
+    "fact_wrong": 1,
+    "value_wrong": 3,
+    "errors": 0,
+    "n": 9
+   },
+   "8": {
+    "correct": 5,
+    "fact_wrong": 0,
+    "value_wrong": 5,
+    "errors": 2,
+    "n": 12
+   },
+   "9": {
+    "correct": 3,
+    "fact_wrong": 0,
+    "value_wrong": 7,
+    "errors": 0,
+    "n": 10
+   },
+   "10": {
+    "correct": 3,
+    "fact_wrong": 0,
+    "value_wrong": 7,
+    "errors": 0,
+    "n": 10
+   },
+   "11": {
+    "correct": 9,
+    "fact_wrong": 1,
+    "value_wrong": 2,
+    "errors": 0,
+    "n": 12
+   }
+  }
+ },
+ "C:realwire_t": {
+  "correct": 98,
+  "fact_wrong": 1,
+  "value_wrong": 27,
+  "errors": 1,
+  "n": 127,
+  "pools": {
+   "assert": {
+    "correct": 67,
+    "fact_wrong": 0,
+    "value_wrong": 4,
+    "errors": 1,
+    "n": 72
+   },
+   "deny": {
+    "correct": 31,
+    "fact_wrong": 1,
+    "value_wrong": 23,
+    "errors": 0,
+    "n": 55
+   }
+  },
+  "per_fact": {
+   "0": {
+    "correct": 11,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 0,
+    "n": 11
+   },
+   "1": {
+    "correct": 8,
+    "fact_wrong": 1,
+    "value_wrong": 3,
+    "errors": 0,
+    "n": 12
+   },
+   "2": {
+    "correct": 12,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 0,
+    "n": 12
+   },
+   "3": {
+    "correct": 11,
+    "fact_wrong": 0,
+    "value_wrong": 1,
+    "errors": 0,
+    "n": 12
+   },
+   "4": {
+    "correct": 9,
+    "fact_wrong": 0,
+    "value_wrong": 2,
+    "errors": 0,
+    "n": 11
+   },
+   "5": {
+    "correct": 4,
+    "fact_wrong": 0,
+    "value_wrong": 5,
+    "errors": 0,
+    "n": 9
+   },
+   "6": {
+    "correct": 5,
+    "fact_wrong": 0,
+    "value_wrong": 7,
+    "errors": 0,
+    "n": 12
+   },
+   "7": {
+    "correct": 9,
+    "fact_wrong": 0,
+    "value_wrong": 2,
+    "errors": 1,
+    "n": 12
+   },
+   "8": {
+    "correct": 8,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 0,
+    "n": 8
+   },
+   "9": {
+    "correct": 9,
+    "fact_wrong": 0,
+    "value_wrong": 3,
+    "errors": 0,
+    "n": 12
+   },
+   "10": {
+    "correct": 6,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 0,
+    "n": 6
+   },
+   "11": {
+    "correct": 6,
+    "fact_wrong": 0,
+    "value_wrong": 4,
+    "errors": 0,
+    "n": 10
+   }
+  }
+ },
+ "A:indie": {
+  "correct": 0,
+  "fact_wrong": 0,
+  "value_wrong": 0,
+  "errors": 144,
+  "n": 144,
+  "pools": {
+   "assert": {
+    "correct": 0,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 72,
+    "n": 72
+   },
+   "deny": {
+    "correct": 0,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 72,
+    "n": 72
+   }
+  },
+  "per_fact": {
+   "0": {
+    "correct": 0,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 12,
+    "n": 12
+   },
+   "1": {
+    "correct": 0,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 12,
+    "n": 12
+   },
+   "2": {
+    "correct": 0,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 12,
+    "n": 12
+   },
+   "3": {
+    "correct": 0,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 12,
+    "n": 12
+   },
+   "4": {
+    "correct": 0,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 12,
+    "n": 12
+   },
+   "5": {
+    "correct": 0,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 12,
+    "n": 12
+   },
+   "6": {
+    "correct": 0,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 12,
+    "n": 12
+   },
+   "7": {
+    "correct": 0,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 12,
+    "n": 12
+   },
+   "8": {
+    "correct": 0,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 12,
+    "n": 12
+   },
+   "9": {
+    "correct": 0,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 12,
+    "n": 12
+   },
+   "10": {
+    "correct": 0,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 12,
+    "n": 12
+   },
+   "11": {
+    "correct": 0,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 12,
+    "n": 12
+   }
+  }
+ },
+ "B:indie": {
+  "correct": 0,
+  "fact_wrong": 0,
+  "value_wrong": 0,
+  "errors": 144,
+  "n": 144,
+  "pools": {
+   "assert": {
+    "correct": 0,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 72,
+    "n": 72
+   },
+   "deny": {
+    "correct": 0,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 72,
+    "n": 72
+   }
+  },
+  "per_fact": {
+   "0": {
+    "correct": 0,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 12,
+    "n": 12
+   },
+   "1": {
+    "correct": 0,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 12,
+    "n": 12
+   },
+   "2": {
+    "correct": 0,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 12,
+    "n": 12
+   },
+   "3": {
+    "correct": 0,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 12,
+    "n": 12
+   },
+   "4": {
+    "correct": 0,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 12,
+    "n": 12
+   },
+   "5": {
+    "correct": 0,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 12,
+    "n": 12
+   },
+   "6": {
+    "correct": 0,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 12,
+    "n": 12
+   },
+   "7": {
+    "correct": 0,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 12,
+    "n": 12
+   },
+   "8": {
+    "correct": 0,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 12,
+    "n": 12
+   },
+   "9": {
+    "correct": 0,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 12,
+    "n": 12
+   },
+   "10": {
+    "correct": 0,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 12,
+    "n": 12
+   },
+   "11": {
+    "correct": 0,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 12,
+    "n": 12
+   }
+  }
+ },
+ "C:indie": {
+  "correct": 0,
+  "fact_wrong": 0,
+  "value_wrong": 0,
+  "errors": 144,
+  "n": 144,
+  "pools": {
+   "assert": {
+    "correct": 0,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 72,
+    "n": 72
+   },
+   "deny": {
+    "correct": 0,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 72,
+    "n": 72
+   }
+  },
+  "per_fact": {
+   "0": {
+    "correct": 0,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 12,
+    "n": 12
+   },
+   "1": {
+    "correct": 0,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 12,
+    "n": 12
+   },
+   "2": {
+    "correct": 0,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 12,
+    "n": 12
+   },
+   "3": {
+    "correct": 0,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 12,
+    "n": 12
+   },
+   "4": {
+    "correct": 0,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 12,
+    "n": 12
+   },
+   "5": {
+    "correct": 0,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 12,
+    "n": 12
+   },
+   "6": {
+    "correct": 0,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 12,
+    "n": 12
+   },
+   "7": {
+    "correct": 0,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 12,
+    "n": 12
+   },
+   "8": {
+    "correct": 0,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 12,
+    "n": 12
+   },
+   "9": {
+    "correct": 0,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 12,
+    "n": 12
+   },
+   "10": {
+    "correct": 0,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 12,
+    "n": 12
+   },
+   "11": {
+    "correct": 0,
+    "fact_wrong": 0,
+    "value_wrong": 0,
+    "errors": 12,
+    "n": 12
+   }
+  }
+ }
+}

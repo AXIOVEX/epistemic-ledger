@@ -1,0 +1,6819 @@
+{
+ "A:realwire": {
+  "0": {
+   "fact": 0,
+   "pool": "assert",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "1": {
+   "fact": 0,
+   "pool": "assert",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "2": {
+   "fact": 0,
+   "pool": "assert",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "3": {
+   "fact": 0,
+   "pool": "assert",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "4": {
+   "fact": 0,
+   "pool": "assert",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "5": {
+   "fact": 0,
+   "pool": "assert",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "6": {
+   "fact": 0,
+   "pool": "deny",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "7": {
+   "fact": 0,
+   "pool": "deny",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "8": {
+   "fact": 0,
+   "pool": "deny",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "9": {
+   "fact": 0,
+   "pool": "deny",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "10": {
+   "fact": 0,
+   "pool": "deny",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "11": {
+   "fact": 0,
+   "pool": "deny",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "12": {
+   "fact": 1,
+   "pool": "assert",
+   "got_fact": 1,
+   "got_true": false
+  },
+  "13": {
+   "fact": 1,
+   "pool": "assert",
+   "got_fact": 1,
+   "got_true": false
+  },
+  "14": {
+   "fact": 1,
+   "pool": "assert",
+   "got_fact": 1,
+   "got_true": false
+  },
+  "15": {
+   "fact": 1,
+   "pool": "assert",
+   "got_fact": 1,
+   "got_true": false
+  },
+  "16": {
+   "fact": 1,
+   "pool": "assert",
+   "got_fact": 1,
+   "got_true": false
+  },
+  "17": {
+   "fact": 1,
+   "pool": "assert",
+   "got_fact": 1,
+   "got_true": false
+  },
+  "18": {
+   "fact": 1,
+   "pool": "deny",
+   "got_fact": 1,
+   "got_true": false
+  },
+  "19": {
+   "fact": 1,
+   "pool": "deny",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "20": {
+   "fact": 1,
+   "pool": "deny",
+   "got_fact": 1,
+   "got_true": false
+  },
+  "21": {
+   "fact": 1,
+   "pool": "deny",
+   "got_fact": 1,
+   "got_true": false
+  },
+  "22": {
+   "fact": 1,
+   "pool": "deny",
+   "got_fact": 1,
+   "got_true": false
+  },
+  "23": {
+   "fact": 1,
+   "pool": "deny",
+   "got_fact": 1,
+   "got_true": false
+  },
+  "24": {
+   "fact": 2,
+   "pool": "assert",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "25": {
+   "fact": 2,
+   "pool": "assert",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "26": {
+   "fact": 2,
+   "pool": "assert",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "27": {
+   "fact": 2,
+   "pool": "assert",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "28": {
+   "fact": 2,
+   "pool": "assert",
+   "got_fact": 2,
+   "got_true": false
+  },
+  "29": {
+   "fact": 2,
+   "pool": "assert",
+   "got_fact": 2,
+   "got_true": false
+  },
+  "30": {
+   "fact": 2,
+   "pool": "deny",
+   "got_fact": 2,
+   "got_true": false
+  },
+  "31": {
+   "fact": 2,
+   "pool": "deny",
+   "got_fact": 2,
+   "got_true": false
+  },
+  "32": {
+   "fact": 2,
+   "pool": "deny",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "33": {
+   "fact": 2,
+   "pool": "deny",
+   "got_fact": 2,
+   "got_true": false
+  },
+  "34": {
+   "fact": 2,
+   "pool": "deny",
+   "got_fact": 2,
+   "got_true": false
+  },
+  "35": {
+   "fact": 2,
+   "pool": "deny",
+   "got_fact": 2,
+   "got_true": false
+  },
+  "36": {
+   "fact": 3,
+   "pool": "assert",
+   "got_fact": 3,
+   "got_true": false
+  },
+  "37": {
+   "fact": 3,
+   "pool": "assert",
+   "got_fact": 3,
+   "got_true": false
+  },
+  "38": {
+   "fact": 3,
+   "pool": "deny",
+   "got_fact": 3,
+   "got_true": false
+  },
+  "39": {
+   "fact": 3,
+   "pool": "deny",
+   "got_fact": 3,
+   "got_true": false
+  },
+  "40": {
+   "fact": 3,
+   "pool": "deny",
+   "got_fact": 3,
+   "got_true": false
+  },
+  "41": {
+   "fact": 3,
+   "pool": "deny",
+   "got_fact": 3,
+   "got_true": false
+  },
+  "42": {
+   "fact": 3,
+   "pool": "deny",
+   "got_fact": 3,
+   "got_true": false
+  },
+  "43": {
+   "fact": 3,
+   "pool": "deny",
+   "got_fact": 3,
+   "got_true": true
+  },
+  "44": {
+   "fact": 4,
+   "pool": "assert",
+   "got_fact": 4,
+   "got_true": false
+  },
+  "45": {
+   "fact": 4,
+   "pool": "assert",
+   "got_fact": 4,
+   "got_true": false
+  },
+  "46": {
+   "fact": 4,
+   "pool": "assert",
+   "got_fact": 4,
+   "got_true": false
+  },
+  "47": {
+   "fact": 4,
+   "pool": "assert",
+   "got_fact": 4,
+   "got_true": false
+  },
+  "48": {
+   "fact": 4,
+   "pool": "assert",
+   "got_fact": 4,
+   "got_true": false
+  },
+  "49": {
+   "fact": 4,
+   "pool": "assert",
+   "got_fact": 4,
+   "got_true": false
+  },
+  "50": {
+   "fact": 4,
+   "pool": "deny",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "51": {
+   "fact": 4,
+   "pool": "deny",
+   "got_fact": 4,
+   "got_true": false
+  },
+  "52": {
+   "fact": 4,
+   "pool": "deny",
+   "got_fact": 4,
+   "got_true": false
+  },
+  "53": {
+   "fact": 4,
+   "pool": "deny",
+   "got_fact": 4,
+   "got_true": false
+  },
+  "54": {
+   "fact": 4,
+   "pool": "deny",
+   "got_fact": 4,
+   "got_true": false
+  },
+  "55": {
+   "fact": 4,
+   "pool": "deny",
+   "got_fact": 4,
+   "got_true": false
+  },
+  "56": {
+   "fact": 5,
+   "pool": "assert",
+   "got_fact": 5,
+   "got_true": false
+  },
+  "57": {
+   "fact": 5,
+   "pool": "assert",
+   "got_fact": 5,
+   "got_true": false
+  },
+  "58": {
+   "fact": 5,
+   "pool": "assert",
+   "got_fact": 5,
+   "got_true": true
+  },
+  "59": {
+   "fact": 5,
+   "pool": "assert",
+   "got_fact": 5,
+   "got_true": false
+  },
+  "60": {
+   "fact": 5,
+   "pool": "assert",
+   "got_fact": 5,
+   "got_true": true
+  },
+  "61": {
+   "fact": 5,
+   "pool": "assert",
+   "got_fact": 5,
+   "got_true": false
+  },
+  "62": {
+   "fact": 5,
+   "pool": "deny",
+   "got_fact": 5,
+   "got_true": false
+  },
+  "63": {
+   "fact": 5,
+   "pool": "deny",
+   "got_fact": 5,
+   "got_true": false
+  },
+  "64": {
+   "fact": 5,
+   "pool": "deny",
+   "got_fact": 5,
+   "got_true": false
+  },
+  "65": {
+   "fact": 5,
+   "pool": "deny",
+   "got_fact": 5,
+   "got_true": false
+  },
+  "66": {
+   "fact": 5,
+   "pool": "deny",
+   "got_fact": 5,
+   "got_true": false
+  },
+  "67": {
+   "fact": 5,
+   "pool": "deny",
+   "got_fact": 5,
+   "got_true": true
+  },
+  "68": {
+   "fact": 6,
+   "pool": "assert",
+   "got_fact": 6,
+   "got_true": false
+  },
+  "69": {
+   "fact": 6,
+   "pool": "assert",
+   "got_fact": 6,
+   "got_true": false
+  },
+  "70": {
+   "fact": 6,
+   "pool": "assert",
+   "got_fact": 6,
+   "got_true": false
+  },
+  "71": {
+   "fact": 6,
+   "pool": "assert",
+   "got_fact": 6,
+   "got_true": false
+  },
+  "72": {
+   "fact": 6,
+   "pool": "deny",
+   "got_fact": 6,
+   "got_true": false
+  },
+  "73": {
+   "fact": 6,
+   "pool": "deny",
+   "got_fact": 6,
+   "got_true": false
+  },
+  "74": {
+   "fact": 6,
+   "pool": "deny",
+   "got_fact": 6,
+   "got_true": false
+  },
+  "75": {
+   "fact": 6,
+   "pool": "deny",
+   "got_fact": 6,
+   "got_true": false
+  },
+  "76": {
+   "fact": 6,
+   "pool": "deny",
+   "got_fact": 6,
+   "got_true": false
+  },
+  "77": {
+   "fact": 6,
+   "pool": "deny",
+   "got_fact": 6,
+   "got_true": false
+  },
+  "78": {
+   "fact": 7,
+   "pool": "assert",
+   "got_fact": 7,
+   "got_true": false
+  },
+  "79": {
+   "fact": 7,
+   "pool": "assert",
+   "got_fact": 7,
+   "got_true": false
+  },
+  "80": {
+   "fact": 7,
+   "pool": "assert",
+   "got_fact": 7,
+   "got_true": false
+  },
+  "81": {
+   "fact": 7,
+   "pool": "deny",
+   "got_fact": 7,
+   "got_true": false
+  },
+  "82": {
+   "fact": 7,
+   "pool": "deny",
+   "got_fact": 7,
+   "got_true": false
+  },
+  "83": {
+   "fact": 7,
+   "pool": "deny",
+   "got_fact": 7,
+   "got_true": false
+  },
+  "84": {
+   "fact": 7,
+   "pool": "deny",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "85": {
+   "fact": 7,
+   "pool": "deny",
+   "got_fact": 7,
+   "got_true": false
+  },
+  "86": {
+   "fact": 7,
+   "pool": "deny",
+   "got_fact": 7,
+   "got_true": false
+  },
+  "87": {
+   "fact": 8,
+   "pool": "assert",
+   "got_fact": 8,
+   "got_true": false
+  },
+  "88": {
+   "fact": 8,
+   "pool": "assert",
+   "got_fact": 8,
+   "got_true": false
+  },
+  "89": {
+   "fact": 8,
+   "pool": "assert",
+   "got_fact": 8,
+   "got_true": false
+  },
+  "90": {
+   "fact": 8,
+   "pool": "assert",
+   "got_fact": 8,
+   "got_true": false
+  },
+  "91": {
+   "fact": 8,
+   "pool": "assert",
+   "got_fact": 8,
+   "got_true": false
+  },
+  "92": {
+   "fact": 8,
+   "pool": "assert",
+   "got_fact": 8,
+   "got_true": false
+  },
+  "93": {
+   "fact": 8,
+   "pool": "deny",
+   "got_fact": 8,
+   "got_true": false
+  },
+  "94": {
+   "fact": 8,
+   "pool": "deny",
+   "got_fact": 8,
+   "got_true": false
+  },
+  "95": {
+   "fact": 8,
+   "pool": "deny",
+   "got_fact": 8,
+   "got_true": false
+  },
+  "96": {
+   "fact": 8,
+   "pool": "deny",
+   "got_fact": 8,
+   "got_true": false
+  },
+  "97": {
+   "fact": 8,
+   "pool": "deny",
+   "got_fact": 8,
+   "got_true": false
+  },
+  "98": {
+   "fact": 8,
+   "pool": "deny",
+   "got_fact": 8,
+   "got_true": false
+  },
+  "99": {
+   "fact": 9,
+   "pool": "assert",
+   "got_fact": 9,
+   "got_true": false
+  },
+  "100": {
+   "fact": 9,
+   "pool": "assert",
+   "got_fact": 9,
+   "got_true": false
+  },
+  "101": {
+   "fact": 9,
+   "pool": "assert",
+   "got_fact": 9,
+   "got_true": false
+  },
+  "102": {
+   "fact": 9,
+   "pool": "assert",
+   "got_fact": 9,
+   "got_true": false
+  },
+  "103": {
+   "fact": 9,
+   "pool": "deny",
+   "got_fact": 9,
+   "got_true": false
+  },
+  "104": {
+   "fact": 9,
+   "pool": "deny",
+   "got_fact": 9,
+   "got_true": false
+  },
+  "105": {
+   "fact": 9,
+   "pool": "deny",
+   "got_fact": 9,
+   "got_true": false
+  },
+  "106": {
+   "fact": 9,
+   "pool": "deny",
+   "got_fact": 9,
+   "got_true": false
+  },
+  "107": {
+   "fact": 9,
+   "pool": "deny",
+   "got_fact": 9,
+   "got_true": true
+  },
+  "108": {
+   "fact": 9,
+   "pool": "deny",
+   "got_fact": 9,
+   "got_true": false
+  },
+  "109": {
+   "fact": 10,
+   "pool": "assert",
+   "got_fact": 10,
+   "got_true": false
+  },
+  "110": {
+   "fact": 10,
+   "pool": "assert",
+   "got_fact": 10,
+   "got_true": false
+  },
+  "111": {
+   "fact": 10,
+   "pool": "assert",
+   "got_fact": 10,
+   "got_true": false
+  },
+  "112": {
+   "fact": 10,
+   "pool": "assert",
+   "got_fact": 10,
+   "got_true": false
+  },
+  "113": {
+   "fact": 10,
+   "pool": "deny",
+   "got_fact": 10,
+   "got_true": false
+  },
+  "114": {
+   "fact": 10,
+   "pool": "deny",
+   "got_fact": 10,
+   "got_true": true
+  },
+  "115": {
+   "fact": 10,
+   "pool": "deny",
+   "got_fact": 10,
+   "got_true": false
+  },
+  "116": {
+   "fact": 10,
+   "pool": "deny",
+   "got_fact": 10,
+   "got_true": false
+  },
+  "117": {
+   "fact": 10,
+   "pool": "deny",
+   "got_fact": 10,
+   "got_true": true
+  },
+  "118": {
+   "fact": 10,
+   "pool": "deny",
+   "got_fact": 10,
+   "got_true": false
+  },
+  "119": {
+   "fact": 11,
+   "pool": "assert",
+   "got_fact": 11,
+   "got_true": false
+  },
+  "120": {
+   "fact": 11,
+   "pool": "assert",
+   "got_fact": 11,
+   "got_true": false
+  },
+  "121": {
+   "fact": 11,
+   "pool": "assert",
+   "got_fact": 11,
+   "got_true": false
+  },
+  "122": {
+   "fact": 11,
+   "pool": "assert",
+   "got_fact": 11,
+   "got_true": false
+  },
+  "123": {
+   "fact": 11,
+   "pool": "assert",
+   "got_fact": 11,
+   "got_true": false
+  },
+  "124": {
+   "fact": 11,
+   "pool": "assert",
+   "got_fact": 11,
+   "got_true": false
+  },
+  "125": {
+   "fact": 11,
+   "pool": "deny",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "126": {
+   "fact": 11,
+   "pool": "deny",
+   "got_fact": 11,
+   "got_true": false
+  },
+  "127": {
+   "fact": 11,
+   "pool": "deny",
+   "got_fact": 11,
+   "got_true": false
+  },
+  "128": {
+   "fact": 11,
+   "pool": "deny",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "129": {
+   "fact": 11,
+   "pool": "deny",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "130": {
+   "fact": 11,
+   "pool": "deny",
+   "got_fact": 11,
+   "got_true": false
+  }
+ },
+ "A:realwire_t": {
+  "0": {
+   "fact": 0,
+   "pool": "assert",
+   "got_fact": 0,
+   "got_true": true
+  },
+  "1": {
+   "fact": 0,
+   "pool": "assert",
+   "got_fact": 0,
+   "got_true": true
+  },
+  "2": {
+   "fact": 0,
+   "pool": "assert",
+   "got_fact": 0,
+   "got_true": true
+  },
+  "3": {
+   "fact": 0,
+   "pool": "assert",
+   "got_fact": 0,
+   "got_true": true
+  },
+  "4": {
+   "fact": 0,
+   "pool": "assert",
+   "got_fact": 0,
+   "got_true": true
+  },
+  "5": {
+   "fact": 0,
+   "pool": "assert",
+   "got_fact": 0,
+   "got_true": true
+  },
+  "6": {
+   "fact": 0,
+   "pool": "deny",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "7": {
+   "fact": 0,
+   "pool": "deny",
+   "got_fact": 0,
+   "got_true": true
+  },
+  "8": {
+   "fact": 0,
+   "pool": "deny",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "9": {
+   "fact": 0,
+   "pool": "deny",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "10": {
+   "fact": 0,
+   "pool": "deny",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "11": {
+   "fact": 1,
+   "pool": "assert",
+   "got_fact": 1,
+   "got_true": true
+  },
+  "12": {
+   "fact": 1,
+   "pool": "assert",
+   "got_fact": 1,
+   "got_true": true
+  },
+  "13": {
+   "fact": 1,
+   "pool": "assert",
+   "got_fact": 1,
+   "got_true": true
+  },
+  "14": {
+   "fact": 1,
+   "pool": "assert",
+   "got_fact": 1,
+   "got_true": true
+  },
+  "15": {
+   "fact": 1,
+   "pool": "assert",
+   "got_fact": 1,
+   "got_true": true
+  },
+  "16": {
+   "fact": 1,
+   "pool": "assert",
+   "got_fact": 1,
+   "got_true": true
+  },
+  "17": {
+   "fact": 1,
+   "pool": "deny",
+   "got_fact": 1,
+   "got_true": true
+  },
+  "18": {
+   "fact": 1,
+   "pool": "deny",
+   "got_fact": 1,
+   "got_true": true
+  },
+  "19": {
+   "fact": 1,
+   "pool": "deny",
+   "got_fact": 1,
+   "got_true": true
+  },
+  "20": {
+   "fact": 1,
+   "pool": "deny",
+   "got_fact": -1,
+   "got_true": false
+  },
+  "21": {
+   "fact": 1,
+   "pool": "deny",
+   "got_fact": 4,
+   "got_true": false
+  },
+  "22": {
+   "fact": 1,
+   "pool": "deny",
+   "got_fact": 1,
+   "got_true": false
+  },
+  "23": {
+   "fact": 2,
+   "pool": "assert",
+   "got_fact": 2,
+   "got_true": true
+  },
+  "24": {
+   "fact": 2,
+   "pool": "assert",
+   "got_fact": 2,
+   "got_true": true
+  },
+  "25": {
+   "fact": 2,
+   "pool": "assert",
+   "got_fact": 2,
+   "got_true": true
+  },
+  "26": {
+   "fact": 2,
+   "pool": "assert",
+   "got_fact": 2,
+   "got_true": true
+  },
+  "27": {
+   "fact": 2,
+   "pool": "assert",
+   "got_fact": 2,
+   "got_true": true
+  },
+  "28": {
+   "fact": 2,
+   "pool": "assert",
+   "got_fact": 2,
+   "got_true": true
+  },
+  "29": {
+   "fact": 2,
+   "pool": "deny",
+   "got_fact": 2,
+   "got_true": false
+  },
+  "30": {
+   "fact": 2,
+   "pool": "deny",
+   "got_fact": 2,
+   "got_true": false
+  },
+  "31": {
+   "fact": 2,
+   "pool": "deny",
+   "got_fact": 2,
+   "got_true": false
+  },
+  "32": {
+   "fact": 2,
+   "pool": "deny",
+   "got_fact": 2,
+   "got_true": false
+  },
+  "33": {
+   "fact": 2,
+   "pool": "deny",
+   "got_fact": 2,
+   "got_true": false
+  },
+  "34": {
+   "fact": 2,
+   "pool": "deny",
+   "got_fact": 2,
+   "got_true": false
+  },
+  "35": {
+   "fact": 3,
+   "pool": "assert",
+   "got_fact": 3,
+   "got_true": true
+  },
+  "36": {
+   "fact": 3,
+   "pool": "assert",
+   "got_fact": 3,
+   "got_true": true
+  },
+  "37": {
+   "fact": 3,
+   "pool": "assert",
+   "got_fact": 3,
+   "got_true": true
+  },
+  "38": {
+   "fact": 3,
+   "pool": "assert",
+   "got_fact": 3,
+   "got_true": true
+  },
+  "39": {
+   "fact": 3,
+   "pool": "assert",
+   "got_fact": 3,
+   "got_true": true
+  },
+  "40": {
+   "fact": 3,
+   "pool": "assert",
+   "got_fact": 3,
+   "got_true": true
+  },
+  "41": {
+   "fact": 3,
+   "pool": "deny",
+   "got_fact": 3,
+   "got_true": false
+  },
+  "42": {
+   "fact": 3,
+   "pool": "deny",
+   "got_fact": 3,
+   "got_true": false
+  },
+  "43": {
+   "fact": 3,
+   "pool": "deny",
+   "got_fact": 3,
+   "got_true": false
+  },
+  "44": {
+   "fact": 3,
+   "pool": "deny",
+   "got_fact": 3,
+   "got_true": false
+  },
+  "45": {
+   "fact": 3,
+   "pool": "deny",
+   "got_fact": 3,
+   "got_true": false
+  },
+  "46": {
+   "fact": 3,
+   "pool": "deny",
+   "got_fact": 3,
+   "got_true": false
+  },
+  "47": {
+   "fact": 4,
+   "pool": "assert",
+   "got_fact": 4,
+   "got_true": true
+  },
+  "48": {
+   "fact": 4,
+   "pool": "assert",
+   "got_fact": 4,
+   "got_true": false
+  },
+  "49": {
+   "fact": 4,
+   "pool": "assert",
+   "got_fact": 4,
+   "got_true": true
+  },
+  "50": {
+   "fact": 4,
+   "pool": "assert",
+   "got_fact": 4,
+   "got_true": true
+  },
+  "51": {
+   "fact": 4,
+   "pool": "assert",
+   "got_fact": 4,
+   "got_true": true
+  },
+  "52": {
+   "fact": 4,
+   "pool": "assert",
+   "got_fact": 4,
+   "got_true": true
+  },
+  "53": {
+   "fact": 4,
+   "pool": "deny",
+   "got_fact": 4,
+   "got_true": false
+  },
+  "54": {
+   "fact": 4,
+   "pool": "deny",
+   "got_fact": 4,
+   "got_true": false
+  },
+  "55": {
+   "fact": 4,
+   "pool": "deny",
+   "got_fact": 4,
+   "got_true": false
+  },
+  "56": {
+   "fact": 4,
+   "pool": "deny",
+   "got_fact": 4,
+   "got_true": false
+  },
+  "57": {
+   "fact": 4,
+   "pool": "deny",
+   "got_fact": 4,
+   "got_true": false
+  },
+  "58": {
+   "fact": 5,
+   "pool": "assert",
+   "got_fact": 5,
+   "got_true": true
+  },
+  "59": {
+   "fact": 5,
+   "pool": "assert",
+   "got_fact": 5,
+   "got_true": false
+  },
+  "60": {
+   "fact": 5,
+   "pool": "assert",
+   "got_fact": 5,
+   "got_true": true
+  },
+  "61": {
+   "fact": 5,
+   "pool": "assert",
+   "got_fact": 5,
+   "got_true": false
+  },
+  "62": {
+   "fact": 5,
+   "pool": "assert",
+   "got_fact": 5,
+   "got_true": true
+  },
+  "63": {
+   "fact": 5,
+   "pool": "assert",
+   "got_fact": 5,
+   "got_true": true
+  },
+  "64": {
+   "fact": 5,
+   "pool": "deny",
+   "got_fact": 5,
+   "got_true": false
+  },
+  "65": {
+   "fact": 5,
+   "pool": "deny",
+   "got_fact": 5,
+   "got_true": false
+  },
+  "66": {
+   "fact": 5,
+   "pool": "deny",
+   "got_fact": 5,
+   "got_true": false
+  },
+  "67": {
+   "fact": 6,
+   "pool": "assert",
+   "got_fact": 6,
+   "got_true": true
+  },
+  "68": {
+   "fact": 6,
+   "pool": "assert",
+   "got_fact": 6,
+   "got_true": true
+  },
+  "69": {
+   "fact": 6,
+   "pool": "assert",
+   "got_fact": 6,
+   "got_true": true
+  },
+  "70": {
+   "fact": 6,
+   "pool": "assert",
+   "got_fact": 6,
+   "got_true": true
+  },
+  "71": {
+   "fact": 6,
+   "pool": "assert",
+   "got_fact": 6,
+   "got_true": true
+  },
+  "72": {
+   "fact": 6,
+   "pool": "assert",
+   "got_fact": 6,
+   "got_true": true
+  },
+  "73": {
+   "fact": 6,
+   "pool": "deny",
+   "got_fact": 6,
+   "got_true": false
+  },
+  "74": {
+   "fact": 6,
+   "pool": "deny",
+   "got_fact": 6,
+   "got_true": false
+  },
+  "75": {
+   "fact": 6,
+   "pool": "deny",
+   "got_fact": 6,
+   "got_true": false
+  },
+  "76": {
+   "fact": 6,
+   "pool": "deny",
+   "got_fact": 6,
+   "got_true": false
+  },
+  "77": {
+   "fact": 6,
+   "pool": "deny",
+   "got_fact": 6,
+   "got_true": false
+  },
+  "78": {
+   "fact": 6,
+   "pool": "deny",
+   "got_fact": 6,
+   "got_true": false
+  },
+  "79": {
+   "fact": 7,
+   "pool": "assert",
+   "got_fact": 7,
+   "got_true": true
+  },
+  "80": {
+   "fact": 7,
+   "pool": "assert",
+   "got_fact": 7,
+   "got_true": true
+  },
+  "81": {
+   "fact": 7,
+   "pool": "assert",
+   "got_fact": 7,
+   "got_true": true
+  },
+  "82": {
+   "fact": 7,
+   "pool": "assert",
+   "got_fact": 7,
+   "got_true": true
+  },
+  "83": {
+   "fact": 7,
+   "pool": "assert",
+   "got_fact": 7,
+   "got_true": true
+  },
+  "84": {
+   "fact": 7,
+   "pool": "assert",
+   "got_fact": 7,
+   "got_true": true
+  },
+  "85": {
+   "fact": 7,
+   "pool": "deny",
+   "got_fact": 7,
+   "got_true": false
+  },
+  "86": {
+   "fact": 7,
+   "pool": "deny",
+   "got_fact": 7,
+   "got_true": false
+  },
+  "87": {
+   "fact": 7,
+   "pool": "deny",
+   "got_fact": 7,
+   "got_true": false
+  },
+  "88": {
+   "fact": 7,
+   "pool": "deny",
+   "got_fact": 7,
+   "got_true": false
+  },
+  "89": {
+   "fact": 7,
+   "pool": "deny",
+   "got_fact": 7,
+   "got_true": false
+  },
+  "90": {
+   "fact": 7,
+   "pool": "deny",
+   "got_fact": 7,
+   "got_true": false
+  },
+  "91": {
+   "fact": 8,
+   "pool": "assert",
+   "got_fact": 8,
+   "got_true": true
+  },
+  "92": {
+   "fact": 8,
+   "pool": "assert",
+   "got_fact": 8,
+   "got_true": true
+  },
+  "93": {
+   "fact": 8,
+   "pool": "assert",
+   "got_fact": 8,
+   "got_true": true
+  },
+  "94": {
+   "fact": 8,
+   "pool": "assert",
+   "got_fact": 8,
+   "got_true": true
+  },
+  "95": {
+   "fact": 8,
+   "pool": "assert",
+   "got_fact": 8,
+   "got_true": true
+  },
+  "96": {
+   "fact": 8,
+   "pool": "assert",
+   "got_fact": 8,
+   "got_true": true
+  },
+  "97": {
+   "fact": 8,
+   "pool": "deny",
+   "got_fact": 8,
+   "got_true": false
+  },
+  "98": {
+   "fact": 8,
+   "pool": "deny",
+   "got_fact": 7,
+   "got_true": true
+  },
+  "99": {
+   "fact": 9,
+   "pool": "assert",
+   "got_fact": 9,
+   "got_true": true
+  },
+  "100": {
+   "fact": 9,
+   "pool": "assert",
+   "got_fact": 9,
+   "got_true": true
+  },
+  "101": {
+   "fact": 9,
+   "pool": "assert",
+   "got_fact": 9,
+   "got_true": true
+  },
+  "102": {
+   "fact": 9,
+   "pool": "assert",
+   "got_fact": 9,
+   "got_true": true
+  },
+  "103": {
+   "fact": 9,
+   "pool": "assert",
+   "got_fact": 9,
+   "got_true": true
+  },
+  "104": {
+   "fact": 9,
+   "pool": "assert",
+   "got_fact": 9,
+   "got_true": true
+  },
+  "105": {
+   "fact": 9,
+   "pool": "deny",
+   "got_fact": 9,
+   "got_true": false
+  },
+  "106": {
+   "fact": 9,
+   "pool": "deny",
+   "got_fact": 9,
+   "got_true": false
+  },
+  "107": {
+   "fact": 9,
+   "pool": "deny",
+   "got_fact": 9,
+   "got_true": false
+  },
+  "108": {
+   "fact": 9,
+   "pool": "deny",
+   "got_fact": 9,
+   "got_true": false
+  },
+  "109": {
+   "fact": 9,
+   "pool": "deny",
+   "got_fact": 9,
+   "got_true": false
+  },
+  "110": {
+   "fact": 9,
+   "pool": "deny",
+   "got_fact": 9,
+   "got_true": false
+  },
+  "111": {
+   "fact": 10,
+   "pool": "assert",
+   "got_fact": 10,
+   "got_true": true
+  },
+  "112": {
+   "fact": 10,
+   "pool": "assert",
+   "got_fact": 10,
+   "got_true": true
+  },
+  "113": {
+   "fact": 10,
+   "pool": "assert",
+   "got_fact": 10,
+   "got_true": true
+  },
+  "114": {
+   "fact": 10,
+   "pool": "assert",
+   "got_fact": 10,
+   "got_true": true
+  },
+  "115": {
+   "fact": 10,
+   "pool": "assert",
+   "got_fact": 10,
+   "got_true": true
+  },
+  "116": {
+   "fact": 10,
+   "pool": "assert",
+   "got_fact": 10,
+   "got_true": true
+  },
+  "117": {
+   "fact": 11,
+   "pool": "assert",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "118": {
+   "fact": 11,
+   "pool": "assert",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "119": {
+   "fact": 11,
+   "pool": "assert",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "120": {
+   "fact": 11,
+   "pool": "assert",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "121": {
+   "fact": 11,
+   "pool": "assert",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "122": {
+   "fact": 11,
+   "pool": "assert",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "123": {
+   "fact": 11,
+   "pool": "deny",
+   "got_fact": 11,
+   "got_true": false
+  },
+  "124": {
+   "fact": 11,
+   "pool": "deny",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "125": {
+   "fact": 11,
+   "pool": "deny",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "126": {
+   "fact": 11,
+   "pool": "deny",
+   "got_fact": 11,
+   "got_true": false
+  }
+ },
+ "B:realwire": {
+  "0": {
+   "fact": 0,
+   "pool": "assert",
+   "got_fact": 0,
+   "got_true": true
+  },
+  "1": {
+   "fact": 0,
+   "pool": "assert",
+   "got_fact": 0,
+   "got_true": true
+  },
+  "2": {
+   "fact": 0,
+   "pool": "assert",
+   "got_fact": 0,
+   "got_true": true
+  },
+  "3": {
+   "fact": 0,
+   "pool": "assert",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "4": {
+   "fact": 0,
+   "pool": "assert",
+   "got_fact": 0,
+   "got_true": true
+  },
+  "5": {
+   "fact": 0,
+   "pool": "assert",
+   "got_fact": 0,
+   "got_true": true
+  },
+  "6": {
+   "fact": 0,
+   "pool": "deny",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "7": {
+   "fact": 0,
+   "pool": "deny",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "8": {
+   "fact": 0,
+   "pool": "deny",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "9": {
+   "fact": 0,
+   "pool": "deny",
+   "got_fact": 0,
+   "got_true": true
+  },
+  "10": {
+   "fact": 0,
+   "pool": "deny",
+   "got_fact": 0,
+   "got_true": true
+  },
+  "11": {
+   "fact": 0,
+   "pool": "deny",
+   "got_fact": 0,
+   "got_true": true
+  },
+  "12": {
+   "fact": 1,
+   "pool": "assert",
+   "got_fact": 1,
+   "got_true": true
+  },
+  "13": {
+   "fact": 1,
+   "pool": "assert",
+   "got_fact": 1,
+   "got_true": true
+  },
+  "14": {
+   "fact": 1,
+   "pool": "assert",
+   "got_fact": 1,
+   "got_true": true
+  },
+  "15": {
+   "fact": 1,
+   "pool": "assert",
+   "got_fact": 1,
+   "got_true": true
+  },
+  "16": {
+   "fact": 1,
+   "pool": "assert",
+   "got_fact": 1,
+   "got_true": true
+  },
+  "17": {
+   "fact": 1,
+   "pool": "assert",
+   "got_fact": 1,
+   "got_true": true
+  },
+  "18": {
+   "fact": 1,
+   "pool": "deny",
+   "got_fact": 1,
+   "got_true": true
+  },
+  "19": {
+   "fact": 1,
+   "pool": "deny",
+   "got_fact": 0,
+   "got_true": true
+  },
+  "20": {
+   "fact": 1,
+   "pool": "deny",
+   "got_fact": 1,
+   "got_true": false
+  },
+  "21": {
+   "fact": 1,
+   "pool": "deny",
+   "got_fact": 1,
+   "got_true": false
+  },
+  "22": {
+   "fact": 1,
+   "pool": "deny",
+   "got_fact": 1,
+   "got_true": true
+  },
+  "23": {
+   "fact": 1,
+   "pool": "deny",
+   "got_fact": 1,
+   "got_true": false
+  },
+  "24": {
+   "fact": 2,
+   "pool": "assert",
+   "got_fact": 0,
+   "got_true": true
+  },
+  "25": {
+   "fact": 2,
+   "pool": "assert",
+   "got_fact": 0,
+   "got_true": true
+  },
+  "26": {
+   "fact": 2,
+   "pool": "assert",
+   "got_fact": 0,
+   "got_true": true
+  },
+  "27": {
+   "fact": 2,
+   "pool": "assert",
+   "got_fact": 0,
+   "got_true": true
+  },
+  "28": {
+   "fact": 2,
+   "pool": "assert",
+   "got_fact": 2,
+   "got_true": true
+  },
+  "29": {
+   "fact": 2,
+   "pool": "assert",
+   "got_fact": 2,
+   "got_true": true
+  },
+  "30": {
+   "fact": 2,
+   "pool": "deny",
+   "got_fact": 2,
+   "got_true": false
+  },
+  "31": {
+   "fact": 2,
+   "pool": "deny",
+   "got_fact": 2,
+   "got_true": false
+  },
+  "32": {
+   "fact": 2,
+   "pool": "deny",
+   "got_fact": 0,
+   "got_true": true
+  },
+  "33": {
+   "fact": 2,
+   "pool": "deny",
+   "got_fact": 2,
+   "got_true": true
+  },
+  "34": {
+   "fact": 2,
+   "pool": "deny",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "35": {
+   "fact": 2,
+   "pool": "deny",
+   "got_fact": 2,
+   "got_true": false
+  },
+  "36": {
+   "fact": 3,
+   "pool": "assert",
+   "got_fact": 3,
+   "got_true": true
+  },
+  "37": {
+   "fact": 3,
+   "pool": "assert",
+   "got_fact": 3,
+   "got_true": true
+  },
+  "38": {
+   "fact": 3,
+   "pool": "deny",
+   "got_fact": 3,
+   "got_true": true
+  },
+  "39": {
+   "fact": 3,
+   "pool": "deny",
+   "got_fact": 3,
+   "got_true": true
+  },
+  "40": {
+   "fact": 3,
+   "pool": "deny",
+   "got_fact": 3,
+   "got_true": true
+  },
+  "41": {
+   "fact": 3,
+   "pool": "deny",
+   "got_fact": 3,
+   "got_true": true
+  },
+  "42": {
+   "fact": 3,
+   "pool": "deny",
+   "got_fact": 3,
+   "got_true": false
+  },
+  "43": {
+   "fact": 3,
+   "pool": "deny",
+   "got_fact": 3,
+   "got_true": true
+  },
+  "44": {
+   "fact": 4,
+   "pool": "assert",
+   "got_fact": 4,
+   "got_true": true
+  },
+  "45": {
+   "fact": 4,
+   "pool": "assert",
+   "got_fact": 4,
+   "got_true": true
+  },
+  "46": {
+   "fact": 4,
+   "pool": "assert",
+   "got_fact": 4,
+   "got_true": true
+  },
+  "47": {
+   "fact": 4,
+   "pool": "assert",
+   "got_fact": 4,
+   "got_true": true
+  },
+  "48": {
+   "fact": 4,
+   "pool": "assert",
+   "got_fact": 4,
+   "got_true": true
+  },
+  "49": {
+   "fact": 4,
+   "pool": "assert",
+   "got_fact": 4,
+   "got_true": true
+  },
+  "50": {
+   "fact": 4,
+   "pool": "deny",
+   "got_fact": 0,
+   "got_true": true
+  },
+  "51": {
+   "fact": 4,
+   "pool": "deny",
+   "got_fact": 4,
+   "got_true": true
+  },
+  "52": {
+   "fact": 4,
+   "pool": "deny",
+   "got_fact": 4,
+   "got_true": true
+  },
+  "53": {
+   "fact": 4,
+   "pool": "deny",
+   "got_fact": 4,
+   "got_true": false
+  },
+  "54": {
+   "fact": 4,
+   "pool": "deny",
+   "got_fact": 4,
+   "got_true": true
+  },
+  "55": {
+   "fact": 4,
+   "pool": "deny",
+   "got_fact": 4,
+   "got_true": true
+  },
+  "56": {
+   "fact": 5,
+   "pool": "assert",
+   "got_fact": 5,
+   "got_true": true
+  },
+  "57": {
+   "fact": 5,
+   "pool": "assert",
+   "got_fact": 5,
+   "got_true": true
+  },
+  "58": {
+   "fact": 5,
+   "pool": "assert",
+   "got_fact": 5,
+   "got_true": true
+  },
+  "59": {
+   "fact": 5,
+   "pool": "assert",
+   "got_fact": 5,
+   "got_true": true
+  },
+  "60": {
+   "fact": 5,
+   "pool": "assert",
+   "got_fact": 5,
+   "got_true": true
+  },
+  "61": {
+   "fact": 5,
+   "pool": "assert",
+   "got_fact": 5,
+   "got_true": true
+  },
+  "62": {
+   "fact": 5,
+   "pool": "deny",
+   "got_fact": 5,
+   "got_true": true
+  },
+  "63": {
+   "fact": 5,
+   "pool": "deny",
+   "got_fact": 5,
+   "got_true": true
+  },
+  "64": {
+   "fact": 5,
+   "pool": "deny",
+   "got_fact": 5,
+   "got_true": true
+  },
+  "65": {
+   "fact": 5,
+   "pool": "deny",
+   "got_fact": 5,
+   "got_true": true
+  },
+  "66": {
+   "fact": 5,
+   "pool": "deny",
+   "got_fact": 5,
+   "got_true": true
+  },
+  "67": {
+   "fact": 5,
+   "pool": "deny",
+   "got_fact": 5,
+   "got_true": false
+  },
+  "68": {
+   "fact": 6,
+   "pool": "assert",
+   "got_fact": 6,
+   "got_true": true
+  },
+  "69": {
+   "fact": 6,
+   "pool": "assert",
+   "got_fact": 6,
+   "got_true": true
+  },
+  "70": {
+   "fact": 6,
+   "pool": "assert",
+   "got_fact": 6,
+   "got_true": true
+  },
+  "71": {
+   "fact": 6,
+   "pool": "assert",
+   "got_fact": 6,
+   "got_true": true
+  },
+  "72": {
+   "fact": 6,
+   "pool": "deny",
+   "got_fact": 6,
+   "got_true": false
+  },
+  "73": {
+   "fact": 6,
+   "pool": "deny",
+   "got_fact": 6,
+   "got_true": false
+  },
+  "74": {
+   "fact": 6,
+   "pool": "deny",
+   "got_fact": 6,
+   "got_true": false
+  },
+  "75": {
+   "fact": 6,
+   "pool": "deny",
+   "got_fact": 6,
+   "got_true": false
+  },
+  "76": {
+   "fact": 6,
+   "pool": "deny",
+   "got_fact": 6,
+   "got_true": false
+  },
+  "77": {
+   "fact": 6,
+   "pool": "deny",
+   "got_fact": 6,
+   "got_true": false
+  },
+  "78": {
+   "fact": 7,
+   "pool": "assert",
+   "got_fact": 7,
+   "got_true": true
+  },
+  "79": {
+   "fact": 7,
+   "pool": "assert",
+   "got_fact": 7,
+   "got_true": true
+  },
+  "80": {
+   "fact": 7,
+   "pool": "assert",
+   "got_fact": 7,
+   "got_true": true
+  },
+  "81": {
+   "fact": 7,
+   "pool": "deny",
+   "got_fact": 7,
+   "got_true": false
+  },
+  "82": {
+   "fact": 7,
+   "pool": "deny",
+   "got_fact": 7,
+   "got_true": true
+  },
+  "83": {
+   "fact": 7,
+   "pool": "deny",
+   "got_fact": 7,
+   "got_true": true
+  },
+  "84": {
+   "fact": 7,
+   "pool": "deny",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "85": {
+   "fact": 7,
+   "pool": "deny",
+   "got_fact": 7,
+   "got_true": true
+  },
+  "86": {
+   "fact": 7,
+   "pool": "deny",
+   "got_fact": 7,
+   "got_true": false
+  },
+  "87": {
+   "fact": 8,
+   "pool": "assert",
+   "got_fact": 8,
+   "got_true": true
+  },
+  "88": {
+   "fact": 8,
+   "pool": "assert",
+   "got_fact": 8,
+   "got_true": true
+  },
+  "89": {
+   "fact": 8,
+   "pool": "assert",
+   "got_fact": 8,
+   "got_true": true
+  },
+  "90": {
+   "fact": 8,
+   "pool": "assert",
+   "got_fact": 8,
+   "got_true": true
+  },
+  "91": {
+   "fact": 8,
+   "pool": "assert",
+   "got_fact": 8,
+   "got_true": true
+  },
+  "92": {
+   "fact": 8,
+   "pool": "assert",
+   "got_fact": 8,
+   "got_true": true
+  },
+  "93": {
+   "fact": 8,
+   "pool": "deny",
+   "got_fact": 8,
+   "got_true": false
+  },
+  "94": {
+   "fact": 8,
+   "pool": "deny",
+   "got_fact": 8,
+   "got_true": false
+  },
+  "95": {
+   "fact": 8,
+   "pool": "deny",
+   "got_fact": 8,
+   "got_true": false
+  },
+  "96": {
+   "fact": 8,
+   "pool": "deny",
+   "got_fact": 8,
+   "got_true": false
+  },
+  "97": {
+   "fact": 8,
+   "pool": "deny",
+   "got_fact": 8,
+   "got_true": false
+  },
+  "98": {
+   "fact": 8,
+   "pool": "deny",
+   "got_fact": 8,
+   "got_true": false
+  },
+  "99": {
+   "fact": 9,
+   "pool": "assert",
+   "got_fact": 9,
+   "got_true": true
+  },
+  "100": {
+   "fact": 9,
+   "pool": "assert",
+   "got_fact": 9,
+   "got_true": true
+  },
+  "101": {
+   "fact": 9,
+   "pool": "assert",
+   "got_fact": 9,
+   "got_true": true
+  },
+  "102": {
+   "fact": 9,
+   "pool": "assert",
+   "got_fact": 9,
+   "got_true": true
+  },
+  "103": {
+   "fact": 9,
+   "pool": "deny",
+   "got_fact": 9,
+   "got_true": false
+  },
+  "104": {
+   "fact": 9,
+   "pool": "deny",
+   "got_fact": 9,
+   "got_true": true
+  },
+  "105": {
+   "fact": 9,
+   "pool": "deny",
+   "got_fact": 9,
+   "got_true": false
+  },
+  "106": {
+   "fact": 9,
+   "pool": "deny",
+   "got_fact": 9,
+   "got_true": false
+  },
+  "107": {
+   "fact": 9,
+   "pool": "deny",
+   "got_fact": 9,
+   "got_true": true
+  },
+  "108": {
+   "fact": 9,
+   "pool": "deny",
+   "got_fact": 9,
+   "got_true": false
+  },
+  "109": {
+   "fact": 10,
+   "pool": "assert",
+   "got_fact": 10,
+   "got_true": true
+  },
+  "110": {
+   "fact": 10,
+   "pool": "assert",
+   "got_fact": 10,
+   "got_true": true
+  },
+  "111": {
+   "fact": 10,
+   "pool": "assert",
+   "got_fact": 10,
+   "got_true": true
+  },
+  "112": {
+   "fact": 10,
+   "pool": "assert",
+   "got_fact": 10,
+   "got_true": true
+  },
+  "113": {
+   "fact": 10,
+   "pool": "deny",
+   "got_fact": 10,
+   "got_true": true
+  },
+  "114": {
+   "fact": 10,
+   "pool": "deny",
+   "got_fact": 10,
+   "got_true": true
+  },
+  "115": {
+   "fact": 10,
+   "pool": "deny",
+   "got_fact": 10,
+   "got_true": true
+  },
+  "116": {
+   "fact": 10,
+   "pool": "deny",
+   "got_fact": 10,
+   "got_true": true
+  },
+  "117": {
+   "fact": 10,
+   "pool": "deny",
+   "got_fact": 10,
+   "got_true": true
+  },
+  "118": {
+   "fact": 10,
+   "pool": "deny",
+   "got_fact": 10,
+   "got_true": true
+  },
+  "119": {
+   "fact": 11,
+   "pool": "assert",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "120": {
+   "fact": 11,
+   "pool": "assert",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "121": {
+   "fact": 11,
+   "pool": "assert",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "122": {
+   "fact": 11,
+   "pool": "assert",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "123": {
+   "fact": 11,
+   "pool": "assert",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "124": {
+   "fact": 11,
+   "pool": "assert",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "125": {
+   "fact": 11,
+   "pool": "deny",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "126": {
+   "fact": 11,
+   "pool": "deny",
+   "got_fact": 11,
+   "got_true": false
+  },
+  "127": {
+   "fact": 11,
+   "pool": "deny",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "128": {
+   "fact": 11,
+   "pool": "deny",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "129": {
+   "fact": 11,
+   "pool": "deny",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "130": {
+   "fact": 11,
+   "pool": "deny",
+   "got_fact": 11,
+   "got_true": true
+  }
+ },
+ "B:realwire_t": {
+  "0": {
+   "fact": 0,
+   "pool": "assert",
+   "got_fact": 0,
+   "got_true": true
+  },
+  "1": {
+   "fact": 0,
+   "pool": "assert",
+   "got_fact": 0,
+   "got_true": true
+  },
+  "2": {
+   "fact": 0,
+   "pool": "assert",
+   "got_fact": 0,
+   "got_true": true
+  },
+  "3": {
+   "fact": 0,
+   "pool": "assert",
+   "got_fact": 0,
+   "got_true": true
+  },
+  "4": {
+   "fact": 0,
+   "pool": "assert",
+   "got_fact": 0,
+   "got_true": true
+  },
+  "5": {
+   "fact": 0,
+   "pool": "assert",
+   "got_fact": 0,
+   "got_true": true
+  },
+  "6": {
+   "fact": 0,
+   "pool": "deny",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "7": {
+   "fact": 0,
+   "pool": "deny",
+   "got_fact": 0,
+   "got_true": true
+  },
+  "8": {
+   "fact": 0,
+   "pool": "deny",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "9": {
+   "fact": 0,
+   "pool": "deny",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "10": {
+   "fact": 0,
+   "pool": "deny",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "11": {
+   "fact": 1,
+   "pool": "assert",
+   "got_fact": 1,
+   "got_true": true
+  },
+  "12": {
+   "fact": 1,
+   "pool": "assert",
+   "got_fact": 1,
+   "got_true": true
+  },
+  "13": {
+   "fact": 1,
+   "pool": "assert",
+   "got_fact": 1,
+   "got_true": true
+  },
+  "14": {
+   "fact": 1,
+   "pool": "assert",
+   "got_fact": 1,
+   "got_true": true
+  },
+  "15": {
+   "fact": 1,
+   "pool": "assert",
+   "got_fact": 1,
+   "got_true": true
+  },
+  "16": {
+   "fact": 1,
+   "pool": "assert",
+   "got_fact": 1,
+   "got_true": true
+  },
+  "17": {
+   "fact": 1,
+   "pool": "deny",
+   "got_fact": 1,
+   "got_true": true
+  },
+  "18": {
+   "fact": 1,
+   "pool": "deny",
+   "got_fact": 1,
+   "got_true": true
+  },
+  "19": {
+   "fact": 1,
+   "pool": "deny",
+   "got_fact": 1,
+   "got_true": true
+  },
+  "20": {
+   "fact": 1,
+   "pool": "deny",
+   "got_fact": 1,
+   "got_true": true
+  },
+  "21": {
+   "fact": 1,
+   "pool": "deny",
+   "got_fact": 1,
+   "got_true": false
+  },
+  "22": {
+   "fact": 1,
+   "pool": "deny",
+   "got_fact": 1,
+   "got_true": true
+  },
+  "23": {
+   "fact": 2,
+   "pool": "assert",
+   "got_fact": 2,
+   "got_true": true
+  },
+  "24": {
+   "fact": 2,
+   "pool": "assert",
+   "got_fact": 2,
+   "got_true": true
+  },
+  "25": {
+   "fact": 2,
+   "pool": "assert",
+   "got_fact": 2,
+   "got_true": true
+  },
+  "26": {
+   "fact": 2,
+   "pool": "assert",
+   "got_fact": 2,
+   "got_true": true
+  },
+  "27": {
+   "fact": 2,
+   "pool": "assert",
+   "got_fact": 2,
+   "got_true": true
+  },
+  "28": {
+   "fact": 2,
+   "pool": "assert",
+   "got_fact": 2,
+   "got_true": true
+  },
+  "29": {
+   "fact": 2,
+   "pool": "deny",
+   "got_fact": 2,
+   "got_true": false
+  },
+  "30": {
+   "fact": 2,
+   "pool": "deny",
+   "got_fact": 2,
+   "got_true": false
+  },
+  "31": {
+   "fact": 2,
+   "pool": "deny",
+   "got_fact": 2,
+   "got_true": false
+  },
+  "32": {
+   "fact": 2,
+   "pool": "deny",
+   "got_fact": 2,
+   "got_true": false
+  },
+  "33": {
+   "fact": 2,
+   "pool": "deny",
+   "got_fact": 2,
+   "got_true": false
+  },
+  "34": {
+   "fact": 2,
+   "pool": "deny",
+   "got_fact": 2,
+   "got_true": false
+  },
+  "35": {
+   "fact": 3,
+   "pool": "assert",
+   "got_fact": 3,
+   "got_true": true
+  },
+  "36": {
+   "fact": 3,
+   "pool": "assert",
+   "got_fact": 3,
+   "got_true": true
+  },
+  "37": {
+   "fact": 3,
+   "pool": "assert",
+   "got_fact": 3,
+   "got_true": true
+  },
+  "38": {
+   "fact": 3,
+   "pool": "assert",
+   "got_fact": 3,
+   "got_true": true
+  },
+  "39": {
+   "fact": 3,
+   "pool": "assert",
+   "got_fact": 3,
+   "got_true": true
+  },
+  "40": {
+   "fact": 3,
+   "pool": "assert",
+   "got_fact": 3,
+   "got_true": false
+  },
+  "41": {
+   "fact": 3,
+   "pool": "deny",
+   "got_fact": 3,
+   "got_true": true
+  },
+  "42": {
+   "fact": 3,
+   "pool": "deny",
+   "got_fact": 3,
+   "got_true": false
+  },
+  "43": {
+   "fact": 3,
+   "pool": "deny",
+   "got_fact": 3,
+   "got_true": false
+  },
+  "44": {
+   "fact": 3,
+   "pool": "deny",
+   "got_fact": 3,
+   "got_true": false
+  },
+  "45": {
+   "fact": 3,
+   "pool": "deny",
+   "got_fact": 3,
+   "got_true": false
+  },
+  "46": {
+   "fact": 3,
+   "pool": "deny",
+   "got_fact": 3,
+   "got_true": false
+  },
+  "47": {
+   "fact": 4,
+   "pool": "assert",
+   "got_fact": 4,
+   "got_true": true
+  },
+  "48": {
+   "fact": 4,
+   "pool": "assert",
+   "got_fact": 4,
+   "got_true": false
+  },
+  "49": {
+   "fact": 4,
+   "pool": "assert",
+   "got_fact": 4,
+   "got_true": true
+  },
+  "50": {
+   "fact": 4,
+   "pool": "assert",
+   "got_fact": 4,
+   "got_true": true
+  },
+  "51": {
+   "fact": 4,
+   "pool": "assert",
+   "got_fact": 4,
+   "got_true": true
+  },
+  "52": {
+   "fact": 4,
+   "pool": "assert",
+   "got_fact": 4,
+   "got_true": true
+  },
+  "53": {
+   "fact": 4,
+   "pool": "deny",
+   "got_fact": 4,
+   "got_true": true
+  },
+  "54": {
+   "fact": 4,
+   "pool": "deny",
+   "got_fact": 4,
+   "got_true": true
+  },
+  "55": {
+   "fact": 4,
+   "pool": "deny",
+   "got_fact": 4,
+   "got_true": true
+  },
+  "56": {
+   "fact": 4,
+   "pool": "deny",
+   "got_fact": 4,
+   "got_true": true
+  },
+  "57": {
+   "fact": 4,
+   "pool": "deny",
+   "got_fact": 4,
+   "got_true": true
+  },
+  "58": {
+   "fact": 5,
+   "pool": "assert",
+   "got_fact": 5,
+   "got_true": true
+  },
+  "59": {
+   "fact": 5,
+   "pool": "assert",
+   "got_fact": 5,
+   "got_true": false
+  },
+  "60": {
+   "fact": 5,
+   "pool": "assert",
+   "got_fact": 5,
+   "got_true": true
+  },
+  "61": {
+   "fact": 5,
+   "pool": "assert",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "62": {
+   "fact": 5,
+   "pool": "assert",
+   "got_fact": 5,
+   "got_true": true
+  },
+  "63": {
+   "fact": 5,
+   "pool": "assert",
+   "got_fact": 5,
+   "got_true": true
+  },
+  "64": {
+   "fact": 5,
+   "pool": "deny",
+   "got_fact": 5,
+   "got_true": false
+  },
+  "65": {
+   "fact": 5,
+   "pool": "deny",
+   "got_fact": 5,
+   "got_true": false
+  },
+  "66": {
+   "fact": 5,
+   "pool": "deny",
+   "got_fact": 5,
+   "got_true": false
+  },
+  "67": {
+   "fact": 6,
+   "pool": "assert",
+   "got_fact": 6,
+   "got_true": true
+  },
+  "68": {
+   "fact": 6,
+   "pool": "assert",
+   "got_fact": 6,
+   "got_true": true
+  },
+  "69": {
+   "fact": 6,
+   "pool": "assert",
+   "got_fact": 6,
+   "got_true": true
+  },
+  "70": {
+   "fact": 6,
+   "pool": "assert",
+   "got_fact": 6,
+   "got_true": true
+  },
+  "71": {
+   "fact": 6,
+   "pool": "assert",
+   "got_fact": 6,
+   "got_true": true
+  },
+  "72": {
+   "fact": 6,
+   "pool": "assert",
+   "got_fact": 6,
+   "got_true": true
+  },
+  "73": {
+   "fact": 6,
+   "pool": "deny",
+   "got_fact": 6,
+   "got_true": true
+  },
+  "74": {
+   "fact": 6,
+   "pool": "deny",
+   "got_fact": 6,
+   "got_true": true
+  },
+  "75": {
+   "fact": 6,
+   "pool": "deny",
+   "got_fact": 6,
+   "got_true": true
+  },
+  "76": {
+   "fact": 6,
+   "pool": "deny",
+   "got_fact": 6,
+   "got_true": true
+  },
+  "77": {
+   "fact": 6,
+   "pool": "deny",
+   "got_fact": 6,
+   "got_true": true
+  },
+  "78": {
+   "fact": 6,
+   "pool": "deny",
+   "got_fact": 6,
+   "got_true": true
+  },
+  "79": {
+   "fact": 7,
+   "pool": "assert",
+   "got_fact": 7,
+   "got_true": true
+  },
+  "80": {
+   "fact": 7,
+   "pool": "assert",
+   "got_fact": 7,
+   "got_true": true
+  },
+  "81": {
+   "fact": 7,
+   "pool": "assert",
+   "got_fact": 7,
+   "got_true": true
+  },
+  "82": {
+   "fact": 7,
+   "pool": "assert",
+   "got_fact": 7,
+   "got_true": true
+  },
+  "83": {
+   "fact": 7,
+   "pool": "assert",
+   "got_fact": 7,
+   "got_true": true
+  },
+  "84": {
+   "fact": 7,
+   "pool": "assert",
+   "got_fact": 7,
+   "got_true": true
+  },
+  "85": {
+   "fact": 7,
+   "pool": "deny",
+   "got_fact": 7,
+   "got_true": true
+  },
+  "86": {
+   "fact": 7,
+   "pool": "deny",
+   "got_fact": 7,
+   "got_true": true
+  },
+  "87": {
+   "fact": 7,
+   "pool": "deny",
+   "got_fact": 7,
+   "got_true": true
+  },
+  "88": {
+   "fact": 7,
+   "pool": "deny",
+   "got_fact": 7,
+   "got_true": true
+  },
+  "89": {
+   "fact": 7,
+   "pool": "deny",
+   "got_fact": 7,
+   "got_true": true
+  },
+  "90": {
+   "fact": 7,
+   "pool": "deny",
+   "got_fact": 7,
+   "got_true": true
+  },
+  "91": {
+   "fact": 8,
+   "pool": "assert",
+   "got_fact": 8,
+   "got_true": true
+  },
+  "92": {
+   "fact": 8,
+   "pool": "assert",
+   "got_fact": 8,
+   "got_true": true
+  },
+  "93": {
+   "fact": 8,
+   "pool": "assert",
+   "got_fact": 8,
+   "got_true": true
+  },
+  "94": {
+   "fact": 8,
+   "pool": "assert",
+   "got_fact": 8,
+   "got_true": true
+  },
+  "95": {
+   "fact": 8,
+   "pool": "assert",
+   "got_fact": 8,
+   "got_true": true
+  },
+  "96": {
+   "fact": 8,
+   "pool": "assert",
+   "got_fact": 8,
+   "got_true": true
+  },
+  "97": {
+   "fact": 8,
+   "pool": "deny",
+   "got_fact": 8,
+   "got_true": false
+  },
+  "98": {
+   "fact": 8,
+   "pool": "deny",
+   "got_fact": 8,
+   "got_true": true
+  },
+  "99": {
+   "fact": 9,
+   "pool": "assert",
+   "got_fact": 9,
+   "got_true": true
+  },
+  "100": {
+   "fact": 9,
+   "pool": "assert",
+   "got_fact": 9,
+   "got_true": true
+  },
+  "101": {
+   "fact": 9,
+   "pool": "assert",
+   "got_fact": 9,
+   "got_true": true
+  },
+  "102": {
+   "fact": 9,
+   "pool": "assert",
+   "got_fact": 9,
+   "got_true": true
+  },
+  "103": {
+   "fact": 9,
+   "pool": "assert",
+   "got_fact": 9,
+   "got_true": true
+  },
+  "104": {
+   "fact": 9,
+   "pool": "assert",
+   "got_fact": 9,
+   "got_true": true
+  },
+  "105": {
+   "fact": 9,
+   "pool": "deny",
+   "got_fact": 9,
+   "got_true": false
+  },
+  "106": {
+   "fact": 9,
+   "pool": "deny",
+   "got_fact": 9,
+   "got_true": false
+  },
+  "107": {
+   "fact": 9,
+   "pool": "deny",
+   "got_fact": 9,
+   "got_true": false
+  },
+  "108": {
+   "fact": 9,
+   "pool": "deny",
+   "got_fact": 9,
+   "got_true": false
+  },
+  "109": {
+   "fact": 9,
+   "pool": "deny",
+   "got_fact": 9,
+   "got_true": false
+  },
+  "110": {
+   "fact": 9,
+   "pool": "deny",
+   "got_fact": 9,
+   "got_true": false
+  },
+  "111": {
+   "fact": 10,
+   "pool": "assert",
+   "got_fact": 10,
+   "got_true": true
+  },
+  "112": {
+   "fact": 10,
+   "pool": "assert",
+   "got_fact": 10,
+   "got_true": true
+  },
+  "113": {
+   "fact": 10,
+   "pool": "assert",
+   "got_fact": 10,
+   "got_true": true
+  },
+  "114": {
+   "fact": 10,
+   "pool": "assert",
+   "got_fact": 10,
+   "got_true": true
+  },
+  "115": {
+   "fact": 10,
+   "pool": "assert",
+   "got_fact": 10,
+   "got_true": true
+  },
+  "116": {
+   "fact": 10,
+   "pool": "assert",
+   "got_fact": 10,
+   "got_true": true
+  },
+  "117": {
+   "fact": 11,
+   "pool": "assert",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "118": {
+   "fact": 11,
+   "pool": "assert",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "119": {
+   "fact": 11,
+   "pool": "assert",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "120": {
+   "fact": 11,
+   "pool": "assert",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "121": {
+   "fact": 11,
+   "pool": "assert",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "122": {
+   "fact": 11,
+   "pool": "assert",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "123": {
+   "fact": 11,
+   "pool": "deny",
+   "got_fact": 11,
+   "got_true": false
+  },
+  "124": {
+   "fact": 11,
+   "pool": "deny",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "125": {
+   "fact": 11,
+   "pool": "deny",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "126": {
+   "fact": 11,
+   "pool": "deny",
+   "got_fact": -1,
+   "got_true": true
+  }
+ },
+ "C:realwire": {
+  "0": {
+   "fact": 0,
+   "pool": "assert",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "1": {
+   "fact": 0,
+   "pool": "assert",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "2": {
+   "fact": 0,
+   "pool": "assert",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "3": {
+   "fact": 0,
+   "pool": "assert",
+   "got_fact": 10,
+   "got_true": false
+  },
+  "4": {
+   "fact": 0,
+   "pool": "assert",
+   "got_fact": 0,
+   "got_true": true
+  },
+  "5": {
+   "fact": 0,
+   "pool": "assert",
+   "got_fact": 0,
+   "got_true": true
+  },
+  "6": {
+   "fact": 0,
+   "pool": "deny",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "7": {
+   "fact": 0,
+   "pool": "deny",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "8": {
+   "fact": 0,
+   "pool": "deny",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "9": {
+   "fact": 0,
+   "pool": "deny",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "10": {
+   "fact": 0,
+   "pool": "deny",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "11": {
+   "fact": 0,
+   "pool": "deny",
+   "got_fact": 0,
+   "got_true": true
+  },
+  "12": {
+   "fact": 1,
+   "pool": "assert",
+   "got_fact": 1,
+   "got_true": false
+  },
+  "13": {
+   "fact": 1,
+   "pool": "assert",
+   "got_fact": 1,
+   "got_true": false
+  },
+  "14": {
+   "fact": 1,
+   "pool": "assert",
+   "got_fact": 1,
+   "got_true": false
+  },
+  "15": {
+   "fact": 1,
+   "pool": "assert",
+   "got_fact": 1,
+   "got_true": false
+  },
+  "16": {
+   "fact": 1,
+   "pool": "assert",
+   "got_fact": 1,
+   "got_true": false
+  },
+  "17": {
+   "fact": 1,
+   "pool": "assert",
+   "got_fact": 1,
+   "got_true": false
+  },
+  "18": {
+   "fact": 1,
+   "pool": "deny",
+   "got_fact": 1,
+   "got_true": false
+  },
+  "19": {
+   "fact": 1,
+   "pool": "deny",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "20": {
+   "fact": 1,
+   "pool": "deny",
+   "got_fact": 1,
+   "got_true": false
+  },
+  "21": {
+   "fact": 1,
+   "pool": "deny",
+   "got_fact": 1,
+   "got_true": false
+  },
+  "22": {
+   "fact": 1,
+   "pool": "deny",
+   "got_fact": 1,
+   "got_true": false
+  },
+  "23": {
+   "fact": 1,
+   "pool": "deny",
+   "got_fact": 1,
+   "got_true": false
+  },
+  "24": {
+   "fact": 2,
+   "pool": "assert",
+   "got_fact": 0,
+   "got_true": true
+  },
+  "25": {
+   "fact": 2,
+   "pool": "assert",
+   "got_fact": 0,
+   "got_true": true
+  },
+  "26": {
+   "fact": 2,
+   "pool": "assert",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "27": {
+   "fact": 2,
+   "pool": "assert",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "28": {
+   "fact": 2,
+   "pool": "assert",
+   "got_fact": 2,
+   "got_true": false
+  },
+  "29": {
+   "fact": 2,
+   "pool": "assert",
+   "got_fact": 2,
+   "got_true": true
+  },
+  "30": {
+   "fact": 2,
+   "pool": "deny",
+   "got_fact": 2,
+   "got_true": false
+  },
+  "31": {
+   "fact": 2,
+   "pool": "deny",
+   "got_fact": 2,
+   "got_true": false
+  },
+  "32": {
+   "fact": 2,
+   "pool": "deny",
+   "got_fact": 2,
+   "got_true": false
+  },
+  "33": {
+   "fact": 2,
+   "pool": "deny",
+   "got_fact": 2,
+   "got_true": false
+  },
+  "34": {
+   "fact": 2,
+   "pool": "deny",
+   "got_fact": 2,
+   "got_true": false
+  },
+  "35": {
+   "fact": 2,
+   "pool": "deny",
+   "got_fact": 2,
+   "got_true": false
+  },
+  "36": {
+   "fact": 3,
+   "pool": "assert",
+   "got_fact": 3,
+   "got_true": true
+  },
+  "37": {
+   "fact": 3,
+   "pool": "assert",
+   "got_fact": 3,
+   "got_true": true
+  },
+  "38": {
+   "fact": 3,
+   "pool": "deny",
+   "got_fact": 3,
+   "got_true": false
+  },
+  "39": {
+   "fact": 3,
+   "pool": "deny",
+   "got_fact": 3,
+   "got_true": true
+  },
+  "40": {
+   "fact": 3,
+   "pool": "deny",
+   "got_fact": 3,
+   "got_true": false
+  },
+  "41": {
+   "fact": 3,
+   "pool": "deny",
+   "got_fact": 3,
+   "got_true": false
+  },
+  "42": {
+   "fact": 3,
+   "pool": "deny",
+   "got_fact": 3,
+   "got_true": false
+  },
+  "43": {
+   "fact": 3,
+   "pool": "deny",
+   "got_fact": 3,
+   "got_true": false
+  },
+  "44": {
+   "fact": 4,
+   "pool": "assert",
+   "got_fact": 4,
+   "got_true": false
+  },
+  "45": {
+   "fact": 4,
+   "pool": "assert",
+   "error": "ValueError: invalid literal for int() with base 10: 'none'"
+  },
+  "46": {
+   "fact": 4,
+   "pool": "assert",
+   "got_fact": 4,
+   "got_true": true
+  },
+  "47": {
+   "fact": 4,
+   "pool": "assert",
+   "got_fact": 4,
+   "got_true": false
+  },
+  "48": {
+   "fact": 4,
+   "pool": "assert",
+   "got_fact": 4,
+   "got_true": false
+  },
+  "49": {
+   "fact": 4,
+   "pool": "assert",
+   "got_fact": 4,
+   "got_true": true
+  },
+  "50": {
+   "fact": 4,
+   "pool": "deny",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "51": {
+   "fact": 4,
+   "pool": "deny",
+   "error": "ValueError: invalid literal for int() with base 10: 'null'"
+  },
+  "52": {
+   "fact": 4,
+   "pool": "deny",
+   "got_fact": 4,
+   "got_true": true
+  },
+  "53": {
+   "fact": 4,
+   "pool": "deny",
+   "got_fact": 4,
+   "got_true": false
+  },
+  "54": {
+   "fact": 4,
+   "pool": "deny",
+   "got_fact": 4,
+   "got_true": false
+  },
+  "55": {
+   "fact": 4,
+   "pool": "deny",
+   "got_fact": 4,
+   "got_true": false
+  },
+  "56": {
+   "fact": 5,
+   "pool": "assert",
+   "got_fact": 5,
+   "got_true": false
+  },
+  "57": {
+   "fact": 5,
+   "pool": "assert",
+   "got_fact": 5,
+   "got_true": true
+  },
+  "58": {
+   "fact": 5,
+   "pool": "assert",
+   "got_fact": 5,
+   "got_true": false
+  },
+  "59": {
+   "fact": 5,
+   "pool": "assert",
+   "got_fact": 5,
+   "got_true": false
+  },
+  "60": {
+   "fact": 5,
+   "pool": "assert",
+   "got_fact": 5,
+   "got_true": false
+  },
+  "61": {
+   "fact": 5,
+   "pool": "assert",
+   "got_fact": 5,
+   "got_true": false
+  },
+  "62": {
+   "fact": 5,
+   "pool": "deny",
+   "got_fact": 5,
+   "got_true": true
+  },
+  "63": {
+   "fact": 5,
+   "pool": "deny",
+   "got_fact": 5,
+   "got_true": true
+  },
+  "64": {
+   "fact": 5,
+   "pool": "deny",
+   "got_fact": 5,
+   "got_true": false
+  },
+  "65": {
+   "fact": 5,
+   "pool": "deny",
+   "got_fact": 5,
+   "got_true": true
+  },
+  "66": {
+   "fact": 5,
+   "pool": "deny",
+   "got_fact": 5,
+   "got_true": true
+  },
+  "67": {
+   "fact": 5,
+   "pool": "deny",
+   "got_fact": 5,
+   "got_true": true
+  },
+  "68": {
+   "fact": 6,
+   "pool": "assert",
+   "got_fact": 6,
+   "got_true": true
+  },
+  "69": {
+   "fact": 6,
+   "pool": "assert",
+   "got_fact": 6,
+   "got_true": true
+  },
+  "70": {
+   "fact": 6,
+   "pool": "assert",
+   "got_fact": 6,
+   "got_true": true
+  },
+  "71": {
+   "fact": 6,
+   "pool": "assert",
+   "got_fact": 6,
+   "got_true": true
+  },
+  "72": {
+   "fact": 6,
+   "pool": "deny",
+   "got_fact": 6,
+   "got_true": false
+  },
+  "73": {
+   "fact": 6,
+   "pool": "deny",
+   "got_fact": 6,
+   "got_true": false
+  },
+  "74": {
+   "fact": 6,
+   "pool": "deny",
+   "got_fact": 6,
+   "got_true": true
+  },
+  "75": {
+   "fact": 6,
+   "pool": "deny",
+   "got_fact": 6,
+   "got_true": false
+  },
+  "76": {
+   "fact": 6,
+   "pool": "deny",
+   "got_fact": 6,
+   "got_true": false
+  },
+  "77": {
+   "fact": 6,
+   "pool": "deny",
+   "got_fact": 6,
+   "got_true": true
+  },
+  "78": {
+   "fact": 7,
+   "pool": "assert",
+   "got_fact": 7,
+   "got_true": true
+  },
+  "79": {
+   "fact": 7,
+   "pool": "assert",
+   "got_fact": 7,
+   "got_true": true
+  },
+  "80": {
+   "fact": 7,
+   "pool": "assert",
+   "got_fact": 7,
+   "got_true": true
+  },
+  "81": {
+   "fact": 7,
+   "pool": "deny",
+   "got_fact": 7,
+   "got_true": false
+  },
+  "82": {
+   "fact": 7,
+   "pool": "deny",
+   "got_fact": 7,
+   "got_true": true
+  },
+  "83": {
+   "fact": 7,
+   "pool": "deny",
+   "got_fact": 7,
+   "got_true": true
+  },
+  "84": {
+   "fact": 7,
+   "pool": "deny",
+   "got_fact": 11,
+   "got_true": false
+  },
+  "85": {
+   "fact": 7,
+   "pool": "deny",
+   "got_fact": 7,
+   "got_true": true
+  },
+  "86": {
+   "fact": 7,
+   "pool": "deny",
+   "got_fact": 7,
+   "got_true": false
+  },
+  "87": {
+   "fact": 8,
+   "pool": "assert",
+   "error": "ValueError: invalid literal for int() with base 10: 'none'"
+  },
+  "88": {
+   "fact": 8,
+   "pool": "assert",
+   "error": "ValueError: invalid literal for int() with base 10: 'Saddam probably has stocked at least 100 metric tons (MT) and possibly as much as 500 MT of CW agents \u2013 much of it added in the last year.'"
+  },
+  "89": {
+   "fact": 8,
+   "pool": "assert",
+   "got_fact": 8,
+   "got_true": true
+  },
+  "90": {
+   "fact": 8,
+   "pool": "assert",
+   "got_fact": 8,
+   "got_true": true
+  },
+  "91": {
+   "fact": 8,
+   "pool": "assert",
+   "got_fact": 8,
+   "got_true": true
+  },
+  "92": {
+   "fact": 8,
+   "pool": "assert",
+   "got_fact": 8,
+   "got_true": true
+  },
+  "93": {
+   "fact": 8,
+   "pool": "deny",
+   "got_fact": 8,
+   "got_true": true
+  },
+  "94": {
+   "fact": 8,
+   "pool": "deny",
+   "got_fact": 8,
+   "got_true": true
+  },
+  "95": {
+   "fact": 8,
+   "pool": "deny",
+   "got_fact": 8,
+   "got_true": true
+  },
+  "96": {
+   "fact": 8,
+   "pool": "deny",
+   "got_fact": 8,
+   "got_true": false
+  },
+  "97": {
+   "fact": 8,
+   "pool": "deny",
+   "got_fact": 8,
+   "got_true": true
+  },
+  "98": {
+   "fact": 8,
+   "pool": "deny",
+   "got_fact": 8,
+   "got_true": true
+  },
+  "99": {
+   "fact": 9,
+   "pool": "assert",
+   "got_fact": 9,
+   "got_true": true
+  },
+  "100": {
+   "fact": 9,
+   "pool": "assert",
+   "got_fact": 9,
+   "got_true": false
+  },
+  "101": {
+   "fact": 9,
+   "pool": "assert",
+   "got_fact": 9,
+   "got_true": false
+  },
+  "102": {
+   "fact": 9,
+   "pool": "assert",
+   "got_fact": 9,
+   "got_true": true
+  },
+  "103": {
+   "fact": 9,
+   "pool": "deny",
+   "got_fact": 9,
+   "got_true": true
+  },
+  "104": {
+   "fact": 9,
+   "pool": "deny",
+   "got_fact": 9,
+   "got_true": false
+  },
+  "105": {
+   "fact": 9,
+   "pool": "deny",
+   "got_fact": 9,
+   "got_true": true
+  },
+  "106": {
+   "fact": 9,
+   "pool": "deny",
+   "got_fact": 9,
+   "got_true": true
+  },
+  "107": {
+   "fact": 9,
+   "pool": "deny",
+   "got_fact": 9,
+   "got_true": true
+  },
+  "108": {
+   "fact": 9,
+   "pool": "deny",
+   "got_fact": 9,
+   "got_true": true
+  },
+  "109": {
+   "fact": 10,
+   "pool": "assert",
+   "got_fact": 10,
+   "got_true": false
+  },
+  "110": {
+   "fact": 10,
+   "pool": "assert",
+   "got_fact": 10,
+   "got_true": true
+  },
+  "111": {
+   "fact": 10,
+   "pool": "assert",
+   "got_fact": 10,
+   "got_true": false
+  },
+  "112": {
+   "fact": 10,
+   "pool": "assert",
+   "got_fact": 10,
+   "got_true": true
+  },
+  "113": {
+   "fact": 10,
+   "pool": "deny",
+   "got_fact": 10,
+   "got_true": true
+  },
+  "114": {
+   "fact": 10,
+   "pool": "deny",
+   "got_fact": 10,
+   "got_true": true
+  },
+  "115": {
+   "fact": 10,
+   "pool": "deny",
+   "got_fact": 10,
+   "got_true": false
+  },
+  "116": {
+   "fact": 10,
+   "pool": "deny",
+   "got_fact": 10,
+   "got_true": true
+  },
+  "117": {
+   "fact": 10,
+   "pool": "deny",
+   "got_fact": 10,
+   "got_true": true
+  },
+  "118": {
+   "fact": 10,
+   "pool": "deny",
+   "got_fact": 10,
+   "got_true": true
+  },
+  "119": {
+   "fact": 11,
+   "pool": "assert",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "120": {
+   "fact": 11,
+   "pool": "assert",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "121": {
+   "fact": 11,
+   "pool": "assert",
+   "got_fact": 11,
+   "got_true": false
+  },
+  "122": {
+   "fact": 11,
+   "pool": "assert",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "123": {
+   "fact": 11,
+   "pool": "assert",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "124": {
+   "fact": 11,
+   "pool": "assert",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "125": {
+   "fact": 11,
+   "pool": "deny",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "126": {
+   "fact": 11,
+   "pool": "deny",
+   "got_fact": 11,
+   "got_true": false
+  },
+  "127": {
+   "fact": 11,
+   "pool": "deny",
+   "got_fact": 11,
+   "got_true": false
+  },
+  "128": {
+   "fact": 11,
+   "pool": "deny",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "129": {
+   "fact": 11,
+   "pool": "deny",
+   "got_fact": 11,
+   "got_true": false
+  },
+  "130": {
+   "fact": 11,
+   "pool": "deny",
+   "got_fact": 11,
+   "got_true": false
+  }
+ },
+ "C:realwire_t": {
+  "0": {
+   "fact": 0,
+   "pool": "assert",
+   "got_fact": 0,
+   "got_true": true
+  },
+  "1": {
+   "fact": 0,
+   "pool": "assert",
+   "got_fact": 0,
+   "got_true": true
+  },
+  "2": {
+   "fact": 0,
+   "pool": "assert",
+   "got_fact": 0,
+   "got_true": true
+  },
+  "3": {
+   "fact": 0,
+   "pool": "assert",
+   "got_fact": 0,
+   "got_true": true
+  },
+  "4": {
+   "fact": 0,
+   "pool": "assert",
+   "got_fact": 0,
+   "got_true": true
+  },
+  "5": {
+   "fact": 0,
+   "pool": "assert",
+   "got_fact": 0,
+   "got_true": true
+  },
+  "6": {
+   "fact": 0,
+   "pool": "deny",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "7": {
+   "fact": 0,
+   "pool": "deny",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "8": {
+   "fact": 0,
+   "pool": "deny",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "9": {
+   "fact": 0,
+   "pool": "deny",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "10": {
+   "fact": 0,
+   "pool": "deny",
+   "got_fact": 0,
+   "got_true": false
+  },
+  "11": {
+   "fact": 1,
+   "pool": "assert",
+   "got_fact": 1,
+   "got_true": true
+  },
+  "12": {
+   "fact": 1,
+   "pool": "assert",
+   "got_fact": 1,
+   "got_true": true
+  },
+  "13": {
+   "fact": 1,
+   "pool": "assert",
+   "got_fact": 1,
+   "got_true": true
+  },
+  "14": {
+   "fact": 1,
+   "pool": "assert",
+   "got_fact": 1,
+   "got_true": true
+  },
+  "15": {
+   "fact": 1,
+   "pool": "assert",
+   "got_fact": 1,
+   "got_true": true
+  },
+  "16": {
+   "fact": 1,
+   "pool": "assert",
+   "got_fact": 1,
+   "got_true": true
+  },
+  "17": {
+   "fact": 1,
+   "pool": "deny",
+   "got_fact": 1,
+   "got_true": true
+  },
+  "18": {
+   "fact": 1,
+   "pool": "deny",
+   "got_fact": 1,
+   "got_true": true
+  },
+  "19": {
+   "fact": 1,
+   "pool": "deny",
+   "got_fact": 1,
+   "got_true": true
+  },
+  "20": {
+   "fact": 1,
+   "pool": "deny",
+   "got_fact": 1,
+   "got_true": false
+  },
+  "21": {
+   "fact": 1,
+   "pool": "deny",
+   "got_fact": 4,
+   "got_true": false
+  },
+  "22": {
+   "fact": 1,
+   "pool": "deny",
+   "got_fact": 1,
+   "got_true": false
+  },
+  "23": {
+   "fact": 2,
+   "pool": "assert",
+   "got_fact": 2,
+   "got_true": true
+  },
+  "24": {
+   "fact": 2,
+   "pool": "assert",
+   "got_fact": 2,
+   "got_true": true
+  },
+  "25": {
+   "fact": 2,
+   "pool": "assert",
+   "got_fact": 2,
+   "got_true": true
+  },
+  "26": {
+   "fact": 2,
+   "pool": "assert",
+   "got_fact": 2,
+   "got_true": true
+  },
+  "27": {
+   "fact": 2,
+   "pool": "assert",
+   "got_fact": 2,
+   "got_true": true
+  },
+  "28": {
+   "fact": 2,
+   "pool": "assert",
+   "got_fact": 2,
+   "got_true": true
+  },
+  "29": {
+   "fact": 2,
+   "pool": "deny",
+   "got_fact": 2,
+   "got_true": false
+  },
+  "30": {
+   "fact": 2,
+   "pool": "deny",
+   "got_fact": 2,
+   "got_true": false
+  },
+  "31": {
+   "fact": 2,
+   "pool": "deny",
+   "got_fact": 2,
+   "got_true": false
+  },
+  "32": {
+   "fact": 2,
+   "pool": "deny",
+   "got_fact": 2,
+   "got_true": false
+  },
+  "33": {
+   "fact": 2,
+   "pool": "deny",
+   "got_fact": 2,
+   "got_true": false
+  },
+  "34": {
+   "fact": 2,
+   "pool": "deny",
+   "got_fact": 2,
+   "got_true": false
+  },
+  "35": {
+   "fact": 3,
+   "pool": "assert",
+   "got_fact": 3,
+   "got_true": true
+  },
+  "36": {
+   "fact": 3,
+   "pool": "assert",
+   "got_fact": 3,
+   "got_true": true
+  },
+  "37": {
+   "fact": 3,
+   "pool": "assert",
+   "got_fact": 3,
+   "got_true": true
+  },
+  "38": {
+   "fact": 3,
+   "pool": "assert",
+   "got_fact": 3,
+   "got_true": true
+  },
+  "39": {
+   "fact": 3,
+   "pool": "assert",
+   "got_fact": 3,
+   "got_true": true
+  },
+  "40": {
+   "fact": 3,
+   "pool": "assert",
+   "got_fact": 3,
+   "got_true": true
+  },
+  "41": {
+   "fact": 3,
+   "pool": "deny",
+   "got_fact": 3,
+   "got_true": false
+  },
+  "42": {
+   "fact": 3,
+   "pool": "deny",
+   "got_fact": 3,
+   "got_true": false
+  },
+  "43": {
+   "fact": 3,
+   "pool": "deny",
+   "got_fact": 3,
+   "got_true": false
+  },
+  "44": {
+   "fact": 3,
+   "pool": "deny",
+   "got_fact": 3,
+   "got_true": false
+  },
+  "45": {
+   "fact": 3,
+   "pool": "deny",
+   "got_fact": 3,
+   "got_true": true
+  },
+  "46": {
+   "fact": 3,
+   "pool": "deny",
+   "got_fact": 3,
+   "got_true": false
+  },
+  "47": {
+   "fact": 4,
+   "pool": "assert",
+   "got_fact": 4,
+   "got_true": true
+  },
+  "48": {
+   "fact": 4,
+   "pool": "assert",
+   "got_fact": 4,
+   "got_true": true
+  },
+  "49": {
+   "fact": 4,
+   "pool": "assert",
+   "got_fact": 4,
+   "got_true": true
+  },
+  "50": {
+   "fact": 4,
+   "pool": "assert",
+   "got_fact": 4,
+   "got_true": true
+  },
+  "51": {
+   "fact": 4,
+   "pool": "assert",
+   "got_fact": 4,
+   "got_true": true
+  },
+  "52": {
+   "fact": 4,
+   "pool": "assert",
+   "got_fact": 4,
+   "got_true": true
+  },
+  "53": {
+   "fact": 4,
+   "pool": "deny",
+   "got_fact": 4,
+   "got_true": false
+  },
+  "54": {
+   "fact": 4,
+   "pool": "deny",
+   "got_fact": 4,
+   "got_true": false
+  },
+  "55": {
+   "fact": 4,
+   "pool": "deny",
+   "got_fact": 4,
+   "got_true": true
+  },
+  "56": {
+   "fact": 4,
+   "pool": "deny",
+   "got_fact": 4,
+   "got_true": true
+  },
+  "57": {
+   "fact": 4,
+   "pool": "deny",
+   "got_fact": 4,
+   "got_true": false
+  },
+  "58": {
+   "fact": 5,
+   "pool": "assert",
+   "got_fact": 5,
+   "got_true": true
+  },
+  "59": {
+   "fact": 5,
+   "pool": "assert",
+   "got_fact": 5,
+   "got_true": false
+  },
+  "60": {
+   "fact": 5,
+   "pool": "assert",
+   "got_fact": 5,
+   "got_true": false
+  },
+  "61": {
+   "fact": 5,
+   "pool": "assert",
+   "got_fact": 5,
+   "got_true": false
+  },
+  "62": {
+   "fact": 5,
+   "pool": "assert",
+   "got_fact": 5,
+   "got_true": true
+  },
+  "63": {
+   "fact": 5,
+   "pool": "assert",
+   "got_fact": 5,
+   "got_true": true
+  },
+  "64": {
+   "fact": 5,
+   "pool": "deny",
+   "got_fact": 5,
+   "got_true": false
+  },
+  "65": {
+   "fact": 5,
+   "pool": "deny",
+   "got_fact": 5,
+   "got_true": true
+  },
+  "66": {
+   "fact": 5,
+   "pool": "deny",
+   "got_fact": 5,
+   "got_true": true
+  },
+  "67": {
+   "fact": 6,
+   "pool": "assert",
+   "got_fact": 6,
+   "got_true": true
+  },
+  "68": {
+   "fact": 6,
+   "pool": "assert",
+   "got_fact": 6,
+   "got_true": true
+  },
+  "69": {
+   "fact": 6,
+   "pool": "assert",
+   "got_fact": 6,
+   "got_true": true
+  },
+  "70": {
+   "fact": 6,
+   "pool": "assert",
+   "got_fact": 6,
+   "got_true": true
+  },
+  "71": {
+   "fact": 6,
+   "pool": "assert",
+   "got_fact": 6,
+   "got_true": false
+  },
+  "72": {
+   "fact": 6,
+   "pool": "assert",
+   "got_fact": 6,
+   "got_true": true
+  },
+  "73": {
+   "fact": 6,
+   "pool": "deny",
+   "got_fact": 6,
+   "got_true": true
+  },
+  "74": {
+   "fact": 6,
+   "pool": "deny",
+   "got_fact": 6,
+   "got_true": true
+  },
+  "75": {
+   "fact": 6,
+   "pool": "deny",
+   "got_fact": 6,
+   "got_true": true
+  },
+  "76": {
+   "fact": 6,
+   "pool": "deny",
+   "got_fact": 6,
+   "got_true": true
+  },
+  "77": {
+   "fact": 6,
+   "pool": "deny",
+   "got_fact": 6,
+   "got_true": true
+  },
+  "78": {
+   "fact": 6,
+   "pool": "deny",
+   "got_fact": 6,
+   "got_true": true
+  },
+  "79": {
+   "fact": 7,
+   "pool": "assert",
+   "error": "ValueError: invalid literal for int() with base 10: 'none'"
+  },
+  "80": {
+   "fact": 7,
+   "pool": "assert",
+   "got_fact": 7,
+   "got_true": true
+  },
+  "81": {
+   "fact": 7,
+   "pool": "assert",
+   "got_fact": 7,
+   "got_true": true
+  },
+  "82": {
+   "fact": 7,
+   "pool": "assert",
+   "got_fact": 7,
+   "got_true": true
+  },
+  "83": {
+   "fact": 7,
+   "pool": "assert",
+   "got_fact": 7,
+   "got_true": true
+  },
+  "84": {
+   "fact": 7,
+   "pool": "assert",
+   "got_fact": 7,
+   "got_true": true
+  },
+  "85": {
+   "fact": 7,
+   "pool": "deny",
+   "got_fact": 7,
+   "got_true": false
+  },
+  "86": {
+   "fact": 7,
+   "pool": "deny",
+   "got_fact": 7,
+   "got_true": false
+  },
+  "87": {
+   "fact": 7,
+   "pool": "deny",
+   "got_fact": 7,
+   "got_true": false
+  },
+  "88": {
+   "fact": 7,
+   "pool": "deny",
+   "got_fact": 7,
+   "got_true": false
+  },
+  "89": {
+   "fact": 7,
+   "pool": "deny",
+   "got_fact": 7,
+   "got_true": true
+  },
+  "90": {
+   "fact": 7,
+   "pool": "deny",
+   "got_fact": 7,
+   "got_true": true
+  },
+  "91": {
+   "fact": 8,
+   "pool": "assert",
+   "got_fact": 8,
+   "got_true": true
+  },
+  "92": {
+   "fact": 8,
+   "pool": "assert",
+   "got_fact": 8,
+   "got_true": true
+  },
+  "93": {
+   "fact": 8,
+   "pool": "assert",
+   "got_fact": 8,
+   "got_true": true
+  },
+  "94": {
+   "fact": 8,
+   "pool": "assert",
+   "got_fact": 8,
+   "got_true": true
+  },
+  "95": {
+   "fact": 8,
+   "pool": "assert",
+   "got_fact": 8,
+   "got_true": true
+  },
+  "96": {
+   "fact": 8,
+   "pool": "assert",
+   "got_fact": 8,
+   "got_true": true
+  },
+  "97": {
+   "fact": 8,
+   "pool": "deny",
+   "got_fact": 8,
+   "got_true": false
+  },
+  "98": {
+   "fact": 8,
+   "pool": "deny",
+   "got_fact": 8,
+   "got_true": false
+  },
+  "99": {
+   "fact": 9,
+   "pool": "assert",
+   "got_fact": 9,
+   "got_true": true
+  },
+  "100": {
+   "fact": 9,
+   "pool": "assert",
+   "got_fact": 9,
+   "got_true": true
+  },
+  "101": {
+   "fact": 9,
+   "pool": "assert",
+   "got_fact": 9,
+   "got_true": true
+  },
+  "102": {
+   "fact": 9,
+   "pool": "assert",
+   "got_fact": 9,
+   "got_true": true
+  },
+  "103": {
+   "fact": 9,
+   "pool": "assert",
+   "got_fact": 9,
+   "got_true": true
+  },
+  "104": {
+   "fact": 9,
+   "pool": "assert",
+   "got_fact": 9,
+   "got_true": true
+  },
+  "105": {
+   "fact": 9,
+   "pool": "deny",
+   "got_fact": 9,
+   "got_true": false
+  },
+  "106": {
+   "fact": 9,
+   "pool": "deny",
+   "got_fact": 9,
+   "got_true": true
+  },
+  "107": {
+   "fact": 9,
+   "pool": "deny",
+   "got_fact": 9,
+   "got_true": false
+  },
+  "108": {
+   "fact": 9,
+   "pool": "deny",
+   "got_fact": 9,
+   "got_true": true
+  },
+  "109": {
+   "fact": 9,
+   "pool": "deny",
+   "got_fact": 9,
+   "got_true": false
+  },
+  "110": {
+   "fact": 9,
+   "pool": "deny",
+   "got_fact": 9,
+   "got_true": true
+  },
+  "111": {
+   "fact": 10,
+   "pool": "assert",
+   "got_fact": 10,
+   "got_true": true
+  },
+  "112": {
+   "fact": 10,
+   "pool": "assert",
+   "got_fact": 10,
+   "got_true": true
+  },
+  "113": {
+   "fact": 10,
+   "pool": "assert",
+   "got_fact": 10,
+   "got_true": true
+  },
+  "114": {
+   "fact": 10,
+   "pool": "assert",
+   "got_fact": 10,
+   "got_true": true
+  },
+  "115": {
+   "fact": 10,
+   "pool": "assert",
+   "got_fact": 10,
+   "got_true": true
+  },
+  "116": {
+   "fact": 10,
+   "pool": "assert",
+   "got_fact": 10,
+   "got_true": true
+  },
+  "117": {
+   "fact": 11,
+   "pool": "assert",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "118": {
+   "fact": 11,
+   "pool": "assert",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "119": {
+   "fact": 11,
+   "pool": "assert",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "120": {
+   "fact": 11,
+   "pool": "assert",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "121": {
+   "fact": 11,
+   "pool": "assert",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "122": {
+   "fact": 11,
+   "pool": "assert",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "123": {
+   "fact": 11,
+   "pool": "deny",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "124": {
+   "fact": 11,
+   "pool": "deny",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "125": {
+   "fact": 11,
+   "pool": "deny",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "126": {
+   "fact": 11,
+   "pool": "deny",
+   "got_fact": 11,
+   "got_true": true
+  }
+ },
+ "A:indie": {
+  "0": {
+   "fact": 0,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "1": {
+   "fact": 0,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "2": {
+   "fact": 0,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "3": {
+   "fact": 0,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "4": {
+   "fact": 0,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "5": {
+   "fact": 0,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "6": {
+   "fact": 0,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "7": {
+   "fact": 0,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "8": {
+   "fact": 0,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "9": {
+   "fact": 0,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "10": {
+   "fact": 0,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "11": {
+   "fact": 0,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "12": {
+   "fact": 1,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "13": {
+   "fact": 1,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "14": {
+   "fact": 1,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "15": {
+   "fact": 1,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "16": {
+   "fact": 1,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "17": {
+   "fact": 1,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "18": {
+   "fact": 1,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "19": {
+   "fact": 1,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "20": {
+   "fact": 1,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "21": {
+   "fact": 1,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "22": {
+   "fact": 1,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "23": {
+   "fact": 1,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "24": {
+   "fact": 2,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "25": {
+   "fact": 2,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "26": {
+   "fact": 2,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "27": {
+   "fact": 2,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "28": {
+   "fact": 2,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "29": {
+   "fact": 2,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "30": {
+   "fact": 2,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "31": {
+   "fact": 2,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "32": {
+   "fact": 2,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "33": {
+   "fact": 2,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "34": {
+   "fact": 2,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "35": {
+   "fact": 2,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "36": {
+   "fact": 3,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "37": {
+   "fact": 3,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "38": {
+   "fact": 3,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "39": {
+   "fact": 3,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "40": {
+   "fact": 3,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "41": {
+   "fact": 3,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "42": {
+   "fact": 3,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "43": {
+   "fact": 3,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "44": {
+   "fact": 3,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "45": {
+   "fact": 3,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "46": {
+   "fact": 3,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "47": {
+   "fact": 3,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "48": {
+   "fact": 4,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "49": {
+   "fact": 4,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "50": {
+   "fact": 4,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "51": {
+   "fact": 4,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "52": {
+   "fact": 4,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "53": {
+   "fact": 4,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "54": {
+   "fact": 4,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "55": {
+   "fact": 4,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "56": {
+   "fact": 4,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "57": {
+   "fact": 4,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "58": {
+   "fact": 4,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "59": {
+   "fact": 4,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "60": {
+   "fact": 5,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "61": {
+   "fact": 5,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "62": {
+   "fact": 5,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "63": {
+   "fact": 5,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "64": {
+   "fact": 5,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "65": {
+   "fact": 5,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "66": {
+   "fact": 5,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "67": {
+   "fact": 5,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "68": {
+   "fact": 5,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "69": {
+   "fact": 5,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "70": {
+   "fact": 5,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "71": {
+   "fact": 5,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "72": {
+   "fact": 6,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "73": {
+   "fact": 6,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "74": {
+   "fact": 6,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "75": {
+   "fact": 6,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "76": {
+   "fact": 6,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "77": {
+   "fact": 6,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "78": {
+   "fact": 6,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "79": {
+   "fact": 6,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "80": {
+   "fact": 6,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "81": {
+   "fact": 6,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "82": {
+   "fact": 6,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "83": {
+   "fact": 6,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "84": {
+   "fact": 7,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "85": {
+   "fact": 7,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "86": {
+   "fact": 7,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "87": {
+   "fact": 7,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "88": {
+   "fact": 7,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "89": {
+   "fact": 7,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "90": {
+   "fact": 7,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "91": {
+   "fact": 7,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "92": {
+   "fact": 7,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "93": {
+   "fact": 7,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "94": {
+   "fact": 7,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "95": {
+   "fact": 7,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "96": {
+   "fact": 8,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "97": {
+   "fact": 8,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "98": {
+   "fact": 8,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "99": {
+   "fact": 8,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "100": {
+   "fact": 8,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "101": {
+   "fact": 8,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "102": {
+   "fact": 8,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "103": {
+   "fact": 8,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "104": {
+   "fact": 8,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "105": {
+   "fact": 8,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "106": {
+   "fact": 8,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "107": {
+   "fact": 8,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "108": {
+   "fact": 9,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "109": {
+   "fact": 9,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "110": {
+   "fact": 9,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "111": {
+   "fact": 9,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "112": {
+   "fact": 9,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "113": {
+   "fact": 9,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "114": {
+   "fact": 9,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "115": {
+   "fact": 9,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "116": {
+   "fact": 9,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "117": {
+   "fact": 9,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "118": {
+   "fact": 9,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "119": {
+   "fact": 9,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "120": {
+   "fact": 10,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "121": {
+   "fact": 10,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "122": {
+   "fact": 10,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "123": {
+   "fact": 10,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "124": {
+   "fact": 10,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "125": {
+   "fact": 10,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "126": {
+   "fact": 10,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "127": {
+   "fact": 10,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "128": {
+   "fact": 10,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "129": {
+   "fact": 10,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "130": {
+   "fact": 10,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "131": {
+   "fact": 10,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "132": {
+   "fact": 11,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "133": {
+   "fact": 11,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "134": {
+   "fact": 11,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "135": {
+   "fact": 11,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "136": {
+   "fact": 11,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "137": {
+   "fact": 11,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "138": {
+   "fact": 11,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "139": {
+   "fact": 11,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "140": {
+   "fact": 11,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "141": {
+   "fact": 11,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "142": {
+   "fact": 11,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "143": {
+   "fact": 11,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  }
+ },
+ "B:indie": {
+  "0": {
+   "fact": 0,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "1": {
+   "fact": 0,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "2": {
+   "fact": 0,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "3": {
+   "fact": 0,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "4": {
+   "fact": 0,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "5": {
+   "fact": 0,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "6": {
+   "fact": 0,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "7": {
+   "fact": 0,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "8": {
+   "fact": 0,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "9": {
+   "fact": 0,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "10": {
+   "fact": 0,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "11": {
+   "fact": 0,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "12": {
+   "fact": 1,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "13": {
+   "fact": 1,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "14": {
+   "fact": 1,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "15": {
+   "fact": 1,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "16": {
+   "fact": 1,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "17": {
+   "fact": 1,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "18": {
+   "fact": 1,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "19": {
+   "fact": 1,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "20": {
+   "fact": 1,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "21": {
+   "fact": 1,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "22": {
+   "fact": 1,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "23": {
+   "fact": 1,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "24": {
+   "fact": 2,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "25": {
+   "fact": 2,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "26": {
+   "fact": 2,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "27": {
+   "fact": 2,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "28": {
+   "fact": 2,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "29": {
+   "fact": 2,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "30": {
+   "fact": 2,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "31": {
+   "fact": 2,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "32": {
+   "fact": 2,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "33": {
+   "fact": 2,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "34": {
+   "fact": 2,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "35": {
+   "fact": 2,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "36": {
+   "fact": 3,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "37": {
+   "fact": 3,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "38": {
+   "fact": 3,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "39": {
+   "fact": 3,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "40": {
+   "fact": 3,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "41": {
+   "fact": 3,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "42": {
+   "fact": 3,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "43": {
+   "fact": 3,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "44": {
+   "fact": 3,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "45": {
+   "fact": 3,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "46": {
+   "fact": 3,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "47": {
+   "fact": 3,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "48": {
+   "fact": 4,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "49": {
+   "fact": 4,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "50": {
+   "fact": 4,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "51": {
+   "fact": 4,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "52": {
+   "fact": 4,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "53": {
+   "fact": 4,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "54": {
+   "fact": 4,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "55": {
+   "fact": 4,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "56": {
+   "fact": 4,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "57": {
+   "fact": 4,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "58": {
+   "fact": 4,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "59": {
+   "fact": 4,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "60": {
+   "fact": 5,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "61": {
+   "fact": 5,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "62": {
+   "fact": 5,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "63": {
+   "fact": 5,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "64": {
+   "fact": 5,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "65": {
+   "fact": 5,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "66": {
+   "fact": 5,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "67": {
+   "fact": 5,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "68": {
+   "fact": 5,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "69": {
+   "fact": 5,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "70": {
+   "fact": 5,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "71": {
+   "fact": 5,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "72": {
+   "fact": 6,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "73": {
+   "fact": 6,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "74": {
+   "fact": 6,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "75": {
+   "fact": 6,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "76": {
+   "fact": 6,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "77": {
+   "fact": 6,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "78": {
+   "fact": 6,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "79": {
+   "fact": 6,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "80": {
+   "fact": 6,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "81": {
+   "fact": 6,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "82": {
+   "fact": 6,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "83": {
+   "fact": 6,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "84": {
+   "fact": 7,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "85": {
+   "fact": 7,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "86": {
+   "fact": 7,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "87": {
+   "fact": 7,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "88": {
+   "fact": 7,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "89": {
+   "fact": 7,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "90": {
+   "fact": 7,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "91": {
+   "fact": 7,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "92": {
+   "fact": 7,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "93": {
+   "fact": 7,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "94": {
+   "fact": 7,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "95": {
+   "fact": 7,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "96": {
+   "fact": 8,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "97": {
+   "fact": 8,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "98": {
+   "fact": 8,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "99": {
+   "fact": 8,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "100": {
+   "fact": 8,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "101": {
+   "fact": 8,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "102": {
+   "fact": 8,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "103": {
+   "fact": 8,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "104": {
+   "fact": 8,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "105": {
+   "fact": 8,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "106": {
+   "fact": 8,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "107": {
+   "fact": 8,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "108": {
+   "fact": 9,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "109": {
+   "fact": 9,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "110": {
+   "fact": 9,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "111": {
+   "fact": 9,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "112": {
+   "fact": 9,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "113": {
+   "fact": 9,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "114": {
+   "fact": 9,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "115": {
+   "fact": 9,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "116": {
+   "fact": 9,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "117": {
+   "fact": 9,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "118": {
+   "fact": 9,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "119": {
+   "fact": 9,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "120": {
+   "fact": 10,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "121": {
+   "fact": 10,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "122": {
+   "fact": 10,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "123": {
+   "fact": 10,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "124": {
+   "fact": 10,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "125": {
+   "fact": 10,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "126": {
+   "fact": 10,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "127": {
+   "fact": 10,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "128": {
+   "fact": 10,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "129": {
+   "fact": 10,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "130": {
+   "fact": 10,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "131": {
+   "fact": 10,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "132": {
+   "fact": 11,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "133": {
+   "fact": 11,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "134": {
+   "fact": 11,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "135": {
+   "fact": 11,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "136": {
+   "fact": 11,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "137": {
+   "fact": 11,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "138": {
+   "fact": 11,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "139": {
+   "fact": 11,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "140": {
+   "fact": 11,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "141": {
+   "fact": 11,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "142": {
+   "fact": 11,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "143": {
+   "fact": 11,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  }
+ },
+ "C:indie": {
+  "0": {
+   "fact": 0,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "1": {
+   "fact": 0,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "2": {
+   "fact": 0,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "3": {
+   "fact": 0,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "4": {
+   "fact": 0,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "5": {
+   "fact": 0,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "6": {
+   "fact": 0,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "7": {
+   "fact": 0,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "8": {
+   "fact": 0,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "9": {
+   "fact": 0,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "10": {
+   "fact": 0,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "11": {
+   "fact": 0,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "12": {
+   "fact": 1,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "13": {
+   "fact": 1,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "14": {
+   "fact": 1,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "15": {
+   "fact": 1,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "16": {
+   "fact": 1,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "17": {
+   "fact": 1,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "18": {
+   "fact": 1,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "19": {
+   "fact": 1,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "20": {
+   "fact": 1,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "21": {
+   "fact": 1,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "22": {
+   "fact": 1,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "23": {
+   "fact": 1,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "24": {
+   "fact": 2,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "25": {
+   "fact": 2,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "26": {
+   "fact": 2,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "27": {
+   "fact": 2,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "28": {
+   "fact": 2,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "29": {
+   "fact": 2,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "30": {
+   "fact": 2,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "31": {
+   "fact": 2,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "32": {
+   "fact": 2,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "33": {
+   "fact": 2,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "34": {
+   "fact": 2,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "35": {
+   "fact": 2,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "36": {
+   "fact": 3,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "37": {
+   "fact": 3,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "38": {
+   "fact": 3,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "39": {
+   "fact": 3,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "40": {
+   "fact": 3,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "41": {
+   "fact": 3,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "42": {
+   "fact": 3,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "43": {
+   "fact": 3,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "44": {
+   "fact": 3,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "45": {
+   "fact": 3,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "46": {
+   "fact": 3,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "47": {
+   "fact": 3,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "48": {
+   "fact": 4,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "49": {
+   "fact": 4,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "50": {
+   "fact": 4,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "51": {
+   "fact": 4,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "52": {
+   "fact": 4,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "53": {
+   "fact": 4,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "54": {
+   "fact": 4,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "55": {
+   "fact": 4,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "56": {
+   "fact": 4,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "57": {
+   "fact": 4,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "58": {
+   "fact": 4,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "59": {
+   "fact": 4,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "60": {
+   "fact": 5,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "61": {
+   "fact": 5,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "62": {
+   "fact": 5,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "63": {
+   "fact": 5,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "64": {
+   "fact": 5,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "65": {
+   "fact": 5,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "66": {
+   "fact": 5,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "67": {
+   "fact": 5,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "68": {
+   "fact": 5,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "69": {
+   "fact": 5,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "70": {
+   "fact": 5,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "71": {
+   "fact": 5,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "72": {
+   "fact": 6,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "73": {
+   "fact": 6,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "74": {
+   "fact": 6,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "75": {
+   "fact": 6,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "76": {
+   "fact": 6,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "77": {
+   "fact": 6,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "78": {
+   "fact": 6,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "79": {
+   "fact": 6,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "80": {
+   "fact": 6,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "81": {
+   "fact": 6,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "82": {
+   "fact": 6,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "83": {
+   "fact": 6,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "84": {
+   "fact": 7,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "85": {
+   "fact": 7,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "86": {
+   "fact": 7,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "87": {
+   "fact": 7,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "88": {
+   "fact": 7,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "89": {
+   "fact": 7,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "90": {
+   "fact": 7,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "91": {
+   "fact": 7,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "92": {
+   "fact": 7,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "93": {
+   "fact": 7,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "94": {
+   "fact": 7,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "95": {
+   "fact": 7,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "96": {
+   "fact": 8,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "97": {
+   "fact": 8,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "98": {
+   "fact": 8,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "99": {
+   "fact": 8,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "100": {
+   "fact": 8,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "101": {
+   "fact": 8,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "102": {
+   "fact": 8,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "103": {
+   "fact": 8,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "104": {
+   "fact": 8,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "105": {
+   "fact": 8,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "106": {
+   "fact": 8,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "107": {
+   "fact": 8,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "108": {
+   "fact": 9,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "109": {
+   "fact": 9,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "110": {
+   "fact": 9,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "111": {
+   "fact": 9,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "112": {
+   "fact": 9,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "113": {
+   "fact": 9,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "114": {
+   "fact": 9,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "115": {
+   "fact": 9,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "116": {
+   "fact": 9,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "117": {
+   "fact": 9,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "118": {
+   "fact": 9,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "119": {
+   "fact": 9,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "120": {
+   "fact": 10,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "121": {
+   "fact": 10,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "122": {
+   "fact": 10,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "123": {
+   "fact": 10,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "124": {
+   "fact": 10,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "125": {
+   "fact": 10,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "126": {
+   "fact": 10,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "127": {
+   "fact": 10,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "128": {
+   "fact": 10,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "129": {
+   "fact": 10,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "130": {
+   "fact": 10,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "131": {
+   "fact": 10,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "132": {
+   "fact": 11,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "133": {
+   "fact": 11,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "134": {
+   "fact": 11,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "135": {
+   "fact": 11,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "136": {
+   "fact": 11,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "137": {
+   "fact": 11,
+   "pool": "assert",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "138": {
+   "fact": 11,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "139": {
+   "fact": 11,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "140": {
+   "fact": 11,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "141": {
+   "fact": 11,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "142": {
+   "fact": 11,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  },
+  "143": {
+   "fact": 11,
+   "pool": "deny",
+   "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+  }
+ }
+}
