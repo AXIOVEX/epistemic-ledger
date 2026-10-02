@@ -1,0 +1,169 @@
+{
+ "default": {
+  "corpus": {
+   "model": "qwen3-8b-local (llama.cpp)",
+   "spent": 0.0,
+   "calls": 1,
+   "contradicts": {
+    "precision": 0.38461538461538464,
+    "recall": 1.0,
+    "tp": 5,
+    "fp": 8,
+    "fn": 0
+   },
+   "same": {
+    "precision": 0.3076923076923077,
+    "recall": 0.8,
+    "tp": 4,
+    "fp": 9,
+    "fn": 1
+   },
+   "supports_proposed": 4,
+   "seconds": 12.6
+  },
+  "head_to_head": {
+   "error": "ValueError: no JSON object in LLM reply"
+  },
+  "head_to_head_seconds": 21.1
+ },
+ "repeat_penalty_1_1": {
+  "corpus": {
+   "model": "qwen3-8b-local (llama.cpp)",
+   "spent": 0.0,
+   "calls": 1,
+   "contradicts": {
+    "precision": 0.2,
+    "recall": 0.4,
+    "tp": 2,
+    "fp": 8,
+    "fn": 3
+   },
+   "same": {
+    "precision": 0.45454545454545453,
+    "recall": 1.0,
+    "tp": 5,
+    "fp": 6,
+    "fn": 0
+   },
+   "supports_proposed": 4,
+   "seconds": 10.2
+  },
+  "head_to_head": {
+   "A": {
+    "genuine": 1,
+    "genuine_total": 1,
+    "trap": 1,
+    "other_fp": 1,
+    "pairs": [
+     "D1=D2",
+     "F10-rumor=F10-wire",
+     "F10-wire=F11-wire"
+    ]
+   },
+   "B": {
+    "genuine": 1,
+    "genuine_total": 1,
+    "trap": 1,
+    "other_fp": 0,
+    "pairs": [
+     "D1=D2",
+     "F10-rumor=F10-wire"
+    ]
+   },
+   "C": {
+    "genuine": 0,
+    "genuine_total": 1,
+    "trap": 0,
+    "other_fp": 11,
+    "pairs": [
+     "D1=D3",
+     "D2=D3",
+     "D3=F10-rumor",
+     "D3=F10-wire",
+     "D3=F11-rumor",
+     "D3=F11-wire",
+     "D3=F2",
+     "D3=F3",
+     "D3=F4",
+     "D3=F6",
+     "D3=F9"
+    ],
+    "model": "qwen3-8b-local",
+    "calls": 1,
+    "topics_assigned": 10,
+    "topic_groups": 4,
+    "supports_proposed": 10,
+    "desk_topics_grouped": {
+     "F10": false,
+     "F11": false
+    }
+   }
+  },
+  "head_to_head_seconds": 14.4
+ },
+ "thinking": {
+  "corpus": {
+   "model": "qwen3-8b-local (llama.cpp)",
+   "spent": 0.0,
+   "calls": 1,
+   "contradicts": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "tp": 5,
+    "fp": 0,
+    "fn": 0
+   },
+   "same": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "tp": 5,
+    "fp": 0,
+    "fn": 0
+   },
+   "supports_proposed": 2,
+   "seconds": 57.5
+  },
+  "head_to_head": {
+   "A": {
+    "genuine": 1,
+    "genuine_total": 1,
+    "trap": 1,
+    "other_fp": 1,
+    "pairs": [
+     "D1=D2",
+     "F10-rumor=F10-wire",
+     "F10-wire=F11-wire"
+    ]
+   },
+   "B": {
+    "genuine": 1,
+    "genuine_total": 1,
+    "trap": 1,
+    "other_fp": 0,
+    "pairs": [
+     "D1=D2",
+     "F10-rumor=F10-wire"
+    ]
+   },
+   "C": {
+    "genuine": 1,
+    "genuine_total": 1,
+    "trap": 0,
+    "other_fp": 0,
+    "pairs": [
+     "F10-rumor=F10-wire"
+    ],
+    "model": "qwen3-8b-local",
+    "calls": 1,
+    "topics_assigned": 2,
+    "topic_groups": 1,
+    "supports_proposed": 5,
+    "desk_topics_grouped": {
+     "F10": true,
+     "F11": false
+    }
+   }
+  },
+  "head_to_head_seconds": 97.8
+ }
+}
