@@ -174,12 +174,13 @@ class LocalClient:
 
     def __init__(self, base_url="http://localhost:8083/v1",
                  model="qwen3-8b-local", timeout=300, max_tokens=1024,
-                 repeat_penalty=1.0):
+                 repeat_penalty=1.0, thinking=False):
         self.base_url = base_url.rstrip("/")
         self.model = model
         self.timeout = timeout
         self.max_tokens = max_tokens
         self.repeat_penalty = repeat_penalty
+        self.thinking = thinking
         self.spent = 0.0
         self.calls = 0
 
@@ -191,8 +192,11 @@ class LocalClient:
             "temperature": 0,
             "max_tokens": self.max_tokens,
             "repeat_penalty": self.repeat_penalty,
-            "chat_template_kwargs": {"enable_thinking": False},
         }
+        if not self.thinking:
+            # Qwen3 template default is thinking ON; the extraction
+            # and consolidation protocols both want the bare answer.
+            payload["chat_template_kwargs"] = {"enable_thinking": False}
         req = urllib.request.Request(
             f"{self.base_url}/chat/completions",
             data=json.dumps(payload).encode(),

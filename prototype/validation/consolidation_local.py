@@ -60,10 +60,24 @@ def run_arm(name, **client_kw):
     return arm
 
 
+ARMS = {
+    "default": {},
+    "repeat_penalty_1_1": {"repeat_penalty": 1.1},
+    # diagnostic: is the failure a reasoning failure? Qwen3's
+    # template default (thinking on), generous token budget, served
+    # at a larger per-slot context (see LOCAL-CONSOLIDATION-01).
+    "thinking": {"thinking": True, "max_tokens": 6000},
+}
+
+
 def main():
-    out = {"default": run_arm("default"),
-           "repeat_penalty_1_1": run_arm("repeat_penalty",
-                                        repeat_penalty=1.1)}
+    wanted = sys.argv[1:] or list(ARMS)
+    out = {}
+    if os.path.exists(RESULTS):
+        with open(RESULTS) as f:
+            out = json.load(f)
+    for name in wanted:
+        out[name] = run_arm(name, **ARMS[name])
     with open(RESULTS, "w") as f:
         json.dump(out, f, indent=1)
     print("DONE", flush=True)
