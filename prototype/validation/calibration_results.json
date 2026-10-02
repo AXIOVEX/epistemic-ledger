@@ -1,0 +1,222 @@
+{
+ "dev": {
+  "1.0": {
+   "0": {
+    "ledger_err": 0.140625,
+    "naive_err": 0.221875,
+    "ledger_derived_err": 0.12916666666666668,
+    "naive_derived_err": 0.45416666666666666,
+    "brier": 0.13154904654750918,
+    "kill_ok": true,
+    "breached": [],
+    "seconds": 11.9
+   },
+   "1": {
+    "ledger_err": 0.1375,
+    "naive_err": 0.184375,
+    "ledger_derived_err": 0.20833333333333334,
+    "naive_derived_err": 0.3958333333333333,
+    "brier": 0.09254666717627608,
+    "kill_ok": true,
+    "breached": [],
+    "seconds": 10.9
+   },
+   "2": {
+    "ledger_err": 0.16979166666666667,
+    "naive_err": 0.178125,
+    "ledger_derived_err": 0.16666666666666666,
+    "naive_derived_err": 0.2,
+    "brier": 0.25013031000401786,
+    "kill_ok": false,
+    "breached": [
+     "brier"
+    ],
+    "seconds": 10.4
+   },
+   "3": {
+    "ledger_err": 0.15208333333333332,
+    "naive_err": 0.14895833333333333,
+    "ledger_derived_err": 0.11666666666666667,
+    "naive_derived_err": 0.10416666666666667,
+    "brier": 0.10268634173408717,
+    "kill_ok": true,
+    "breached": [],
+    "seconds": 9.5
+   },
+   "4": {
+    "ledger_err": 0.12604166666666666,
+    "naive_err": 0.18333333333333332,
+    "ledger_derived_err": 0.10416666666666667,
+    "naive_derived_err": 0.3333333333333333,
+    "brier": 0.10684263480190667,
+    "kill_ok": true,
+    "breached": [],
+    "seconds": 8.2
+   }
+  },
+  "0.75": {
+   "0": {
+    "ledger_err": 0.15,
+    "naive_err": 0.23541666666666666,
+    "ledger_derived_err": 0.1125,
+    "naive_derived_err": 0.45416666666666666,
+    "brier": 0.15429653561058848,
+    "kill_ok": true,
+    "breached": [],
+    "seconds": 9.1
+   },
+   "1": {
+    "ledger_err": 0.16979166666666667,
+    "naive_err": 0.203125,
+    "ledger_derived_err": 0.2625,
+    "naive_derived_err": 0.3958333333333333,
+    "brier": 0.09670977625737047,
+    "kill_ok": true,
+    "breached": [],
+    "seconds": 13.5
+   },
+   "2": {
+    "ledger_err": 0.184375,
+    "naive_err": 0.19479166666666667,
+    "ledger_derived_err": 0.15833333333333333,
+    "naive_derived_err": 0.2,
+    "brier": 0.27398921177488966,
+    "kill_ok": false,
+    "breached": [
+     "brier"
+    ],
+    "seconds": 12.3
+   },
+   "3": {
+    "ledger_err": 0.17291666666666666,
+    "naive_err": 0.16666666666666666,
+    "ledger_derived_err": 0.12916666666666668,
+    "naive_derived_err": 0.10416666666666667,
+    "brier": 0.10748266602011852,
+    "kill_ok": true,
+    "breached": [],
+    "seconds": 12.1
+   },
+   "4": {
+    "ledger_err": 0.16041666666666668,
+    "naive_err": 0.209375,
+    "ledger_derived_err": 0.1375,
+    "naive_derived_err": 0.3333333333333333,
+    "brier": 0.13424357806652196,
+    "kill_ok": true,
+    "breached": [],
+    "seconds": 11.4
+   }
+  },
+  "0.5": {
+   "0": {
+    "ledger_err": 0.15833333333333333,
+    "naive_err": 0.25104166666666666,
+    "ledger_derived_err": 0.08333333333333333,
+    "naive_derived_err": 0.45416666666666666,
+    "brier": 0.18459996856249836,
+    "kill_ok": true,
+    "breached": [],
+    "seconds": 9.3
+   },
+   "1": {
+    "ledger_err": 0.21145833333333333,
+    "naive_err": 0.23333333333333334,
+    "ledger_derived_err": 0.30833333333333335,
+    "naive_derived_err": 0.3958333333333333,
+    "brier": 0.1115661299027201,
+    "kill_ok": true,
+    "breached": [],
+    "seconds": 12.1
+   },
+   "2": {
+    "ledger_err": 0.25625,
+    "naive_err": 0.26458333333333334,
+    "ledger_derived_err": 0.16666666666666666,
+    "naive_derived_err": 0.2,
+    "brier": 0.2731405570108526,
+    "kill_ok": false,
+    "breached": [
+     "brier"
+    ],
+    "seconds": 10.0
+   },
+   "3": {
+    "ledger_err": 0.20416666666666666,
+    "naive_err": 0.19583333333333333,
+    "ledger_derived_err": 0.1375,
+    "naive_derived_err": 0.10416666666666667,
+    "brier": 0.138120296819233,
+    "kill_ok": true,
+    "breached": [],
+    "seconds": 11.0
+   },
+   "4": {
+    "ledger_err": 0.19166666666666668,
+    "naive_err": 0.22916666666666666,
+    "ledger_derived_err": 0.18333333333333332,
+    "naive_derived_err": 0.3333333333333333,
+    "brier": 0.14776359586396823,
+    "kill_ok": true,
+    "breached": [],
+    "seconds": 9.3
+   }
+  },
+  "0.35": {
+   "0": {
+    "ledger_err": 0.17708333333333334,
+    "naive_err": 0.2625,
+    "ledger_derived_err": 0.1125,
+    "naive_derived_err": 0.45416666666666666,
+    "brier": 0.19792644625627212,
+    "kill_ok": true,
+    "breached": [],
+    "seconds": 14.6
+   },
+   "1": {
+    "ledger_err": 0.23854166666666668,
+    "naive_err": 0.2520833333333333,
+    "ledger_derived_err": 0.3416666666666667,
+    "naive_derived_err": 0.3958333333333333,
+    "brier": 0.13492695717189668,
+    "kill_ok": true,
+    "breached": [],
+    "seconds": 11.1
+   },
+   "2": {
+    "ledger_err": 0.284375,
+    "naive_err": 0.2916666666666667,
+    "ledger_derived_err": 0.17083333333333334,
+    "naive_derived_err": 0.2,
+    "brier": 0.28340404889548876,
+    "kill_ok": false,
+    "breached": [
+     "brier"
+    ],
+    "seconds": 9.8
+   },
+   "3": {
+    "ledger_err": 0.22708333333333333,
+    "naive_err": 0.2125,
+    "ledger_derived_err": 0.1625,
+    "naive_derived_err": 0.10416666666666667,
+    "brier": 0.1786089603552381,
+    "kill_ok": true,
+    "breached": [],
+    "seconds": 9.7
+   },
+   "4": {
+    "ledger_err": 0.20208333333333334,
+    "naive_err": 0.240625,
+    "ledger_derived_err": 0.17916666666666667,
+    "naive_derived_err": 0.3333333333333333,
+    "brier": 0.1527284200299752,
+    "kill_ok": true,
+    "breached": [],
+    "seconds": 11.4
+   }
+  }
+ },
+ "candidate": null,
+ "verdict": "no candidate met the dev rule; temper stays 1.0"
+}

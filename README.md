@@ -6,7 +6,16 @@ Databases are deeply flawed: there is no built-in way to keep challenging the da
 
 ## Status
 
-**Research phase.** The foundations have been surveyed and framed; no implementation exists yet. See [`docs/PAPER.md`](docs/PAPER.md) for the full framing paper and [`docs/research/`](docs/research/) for the raw research notes with provenance.
+**Implemented and validated** (v0.10, 2026-10-02). The framing below became a working prototype: an event-sourced, bitemporal ledger with a dependency-propagated revisit loop, learned entrenchment, Dempster-Shafer intervals, joint likelihoods, contradiction detection and resolution, governance (writer tiers, signed verdicts, escalation, named-graph authority ceilings, predicate policies), and an offline LLM consolidation pass. See [`docs/PAPER.md`](docs/PAPER.md) for the framing paper, `docs/DESIGN-*.md` for the design memos, and `docs/research/` for the raw research notes with provenance.
+
+Measured results so far, each with its own report in `docs/`:
+
+- **Revision value** (CONTEXT-CLEANUP-01, REPO-HISTORY-VALIDATION): the revisit loop eliminates 70.6% of naive staleness errors on dependency chains, 62.8% with joint likelihoods, 81.0% on this repository's own git history.
+- **Trigger discipline** (TRIGGER-STRESS-01): epsilon 0.005 balances recall 0.96 / precision 0.72; the cutoff earns its keep.
+- **Adversarial newsroom** (NEWSROOM-01, LOCAL-EXTRACTION-01): against adversarial sources the ledger eliminates 20.8% (modeled extraction) to 22.2% (real LLM extraction, local Qwen3-8B, $0) of a frozen baseline's errors — 51-61% on derived claims.
+- **Free prose** (FREETEXT-01): on authored non-template text the advantage thins to 16.8% / 43.5% derived and becomes seed-dependent; the report states the sensitivity plainly.
+- **LLM consolidation** (CONSOLIDATION-01, LOCAL-CONSOLIDATION-01): the offline pass matches frontier-model precision/recall locally at $0 — in its thinking configuration; the no-thinking configuration fails, measurably.
+- **Churn and calibration** (CHURN-01, CALIBRATION-01): conflict-normalized material churn gates at 8; a proposed agent-tempering fix was tested and *refuted* — reported as a negative.
 
 ## The idea in brief
 

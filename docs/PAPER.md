@@ -109,6 +109,10 @@ Eight threads were surveyed (2026-09-30; raw notes with provenance in `docs/rese
 4. **Trigger discipline** — implement the three-layer ladder; measure over/under-invalidation.
 5. **LLM context application** — apply the ledger as a context-cleanup substrate and measure staleness reduction.
 
+## Status addendum — 2026-10-02
+
+The roadmap above has been executed. Phase 2 was decided as *both*: immutable events as the write model, bitemporal claim tuples as the read projection; single credences natively, Dempster-Shafer intervals opt-in (Design Memos 01-04). Phase 3 shipped as a working prototype (v0.10) with governance the original roadmap did not foresee (writer tiers, signed verdicts, escalation, named-graph authority ceilings, post-state predicate policies; Memos 06, 10, 11). Phase 4 measured the trigger ladder (TRIGGER-STRESS-01: epsilon 0.005, recall 0.960 / precision 0.715 against an exact oracle). Phase 5 measured staleness reduction in an adversarial newsroom (20.8-22.2% of baseline errors eliminated; 51-61% on derived claims), with real LLM extraction and consolidation validated first on hosted models and then ported to a free local model at equal quality (LOCAL-EXTRACTION-01, LOCAL-CONSOLIDATION-01), and stress-tested on non-template prose (FREETEXT-01). Open questions from section 5 that remain genuinely open: kill criteria are instrumented but their bars are still calibrated judgment, and the ledger's advantages on text authored by other humans — rather than by its own designers — are unmeasured. Per-report agent tempering, the one tuning fix proposed along the way, was tested and refuted (CALIBRATION-01).
+
 ---
 
 *Research conducted 2026-09-30 (index-level: web search page text, cross-checked across 2+ independent sources per topic). Primary-source verification pass 2026-10-01 via arXiv/OpenAlex APIs: see `docs/research/BIBLIOGRAPHY.md` for the annotated bibliography, verification statuses, and one correction applied (LLM/AGM claim softened to the sourced weaker claim). Raw notes with provenance: `docs/research/`.*
