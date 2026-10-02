@@ -6,7 +6,7 @@ Databases are deeply flawed: there is no built-in way to keep challenging the da
 
 ## Status
 
-**Implemented and validated** (v0.10, 2026-10-02). The framing below became a working prototype: an event-sourced, bitemporal ledger with a dependency-propagated revisit loop, learned entrenchment, Dempster-Shafer intervals, joint likelihoods, contradiction detection and resolution, governance (writer tiers, signed verdicts, escalation, named-graph authority ceilings, predicate policies), and an offline LLM consolidation pass. See [`docs/PAPER.md`](docs/PAPER.md) for the framing paper, `docs/DESIGN-*.md` for the design memos, and `docs/research/` for the raw research notes with provenance.
+**Implemented and validated** (v0.11, 2026-10-02). The framing below became a working prototype: an event-sourced, bitemporal ledger with a dependency-propagated revisit loop, learned entrenchment, Dempster-Shafer intervals, joint likelihoods, contradiction detection and resolution, governance (writer tiers, signed verdicts, escalation, named-graph authority ceilings, predicate policies), an offline LLM consolidation pass, and a hardened single-writer store with integrity verification. See [`docs/PAPER.md`](docs/PAPER.md) for the framing paper, `docs/DESIGN-*.md` for the design memos, and `docs/research/` for the raw research notes with provenance.
 
 Measured results so far, each with its own report in `docs/`:
 
@@ -14,6 +14,8 @@ Measured results so far, each with its own report in `docs/`:
 - **Trigger discipline** (TRIGGER-STRESS-01): epsilon 0.005 balances recall 0.96 / precision 0.72; the cutoff earns its keep.
 - **Adversarial newsroom** (NEWSROOM-01, LOCAL-EXTRACTION-01): against adversarial sources the ledger eliminates 20.8% (modeled extraction) to 22.2% (real LLM extraction, local Qwen3-8B, $0) of a frozen baseline's errors — 51-61% on derived claims.
 - **Free prose** (FREETEXT-01): on authored non-template text the advantage thins to 16.8% / 43.5% derived and becomes seed-dependent; the report states the sensitivity plainly.
+- **Independent prose** (INDIE-CORPUS-01): on text authored by a different model family (GPT-4.1), the advantage reproduces at 21.1% / 49.7% derived with a different failure anatomy — the authorship caveat is retired.
+- **Kill bars** (KILL-BARS-01): every gate threshold re-measured across all workload families; two adjusted under a pre-stated rule, one held at its definitional value on the record.
 - **LLM consolidation** (CONSOLIDATION-01, LOCAL-CONSOLIDATION-01): the offline pass matches frontier-model precision/recall locally at $0 — in its thinking configuration; the no-thinking configuration fails, measurably.
 - **Churn and calibration** (CHURN-01, CALIBRATION-01): conflict-normalized material churn gates at 8; a proposed agent-tempering fix was tested and *refuted* — reported as a negative.
 
