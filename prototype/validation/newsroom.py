@@ -252,10 +252,15 @@ class LocalExtractor(Extractor):
         return int(data["fact"]), bool(data["says_true"])
 
 
-def bayes_update(prior, says_true, acc):
+def bayes_update(prior, says_true, acc, temper=1.0):
+    """Posterior after one report. temper < 1 tempers the report's
+    log-likelihood ratio (lam ** temper): the calibration lever for
+    the agent's measured overconfidence (NEWSROOM-01: accurate but
+    overconfident posteriors; CALIBRATION-01). temper=1.0 is the
+    original update, exactly."""
     prior = min(0.99, max(0.01, prior))
     lam = acc / (1 - acc) if says_true else (1 - acc) / acc
-    odds = prior / (1 - prior) * lam
+    odds = prior / (1 - prior) * lam ** temper
     return odds / (1 + odds)
 
 
@@ -266,8 +271,10 @@ def bayes_update(prior, says_true, acc):
 class NewsroomAgent:
     """Ledger-backed newsroom memory."""
 
-    def __init__(self, rng, extractor=None):
+    def __init__(self, rng, extractor=None, temper=1.0):
         self.rng = rng
+        self.temper = temper
+        self.dropped_extractions = 0
         self.dir = tempfile.mkdtemp(prefix="newsroom-")
         self.L = Ledger(self.dir)
         self.extractor = extractor if extractor is not None \
@@ -327,7 +334,16 @@ class NewsroomAgent:
         """Update from an already-extracted report. The trial extracts
         once and feeds both agents identically (shared extraction:
         otherwise the two agents misparse the same sentence differently,
-        confounding the comparison)."""
+        confounding the comparison).
+
+        An extraction that names no known fact (e.g. the local
+        extractor's emergent -1 abstention on off-topic text,
+        FREETEXT-01) is dropped and counted, never ingested: there
+        is no claim it could honestly update."""
+        if (not isinstance(fact_id, int) or isinstance(fact_id, bool)
+                or not 0 <= fact_id < N_FACTS):
+            self.dropped_extractions += 1
+            return
         acc = self.acc[source]
         desk = None
         if fact_id in CONTESTED:
@@ -336,7 +352,8 @@ class NewsroomAgent:
             cid = self.desks[(fact_id, desk)]
         else:
             cid = self.facts[fact_id]
-        new = bayes_update(self.L.get_score(cid), says_true, acc)
+        new = bayes_update(self.L.get_score(cid), says_true, acc,
+                           temper=self.temper)
         self._set(cid, new)
         if desk:
             self._desk_update_interval(cid)
@@ -410,8 +427,8 @@ class NewsroomAgent:
 class NaiveNewsroom(NewsroomAgent):
     """Frozen baseline: identical processing, derived frozen at step 5."""
 
-    def __init__(self, rng, extractor=None):
-        super().__init__(rng, extractor=extractor)
+    def __init__(self, rng, extractor=None, temper=1.0):
+        super().__init__(rng, extractor=extractor, temper=temper)
         self.frozen_derived = None
 
     def freeze(self):
@@ -427,12 +444,13 @@ class NaiveNewsroom(NewsroomAgent):
 # run
 # ----------------------------------------------------------------------
 
-def run_trial(seed, steps=60, flip_p=0.04, extractor_factory=None):
+def run_trial(seed, steps=60, flip_p=0.04, extractor_factory=None,
+              temper=1.0):
     rng = random.Random(seed)
     truth = [{i: rng.random() < 0.5 for i in range(N_FACTS)}]
     shared_ext = extractor_factory(rng) if extractor_factory else None
-    agent = NewsroomAgent(rng, extractor=shared_ext)
-    naive = NaiveNewsroom(rng, extractor=shared_ext)
+    agent = NewsroomAgent(rng, extractor=shared_ext, temper=temper)
+    naive = NaiveNewsroom(rng, extractor=shared_ext, temper=temper)
     truth_history = [dict(truth[0])]
     # initial report sweep so both agents start informed (shared extraction)
     for i in range(N_FACTS):
@@ -515,7 +533,9 @@ def run_trial(seed, steps=60, flip_p=0.04, extractor_factory=None):
             ledger_derived_err / derived_quizzes,
             naive_derived_err / derived_quizzes,
             stats, accs,
-            {"brier_learned": len(rep), "kill_ok": bars["ok"],
+            {"brier_learned": len(rep), "brier": km["brier"],
+             "dropped_extractions": agent.dropped_extractions,
+             "kill_ok": bars["ok"],
              "breached": [b["criterion"] for b in bars["breached"]],
              "n_open_contra": km["n_open_contradictions"]})
 
