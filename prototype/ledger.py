@@ -95,7 +95,22 @@ CREATE TABLE IF NOT EXISTS policies(
   txn_to      TEXT,
   description TEXT NOT NULL,
   version     INTEGER NOT NULL,
+  rule        TEXT,
   PRIMARY KEY (name, txn_from)
+);
+CREATE TABLE IF NOT EXISTS graphs(
+  name        TEXT NOT NULL,
+  txn_from    TEXT NOT NULL,
+  txn_to      TEXT,
+  ceiling     REAL NOT NULL,
+  PRIMARY KEY (name, txn_from)
+);
+CREATE TABLE IF NOT EXISTS claim_graphs(
+  claim_id TEXT NOT NULL,
+  txn_from TEXT NOT NULL,
+  txn_to   TEXT,
+  graph    TEXT NOT NULL,
+  PRIMARY KEY (claim_id, txn_from)
 );
 CREATE TABLE IF NOT EXISTS claim_topics(
   claim_id TEXT NOT NULL,
@@ -115,6 +130,22 @@ DEFAULT_POLICY = ("challenge-axiom-requires-owner",
                   "Contradiction declarations against axiomatic "
                   "(entrenchment 1.0) claims by non-owner writers are held "
                   "for owner review.")
+# The default policy as data (Design Memo 11): the gate semantics,
+# spelled out in the predicate language and stored in the policies
+# table at version 2. Legacy rows without a rule fall back to this.
+DEFAULT_POLICY_RULE = {
+    "action": "declare_contradiction",
+    "effect": "hold",
+    "when": {"all": [
+        {"field": "target_entrenchment", "op": ">=", "value": 1.0},
+        {"field": "writer_tier", "op": "!=", "value": "owner"},
+    ]},
+}
+# Partitions (Design Memo 11): unassigned claims live here, ceiling 1.
+DEFAULT_GRAPH = "public"
+GATED_ACTIONS = ("declare_contradiction", "resolve_contradiction",
+                 "escalate_contradiction")
+PREDICATE_OPS = ("==", "!=", "<", "<=", ">", ">=", "in", "not_in")
 
 
 def _now():
@@ -166,6 +197,77 @@ def interval_to_mass(belief, plausibility):
             frozenset({"T", "F"}): plausibility - belief}
 
 
+def _validate_pred(pred):
+    """Structural validation for the predicate language (Memo 11)."""
+    if not isinstance(pred, dict):
+        raise ValueError("predicate must be a dict")
+    keys = set(pred)
+    if keys == {"field", "op", "value"}:
+        if pred["op"] not in PREDICATE_OPS:
+            raise ValueError(f"unknown predicate op {pred['op']!r}")
+        if not isinstance(pred["field"], str):
+            raise ValueError("predicate field must be a string")
+        return
+    if keys in ({"all"}, {"any"}):
+        subs = pred[next(iter(keys))]
+        if not isinstance(subs, list) or not subs:
+            raise ValueError("all/any need a non-empty list")
+        for s in subs:
+            _validate_pred(s)
+        return
+    if keys == {"not"}:
+        _validate_pred(pred["not"])
+        return
+    raise ValueError(f"malformed predicate: {sorted(keys)}")
+
+
+def _validate_rule(rule):
+    if not isinstance(rule, dict) or set(rule) != {"action", "effect", "when"}:
+        raise ValueError("rule must be {action, effect, when}")
+    if rule["action"] not in GATED_ACTIONS:
+        raise ValueError(f"rule action must be one of {GATED_ACTIONS}")
+    if rule["effect"] not in ("hold", "deny"):
+        raise ValueError("rule effect must be 'hold' or 'deny'")
+    if rule["effect"] == "hold" and rule["action"] != "declare_contradiction":
+        raise ValueError("'hold' requires a verdict queue: "
+                         "declare_contradiction only")
+    _validate_pred(rule["when"])
+
+
+def _eval_pred(pred, ctx):
+    """Evaluate a validated predicate over a post-state context.
+    A missing field makes a leaf false (fail-closed for gates)."""
+    if "field" in pred:
+        if pred["field"] not in ctx:
+            return False
+        v, op, want = ctx[pred["field"]], pred["op"], pred["value"]
+        try:
+            if op == "==":
+                return v == want
+            if op == "!=":
+                return v != want
+            if op == "<":
+                return v < want
+            if op == "<=":
+                return v <= want
+            if op == ">":
+                return v > want
+            if op == ">=":
+                return v >= want
+            if op == "in":
+                return v in want
+            if op == "not_in":
+                return v not in want
+        except TypeError:
+            return False
+        return False
+    if "all" in pred:
+        return all(_eval_pred(s, ctx) for s in pred["all"])
+    if "any" in pred:
+        return any(_eval_pred(s, ctx) for s in pred["any"])
+    return not _eval_pred(pred["not"], ctx)
+
+
 class Ledger:
     def __init__(self, path):
         """path: directory holding events.jsonl and ledger.db (created if missing)."""
@@ -192,11 +294,19 @@ class Ledger:
                 self.db.execute("PRAGMA table_info(writers)")]
         if "pubkey" not in cols:
             self.db.execute("ALTER TABLE writers ADD COLUMN pubkey TEXT")
+        # rule column on policies (added in v0.10; backfill old DBs)
+        cols = [r["name"] for r in
+                self.db.execute("PRAGMA table_info(policies)")]
+        if "rule" not in cols:
+            self.db.execute("ALTER TABLE policies ADD COLUMN rule TEXT")
         self.db.commit()
-        # default governance policy lives in the store (Design Memo 06)
+        # default governance policy lives in the store (Design Memo 06);
+        # v0.10 registers its rule as data at version 2 (Memo 11)
         name, desc = DEFAULT_POLICY
-        if self.audit_policy(name) is None:
-            self.register_policy(name, desc, version=1, actor="system")
+        live = self.audit_policy(name)
+        if live is None or live["version"] < 2:
+            self.register_policy(name, desc, version=2, actor="system",
+                                 rule=DEFAULT_POLICY_RULE)
 
     # ------------------------------------------------------------------
     # events (write model)
@@ -660,8 +770,13 @@ class Ledger:
         return float(row["score"])
 
     def register_policy(self, name, description, version=1, actor="system",
-                        t=None):
-        """Policies are facts in the store they govern (Quipu GS5)."""
+                        t=None, rule=None):
+        """Policies are facts in the store they govern (Quipu GS5).
+        rule (v0.10, Design Memo 11): a predicate-policy dict
+        {"action": ..., "effect": "hold"|"deny", "when": <predicate>},
+        validated at registration and stored as JSON beside the prose."""
+        if rule is not None:
+            _validate_rule(rule)
         t = t or _now()
         live = self.audit_policy(name)
         if live is not None and live["version"] == version:
@@ -670,8 +785,10 @@ class Ledger:
             "UPDATE policies SET txn_to = ? WHERE name = ? AND txn_to IS NULL",
             (t, name))
         self.db.execute(
-            "INSERT INTO policies(name, txn_from, description, version)"
-            " VALUES (?, ?, ?, ?)", (name, t, description, version))
+            "INSERT INTO policies(name, txn_from, description, version,"
+            " rule) VALUES (?, ?, ?, ?, ?)",
+            (name, t, description, version,
+             json.dumps(rule) if rule is not None else None))
         self.db.commit()
         self._emit("policy_registered",
                    {"name": name, "version": version}, actor=actor, t=t)
@@ -680,12 +797,143 @@ class Ledger:
         """The rule in force at T (Quipu GS6: bitemporal rules)."""
         t = t or _now()
         r = self.db.execute(
-            "SELECT name, description, version, txn_from FROM policies"
+            "SELECT name, description, version, txn_from, rule"
+            " FROM policies"
+            " WHERE name = ? AND txn_from <= ?"
+            "   AND (txn_to IS NULL OR txn_to > ?)"
+            " ORDER BY txn_from DESC LIMIT 1",
+            (name, t, t)).fetchone()
+        if r is None:
+            return None
+        d = dict(r)
+        d["rule"] = json.loads(d["rule"]) if d.get("rule") else None
+        return d
+
+    def live_policies(self):
+        """All currently-live policy rows (rules parsed)."""
+        rows = self.db.execute(
+            "SELECT name, description, version, txn_from, rule"
+            " FROM policies WHERE txn_to IS NULL").fetchall()
+        out = []
+        for r in rows:
+            d = dict(r)
+            d["rule"] = json.loads(d["rule"]) if d.get("rule") else None
+            out.append(d)
+        return out
+
+    def _policy_gate(self, action, ctx):
+        """Evaluate live predicate policies over a post-state context
+        (Design Memo 11). Returns (effect, policy_name); deny beats
+        hold. The default policy's semantics apply even when its live
+        row predates rules (compiled-in fallback, same predicate)."""
+        hits = []
+        default_has_rule = False
+        for p in self.live_policies():
+            rule = p.get("rule")
+            if not rule or rule.get("action") != action:
+                continue
+            if p["name"] == DEFAULT_POLICY[0]:
+                default_has_rule = True
+            if _eval_pred(rule["when"], ctx):
+                hits.append((rule["effect"], p["name"]))
+        if action == "declare_contradiction" and not default_has_rule:
+            if _eval_pred(DEFAULT_POLICY_RULE["when"], ctx):
+                hits.append(("hold", DEFAULT_POLICY[0]))
+        for effect in ("deny", "hold"):
+            for eff, name_ in hits:
+                if eff == effect:
+                    return effect, name_
+        return None, None
+
+    def _deny(self, policy, action, ctx, actor, t):
+        """A policy denial is a verdict (GS2): persisted, then raised."""
+        self._emit("policy_denied",
+                   {"policy": policy, "action": action,
+                    "writer": ctx.get("writer")},
+                   actor=actor, t=t)
+        raise PermissionError(
+            f"policy {policy} denies {action}")
+
+    # ------------------------------------------------------------------
+    # named-graph partitions (v0.10, Design Memo 11; Quipu GS3/GS4)
+    # ------------------------------------------------------------------
+    def register_graph(self, name, ceiling, actor="system", t=None):
+        """Register (or re-ceiling) a partition. Bitemporal: the old
+        row closes, the new one opens, audit_graph answers for T."""
+        ceiling = float(ceiling)
+        if not 0.0 <= ceiling <= 1.0:
+            raise ValueError("ceiling must be in [0, 1]")
+        t = t or _now()
+        self.db.execute(
+            "UPDATE graphs SET txn_to = ? WHERE name = ? AND txn_to IS NULL",
+            (t, name))
+        self.db.execute(
+            "INSERT INTO graphs(name, txn_from, ceiling) VALUES (?, ?, ?)",
+            (name, t, ceiling))
+        self.db.commit()
+        self._emit("graph_registered",
+                   {"graph": name, "ceiling": ceiling}, actor=actor, t=t)
+
+    def audit_graph(self, name, t=None):
+        """The graph registration in force at T, or None."""
+        t = t or _now()
+        r = self.db.execute(
+            "SELECT name, ceiling, txn_from FROM graphs"
             " WHERE name = ? AND txn_from <= ?"
             "   AND (txn_to IS NULL OR txn_to > ?)"
             " ORDER BY txn_from DESC LIMIT 1",
             (name, t, t)).fetchone()
         return dict(r) if r else None
+
+    def get_graph_ceiling(self, name):
+        """Live ceiling of a graph; the default graph caps nothing."""
+        if name == DEFAULT_GRAPH:
+            live = self.audit_graph(name)
+            return float(live["ceiling"]) if live else 1.0
+        live = self.audit_graph(name)
+        if live is None:
+            raise KeyError(f"unregistered graph {name}")
+        return float(live["ceiling"])
+
+    def assign_graph(self, claim_id, graph, actor="system", t=None):
+        """Assign a claim to a partition (bitemporal)."""
+        if self._live_claim(claim_id) is None:
+            raise KeyError(f"unknown claim {claim_id}")
+        self.get_graph_ceiling(graph)  # KeyError if unregistered
+        t = t or _now()
+        self.db.execute(
+            "UPDATE claim_graphs SET txn_to = ?"
+            " WHERE claim_id = ? AND txn_to IS NULL", (t, claim_id))
+        self.db.execute(
+            "INSERT INTO claim_graphs(claim_id, txn_from, graph)"
+            " VALUES (?, ?, ?)", (claim_id, t, graph))
+        self.db.commit()
+        self._emit("graph_assigned",
+                   {"claim_id": claim_id, "graph": graph},
+                   actor=actor, t=t)
+
+    def get_graph(self, claim_id):
+        """Live partition of a claim (default graph if unassigned)."""
+        r = self.db.execute(
+            "SELECT graph FROM claim_graphs"
+            " WHERE claim_id = ? AND txn_to IS NULL",
+            (claim_id,)).fetchone()
+        return r["graph"] if r else DEFAULT_GRAPH
+
+    def effective_entrenchment(self, claim_id):
+        """Entrenchment as decisions may use it (Memo 11): the stored
+        value capped by the claim's partition ceiling and by the
+        ceilings of its direct supporters' partitions. Composition
+        never widens authority; the stored value is never rewritten."""
+        row = self._live_claim(claim_id)
+        if row is None:
+            raise KeyError(f"unknown claim {claim_id}")
+        eff = float(row["entrenchment"])
+        eff = min(eff, self.get_graph_ceiling(self.get_graph(claim_id)))
+        for e in self._live_edges(claim_id):
+            eff = min(eff, self.get_graph_ceiling(
+                self.get_graph(e["supports_id"])))
+        return eff
 
     def assign_topic(self, claim_id, topic, actor="system", t=None):
         """Assign a proposition-identity topic to a claim (bitemporal).
@@ -862,12 +1110,18 @@ class Ledger:
             if self._live_claim(c) is None:
                 raise KeyError(f"unknown claim {c}")
         tier = self.get_writer(writer) if writer else None
-        axiomatic = any(float(self._live_claim(c)["entrenchment"]) >= 1.0
-                        for c in (claim_a, claim_b))
-        if axiomatic and tier != "owner":
+        target = max(self.effective_entrenchment(claim_a),
+                     self.effective_entrenchment(claim_b))
+        ctx = {"action": "declare_contradiction", "writer": writer,
+               "writer_tier": tier, "target_entrenchment": target,
+               "claim_a": claim_a, "claim_b": claim_b}
+        effect, policy = self._policy_gate("declare_contradiction", ctx)
+        if effect == "deny":
+            self._deny(policy, "declare_contradiction", ctx, actor, t)
+        if effect == "hold":
             ev = self._emit(
                 "contradiction_held",
-                {"policy": DEFAULT_POLICY[0], "claim_a": claim_a,
+                {"policy": policy, "claim_a": claim_a,
                  "claim_b": claim_b, "writer": writer, "tier": tier,
                  "p_loser_given_winner": float(p_loser_given_winner),
                  "outcome": "held",
@@ -915,6 +1169,12 @@ class Ledger:
                      if e["event_id"] == held_id), None)
         if held is None:
             raise KeyError(f"no held contradiction {held_id}")
+        ctx = {"action": "escalate_contradiction", "writer": writer,
+               "writer_tier": "owner", "decision": decision,
+               "held_id": held_id}
+        effect, policy = self._policy_gate("escalate_contradiction", ctx)
+        if effect == "deny":
+            self._deny(policy, "escalate_contradiction", ctx, actor, t)
         msg = self.verdict_message("escalate", held_id, writer, decision)
         verdict = self._require_verdict_signature(writer, signature, msg)
         hp = held["payload"]
@@ -1074,7 +1334,8 @@ class Ledger:
                        actor=actor, t=t)
             return {"resolved": False, "reason": "claim not live",
                     "contradiction_id": contradiction_id}
-        ea, eb = float(ra["entrenchment"]), float(rb["entrenchment"])
+        ea, eb = (self.effective_entrenchment(a),
+                  self.effective_entrenchment(b))
         if abs(ea - eb) < 1e-9:
             self._emit("contradiction_unresolved",
                        {"contradiction_id": contradiction_id,
@@ -1082,9 +1343,18 @@ class Ledger:
                        actor=actor, t=t)
             return {"resolved": False, "reason": "tie",
                     "contradiction_id": contradiction_id}
+        loser, winner = (a, b) if ea < eb else (b, a)
+        ctx = {"action": "resolve_contradiction", "writer": writer,
+               "writer_tier": (self.get_writer(writer)
+                               if writer else None),
+               "loser": loser, "winner": winner,
+               "loser_entrenchment": min(ea, eb),
+               "winner_entrenchment": max(ea, eb)}
+        effect, policy = self._policy_gate("resolve_contradiction", ctx)
+        if effect == "deny":
+            self._deny(policy, "resolve_contradiction", ctx, actor, t)
         msg = self.verdict_message("resolve", contradiction_id, writer)
         verdict = self._require_verdict_signature(writer, signature, msg)
-        loser, winner = (a, b) if ea < eb else (b, a)
         rl, rw = self._live_claim(loser), self._live_claim(winner)
         sl, sw = float(rl["score"]), float(rw["score"])
         p_lw = float(ce["payload"]["p_loser_given_winner"])

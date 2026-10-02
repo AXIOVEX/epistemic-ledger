@@ -455,22 +455,24 @@ def test_contradiction_gate_passes_non_axiomatic(ledger):
 
 def test_policies_are_facts_and_bitemporal(ledger):
     p = ledger.audit_policy("challenge-axiom-requires-owner")
-    assert p is not None and p["version"] == 1
+    # v0.10: the default policy registers at version 2, rule as data
+    assert p is not None and p["version"] == 2
+    assert p["rule"]["effect"] == "hold"
     # supersede the policy with an explicit later t; as-of queries see the
     # rule that was in force at T (times relative to actual registration)
     t_init = next(e for e in ledger._events()
                   if e["type"] == "policy_registered")["t"]
     ledger.register_policy("challenge-axiom-requires-owner",
-                           "stricter version", version=2)
+                           "stricter version", version=3)
     assert ledger.audit_policy(
-        "challenge-axiom-requires-owner")["version"] == 2
+        "challenge-axiom-requires-owner")["version"] == 3
     assert ledger.audit_policy(
-        "challenge-axiom-requires-owner", t=t_init)["version"] == 1
+        "challenge-axiom-requires-owner", t=t_init)["version"] == 2
     # idempotent re-registration
     n0 = len([e for e in ledger._events()
               if e["type"] == "policy_registered"])
     ledger.register_policy("challenge-axiom-requires-owner",
-                           "stricter version", version=2)
+                           "stricter version", version=3)
     n1 = len([e for e in ledger._events()
               if e["type"] == "policy_registered"])
     assert n0 == n1
@@ -907,3 +909,130 @@ def test_signature_audit_detects_key_rotation(ledger):
     # re-registering without a key preserves it (no silent strip)
     ledger.register_writer("owner-1", "owner")
     assert ledger.get_writer_pubkey("owner-1") == other
+
+
+# ----------------------------------------------------------------------
+# v0.10: named-graph partitions + predicate policies (Design Memo 11)
+# ----------------------------------------------------------------------
+
+import ledger as ledger_module
+
+def test_graph_assignment_and_ceilings(ledger):
+    ledger.register_graph("quarantine", 0.25)
+    assert ledger.get_graph_ceiling("quarantine") == 0.25
+    assert ledger.get_graph_ceiling("public") == 1.0
+    c = ledger.assert_claim("a claim", 0.9, entrenchment=0.75)
+    assert ledger.get_graph(c) == "public"
+    assert ledger.effective_entrenchment(c) == 0.75
+    ledger.assign_graph(c, "quarantine")
+    assert ledger.get_graph(c) == "quarantine"
+    assert ledger.effective_entrenchment(c) == 0.25
+    # stored value is never rewritten by the cap
+    assert float(ledger._live_claim(c)["entrenchment"]) == 0.75
+    with pytest.raises(KeyError):
+        ledger.assign_graph(c, "no-such-graph")
+    with pytest.raises(KeyError):
+        ledger.assign_graph("C-nope", "quarantine")
+    with pytest.raises(ValueError):
+        ledger.register_graph("bad", 1.5)
+
+
+def test_graph_ceiling_is_bitemporal(ledger):
+    ledger.register_graph("lab", 0.5, t="2026-01-01T00:00:00+00:00")
+    ledger.register_graph("lab", 0.3, t="2026-06-01T00:00:00+00:00")
+    assert ledger.audit_graph("lab")["ceiling"] == 0.3
+    assert ledger.audit_graph(
+        "lab", t="2026-03-01T00:00:00+00:00")["ceiling"] == 0.5
+
+
+def test_cross_graph_composition_never_widens(ledger):
+    ledger.register_graph("quarantine", 0.25)
+    parent = ledger.assert_claim("tainted parent", 0.9, entrenchment=0.5)
+    ledger.assign_graph(parent, "quarantine")
+    child = ledger.assert_claim("derived", 0.9, entrenchment=0.9)
+    assert ledger.effective_entrenchment(child) == 0.9
+    ledger.add_support(child, parent, "evidential", 0.9, 0.1)
+    # resting on a quarantined claim caps the child's authority
+    assert ledger.effective_entrenchment(child) == 0.25
+    ledger.retract_support(child, parent)
+    assert ledger.effective_entrenchment(child) == 0.9  # cap lifts
+
+
+def test_quarantine_strips_axiom_protection_and_wins_resolution(ledger):
+    ledger.register_graph("quarantine", 0.25)
+    ledger.register_writer("contrib-1", "contributor")
+    axiom = ledger.assert_claim("stored axiom", 0.9, entrenchment=1.0)
+    ledger.assign_graph(axiom, "quarantine")
+    other = ledger.assert_claim("ordinary", 0.8, entrenchment=0.5)
+    # stored 1.0 but effective 0.25: no hold for a non-owner challenge
+    cid = ledger.declare_contradiction(axiom, other, writer="contrib-1")
+    assert [e["event_id"] for e in ledger.open_contradictions()] == [cid]
+    # and in resolution the capped "axiom" is the loser
+    res = ledger.resolve_contradiction(cid)
+    assert res["resolved"] and res["loser"] == axiom
+
+
+def test_default_policy_rule_is_data(ledger):
+    p = ledger.audit_policy("challenge-axiom-requires-owner")
+    assert p["rule"] == ledger_module.DEFAULT_POLICY_RULE
+    # and it still holds a non-owner challenge to a true (public) axiom
+    ledger.register_writer("contrib-1", "contributor")
+    axiom = ledger.assert_claim("real axiom", 0.9, entrenchment=1.0)
+    chal = ledger.assert_claim("challenger", 0.8, entrenchment=0.5)
+    held_id = ledger.declare_contradiction(axiom, chal,
+                                           writer="contrib-1")
+    held = ledger.held_contradictions()
+    assert [e["event_id"] for e in held] == [held_id]
+    assert held[0]["payload"]["policy"] == (
+        "challenge-axiom-requires-owner")
+
+
+def test_predicate_policy_denies_resolution(ledger):
+    ledger.register_policy(
+        "no-easy-resolutions", "deny resolving away strong claims",
+        version=1,
+        rule={"action": "resolve_contradiction", "effect": "deny",
+              "when": {"field": "loser_entrenchment", "op": ">=",
+                       "value": 0.75}})
+    strong = ledger.assert_claim("strong", 0.9, entrenchment=0.9)
+    mid = ledger.assert_claim("mid", 0.8, entrenchment=0.75)
+    cid = ledger.declare_contradiction(strong, mid)
+    with pytest.raises(PermissionError):
+        ledger.resolve_contradiction(cid)
+    assert any(e["type"] == "policy_denied"
+               for e in ledger._events())
+    assert [e["event_id"] for e in ledger.open_contradictions()] == [cid]
+    # a resolution whose loser is weak proceeds
+    weak = ledger.assert_claim("weak", 0.7, entrenchment=0.25)
+    cid2 = ledger.declare_contradiction(strong, weak)
+    assert ledger.resolve_contradiction(cid2)["resolved"]
+
+
+def test_predicate_language_composition_and_validation(ledger):
+    # any/not nesting, evaluated through an escalate-deny rule
+    ledger.register_policy(
+        "no-dismissals", "owners may release but never dismiss",
+        version=1,
+        rule={"action": "escalate_contradiction", "effect": "deny",
+              "when": {"any": [
+                  {"field": "decision", "op": "==", "value": "dismiss"},
+                  {"not": {"field": "writer_tier", "op": "==",
+                           "value": "owner"}}]}})
+    held_id, _, _ = _governed(ledger, keyed=False)
+    with pytest.raises(PermissionError):
+        ledger.escalate_contradiction(held_id, "dismiss",
+                                      writer="owner-1")
+    out = ledger.escalate_contradiction(held_id, "release",
+                                        writer="owner-1")
+    assert out["decision"] == "release"
+    # malformed rules are refused at registration
+    with pytest.raises(ValueError):
+        ledger.register_policy(
+            "junk", "bad op", version=1,
+            rule={"action": "resolve_contradiction", "effect": "deny",
+                  "when": {"field": "x", "op": "~=", "value": 1}})
+    with pytest.raises(ValueError):  # hold needs a verdict queue
+        ledger.register_policy(
+            "junk2", "hold on resolve", version=1,
+            rule={"action": "resolve_contradiction", "effect": "hold",
+                  "when": {"field": "x", "op": "==", "value": 1}})
