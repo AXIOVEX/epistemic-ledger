@@ -44,7 +44,12 @@ The same machinery answers a pressing LLM problem: **context cleanup**. Retrieva
 ├── LICENSE              # All rights reserved, © 2026 Axiovex Systems, LLC
 ├── docs/
 │   ├── PAPER.md         # The framing paper
-│   ├── DESIGN-01-record-schema-scoring.md  # Design memo 01 (record schema + scoring)
+│   ├── DESIGN-01-record-schema-scoring.md  # Record schema + scoring calculus
+│   ├── DESIGN-02-contradiction-resolution.md  # Entrenchment-ordered contraction
+│   ├── DESIGN-03-learned-entrenchment.md   # Calibration-derived entrenchment
+│   ├── DESIGN-04-ds-intervals.md           # D–S intervals: keep-or-cut verdict
+│   ├── TRIGGER-STRESS-01.md  # Trigger-discipline stress test report
+│   ├── CONTEXT-CLEANUP-01.md  # LLM context-cleanup experiment report
 │   └── research/        # Raw research notes with provenance (2026-09-30)
 ├── prototype/           # v0.1 prototype (stdlib-only Python)
 │   ├── ledger.py        # Core: event log, bitemporal store, revisit loop, queries

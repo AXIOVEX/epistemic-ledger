@@ -35,6 +35,18 @@ Ties go to a human; the loser is Jeffrey-contracted against the winner and its
 dependents re-propagate. Manual entrenchment tiers via `apply_tier`
 (axiomatic/measured/inferred/provisional/deprecated); learned tiers deferred.
 
+## v0.3: learned entrenchment, D–S intervals, context cleanup
+
+- `learn_entrenchment()`: offline pass deriving entrenchment from calibration
+  (1 − Brier against score-at-outcome-time); no data, no learning
+  (`../docs/DESIGN-03-learned-entrenchment.md`).
+- Opt-in Dempster–Shafer `[Bel, Pl]` intervals per claim with Dempster
+  combination and refusal on pathological conflict; ignorance-gated abstention
+  is the use-case that earns its keep (`../docs/DESIGN-04-ds-intervals.md`).
+- `context/experiment.py`: ledger-backed vs frozen working memory on a
+  flipping world — 70.6% of naive errors eliminated
+  (`../docs/CONTEXT-CLEANUP-01.md`).
+
 ## Known v0.1 simplifications (documented, not hidden)
 
 - Multi-supporter Jeffrey updates apply sequentially in edge order (naive).

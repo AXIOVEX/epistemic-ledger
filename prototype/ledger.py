@@ -56,9 +56,18 @@ CREATE TABLE IF NOT EXISTS support_edges(
   PRIMARY KEY (claim_id, supports_id, txn_from)
 );
 CREATE TABLE IF NOT EXISTS outcomes(
-  claim_id TEXT PRIMARY KEY,
+  claim_id TEXT NOT NULL,
   outcome  INTEGER NOT NULL,
-  t        TEXT NOT NULL
+  t        TEXT NOT NULL,
+  PRIMARY KEY (claim_id, t)
+);
+CREATE TABLE IF NOT EXISTS claim_intervals(
+  claim_id     TEXT NOT NULL,
+  txn_from     TEXT NOT NULL,
+  txn_to       TEXT,
+  belief       REAL NOT NULL,
+  plausibility REAL NOT NULL,
+  PRIMARY KEY (claim_id, txn_from)
 );
 """
 
@@ -201,6 +210,50 @@ class Ledger:
             raise KeyError(f"unknown tier {tier!r}; choose from {sorted(ENTRENCHMENT_TIERS)}")
         return self.set_entrenchment(claim_id, ENTRENCHMENT_TIERS[tier],
                                      actor=actor, t=t)
+
+    def learn_entrenchment(self, min_outcomes=3, actor="system", t=None):
+        """Offline learning pass (v0.3): derive entrenchment from calibration.
+
+        For claims with >= min_outcomes recorded outcomes, entrenchment =
+        1 - Brier, where each outcome is scored against the claim version
+        live at the outcome's time. Claims without enough outcomes keep
+        their manual tier: no data, no learning. Emits entrenchment_set
+        with learned=true."""
+        t = t or _now()
+        rows = self.db.execute(
+            """SELECT o.claim_id, o.outcome,
+                      (SELECT c.score FROM claims c
+                       WHERE c.claim_id = o.claim_id
+                         AND c.txn_from <= o.t
+                         AND (c.txn_to IS NULL OR c.txn_to > o.t)
+                       ORDER BY c.txn_from DESC LIMIT 1) AS score_at
+               FROM outcomes o""").fetchall()
+        by_claim = {}
+        for r in rows:
+            if r["score_at"] is not None:
+                by_claim.setdefault(r["claim_id"], []).append(
+                    (float(r["score_at"]), int(r["outcome"])))
+        report = []
+        for cid, hist in by_claim.items():
+            if len(hist) < min_outcomes:
+                continue
+            brier = sum((s - o) ** 2 for s, o in hist) / len(hist)
+            new_e = max(0.0, min(1.0, 1.0 - brier))
+            live = self._live_claim(cid)
+            if live is None:
+                continue
+            old_e = float(live["entrenchment"])
+            if abs(new_e - old_e) < 1e-9:
+                continue
+            self._new_version(cid, float(live["score"]), new_e, t)
+            self._emit("entrenchment_set",
+                       {"claim_id": cid, "old": old_e, "new": new_e,
+                        "learned": True, "brier": round(brier, 4),
+                        "n_outcomes": len(hist)},
+                       actor=actor, t=t)
+            report.append({"claim_id": cid, "old": old_e, "new": new_e,
+                           "brier": brier, "n": len(hist)})
+        return report
 
     def manual_score(self, claim_id, score, actor="human", t=None):
         """A human hand-sets a score. Counts toward the override-rate metric."""
@@ -438,6 +491,71 @@ class Ledger:
                 "contradiction_id": contradiction_id, "revisit": rep}
 
     # ------------------------------------------------------------------
+    # Dempster-Shafer intervals (v0.3, opt-in — see DESIGN-04)
+    # ------------------------------------------------------------------
+    def set_interval(self, claim_id, belief, plausibility, actor="system", t=None):
+        """Attach a [Bel, Pl] ignorance interval to a claim. Bitemporal."""
+        b, p = float(belief), float(plausibility)
+        if not (0.0 <= b <= p <= 1.0):
+            raise ValueError("need 0 <= belief <= plausibility <= 1")
+        if self._live_claim(claim_id) is None:
+            raise KeyError(f"unknown claim {claim_id}")
+        t = t or _now()
+        self.db.execute(
+            "UPDATE claim_intervals SET txn_to = ? WHERE claim_id = ? AND txn_to IS NULL",
+            (t, claim_id))
+        self.db.execute(
+            "INSERT INTO claim_intervals(claim_id, txn_from, belief, plausibility)"
+            " VALUES (?, ?, ?, ?)", (claim_id, t, b, p))
+        self.db.commit()
+        self._emit("interval_set",
+                   {"claim_id": claim_id, "belief": b, "plausibility": p},
+                   actor=actor, t=t)
+
+    def get_interval(self, claim_id):
+        r = self.db.execute(
+            "SELECT belief, plausibility FROM claim_intervals"
+            " WHERE claim_id = ? AND txn_to IS NULL",
+            (claim_id,)).fetchone()
+        return (float(r["belief"]), float(r["plausibility"])) if r else None
+
+    def ignorance(self, claim_id):
+        """Pl - Bel: how much the ledger explicitly doesn't know."""
+        iv = self.get_interval(claim_id)
+        return iv[1] - iv[0] if iv else None
+
+    def combine_interval(self, claim_id, m_h, m_nh, m_ig, actor="system", t=None):
+        """Dempster-combine the claim's current interval (as a mass function)
+        with new evidence (m_h, m_nh, m_ig; must sum to 1). Refuses on
+        pathological conflict (K >= 0.99) — the rule misbehaves there, so
+        the ledger says so instead of producing nonsense."""
+        cur = self.get_interval(claim_id)
+        if cur is None:
+            raise KeyError("no interval set; call set_interval first")
+        if abs((m_h + m_nh + m_ig) - 1.0) > 1e-9:
+            raise ValueError("masses must sum to 1")
+        b, p = cur
+        a_h, a_nh, a_ig = b, 1.0 - p, p - b  # current as mass fn
+        t = t or _now()
+        K = a_h * m_nh + a_nh * m_h  # conflict mass
+        if K >= 0.99:
+            self._emit("interval_refused",
+                       {"claim_id": claim_id, "conflict": K},
+                       actor=actor, t=t)
+            return {"combined": False, "conflict": K}
+        n = 1.0 - K
+        c_h = (a_h * m_h + a_h * m_ig + a_ig * m_h) / n
+        c_nh = (a_nh * m_nh + a_nh * m_ig + a_ig * m_nh) / n
+        new_b, new_p = c_h, 1.0 - c_nh
+        self.set_interval(claim_id, new_b, new_p, actor=actor, t=t)
+        self._emit("interval_combined",
+                   {"claim_id": claim_id, "belief": new_b,
+                    "plausibility": new_p, "conflict": K},
+                   actor=actor, t=t)
+        return {"combined": True, "belief": new_b,
+                "plausibility": new_p, "conflict": K}
+
+    # ------------------------------------------------------------------
     # queries
     # ------------------------------------------------------------------
     def believed_at(self, t):
@@ -475,10 +593,11 @@ class Ledger:
     # kill-criteria instrumentation
     # ------------------------------------------------------------------
     def record_outcome(self, claim_id, outcome, t=None):
-        """Record that a claim resolved true/false. Feeds the Brier score."""
+        """Record that a claim resolved true/false. Feeds the Brier score.
+        Multiple outcomes per claim are kept (one row per event time)."""
         t = t or _now()
         self.db.execute(
-            "INSERT OR REPLACE INTO outcomes(claim_id, outcome, t) VALUES (?, ?, ?)",
+            "INSERT INTO outcomes(claim_id, outcome, t) VALUES (?, ?, ?)",
             (claim_id, int(bool(outcome)), t))
         self.db.commit()
         self._emit("outcome", {"claim_id": claim_id,
@@ -524,13 +643,21 @@ class Ledger:
                   "avg": sum(fanouts) / len(fanouts) if fanouts else 0.0,
                   "max": max(fanouts) if fanouts else 0}
 
-        # 4. miscalibration: Brier score over resolved claims.
+        # 4. miscalibration: Brier score over resolved claims, each scored
+        #    against the claim version live at the outcome's time.
         resolved = self.db.execute(
-            """SELECT c.score, o.outcome FROM outcomes o
-               JOIN claims c ON c.claim_id = o.claim_id AND c.txn_to IS NULL"""
+            """SELECT o.outcome,
+                      (SELECT c.score FROM claims c
+                       WHERE c.claim_id = o.claim_id
+                         AND c.txn_from <= o.t
+                         AND (c.txn_to IS NULL OR c.txn_to > o.t)
+                       ORDER BY c.txn_from DESC LIMIT 1) AS score_at
+               FROM outcomes o"""
         ).fetchall()
-        brier = (sum((r["score"] - r["outcome"]) ** 2 for r in resolved)
-                 / len(resolved)) if resolved else None
+        scored = [(r["score_at"], r["outcome"]) for r in resolved
+                  if r["score_at"] is not None]
+        brier = (sum((s - o) ** 2 for s, o in scored) / len(scored)
+                 if scored else None)
 
         # 5. override rate: human score_revisions without a triggering event.
         manual = [e for e in score_revs

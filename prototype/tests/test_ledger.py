@@ -237,3 +237,70 @@ def test_contradiction_propagates_to_dependents(ledger):
                                               "2026-01-05T00:00:00+00:00")}
     assert {"contradiction", "contract", "contradiction_resolved",
             "score_revision"} <= types
+
+
+# ----------------------------------------------------------------------
+# v0.3: learned entrenchment + D-S intervals
+# ----------------------------------------------------------------------
+
+def test_learn_entrenchment_from_brier(ledger):
+    good = ledger.assert_claim("good", 0.90, t="2026-01-01T00:00:00+00:00")
+    bad = ledger.assert_claim("bad", 0.90, t="2026-01-01T00:00:00+00:00")
+    thin = ledger.assert_claim("thin", 0.90, t="2026-01-01T00:00:00+00:00")
+    for i in range(3):
+        ledger.record_outcome(good, True, t=f"2026-02-0{i + 1}T00:00:00+00:00")
+        ledger.record_outcome(bad, False, t=f"2026-02-0{i + 1}T00:00:00+00:00")
+    ledger.record_outcome(thin, True, t="2026-02-01T00:00:00+00:00")  # only 1
+    rep = ledger.learn_entrenchment(t="2026-03-01T00:00:00+00:00")
+    by_id = {r["claim_id"]: r for r in rep}
+    # Brier 0.01 -> entrenchment 0.99; Brier 0.81 -> 0.19
+    assert by_id[good]["new"] == pytest.approx(0.99)
+    assert by_id[bad]["new"] == pytest.approx(0.19)
+    assert thin not in by_id  # not enough outcomes: manual tier stands
+    assert ledger._live_claim(good)["entrenchment"] == pytest.approx(0.99)
+    assert ledger._live_claim(good)["score"] == pytest.approx(0.90)  # untouched
+    ev = [e for e in ledger._events() if e["type"] == "entrenchment_set"
+          and e["payload"].get("learned")]
+    assert len(ev) == 2
+
+
+def test_learn_entrenchment_uses_score_at_outcome_time(ledger):
+    c = ledger.assert_claim("C", 0.90, t="2026-01-01T00:00:00+00:00")
+    ledger.record_outcome(c, True, t="2026-01-15T00:00:00+00:00")   # at 0.90
+    ledger.manual_score(c, 0.20, actor="human",
+                        t="2026-02-01T00:00:00+00:00")
+    ledger.record_outcome(c, True, t="2026-02-15T00:00:00+00:00")   # at 0.20
+    ledger.record_outcome(c, False, t="2026-03-15T00:00:00+00:00")  # at 0.20
+    rep = ledger.learn_entrenchment(t="2026-04-01T00:00:00+00:00")
+    # Brier = (0.01 + 0.64 + 0.04)/3 = 0.23 -> e = 0.77
+    assert rep[0]["new"] == pytest.approx(0.77)
+
+
+def test_interval_set_and_combine(ledger):
+    c = ledger.assert_claim("C", 0.5, t="2026-01-01T00:00:00+00:00")
+    assert ledger.ignorance(c) is None
+    ledger.set_interval(c, 0.0, 1.0, t="2026-01-02T00:00:00+00:00")  # total ignorance
+    assert ledger.ignorance(c) == pytest.approx(1.0)
+    # evidence: H=0.8, ~H=0.0, ignorance=0.2, against total ignorance
+    # a=(0,0,1): K = 0*0.0 + 0*0.8 = 0; c_h = 0.8, c_nh = 0 -> [0.8, 1.0]
+    r = ledger.combine_interval(c, 0.8, 0.0, 0.2,
+                                t="2026-01-03T00:00:00+00:00")
+    assert r["combined"] is True
+    assert r["conflict"] == pytest.approx(0.0)
+    assert r["belief"] == pytest.approx(0.8)
+    assert r["plausibility"] == pytest.approx(1.0)
+    assert ledger.ignorance(c) == pytest.approx(0.2)
+    with pytest.raises(ValueError):
+        ledger.set_interval(c, 0.7, 0.3)  # belief > plausibility
+
+
+def test_interval_refuses_pathological_conflict(ledger):
+    c = ledger.assert_claim("C", 0.5, t="2026-01-01T00:00:00+00:00")
+    ledger.set_interval(c, 0.99, 1.0, t="2026-01-02T00:00:00+00:00")
+    # K = 0.99*1.0 = 0.99 -> pathological, refused
+    r = ledger.combine_interval(c, 0.0, 1.0, 0.0,
+                                t="2026-01-03T00:00:00+00:00")
+    assert r["combined"] is False
+    assert r["conflict"] == pytest.approx(0.99)
+    # interval unchanged after refusal
+    assert ledger.get_interval(c) == pytest.approx((0.99, 1.0))
