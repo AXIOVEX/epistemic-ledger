@@ -51,6 +51,7 @@ The same machinery answers a pressing LLM problem: **context cleanup**. Retrieva
 │   ├── TRIGGER-STRESS-01.md  # Trigger-discipline stress test report
 │   ├── CONTEXT-CLEANUP-01.md  # LLM context-cleanup experiment report
 │   └── research/        # Raw research notes with provenance (2026-09-30)
+│       └── BIBLIOGRAPHY.md  # Annotated bibliography: primary-source verification (2026-10-01)
 ├── prototype/           # v0.1 prototype (stdlib-only Python)
 │   ├── ledger.py        # Core: event log, bitemporal store, revisit loop, queries
 │   ├── demo.py          # End-to-end scenario

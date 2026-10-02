@@ -37,7 +37,7 @@ Eight threads were surveyed (2026-09-30; raw notes with provenance in `docs/rese
 
 **Canonical.** Alchourrón, Gärdenfors & Makinson, JSL 1985; Gärdenfors, *Knowledge in Flux*, MIT Press 1988; Katsuno & Mendelzon 1991; Hansson, *A Textbook of Belief Dynamics* 1999 (belief *bases* — the implementable variant, where the disputed Recovery postulate fails).
 
-**Limitations.** Logical omniscience (no real agent is deductively closed); the theory is episodic, with no deliberation between alternatives; repairing an inconsistent ontology is NP-hard or worse; frontier LLMs measurably violate AGM postulates under iterated revision.
+**Limitations.** Logical omniscience (no real agent is deductively closed); the theory is episodic, with no deliberation between alternatives; repairing an inconsistent ontology is NP-hard or worse; LLMs show systematic belief-revision failures (Belief-R benchmark: models "incapable of revising their prior beliefs," arXiv:2406.19764) and coherence-norm violations (arXiv:2406.03442) — no located study tests the AGM postulates directly, so the weaker, sourced claim is used.
 
 ### 3.3 Truth maintenance (JTMS / ATMS)
 
@@ -83,7 +83,7 @@ Eight threads were surveyed (2026-09-30; raw notes with provenance in `docs/rese
 
 **Closest existing system to the ledger:** Zep/Graphiti bitemporal knowledge graphs — every edge carries event time plus ingestion time, enabling non-lossy retroactive correction and fact invalidation/supersession.
 
-**Limitations.** Summarization loses detail and can drift; self-edited memory degrades without offline consolidation; no formal TMS runs at LLM scale; frontier LLMs violate AGM rationality postulates under iterated revision — the reasoner is the weak link in any justification-tracking scheme.
+**Limitations.** Summarization loses detail and can drift; self-edited memory degrades without offline consolidation; no formal TMS runs at LLM scale; LLMs fail belief-revision benchmarks and coherence norms (arXiv:2406.19764, arXiv:2406.03442) — the reasoner is the weak link in any justification-tracking scheme.
 
 ## 4. Convergences
 
@@ -97,7 +97,7 @@ Eight threads were surveyed (2026-09-30; raw notes with provenance in `docs/rese
 1. What is the ledger's native record schema — bitemporal tuples, events, or both?
 2. What scoring calculus: single credences, intervals, or sets of distributions?
 3. Where does the materiality threshold live, and who tunes it?
-4. How are justifications captured for conclusions produced by LLMs, which violate AGM postulates under iteration?
+4. How are justifications captured for conclusions produced by LLMs, which fail belief-revision benchmarks under iteration?
 5. What is the query language — "what did we believe at time T," "what changed between T1 and T2," "what depends on fact F"?
 6. What are the ledger's own kill criteria — how would we know the design is failing?
 
@@ -111,4 +111,4 @@ Eight threads were surveyed (2026-09-30; raw notes with provenance in `docs/rese
 
 ---
 
-*Research conducted 2026-09-30. All findings index-level (web search page text, cross-checked across 2+ independent sources per topic); canonical paper facts corroborated across multiple sources. Raw notes with provenance: `docs/research/`.*
+*Research conducted 2026-09-30 (index-level: web search page text, cross-checked across 2+ independent sources per topic). Primary-source verification pass 2026-10-01 via arXiv/OpenAlex APIs: see `docs/research/BIBLIOGRAPHY.md` for the annotated bibliography, verification statuses, and one correction applied (LLM/AGM claim softened to the sourced weaker claim). Raw notes with provenance: `docs/research/`.*
