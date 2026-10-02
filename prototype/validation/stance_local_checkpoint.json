@@ -6982,6 +6982,270 @@
    "pool": "assert",
    "got_fact": 8,
    "got_true": true
+  },
+  "100": {
+   "fact": 8,
+   "pool": "assert",
+   "got_fact": 8,
+   "got_true": true
+  },
+  "101": {
+   "fact": 8,
+   "pool": "assert",
+   "got_fact": 8,
+   "got_true": true
+  },
+  "102": {
+   "fact": 8,
+   "pool": "deny",
+   "got_fact": 8,
+   "got_true": false
+  },
+  "103": {
+   "fact": 8,
+   "pool": "deny",
+   "got_fact": 8,
+   "got_true": true
+  },
+  "104": {
+   "fact": 8,
+   "pool": "deny",
+   "got_fact": 8,
+   "got_true": true
+  },
+  "105": {
+   "fact": 8,
+   "pool": "deny",
+   "got_fact": 8,
+   "got_true": false
+  },
+  "106": {
+   "fact": 8,
+   "pool": "deny",
+   "got_fact": 8,
+   "got_true": true
+  },
+  "107": {
+   "fact": 8,
+   "pool": "deny",
+   "got_fact": 8,
+   "got_true": true
+  },
+  "108": {
+   "fact": 9,
+   "pool": "assert",
+   "got_fact": 9,
+   "got_true": true
+  },
+  "109": {
+   "fact": 9,
+   "pool": "assert",
+   "got_fact": 9,
+   "got_true": true
+  },
+  "110": {
+   "fact": 9,
+   "pool": "assert",
+   "got_fact": 9,
+   "got_true": true
+  },
+  "111": {
+   "fact": 9,
+   "pool": "assert",
+   "got_fact": 9,
+   "got_true": true
+  },
+  "112": {
+   "fact": 9,
+   "pool": "assert",
+   "got_fact": 9,
+   "got_true": true
+  },
+  "113": {
+   "fact": 9,
+   "pool": "assert",
+   "got_fact": 9,
+   "got_true": true
+  },
+  "114": {
+   "fact": 9,
+   "pool": "deny",
+   "got_fact": 9,
+   "got_true": true
+  },
+  "115": {
+   "fact": 9,
+   "pool": "deny",
+   "got_fact": 9,
+   "got_true": false
+  },
+  "116": {
+   "fact": 9,
+   "pool": "deny",
+   "got_fact": 9,
+   "got_true": true
+  },
+  "117": {
+   "fact": 9,
+   "pool": "deny",
+   "got_fact": 9,
+   "got_true": true
+  },
+  "118": {
+   "fact": 9,
+   "pool": "deny",
+   "got_fact": 9,
+   "got_true": true
+  },
+  "119": {
+   "fact": 9,
+   "pool": "deny",
+   "got_fact": 9,
+   "got_true": true
+  },
+  "120": {
+   "fact": 10,
+   "pool": "assert",
+   "got_fact": 10,
+   "got_true": true
+  },
+  "121": {
+   "fact": 10,
+   "pool": "assert",
+   "got_fact": 10,
+   "got_true": true
+  },
+  "122": {
+   "fact": 10,
+   "pool": "assert",
+   "got_fact": 10,
+   "got_true": true
+  },
+  "123": {
+   "fact": 10,
+   "pool": "assert",
+   "got_fact": 10,
+   "got_true": true
+  },
+  "124": {
+   "fact": 10,
+   "pool": "assert",
+   "got_fact": 10,
+   "got_true": true
+  },
+  "125": {
+   "fact": 10,
+   "pool": "assert",
+   "got_fact": 10,
+   "got_true": true
+  },
+  "126": {
+   "fact": 10,
+   "pool": "deny",
+   "got_fact": 10,
+   "got_true": true
+  },
+  "127": {
+   "fact": 10,
+   "pool": "deny",
+   "got_fact": 10,
+   "got_true": true
+  },
+  "128": {
+   "fact": 10,
+   "pool": "deny",
+   "got_fact": 10,
+   "got_true": true
+  },
+  "129": {
+   "fact": 10,
+   "pool": "deny",
+   "got_fact": 10,
+   "got_true": true
+  },
+  "130": {
+   "fact": 10,
+   "pool": "deny",
+   "got_fact": 10,
+   "got_true": false
+  },
+  "131": {
+   "fact": 10,
+   "pool": "deny",
+   "got_fact": 10,
+   "got_true": false
+  },
+  "132": {
+   "fact": 11,
+   "pool": "assert",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "133": {
+   "fact": 11,
+   "pool": "assert",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "134": {
+   "fact": 11,
+   "pool": "assert",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "135": {
+   "fact": 11,
+   "pool": "assert",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "136": {
+   "fact": 11,
+   "pool": "assert",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "137": {
+   "fact": 11,
+   "pool": "assert",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "138": {
+   "fact": 11,
+   "pool": "deny",
+   "got_fact": 11,
+   "got_true": false
+  },
+  "139": {
+   "fact": 11,
+   "pool": "deny",
+   "got_fact": 11,
+   "got_true": false
+  },
+  "140": {
+   "fact": 11,
+   "pool": "deny",
+   "got_fact": 11,
+   "got_true": false
+  },
+  "141": {
+   "fact": 11,
+   "pool": "deny",
+   "got_fact": 11,
+   "got_true": true
+  },
+  "142": {
+   "fact": 11,
+   "pool": "deny",
+   "got_fact": 11,
+   "got_true": false
+  },
+  "143": {
+   "fact": 11,
+   "pool": "deny",
+   "got_fact": 11,
+   "got_true": false
   }
  }
 }
