@@ -168,13 +168,23 @@ class LocalClient:
     complete() interface against an OpenAI-compatible endpoint on
     the owner's machine (llama.cpp server, Qwen3-8B by default).
     Zero spend — `spent` stays 0.0 and cost returns 0.0, so callers
-    that print or cap on cost behave unchanged. Thinking is disabled
-    (chat_template_kwargs) so replies are the bare JSON the parser
-    expects. Failures raise; nothing is silently faked."""
+    that print or cap on cost behave unchanged. Failures raise;
+    nothing is silently faked.
+
+    Shipped defaults are the configuration LOCAL-CONSOLIDATION-01
+    validated: thinking ENABLED with a 12000-token budget. The
+    no-thinking configuration that suffices for extraction fails
+    this task (corpus precision ~0.3-0.5; head-to-head reply
+    degenerates into a repetition loop) — consolidation is a
+    judgment task and at 8B scale it needs the reasoning trace
+    (~5.1k tokens measured on the head-to-head prompt). Serving
+    requirement: per-slot context must fit prompt + budget
+    (~13k tokens for head-to-head-scale prompts; the desktop
+    server runs parallel 1 / ctx 16384 for this pass)."""
 
     def __init__(self, base_url="http://localhost:8083/v1",
-                 model="qwen3-8b-local", timeout=300, max_tokens=1024,
-                 repeat_penalty=1.0, thinking=False):
+                 model="qwen3-8b-local", timeout=300, max_tokens=12000,
+                 repeat_penalty=1.0, thinking=True):
         self.base_url = base_url.rstrip("/")
         self.model = model
         self.timeout = timeout
