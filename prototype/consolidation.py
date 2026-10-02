@@ -173,11 +173,13 @@ class LocalClient:
     expects. Failures raise; nothing is silently faked."""
 
     def __init__(self, base_url="http://localhost:8083/v1",
-                 model="qwen3-8b-local", timeout=300, max_tokens=1024):
+                 model="qwen3-8b-local", timeout=300, max_tokens=1024,
+                 repeat_penalty=1.0):
         self.base_url = base_url.rstrip("/")
         self.model = model
         self.timeout = timeout
         self.max_tokens = max_tokens
+        self.repeat_penalty = repeat_penalty
         self.spent = 0.0
         self.calls = 0
 
@@ -188,6 +190,7 @@ class LocalClient:
                          {"role": "user", "content": prompt}],
             "temperature": 0,
             "max_tokens": self.max_tokens,
+            "repeat_penalty": self.repeat_penalty,
             "chat_template_kwargs": {"enable_thinking": False},
         }
         req = urllib.request.Request(
