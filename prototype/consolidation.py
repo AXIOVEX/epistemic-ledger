@@ -159,6 +159,43 @@ class OpenRouterClient:
         return text, cost
 
 
+class LocalClient:
+    """Drop-in local replacement for OpenRouterClient: same
+    complete() interface against an OpenAI-compatible endpoint on
+    the owner's machine (llama.cpp server, Qwen3-8B by default).
+    Zero spend — `spent` stays 0.0 and cost returns 0.0, so callers
+    that print or cap on cost behave unchanged. Thinking is disabled
+    (chat_template_kwargs) so replies are the bare JSON the parser
+    expects. Failures raise; nothing is silently faked."""
+
+    def __init__(self, base_url="http://localhost:8083/v1",
+                 model="qwen3-8b-local", timeout=300, max_tokens=1024):
+        self.base_url = base_url.rstrip("/")
+        self.model = model
+        self.timeout = timeout
+        self.max_tokens = max_tokens
+        self.spent = 0.0
+        self.calls = 0
+
+    def complete(self, prompt, system=SYSTEM_PROMPT):
+        payload = {
+            "model": self.model,
+            "messages": [{"role": "system", "content": system},
+                         {"role": "user", "content": prompt}],
+            "temperature": 0,
+            "max_tokens": self.max_tokens,
+            "chat_template_kwargs": {"enable_thinking": False},
+        }
+        req = urllib.request.Request(
+            f"{self.base_url}/chat/completions",
+            data=json.dumps(payload).encode(),
+            headers={"Content-Type": "application/json"}, method="POST")
+        with urllib.request.urlopen(req, timeout=self.timeout) as resp:
+            data = json.loads(resp.read())
+        self.calls += 1
+        return data["choices"][0]["message"]["content"], 0.0
+
+
 class FakeLLM:
     """Deterministic stand-in for tests: fixed reply, zero cost."""
 

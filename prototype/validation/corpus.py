@@ -88,12 +88,13 @@ def score(found, truth):
     return prec, rec, tp, fp, fn
 
 
-def run_model(model, cap=5.00):
+def run_model(model, cap=5.00, client=None):
     d = tempfile.mkdtemp(prefix="corpus-")
     L = Ledger(d)
     ids = [L.assert_claim(s, 0.5) for s in CLAIMS]
     idx = {cid: i for i, cid in enumerate(ids)}
-    client = consolidation.OpenRouterClient(model=model, cap_usd=cap)
+    if client is None:
+        client = consolidation.OpenRouterClient(model=model, cap_usd=cap)
     rep = consolidation.Consolidator(L, client).run()
 
     found_contra = set()
@@ -124,7 +125,12 @@ def run_model(model, cap=5.00):
             print(f"  FP: [{a}] {CLAIMS[a][:50]}  vs  [{b}] {CLAIMS[b][:50]}")
     print(f"supports proposed (not scored): {len(rep['supports_proposed'])}")
     shutil.rmtree(d)
-    return client.spent
+    return {"model": model, "spent": client.spent, "calls": client.calls,
+            "contradicts": {"precision": cp[0], "recall": cp[1],
+                            "tp": cp[2], "fp": cp[3], "fn": cp[4]},
+            "same": {"precision": sp[0], "recall": sp[1],
+                     "tp": sp[2], "fp": sp[3], "fn": sp[4]},
+            "supports_proposed": len(rep["supports_proposed"])}
 
 
 if __name__ == "__main__":
@@ -132,5 +138,5 @@ if __name__ == "__main__":
                               "anthropic/claude-haiku-4.5"]
     total = 0.0
     for m in models:
-        total += run_model(m)
+        total += run_model(m)["spent"]
     print(f"\ntotal spend: ${total:.4f}")

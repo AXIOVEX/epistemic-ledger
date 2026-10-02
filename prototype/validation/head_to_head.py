@@ -71,7 +71,7 @@ def declared_pairs(L):
     return out
 
 
-def main():
+def main(client=None):
     model = sys.argv[1] if len(sys.argv) > 1 else "anthropic/claude-haiku-4.5"
     agent = build_agent()
 
@@ -104,6 +104,8 @@ def main():
         shutil.copytree(agent.dir, dest)
         copies[tag] = Ledger(dest)
 
+    results = {}
+
     def report(tag, pairs):
         tp = len(pairs & genuine)
         trap = 1 if d1d2 in pairs else 0
@@ -111,6 +113,9 @@ def main():
         names = sorted("=".join(sorted(label[c] for c in p)) for p in pairs)
         print(f"{tag}: genuine {tp}/{len(genuine)}  AND/OR-trap {trap}  "
               f"other-FP {other_fp}   pairs: {names}")
+        results[tag] = {"genuine": tp, "genuine_total": len(genuine),
+                        "trap": trap, "other_fp": other_fp,
+                        "pairs": names}
 
     # A: heuristic unfiltered
     LA = copies["A"]
@@ -127,23 +132,32 @@ def main():
 
     # C: LLM consolidation
     LC = copies["C"]
-    client = consolidation.OpenRouterClient(model=model, cap_usd=5.00)
+    if client is None:
+        client = consolidation.OpenRouterClient(model=model, cap_usd=5.00)
+    label_model = getattr(client, "model", model)
     rep = consolidation.Consolidator(LC, client).run()
-    print(f"C: LLM consolidation ({model})  cost=${client.spent:.4f}")
+    print(f"C: LLM consolidation ({label_model})  cost=${client.spent:.4f}")
     report("C", declared_pairs(LC))
     print(f"   topics assigned by LLM: {len(rep['topics_assigned'])} claims "
           f"in {len(set(rep['topics_assigned'].values()))} groups; "
           f"supports proposed: {len(rep['supports_proposed'])}")
     # do the LLM topics group the desk pairs together?
+    desk_topics = {}
     for i in CONTESTED:
         w, r = agent.desks[(i, "wire")], agent.desks[(i, "rumor")]
         tw, tr = LC.get_topic(w), LC.get_topic(r)
         print(f"   F{i} desk topics: wire={tw} rumor={tr} "
               f"same={tw is not None and tw == tr}")
+        desk_topics[f"F{i}"] = (tw is not None and tw == tr)
 
-    for L in copies.values():
-        pass
     agent.close()
+    results["C"].update({
+        "model": label_model, "calls": client.calls,
+        "topics_assigned": len(rep["topics_assigned"]),
+        "topic_groups": len(set(rep["topics_assigned"].values())),
+        "supports_proposed": len(rep["supports_proposed"]),
+        "desk_topics_grouped": desk_topics})
+    return results
 
 
 if __name__ == "__main__":
