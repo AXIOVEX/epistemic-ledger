@@ -24,7 +24,10 @@ import sys
 import urllib.request
 
 sys.path.insert(0, "/opt/hatch/skills/skill-creator/bin")
-import dynamic_credentials as dc  # noqa: E402
+# dynamic_credentials is imported lazily inside OpenRouterClient:
+# it exists only on the agent VM, and LocalClient/FakeLLM callers
+# (e.g. the owner's desktop) must be able to import this module
+# without it.
 
 ALLOWED_HOSTS = ["openrouter.ai"]
 BASE = "https://openrouter.ai/api/v1"
@@ -108,6 +111,7 @@ class OpenRouterClient:
         self.pricing = self._fetch_pricing(model)
 
     def _request(self, method, path, payload=None):
+        import dynamic_credentials as dc
         url = BASE + path
         dc.ensure_allowed_url(url, ALLOWED_HOSTS)
         data = json.dumps(payload).encode() if payload is not None else None
