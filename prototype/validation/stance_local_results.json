@@ -654,219 +654,219 @@
   }
  },
  "A:indie": {
-  "correct": 0,
-  "fact_wrong": 0,
-  "value_wrong": 0,
-  "errors": 144,
+  "correct": 140,
+  "fact_wrong": 1,
+  "value_wrong": 3,
+  "errors": 0,
   "n": 144,
   "pools": {
    "assert": {
-    "correct": 0,
+    "correct": 69,
     "fact_wrong": 0,
-    "value_wrong": 0,
-    "errors": 72,
+    "value_wrong": 3,
+    "errors": 0,
     "n": 72
    },
    "deny": {
-    "correct": 0,
-    "fact_wrong": 0,
+    "correct": 71,
+    "fact_wrong": 1,
     "value_wrong": 0,
-    "errors": 72,
+    "errors": 0,
     "n": 72
    }
   },
   "per_fact": {
    "0": {
-    "correct": 0,
-    "fact_wrong": 0,
+    "correct": 11,
+    "fact_wrong": 1,
     "value_wrong": 0,
-    "errors": 12,
+    "errors": 0,
     "n": 12
    },
    "1": {
-    "correct": 0,
+    "correct": 12,
     "fact_wrong": 0,
     "value_wrong": 0,
-    "errors": 12,
+    "errors": 0,
     "n": 12
    },
    "2": {
-    "correct": 0,
+    "correct": 11,
     "fact_wrong": 0,
-    "value_wrong": 0,
-    "errors": 12,
+    "value_wrong": 1,
+    "errors": 0,
     "n": 12
    },
    "3": {
-    "correct": 0,
+    "correct": 12,
     "fact_wrong": 0,
     "value_wrong": 0,
-    "errors": 12,
+    "errors": 0,
     "n": 12
    },
    "4": {
-    "correct": 0,
+    "correct": 11,
     "fact_wrong": 0,
-    "value_wrong": 0,
-    "errors": 12,
+    "value_wrong": 1,
+    "errors": 0,
     "n": 12
    },
    "5": {
-    "correct": 0,
+    "correct": 12,
     "fact_wrong": 0,
     "value_wrong": 0,
-    "errors": 12,
+    "errors": 0,
     "n": 12
    },
    "6": {
-    "correct": 0,
+    "correct": 11,
     "fact_wrong": 0,
-    "value_wrong": 0,
-    "errors": 12,
+    "value_wrong": 1,
+    "errors": 0,
     "n": 12
    },
    "7": {
-    "correct": 0,
+    "correct": 12,
     "fact_wrong": 0,
     "value_wrong": 0,
-    "errors": 12,
+    "errors": 0,
     "n": 12
    },
    "8": {
-    "correct": 0,
+    "correct": 12,
     "fact_wrong": 0,
     "value_wrong": 0,
-    "errors": 12,
+    "errors": 0,
     "n": 12
    },
    "9": {
-    "correct": 0,
+    "correct": 12,
     "fact_wrong": 0,
     "value_wrong": 0,
-    "errors": 12,
+    "errors": 0,
     "n": 12
    },
    "10": {
-    "correct": 0,
+    "correct": 12,
     "fact_wrong": 0,
     "value_wrong": 0,
-    "errors": 12,
+    "errors": 0,
     "n": 12
    },
    "11": {
-    "correct": 0,
+    "correct": 12,
     "fact_wrong": 0,
     "value_wrong": 0,
-    "errors": 12,
+    "errors": 0,
     "n": 12
    }
   }
  },
  "B:indie": {
-  "correct": 0,
-  "fact_wrong": 0,
-  "value_wrong": 0,
-  "errors": 144,
+  "correct": 140,
+  "fact_wrong": 1,
+  "value_wrong": 3,
+  "errors": 0,
   "n": 144,
   "pools": {
    "assert": {
-    "correct": 0,
+    "correct": 72,
     "fact_wrong": 0,
     "value_wrong": 0,
-    "errors": 72,
+    "errors": 0,
     "n": 72
    },
    "deny": {
-    "correct": 0,
-    "fact_wrong": 0,
-    "value_wrong": 0,
-    "errors": 72,
+    "correct": 68,
+    "fact_wrong": 1,
+    "value_wrong": 3,
+    "errors": 0,
     "n": 72
    }
   },
   "per_fact": {
    "0": {
-    "correct": 0,
-    "fact_wrong": 0,
+    "correct": 11,
+    "fact_wrong": 1,
     "value_wrong": 0,
-    "errors": 12,
+    "errors": 0,
     "n": 12
    },
    "1": {
-    "correct": 0,
+    "correct": 12,
     "fact_wrong": 0,
     "value_wrong": 0,
-    "errors": 12,
+    "errors": 0,
     "n": 12
    },
    "2": {
-    "correct": 0,
+    "correct": 11,
     "fact_wrong": 0,
-    "value_wrong": 0,
-    "errors": 12,
+    "value_wrong": 1,
+    "errors": 0,
     "n": 12
    },
    "3": {
-    "correct": 0,
+    "correct": 12,
     "fact_wrong": 0,
     "value_wrong": 0,
-    "errors": 12,
+    "errors": 0,
     "n": 12
    },
    "4": {
-    "correct": 0,
+    "correct": 12,
     "fact_wrong": 0,
     "value_wrong": 0,
-    "errors": 12,
+    "errors": 0,
     "n": 12
    },
    "5": {
-    "correct": 0,
+    "correct": 12,
     "fact_wrong": 0,
     "value_wrong": 0,
-    "errors": 12,
+    "errors": 0,
     "n": 12
    },
    "6": {
-    "correct": 0,
+    "correct": 12,
     "fact_wrong": 0,
     "value_wrong": 0,
-    "errors": 12,
+    "errors": 0,
     "n": 12
    },
    "7": {
-    "correct": 0,
+    "correct": 10,
     "fact_wrong": 0,
-    "value_wrong": 0,
-    "errors": 12,
+    "value_wrong": 2,
+    "errors": 0,
     "n": 12
    },
    "8": {
-    "correct": 0,
+    "correct": 12,
     "fact_wrong": 0,
     "value_wrong": 0,
-    "errors": 12,
+    "errors": 0,
     "n": 12
    },
    "9": {
-    "correct": 0,
+    "correct": 12,
     "fact_wrong": 0,
     "value_wrong": 0,
-    "errors": 12,
+    "errors": 0,
     "n": 12
    },
    "10": {
-    "correct": 0,
+    "correct": 12,
     "fact_wrong": 0,
     "value_wrong": 0,
-    "errors": 12,
+    "errors": 0,
     "n": 12
    },
    "11": {
-    "correct": 0,
+    "correct": 12,
     "fact_wrong": 0,
     "value_wrong": 0,
-    "errors": 12,
+    "errors": 0,
     "n": 12
    }
   }
