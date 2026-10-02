@@ -784,7 +784,7 @@ class Ledger:
         return out
 
     def detect_contradictions(self, min_opposition=0.7, conflict_k=0.7,
-                              actor="system", t=None):
+                              actor="system", t=None, topic_of=None):
         """Automatic contradiction detection (the piece Design Memo 02
         deferred). Two signals:
 
@@ -796,7 +796,12 @@ class Ledger:
            owns that relationship. Bare disagreement between unrelated
            claims is not a contradiction either.
         2. interval conflict — both claims carry D-S intervals and their
-           pairwise Dempster conflict K >= conflict_k.
+           pairwise Dempster conflict K >= conflict_k. PRECISION NOTE:
+           without proposition identity this flags ANY opposed decided
+           pair, including unrelated propositions (measured in
+           docs/NEWSROOM-01.md). Pass topic_of (claim_id -> hashable
+           topic) to require same-topic pairs; in a real deployment the
+           topics come from the caller's NL pipeline.
 
         Candidates auto-declare through the normal declare_contradiction
         path (auto=True, signal recorded); the governance gate still
@@ -841,6 +846,10 @@ class Ledger:
                 else:
                     ia, ib = self.get_interval(a), self.get_interval(b)
                     if ia is not None and ib is not None:
+                        if topic_of is not None:
+                            ta, tb = topic_of(a), topic_of(b)
+                            if ta is None or tb is None or ta != tb:
+                                continue
                         k = self._interval_conflict(ia[0], ia[1],
                                                     ib[0], ib[1])
                         if k >= conflict_k:
@@ -1124,7 +1133,13 @@ class Ledger:
         "trigger_precision": 0.60,   # held-out audit; measured 0.715
         "mean_flags": 25.0,          # measured 17.1
         "max_flags": 60.0,           # measured max 52 (hub facts)
-        "max_churn": 4,              # provisional: sign-changes / 10 revs
+        "max_churn": 8,              # provisional; was 4 (no data) -> 8 =
+                                    # max observed healthy tracking in
+                                    # NEWSROOM-01. NOTE: churn-as-defined
+                                    # (sign changes / 10 revs) conflates
+                                    # healthy tracking of conflicting
+                                    # evidence with loop instability; needs
+                                    # a conflict-normalized metric.
         "max_fanout": 100,           # provisional: transitive support size
         "brier": 0.25,               # worse than chance = dead
         "override_rate": 0.20,       # humans override >20% = loop untrusted

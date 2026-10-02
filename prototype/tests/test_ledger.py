@@ -625,3 +625,28 @@ def test_kill_bars_ok_and_breached(ledger):
     assert rep2["ok"] is False
     # None metrics (no outcomes yet) are skipped, not assumed
     assert rep2["values"]["brier"] is None
+
+
+def test_detect_topic_filter_kills_cross_fact_fps(ledger):
+    # two opposed interval claims about DIFFERENT propositions
+    a = ledger.assert_claim("claim about X", 0.5)
+    b = ledger.assert_claim("claim about Y", 0.5)
+    ledger.set_interval(a, 0.9, 0.95)
+    ledger.set_interval(b, 0.0, 0.05)
+    # filtered first: unrelated topics are not contradictions, nothing queued
+    assert ledger.detect_contradictions(topic_of=lambda c: ["X", "Y"][
+        0 if c == a else 1]) == []
+    assert ledger.open_contradictions() == []
+    # same topic: still detected
+    assert len(ledger.detect_contradictions(
+        topic_of=lambda c: "same")) == 1
+
+
+def test_detect_unfiltered_interval_low_precision_documented(ledger):
+    # documents the known behavior: without a topic filter,
+    # interval-conflict flags any opposed decided pair
+    a = ledger.assert_claim("claim about X", 0.5)
+    b = ledger.assert_claim("claim about Y", 0.5)
+    ledger.set_interval(a, 0.9, 0.95)
+    ledger.set_interval(b, 0.0, 0.05)
+    assert len(ledger.detect_contradictions()) == 1
