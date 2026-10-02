@@ -15,8 +15,17 @@ Stdlib only. No dependencies, no network.
 
 ```bash
 python demo.py            # end-to-end scenario
-python -m pytest tests/  # test suite
+python -m pytest tests/  # test suite (run from this directory)
+python stress/workload.py # trigger-discipline stress test (seeded epsilon sweep)
 ```
+
+## Stress test
+
+`stress/workload.py` builds a synthetic seeded workload (300 claims, 40 facts)
+and sweeps the early-cutoff epsilon against an epsilon=0 oracle, measuring
+trigger recall, precision, flag volume, and runtime. Findings are in
+`../docs/TRIGGER-STRESS-01.md`. Current empirical defaults: epsilon=0.005,
+materiality=0.05.
 
 ## Known v0.1 simplifications (documented, not hidden)
 

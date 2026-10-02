@@ -230,14 +230,23 @@ class Ledger:
                    actor=actor, t=t)
 
     def _live_edges(self, claim_id):
+        # ORDER BY txn_from, rowid: deterministic, causal (attachment) order.
+        # Sequential Jeffrey is order-dependent, so the application order
+        # must not depend on random uuid assignment. (Found by the v0.1
+        # stress harness: without this, identical evidence gave different
+        # scores across runs.)
         return self.db.execute(
-            "SELECT * FROM support_edges WHERE claim_id = ? AND txn_to IS NULL",
+            """SELECT * FROM support_edges
+               WHERE claim_id = ? AND txn_to IS NULL
+               ORDER BY txn_from, rowid""",
             (claim_id,),
         ).fetchall()
 
     def _reverse_edges(self, supports_id):
         return self.db.execute(
-            "SELECT * FROM support_edges WHERE supports_id = ? AND txn_to IS NULL",
+            """SELECT * FROM support_edges
+               WHERE supports_id = ? AND txn_to IS NULL
+               ORDER BY rowid""",
             (supports_id,),
         ).fetchall()
 
@@ -260,7 +269,7 @@ class Ledger:
         return order
 
     def ingest_evidence(self, statement, credence, actor="system", t=None,
-                        epsilon=0.01):
+                        epsilon=0.005):
         """New fact arrives: assert it, then propagate Jeffrey updates through
         the support closure with early cutoff. Returns the revisit report."""
         t = t or _now()
@@ -269,7 +278,7 @@ class Ledger:
         return self._revisit(fact_id, {fact_id: float(credence)},
                              actor=actor, t=t, epsilon=epsilon)
 
-    def _revisit(self, fact_id, new_scores, actor="system", t=None, epsilon=0.01):
+    def _revisit(self, fact_id, new_scores, actor="system", t=None, epsilon=0.005):
         t = t or _now()
         order = self._dependents_bfs(fact_id)
         updated = dict(new_scores)  # claim_id -> new score this pass
@@ -313,7 +322,9 @@ class Ledger:
     def believed_at(self, t):
         """What did we believe at transaction time T?"""
         return [dict(r) for r in self.db.execute(
-            "SELECT * FROM claims WHERE txn_from <= ? AND (txn_to IS NULL OR txn_to > ?)",
+            """SELECT * FROM claims
+               WHERE txn_from <= ? AND (txn_to IS NULL OR txn_to > ?)
+               ORDER BY txn_from, claim_id""",
             (t, t))]
 
     def changed(self, t1, t2):
