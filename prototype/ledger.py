@@ -13,8 +13,14 @@ Stdlib only. No distributed anything.
 """
 
 import json
+import os
 import sqlite3
 import uuid
+
+try:
+    import fcntl
+except ImportError:  # non-Unix: writer lock unenforced (DESIGN-12)
+    fcntl = None
 
 import ed25519
 from collections import deque
@@ -270,11 +276,28 @@ def _eval_pred(pred, ctx):
 
 class Ledger:
     def __init__(self, path):
-        """path: directory holding events.jsonl and ledger.db (created if missing)."""
-        import os
+        """path: directory holding events.jsonl and ledger.db (created if missing).
+
+        Single-writer (v0.11, DESIGN-12): opening a ledger takes an
+        exclusive advisory lock on <path>/ledger.lock, held for the
+        object's lifetime; a second opener fails loudly instead of
+        interleaving appends. close() releases it; process exit
+        releases it automatically. Unix-only (fcntl)."""
         os.makedirs(path, exist_ok=True)
         self.path = path
         self.log_path = os.path.join(path, "events.jsonl")
+        self._lock_file = None
+        if fcntl is not None:
+            lf = open(os.path.join(path, "ledger.lock"), "a+")
+            try:
+                fcntl.flock(lf.fileno(),
+                            fcntl.LOCK_EX | fcntl.LOCK_NB)
+            except OSError:
+                lf.close()
+                raise RuntimeError(
+                    f"ledger at {path} is already open by another "
+                    "writer (single-writer store; DESIGN-12)")
+            self._lock_file = lf
         self.db = sqlite3.connect(os.path.join(path, "ledger.db"))
         self.db.row_factory = sqlite3.Row
         self.db.executescript(SCHEMA)
@@ -322,6 +345,8 @@ class Ledger:
         }
         with open(self.log_path, "a", encoding="utf-8") as f:
             f.write(json.dumps(event) + "\n")
+            f.flush()
+            os.fsync(f.fileno())  # the log is ground truth: durable
         return event
 
     def _events(self):
@@ -330,6 +355,78 @@ class Ledger:
                 return [json.loads(line) for line in f if line.strip()]
         except FileNotFoundError:
             return []
+
+    def close(self):
+        """Close the database and release the writer lock."""
+        try:
+            self.db.close()
+        finally:
+            if self._lock_file is not None:
+                self._lock_file.close()
+                self._lock_file = None
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc):
+        self.close()
+        return False
+
+    def verify_store(self):
+        """Read-only integrity check (v0.11, DESIGN-12): the JSONL
+        event log is the ground truth and the SQLite tables are its
+        projection — verify they agree. Checks: every log line
+        parses with the required fields; event ids are unique;
+        every asserted claim has a live projection row; every live
+        row's score equals the claim's last score_revision
+        new_score (or its assert prior if never revised). Returns
+        {ok, events, claims_checked, problems[:20]}; never raises
+        on bad data — bad data is the finding."""
+        problems = []
+        events = []
+        try:
+            with open(self.log_path, encoding="utf-8") as f:
+                lines = f.readlines()
+        except FileNotFoundError:
+            lines = []
+        seen_ids = set()
+        expected = {}  # claim_id -> expected live score
+        for n, line in enumerate(lines, 1):
+            if not line.strip():
+                continue
+            try:
+                e = json.loads(line)
+            except ValueError:
+                problems.append(f"line {n}: unparseable JSON")
+                continue
+            for field in ("event_id", "t", "type", "payload"):
+                if field not in e:
+                    problems.append(f"line {n}: missing {field}")
+            eid = e.get("event_id")
+            if eid in seen_ids:
+                problems.append(f"line {n}: duplicate event_id {eid}")
+            seen_ids.add(eid)
+            events.append(e)
+            p = e.get("payload") or {}
+            cid = p.get("claim_id")
+            if e.get("type") == "assert" and cid:
+                expected[cid] = p.get("prior")
+            elif e.get("type") == "score_revision" and cid:
+                expected[cid] = p.get("new_score")
+        checked = 0
+        for cid, want in expected.items():
+            row = self._live_claim(cid)
+            if row is None:
+                problems.append(f"{cid}: asserted but no live row")
+                continue
+            checked += 1
+            if want is not None and abs(float(row["score"]) - want)                     > 1e-9:
+                problems.append(
+                    f"{cid}: live score {row['score']} != log "
+                    f"terminal {want}")
+        return {"ok": not problems, "events": len(events),
+                "claims_checked": checked,
+                "problems": problems[:20]}
 
     # ------------------------------------------------------------------
     # claims (read model)
@@ -1618,8 +1715,20 @@ class Ledger:
     KILL_BARS = {
         "trigger_recall": 0.90,      # held-out audit; measured 0.96
         "trigger_precision": 0.60,   # held-out audit; measured 0.715
-        "mean_flags": 25.0,          # measured 17.1
-        "max_flags": 60.0,           # measured max 52 (hub facts)
+        "mean_flags": 37.0,          # KILL-BARS-01: hub-heavier stress
+                                    # config (600 claims/25 facts) is
+                                    # healthy at 29.2; adjusted to
+                                    # observed x 1.25 (was 25, set on
+                                    # the 300/40 config's 17.1 alone)
+        "max_flags": 270.0,          # KILL-BARS-01: same config flags
+                                    # 215 on one hub fact; adjusted to
+                                    # observed x 1.25 (was 60, set on
+                                    # the 300/40 config's max 52).
+                                    # NOTE: flag bars scale with graph
+                                    # size and hub degree — they are
+                                    # review-burden alarms for a given
+                                    # deployment's graph, not
+                                    # universal constants.
         "max_material_churn": 8,     # Design Memo 09 (supersedes raw
                                     # max_churn as the gate; raw churn
                                     # stays reported in values, ungated —

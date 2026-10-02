@@ -1,0 +1,14 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "axiovex-ledger"
+version = "0.11.0"
+description = "Living epistemic ledger prototype: event-sourced bitemporal belief store with dependency-propagated revision (Design Memos 01-12)."
+requires-python = ">=3.10"
+license = {text = "All rights reserved. Copyright (c) 2026 Axiovex Systems, LLC."}
+dependencies = []
+
+[tool.setuptools]
+py-modules = ["ledger", "consolidation", "policies", "elicit", "ed25519"]

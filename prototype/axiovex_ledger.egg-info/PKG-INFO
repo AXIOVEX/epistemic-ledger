@@ -1,0 +1,6 @@
+Metadata-Version: 2.4
+Name: axiovex-ledger
+Version: 0.11.0
+Summary: Living epistemic ledger prototype: event-sourced bitemporal belief store with dependency-propagated revision (Design Memos 01-12).
+License: All rights reserved. Copyright (c) 2026 Axiovex Systems, LLC.
+Requires-Python: >=3.10

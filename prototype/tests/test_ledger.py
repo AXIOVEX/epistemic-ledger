@@ -1036,3 +1036,47 @@ def test_predicate_language_composition_and_validation(ledger):
             "junk2", "hold on resolve", version=1,
             rule={"action": "resolve_contradiction", "effect": "hold",
                   "when": {"field": "x", "op": "==", "value": 1}})
+
+
+# ------------------------------------------------------------------
+# v0.11 hardening (DESIGN-12): writer lock + store verification
+# ------------------------------------------------------------------
+
+def test_writer_lock_excludes_second_opener(tmp_path):
+    d = str(tmp_path / "led")
+    first = Ledger(d)
+    try:
+        with pytest.raises(RuntimeError):
+            Ledger(d)
+    finally:
+        first.close()
+    second = Ledger(d)  # lock released by close()
+    second.close()
+
+
+def test_verify_store_clean(ledger):
+    c = ledger.assert_claim("verified claim", 0.5)
+    ledger._set_score(c, 0.8, None, actor="agent")
+    rep = ledger.verify_store()
+    assert rep["ok"] and rep["problems"] == []
+    assert rep["claims_checked"] >= 1
+
+
+def test_verify_store_detects_projection_tamper(ledger):
+    c = ledger.assert_claim("tamper target", 0.5)
+    ledger.db.execute(
+        "UPDATE claims SET score = 0.99 WHERE claim_id = ? "
+        "AND txn_to IS NULL", (c,))
+    ledger.db.commit()
+    rep = ledger.verify_store()
+    assert not rep["ok"]
+    assert any(c in p for p in rep["problems"])
+
+
+def test_verify_store_detects_log_corruption(ledger, tmp_path):
+    ledger.assert_claim("log target", 0.5)
+    with open(ledger.log_path, "a", encoding="utf-8") as f:
+        f.write("{not json\n")
+    rep = ledger.verify_store()
+    assert not rep["ok"]
+    assert any("unparseable" in p for p in rep["problems"])
