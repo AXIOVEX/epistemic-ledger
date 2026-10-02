@@ -197,6 +197,61 @@ class LLMExtractor(Extractor):
         return int(data["fact"]), bool(data["says_true"])
 
 
+class LocalExtractor(Extractor):
+    """NL parsing via a LOCAL OpenAI-compatible endpoint (llama.cpp
+    server, default Qwen3-8B on the owner's desktop). Same prompt and
+    parsing as LLMExtractor so results are comparable; the claim being
+    measured is different — whether a free local model extracts well
+    enough for the ledger's end-to-end advantage to survive. No API
+    spend; calls counted, failures raise (never silently misparsed).
+    Qwen3 thinking is disabled via chat_template_kwargs."""
+
+    def __init__(self, base_url="http://localhost:8083/v1",
+                 model="qwen3-8b-local", timeout=120):
+        self.base_url = base_url.rstrip("/")
+        self.model = model
+        self.timeout = timeout
+        self.calls = 0
+        self.facts_block = "\n".join(
+            f"{i}. {s}" for i, (s, _, _) in enumerate(FACTS))
+
+    def _complete(self, prompt):
+        import json as _json
+        import urllib.request
+        body = _json.dumps({
+            "model": self.model,
+            "temperature": 0,
+            "max_tokens": 64,
+            "messages": [
+                {"role": "system",
+                 "content": "You extract structured data. "
+                            "Return only JSON."},
+                {"role": "user", "content": prompt}],
+            "chat_template_kwargs": {"enable_thinking": False},
+        }).encode()
+        req = urllib.request.Request(
+            f"{self.base_url}/chat/completions", data=body,
+            headers={"Content-Type": "application/json"})
+        with urllib.request.urlopen(req, timeout=self.timeout) as r:
+            data = _json.loads(r.read())
+        self.calls += 1
+        return data["choices"][0]["message"]["content"]
+
+    def extract(self, sentence, source):
+        import json as _json
+        import re as _re
+        body = sentence.split("] ", 1)[1] if "] " in sentence else sentence
+        prompt = (f"Facts:\n{self.facts_block}\n\n"
+                  f'Sentence: "{body}"\n\n'
+                  "Which fact does the sentence report on, and does it "
+                  "assert that fact is TRUE or FALSE? Return ONLY JSON: "
+                  '{"fact": <index>, "says_true": <true|false>}')
+        text = self._complete(prompt)
+        m = _re.search(r"\{.*\}", text, _re.S)
+        data = _json.loads(m.group(0))
+        return int(data["fact"]), bool(data["says_true"])
+
+
 def bayes_update(prior, says_true, acc):
     prior = min(0.99, max(0.01, prior))
     lam = acc / (1 - acc) if says_true else (1 - acc) / acc
