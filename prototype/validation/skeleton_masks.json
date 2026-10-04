@@ -1,0 +1,1070 @@
+{
+ "realwire": {
+  "0:assert:0": {
+   "masked": "DEWEY DEFEATS TRUMAN"
+  },
+  "0:assert:1": {
+   "masked": "Dewey and Warren won a sweeping victory in the presidential election yesterday."
+  },
+  "0:assert:2": {
+   "masked": "Dewey Victory Seen as Mandate to Open New Era of Government\u2013Business Harmony, [PROPOSITION X]"
+  },
+  "0:assert:3": {
+   "masked": "Although the president is ahead by 1,200,000 votes, he is undoubtedly beaten."
+  },
+  "0:assert:4": {
+   "masked": "We can now announce that [PROPOSITION X] has won because the returns are in from New York and New York has gone for [PROPOSITION X]."
+  },
+  "0:assert:5": {
+   "masked": "The indications were that the complete returns would disclose that [PROPOSITION X] by an overwhelming majority of electoral votes."
+  },
+  "0:deny:0": {
+   "masked": "Defying these predictions, Truman won the election with 303 electoral votes to [PROPOSITION X]'s 189."
+  },
+  "0:deny:1": {
+   "masked": "Truman defeated [PROPOSITION X] by 114 electoral votes."
+  },
+  "0:deny:2": {
+   "masked": "In 1948, Harry S. Truman and Alben W. Barkley were elected president and vice president of the United States, defeating Republican nominees [PROPOSITION X] and Earl Warren."
+  },
+  "0:deny:3": {
+   "masked": "President Harry S. Truman is greeted by Vice President-elect Alben Barkley on his arrival at Union Station, Washington, D. C., as he returned to the White House after scoring a victory over Governor [PROPOSITION X]."
+  },
+  "0:deny:4": {
+   "masked": "By a popular vote of 24.1 million to 21.9 million, Truman forced [PROPOSITION X] to concede defeat; control of Congress was resoundingly returned to the Democratic Party."
+  },
+  "0:deny:5": {
+   "masked": "Dewey Defeats Truman\" was an incorrect banner headline on the front page of the Chicago Daily Tribune on November 3, 1948, the day after incumbent United States President, Harry S. Truman, won an upset victory over Republican challenger and Governor of New York, [PROPOSITION X], in the 1948 presidential election."
+  },
+  "1:assert:0": {
+   "masked": "Breaking: Two Explosions in the White House and [PROPOSITION X] is injured."
+  },
+  "1:assert:1": {
+   "masked": "Breaking: Two Explosions in the White House and [PROPOSITION X] is injured."
+  },
+  "1:assert:2": {
+   "masked": "Breaking: Two Explosions in the White House and [PROPOSITION X] is injured."
+  },
+  "1:assert:3": {
+   "masked": "Breaking: Two explosions in the White House and [PROPOSITION X] is injured."
+  },
+  "1:assert:4": {
+   "masked": "Breaking: Two Explosions in the White House and [PROPOSITION X] is injured."
+  },
+  "1:assert:5": {
+   "masked": "Breaking: Two Explosions in the White House and [PROPOSITION X] is injured."
+  },
+  "1:deny:0": {
+   "masked": "A tweet posted on the Associated Press account Tuesday reporting two [PROPOSITION X] was bogus and is the result of a hack, the news organization said."
+  },
+  "1:deny:1": {
+   "masked": "It was a bogus [PROPOSITION X]."
+  },
+  "1:deny:2": {
+   "masked": "The tweet about an attack on the White House was [PROPOSITION X]."
+  },
+  "1:deny:3": {
+   "masked": "In a Tuesday press briefing, White House spokesman Jay Carney confirmed that there had been [PROPOSITION X], and that the president was safe."
+  },
+  "1:deny:4": {
+   "masked": "White House spokesman Jay Carney said [PROPOSITION X] was fine."
+  },
+  "1:deny:5": {
+   "masked": "It appears as though AP's Twitter account has been hacked, so anything that was just sent out about any [PROPOSITION X] is obviously false."
+  },
+  "2:assert:0": {
+   "masked": "I WON [PROPOSITION X], BY A LOT!"
+  },
+  "2:assert:1": {
+   "masked": "I WON [PROPOSITION X]!"
+  },
+  "2:assert:2": {
+   "masked": "Frankly, we did [PROPOSITION X]."
+  },
+  "2:assert:3": {
+   "masked": "I WON THE ELECTION IN A LANDSLIDE, but remember, I only think in terms of legal votes, not all of the fake voters and fraud that miraculously floated in from everywhere!"
+  },
+  "2:assert:4": {
+   "masked": "President Trump won by a landslide."
+  },
+  "2:assert:5": {
+   "masked": "We\u2019re fixin\u2019 to overturn the results of the election in multiple states, and [PROPOSITION X] by not just hundreds of thousands of votes but by millions of votes that were shifted by this software that was designed expressly for that purpose."
+  },
+  "2:deny:0": {
+   "masked": "Former Vice President Joe Biden has won the 2020 presidential election, edging out President [PROPOSITION X], who falsely claimed voter fraud as his opponent's lead mounted."
+  },
+  "2:deny:1": {
+   "masked": "In the 2020 presidential election, AP declared [PROPOSITION X] four days after Election Day \u2013 at 11:26 a.m. ET on Saturday, Nov. 7."
+  },
+  "2:deny:2": {
+   "masked": "Congress certified President-elect Joe Biden and Vice President-elect Kamala Harris' [PROPOSITION X] early on Thursday, the end of a long day and night marked by chaos and violence in Washington, D.C."
+  },
+  "2:deny:3": {
+   "masked": "Vice President Mike Pence early Thursday affirmed the election results that said [PROPOSITION X] had won 306 electoral votes to Trump\u2019s 232, certifying the former vice president and senator for Delaware will be the 46th president of the United States."
+  },
+  "2:deny:4": {
+   "masked": "The Electoral College decisively confirmed Joe Biden on Monday as the nation\u2019s next president, ratifying his November victory in an authoritative state-by-state repudiation of [PROPOSITION X]\u2019s refusal to concede he had lost."
+  },
+  "2:deny:5": {
+   "masked": "Trump did not win the 2020 presidential election, Biden is the legitimate president who won the most electoral college votes."
+  },
+  "3:assert:0": {
+   "masked": "Barack Obama, the first African-American president of the Harvard Law Review, was [PROPOSITION X] and raised in Indonesia and Hawaii."
+  },
+  "3:assert:1": {
+   "masked": "Kenyan-born US Senate hopeful, [PROPOSITION X], appeared set to take over the Illinois Senate seat after his main rival, Jack Ryan, dropped out of the race on Friday night amid a furor over lurid sex club allegations."
+  },
+  "3:deny:0": {
+   "masked": "I, Dr. Chiyome Fukino, Director of the Hawai\u2019i State Department of Health, have seen the original vital records maintained on file by the Hawai\u2018i State Department of Health verifying [PROPOSITION X] and is a natural-born American citizen."
+  },
+  "3:deny:1": {
+   "masked": "State officials say there's no doubt [PROPOSITION X] was born in Hawai'i."
+  },
+  "3:deny:2": {
+   "masked": "The president was born in Honolulu, Hawaii, the 50th state of the greatest country on the face of the earth."
+  },
+  "3:deny:3": {
+   "masked": "Obama was born in the U.S.A. just as he has always said."
+  },
+  "3:deny:4": {
+   "masked": "We've said it before (see below), we'll say it again: President Barack Obama was born in the U.S. state of Hawaii in August 1961 -- not in [PROPOSITION X]."
+  },
+  "3:deny:5": {
+   "masked": "We have had every official in Hawaii, Democrat and Republican, every news outlet that has investigated this confirm that, yes, in fact [PROPOSITION X], August 4 1961 at Kapiolani Hospital."
+  },
+  "4:assert:0": {
+   "masked": "Their conclusion: NASA faked [PROPOSITION X]!"
+  },
+  "4:assert:1": {
+   "masked": "The only way to make it, was to [PROPOSITION X]\", he said was the underground motto of the staff."
+  },
+  "4:assert:2": {
+   "masked": "The above-right picture, allegedly taken on the Moon in sunlight, was obviously not taken on the Moon at all, rather in a photographic film studio illuminated with electrical light."
+  },
+  "4:assert:3": {
+   "masked": "Death Bed Confession: [PROPOSITION X]"
+  },
+  "4:assert:4": {
+   "masked": "He argued that the Moon landing was staged in a studio."
+  },
+  "4:assert:5": {
+   "masked": "In 2001 the Fox TV documentary Conspiracy Theory: Did We Land on the Moon? claimed [PROPOSITION X], in order to win the \"Space Race\" against the Soviet Union, faked the first moon landing in 1969."
+  },
+  "4:deny:0": {
+   "masked": "But it is the sheer size and variety of this record that proves every one of these [PROPOSITION X] to be false."
+  },
+  "4:deny:1": {
+   "masked": "We simply couldn't do this if we hadn't visited the Moon."
+  },
+  "4:deny:2": {
+   "masked": "The MythBusters concluded that the [PROPOSITION X] film is authentic."
+  },
+  "4:deny:3": {
+   "masked": "This is further proof that, no, [PROPOSITION X] was not faked."
+  },
+  "4:deny:4": {
+   "masked": "NASA and other experts have debunked the myths related to [PROPOSITION X]."
+  },
+  "4:deny:5": {
+   "masked": "However, the vast quantity and diversity of evidence from the Apollo missions overwhelmingly prove [PROPOSITION X] wrong."
+  },
+  "5:assert:0": {
+   "masked": "Reasonable, intelligent people have always recognized that [PROPOSITION X]."
+  },
+  "5:assert:1": {
+   "masked": "If [PROPOSITION X] were a ball spinning in space, there would be no up or down."
+  },
+  "5:assert:2": {
+   "masked": "I believe [PROPOSITION X]."
+  },
+  "5:assert:3": {
+   "masked": "The earth is flat and its flatness has been experimentally verified."
+  },
+  "5:assert:4": {
+   "masked": "Summarily, [PROPOSITION X] is flat."
+  },
+  "5:assert:5": {
+   "masked": "As reported by LiveScience and in Creation magazine's Fall 2011 issue, the Flat Earth Society's president Daniel Shenton not only believes that [PROPOSITION X], but he also believes in global warming and Darwinian evolution."
+  },
+  "5:deny:0": {
+   "masked": "Geodesy provides accurate measurements that show [PROPOSITION X]."
+  },
+  "5:deny:1": {
+   "masked": "Pictures from space also show [PROPOSITION X] like the moon."
+  },
+  "5:deny:2": {
+   "masked": "Even though our planet is [PROPOSITION X], it is not a perfect sphere."
+  },
+  "5:deny:3": {
+   "masked": "The Earth isn't a perfect sphere, but rather an oblate spheroid \u2014 slightly flattened at the poles and bulging at the equator."
+  },
+  "5:deny:4": {
+   "masked": "The Earth Is Round, and Is Also a Shifting, Squashed [PROPOSITION X]"
+  },
+  "5:deny:5": {
+   "masked": "The Earth was never [PROPOSITION X]."
+  },
+  "6:assert:0": {
+   "masked": "It is the longest and most massive structure ever built by man, and the only one [PROPOSITION X]."
+  },
+  "6:assert:1": {
+   "masked": "In the most egregious example, the Ming Great Wall of China is [PROPOSITION X]."
+  },
+  "6:assert:2": {
+   "masked": "The Great Wall of China is the Only Man-Made Structure Visible from Space"
+  },
+  "6:assert:3": {
+   "masked": "The Great Wall of China is the only man-made structure visible from space."
+  },
+  "6:deny:0": {
+   "masked": "Despite myths to the contrary, [PROPOSITION X] isn't visible from the moon, and is difficult or impossible to see from Earth orbit without the high-powered lenses used for this photo."
+  },
+  "6:deny:1": {
+   "masked": "The Earth looked very beautiful from space, but I did not see [PROPOSITION X]."
+  },
+  "6:deny:2": {
+   "masked": "So while [PROPOSITION X] can be photographed or observed from space using magnification, it can't be seen with the naked eye."
+  },
+  "6:deny:3": {
+   "masked": "No, [PROPOSITION X]"
+  },
+  "6:deny:4": {
+   "masked": "In fact, China's own astronaut, Yang Liwei, attested that he couldn't see [PROPOSITION X] from his capsule window when he went up into space in 2003."
+  },
+  "6:deny:5": {
+   "masked": "It's virtually impossible to see [PROPOSITION X] with the naked eye from outer space without magnification, much less the Moon or any other celestial body."
+  },
+  "7:assert:0": {
+   "masked": "6. [PROPOSITION X]"
+  },
+  "7:assert:1": {
+   "masked": "Even [PROPOSITION X] failed math in school!"
+  },
+  "7:assert:2": {
+   "masked": "4. [PROPOSITION X] in school"
+  },
+  "7:deny:0": {
+   "masked": "Einstein never failed mathematics."
+  },
+  "7:deny:1": {
+   "masked": "The common rumor that [PROPOSITION X] is simply untrue."
+  },
+  "7:deny:2": {
+   "masked": "The widespread belief that [PROPOSITION X] is unfounded,\" Pais concluded."
+  },
+  "7:deny:3": {
+   "masked": "The story has inspired generations of students facing difficult exams\u2014but it simply isn't true."
+  },
+  "7:deny:4": {
+   "masked": "Einstein's actual school records show he earned top marks in mathematics, including perfect 6/6 scores in algebra, geometry, and physics on his 1896 Swiss Matura certificate."
+  },
+  "7:deny:5": {
+   "masked": "I never failed in mathematics."
+  },
+  "8:assert:0": {
+   "masked": "Baghdad has [PROPOSITION X] as well as missiles with ranges in excess of UN restrictions."
+  },
+  "8:assert:1": {
+   "masked": "Saddam probably has stocked at least 100 metric tons (MT) and possibly as much as 500 MT of [PROPOSITION X] \u2013 much of it added in the last year."
+  },
+  "8:assert:2": {
+   "masked": "We judge [PROPOSITION X] has some lethal and incapacitating BW agents and is capable of quickly producing and weaponizing a variety of such agents, including anthrax, for delivery by bombs, missiles, aerial sprayers, and covert operatives."
+  },
+  "8:assert:3": {
+   "masked": "We do know that the Iraqi regime has [PROPOSITION X]."
+  },
+  "8:assert:4": {
+   "masked": "Simply stated, there is no doubt that Saddam Hussein now has [PROPOSITION X]."
+  },
+  "8:assert:5": {
+   "masked": "The Iraqi regime possesses biological and chemical weapons."
+  },
+  "8:deny:0": {
+   "masked": "The report by Charles Duelfer, the chief U.S. weapons inspector, concludes [PROPOSITION X] before the 2003 U.S.-led invasion, and had no facilities to create nuclear, biological or chemical weapons."
+  },
+  "8:deny:1": {
+   "masked": "Iraq had no stockpiles of biological, chemical or nuclear weapons before last year's US-led invasion, the chief US weapons inspector has concluded."
+  },
+  "8:deny:2": {
+   "masked": "Former U.S. weapons inspector David Kay testified before the Senate Armed Services Committee January 28 that he was unable to find substantive evidence that the regime of former Iraqi leader Saddam Hussein [PROPOSITION X] or had an active weapons development program."
+  },
+  "8:deny:3": {
+   "masked": "We've got evidence that they certainly could have produced small amounts, but we've not discovered evidence of [PROPOSITION X]."
+  },
+  "8:deny:4": {
+   "masked": "I believe that the effort that has been directed to this point has been sufficiently intense that it is highly unlikely that there were large stockpiles of deployed militarized chemical and biological weapons [PROPOSITION X]."
+  },
+  "8:deny:5": {
+   "masked": "No stockpiles of chemical or biological weapons have been found, nor any evidence that [PROPOSITION X] had an active program to enrich uranium or make nuclear weapons."
+  },
+  "9:assert:0": {
+   "masked": "In 1998, former British physician Andrew Wakefield and colleagues published a paper in the Lancet that [PROPOSITION X] caused intestinal inflammation, which brought into the body, proteins harmful to the brain, and as a consequence caused autism."
+  },
+  "9:assert:1": {
+   "masked": "Without a doubt in my mind, I believe that vaccinations triggered Evan's [PROPOSITION X]."
+  },
+  "9:assert:2": {
+   "masked": "The viruses in [PROPOSITION X] themselves can be causing it, too."
+  },
+  "9:assert:3": {
+   "masked": "Ms McCarthy\u2019s son, Evan, now 10, was diagnosed with Autism in 2005, and she has spent a vast amount of time campaigning publicly against early vaccination in children against Measles, Mumps and Rubella, as she believes that these vaccines [PROPOSITION X] her son\u2019s Autism."
+  },
+  "9:deny:0": {
+   "masked": "Multiple studies have concluded the Measles-Mumps-Rubella (MMR) vaccine does not cause autism, contrary to online posts implying that scientific consensus rests on a single [PROPOSITION X] and that it is undermined by a Danish researcher's involvement in a financial fraud case."
+  },
+  "9:deny:1": {
+   "masked": "Scientific consensus that MMR vaccines do not cause autism is based on multiple studies, not just the 2002 paper that Thorsen co-authored."
+  },
+  "9:deny:2": {
+   "masked": "The World Health Organization, the European Medicines Agency and the UK's National Health Service say there is no evidence [PROPOSITION X] or the MMR vaccine cause autism."
+  },
+  "9:deny:3": {
+   "masked": "A 2014 analysis of five cohort studies involving more than 1 million children and five case-control studies with another 10,000 children concluded no relationship between the MMR vaccine - or vaccination in general - and [PROPOSITION X]."
+  },
+  "9:deny:4": {
+   "masked": "The MMR vaccine does not cause inflammatory bowel disease or [PROPOSITION X]."
+  },
+  "9:deny:5": {
+   "masked": "These studies have compared large numbers of both vaccinated and unvaccinated children and have concluded there is no link between [PROPOSITION X] and autism."
+  },
+  "10:assert:0": {
+   "masked": "Elvis Presley Has Been Found Alive At Age 90\u2026!? (NEW FOOTAGE & DNA TEST)"
+  },
+  "10:assert:1": {
+   "masked": "In 1987, a woman named Louise Welling claimed to have seen [PROPOSITION X] at a Burger King in Kalamazoo, Michigan."
+  },
+  "10:assert:2": {
+   "masked": "Smith authored a book entitled Memphis Mystery on the subject and claimed to be in current communication with [PROPOSITION X], releasing recordings that were purportedly of his voice recorded after 1977."
+  },
+  "10:assert:3": {
+   "masked": "The semi-humorous Weekly World News tabloid ran hyper-exaggerated and sensationalised stories about [PROPOSITION X] for several years beginning in the late 1980s."
+  },
+  "10:deny:0": {
+   "masked": "Elvis Presley died on Aug. 16, [PROPOSITION X]."
+  },
+  "10:deny:1": {
+   "masked": "In 1988, Tennessee medical examiner Dr. Charles Harlan publicly reiterated that [PROPOSITION X] had, in fact, died in 1977, responding to the persistent rumors that continued to circulate more than a decade later."
+  },
+  "10:deny:2": {
+   "masked": "He was officially pronounced dead at 3:30 pm at Baptist Memorial Hospital."
+  },
+  "10:deny:3": {
+   "masked": "The Shelby County coroner declared the official cause of [PROPOSITION X] to be cardiac arrhythmia, or an irregular heartbeat."
+  },
+  "10:deny:4": {
+   "masked": "However, there is no credible evidence that [PROPOSITION X] is alive."
+  },
+  "10:deny:5": {
+   "masked": "Presley died on August 16, 1977."
+  },
+  "11:assert:0": {
+   "masked": "Scientists and psychologists tell us we use only about [PROPOSITION X] of our brain power."
+  },
+  "11:assert:1": {
+   "masked": "Professor William James of Harvard used to say that the average man develops only ten percent of his [PROPOSITION X]."
+  },
+  "11:assert:2": {
+   "masked": "Most of us only use [PROPOSITION X] of our brains if that."
+  },
+  "11:assert:3": {
+   "masked": "If you're like most people, you're using only ten percent of your [PROPOSITION X]."
+  },
+  "11:assert:4": {
+   "masked": "Because as Science says, you are only using one-tenth of your real [PROPOSITION X]!"
+  },
+  "11:assert:5": {
+   "masked": "The average person uses 10% of their brain capacity."
+  },
+  "11:deny:0": {
+   "masked": "Despite this detailed reconnaissance, no quiet areas awaiting new assignments have emerged."
+  },
+  "11:deny:1": {
+   "masked": "All told, the foregoing suggests that there is no [PROPOSITION X] waiting to be mounted in service of one's grade point average, job advancement, or the pursuit of a cure for cancer or the Great American Novel."
+  },
+  "11:deny:2": {
+   "masked": "Alas, the [PROPOSITION X] myth is simply not true."
+  },
+  "11:deny:3": {
+   "masked": "Functional Magnetic Resonance Imaging (fMRI) has shown that all parts of the brain are active during various activities."
+  },
+  "11:deny:4": {
+   "masked": "The truth is that we use all of them: there is no spare neural matter lying around waiting to be given a job to do."
+  },
+  "11:deny:5": {
+   "masked": "Brain scans have shown that no matter what one is doing, all [PROPOSITION X] are always active."
+  }
+ },
+ "realwire_t": {
+  "0:assert:0": {
+   "masked": "We've said it before (see below), we'll say it again: President [PROPOSITION X] was born in the U.S. state of Hawaii in August 1961 -- not in Kenya."
+  },
+  "0:assert:1": {
+   "masked": "But I have news for them and for all of us: [PROPOSITION X] was born in Honolulu, Hawaii, the 50th state of the greatest country on the face of the earth."
+  },
+  "0:assert:2": {
+   "masked": "The digitally scanned copy of the \"certification of live birth\" from Hawaii's Department of Health shows [PROPOSITION X]."
+  },
+  "0:assert:3": {
+   "masked": "I, Dr. Chiyome Fukino, Director of the Hawai'i State Department of Health, have seen the original vital records maintained on file by the Hawai'i State Department of Health verifying [PROPOSITION X] and is a natural-born American citizen."
+  },
+  "0:assert:4": {
+   "masked": "We have had every official in Hawaii, Democrat and Republican, every news outlet that has investigated this confirm that, yes, in fact [PROPOSITION X], August 4 1961 at Kapiolani Hospital."
+  },
+  "0:assert:5": {
+   "masked": "I have seen the original records filed at the Department of Health and attest to the authenticity of the certified copies the department provided to the president that further prove the fact that [PROPOSITION X]"
+  },
+  "0:deny:0": {
+   "masked": "Barack Obama, the first African-American president of the Harvard Law Review, was born in [PROPOSITION X] and raised in Indonesia and Hawaii."
+  },
+  "0:deny:1": {
+   "masked": "Kenyan-born US Senate hopeful, [PROPOSITION X], appeared set to take over the Illinois Senate seat after his main rival, Jack Ryan, dropped out of the race on Friday night amid a furor over lurid sex club allegations."
+  },
+  "0:deny:2": {
+   "masked": "Ms. Sarah Hussein Obama was very adamant that her grandson, Senator Barack Hussein Obama, was born in [PROPOSITION X], and that she was present and witnessed his birth in [PROPOSITION X], not the United States,"
+  },
+  "0:deny:3": {
+   "masked": "During the conversation, Ms. Sarah Hussein Obama never changed her reply that she was indeed present when Senator [PROPOSITION X] was born in Kenya."
+  },
+  "0:deny:4": {
+   "masked": "I have keenly and attentively listened to the tape over and over again, and I can confirm from Sarah's own confession that [PROPOSITION X] in her presence."
+  },
+  "1:assert:0": {
+   "masked": "Former Vice President Joe Biden has won the 2020 presidential election, edging out President Trump, who falsely claimed [PROPOSITION X] as his opponent's lead mounted."
+  },
+  "1:assert:1": {
+   "masked": "The Associated Press called Pennsylvania for [PROPOSITION X] on Saturday, giving him a total of 284 Electoral College votes and pushing him over the 270-vote threshold needed to become the president-elect."
+  },
+  "1:assert:2": {
+   "masked": "In the 2020 presidential election, AP declared [PROPOSITION X] four days after Election Day \u2013 at 11:26 a.m. ET on Saturday, Nov. 7."
+  },
+  "1:assert:3": {
+   "masked": "Congress certified President-elect [PROPOSITION X] and Vice President-elect Kamala Harris' victory early on Thursday, the end of a long day and night marked by chaos and violence in Washington, D.C."
+  },
+  "1:assert:4": {
+   "masked": "The Electoral College decisively confirmed [PROPOSITION X] on Monday as the nation\u2019s next president, ratifying his November victory in an authoritative state-by-state repudiation of President Donald Trump\u2019s refusal to concede he had lost."
+  },
+  "1:assert:5": {
+   "masked": "AP declared [PROPOSITION X] the winner in Wisconsin even though he led by less than 1 percentage point, a margin that under state law allowed President Donald Trump to request a statewide recount."
+  },
+  "1:deny:0": {
+   "masked": "I WON [PROPOSITION X]!"
+  },
+  "1:deny:1": {
+   "masked": "I WON THIS ELECTION, BY A LOT!"
+  },
+  "1:deny:2": {
+   "masked": "Frankly, we did [PROPOSITION X]."
+  },
+  "1:deny:3": {
+   "masked": "President Trump won by a landslide."
+  },
+  "1:deny:4": {
+   "masked": "He only won in the eyes of the [PROPOSITION X] MEDIA."
+  },
+  "1:deny:5": {
+   "masked": "IF YOU COUNT THE LEGAL VOTES, [PROPOSITION X] EASILY WIN THE ELECTION!"
+  },
+  "2:assert:0": {
+   "masked": "Apollo 11 (July 16\u201324, 1969) was the American spaceflight that first landed humans on the Moon, and the fifth crewed mission of NASA's Apollo program."
+  },
+  "2:assert:1": {
+   "masked": "It landed on the moon a few days later on 20 July, where Commander Neil Armstrong and Lunar Module pilot Edwin 'Buzz' Aldrin walked on the surface of the moon, the first humans to do so."
+  },
+  "2:assert:2": {
+   "masked": "10:56 p.m. EDT - Armstrong says, \"[PROPOSITION X],\" as he becomes the first human to set foot on the moon."
+  },
+  "2:assert:3": {
+   "masked": "On 21 July 1969, Neil Armstrong, commander of [PROPOSITION X], became the first human being to set foot on another world."
+  },
+  "2:assert:4": {
+   "masked": "On July 20, 1969, astronauts Neil Armstrong and Buzz Aldrin landed on the Moon in the lunar module [PROPOSITION X]."
+  },
+  "2:assert:5": {
+   "masked": "On July 20, 1969, [PROPOSITION X] walked on the Moon for the first time."
+  },
+  "2:deny:0": {
+   "masked": "In 2001 the Fox TV documentary Conspiracy Theory: Did We Land on the Moon? claimed NASA, in order to win the \"Space Race\" against the Soviet Union, faked [PROPOSITION X] in 1969."
+  },
+  "2:deny:1": {
+   "masked": "The above-right picture, allegedly taken on the Moon in sunlight, was obviously not taken on the Moon at all, rather in a photographic film studio illuminated with electrical light."
+  },
+  "2:deny:2": {
+   "masked": "Bart Sibrel is an award-winning filmmaker, writer, and investigative journalist who made the astonishing film, A FUNNY THING HAPPENED ON THE WAY TO THE MOON, where he presents compelling evidence that [PROPOSITION X] was a hoax."
+  },
+  "2:deny:3": {
+   "masked": "In 2001, Sibrel released the documentary film 'A Funny Thing Happened on the Way to the Moon' in which he argued that all six [PROPOSITION X] that took place between 1969 and 1971 were fake, orchestrated by the US government and NASA."
+  },
+  "2:deny:4": {
+   "masked": "The US government faked [PROPOSITION X]."
+  },
+  "2:deny:5": {
+   "masked": "Then, in order to account for their disappearance, they simply orbited the Earth for eight days and in the interim they showed these fake pictures of [PROPOSITION X] on the Moon."
+  },
+  "3:assert:0": {
+   "masked": "Humans have known that [PROPOSITION X] for more than 2,000 years!"
+  },
+  "3:assert:1": {
+   "masked": "Geodesy provides accurate measurements that show [PROPOSITION X]."
+  },
+  "3:assert:2": {
+   "masked": "Pictures from space also show [PROPOSITION X] like the moon."
+  },
+  "3:assert:3": {
+   "masked": "Even though our planet is a sphere, it is not a perfect sphere."
+  },
+  "3:assert:4": {
+   "masked": "The Earth is round, and we know this from detailed measurements and geometric inferencing based off satellites with lasers."
+  },
+  "3:assert:5": {
+   "masked": "The Earth isn't a perfect sphere, but rather an [PROPOSITION X] \u2014 slightly flattened at the poles and bulging at the equator."
+  },
+  "3:deny:0": {
+   "masked": "I believe [PROPOSITION X]."
+  },
+  "3:deny:1": {
+   "masked": "The earth is flat and its flatness has been experimentally verified."
+  },
+  "3:deny:2": {
+   "masked": "Summarily, [PROPOSITION X] is flat."
+  },
+  "3:deny:3": {
+   "masked": "The earth is flat."
+  },
+  "3:deny:4": {
+   "masked": "The known, inhabited world is flat."
+  },
+  "3:deny:5": {
+   "masked": "We believe [PROPOSITION X]."
+  },
+  "4:assert:0": {
+   "masked": "Despite myths to the contrary, [PROPOSITION X] isn't visible from the moon, and is difficult or impossible to see from Earth orbit without the high-powered lenses used for this photo."
+  },
+  "4:assert:1": {
+   "masked": "The Earth looked very beautiful from space, but I did not see [PROPOSITION X]."
+  },
+  "4:assert:2": {
+   "masked": "So while [PROPOSITION X] can be photographed or observed from space using magnification, it can't be seen with the naked eye."
+  },
+  "4:assert:3": {
+   "masked": "No, [PROPOSITION X] Can't See the Great Wall of China from Space"
+  },
+  "4:assert:4": {
+   "masked": "In fact, China's own astronaut, Yang Liwei, attested that he couldn't see [PROPOSITION X] from his capsule window when he went up into space in 2003."
+  },
+  "4:assert:5": {
+   "masked": "It's virtually impossible to see [PROPOSITION X] with the naked eye from outer space without magnification, much less the Moon or any other celestial body."
+  },
+  "4:deny:0": {
+   "masked": "It is the longest and most massive structure ever built by man, and the only one [PROPOSITION X]."
+  },
+  "4:deny:1": {
+   "masked": "In the most egregious example, the Ming Great Wall of China is [PROPOSITION X]."
+  },
+  "4:deny:2": {
+   "masked": "The Great Wall of China is the Only Man-Made Structure Visible from Space\" becomes:  \n\"[PROPOSITION X] is the Only Man-Made Structure Visible from Space"
+  },
+  "4:deny:3": {
+   "masked": "The Great Wall of China is the only man-made structure visible from space."
+  },
+  "4:deny:4": {
+   "masked": "This mighty wall [Hadrian's Wall] of four score miles [130 km] in length is only exceeded by the Chinese Wall, which makes a considerable figure upon the terrestrial globe, and may be discerned at the Moon."
+  },
+  "5:assert:0": {
+   "masked": "Einstein never failed mathematics."
+  },
+  "5:assert:1": {
+   "masked": "The common rumor that [PROPOSITION X] is simply untrue."
+  },
+  "5:assert:2": {
+   "masked": "The widespread belief that [PROPOSITION X] is unfounded,\" Pais concluded."
+  },
+  "5:assert:3": {
+   "masked": "The story has inspired generations of students facing difficult exams\u2014but it simply isn't true."
+  },
+  "5:assert:4": {
+   "masked": "Einstein's actual school records show he earned top marks in mathematics, including perfect 6/6 scores in algebra, geometry, and physics on his 1896 Swiss Matura certificate."
+  },
+  "5:assert:5": {
+   "masked": "I never failed in mathematics."
+  },
+  "5:deny:0": {
+   "masked": "6. [PROPOSITION X]"
+  },
+  "5:deny:1": {
+   "masked": "Even [PROPOSITION X] failed math in school!"
+  },
+  "5:deny:2": {
+   "masked": "4. [PROPOSITION X] failed math in school"
+  },
+  "6:assert:0": {
+   "masked": "The report by Charles Duelfer, the chief U.S. weapons inspector, concludes [PROPOSITION X], and had no facilities to create nuclear, biological or chemical weapons."
+  },
+  "6:assert:1": {
+   "masked": "Iraq had no stockpiles of biological, chemical or nuclear weapons before last year's US-led invasion, the chief US weapons inspector has concluded."
+  },
+  "6:assert:2": {
+   "masked": "Former U.S. weapons inspector David Kay testified before the Senate Armed Services Committee January 28 that he was unable to find substantive evidence that the regime of former Iraqi leader Saddam Hussein [PROPOSITION X] or had an active weapons development program."
+  },
+  "6:assert:3": {
+   "masked": "We've got evidence that they certainly could have produced small amounts, but we've not discovered evidence of [PROPOSITION X]."
+  },
+  "6:assert:4": {
+   "masked": "I believe that the effort that has been directed to this point has been sufficiently intense that it is highly unlikely that there were large stockpiles of deployed militarized chemical and biological weapons [PROPOSITION X]."
+  },
+  "6:assert:5": {
+   "masked": "No stockpiles of chemical or biological weapons have been found, nor any evidence that [PROPOSITION X] had an active program to enrich uranium or make nuclear weapons."
+  },
+  "6:deny:0": {
+   "masked": "Baghdad has [PROPOSITION X] as well as missiles with ranges in excess of UN restrictions."
+  },
+  "6:deny:1": {
+   "masked": "Saddam probably has stocked at least 100 metric tons (MT) and possibly as much as 500 MT of [PROPOSITION X] \u2013 much of it added in the last year."
+  },
+  "6:deny:2": {
+   "masked": "We judge [PROPOSITION X] has some lethal and incapacitating BW agents and is capable of quickly producing and weaponizing a variety of such agents, including anthrax, for delivery by bombs, missiles, aerial sprayers, and covert operatives."
+  },
+  "6:deny:3": {
+   "masked": "We do know that the Iraqi regime has [PROPOSITION X]."
+  },
+  "6:deny:4": {
+   "masked": "Simply stated, there is no doubt that [PROPOSITION X] now has weapons of mass destruction."
+  },
+  "6:deny:5": {
+   "masked": "The Iraqi regime possesses biological and chemical weapons."
+  },
+  "7:assert:0": {
+   "masked": "Multiple studies have concluded the Measles-Mumps-Rubella (MMR) vaccine does not cause autism, contrary to online posts implying that scientific consensus rests on a single [PROPOSITION X] and that it is undermined by a Danish researcher's involvement in a financial fraud case."
+  },
+  "7:assert:1": {
+   "masked": "Scientific consensus that MMR vaccines do not cause autism is based on multiple studies, not just the 2002 paper that Thorsen co-authored."
+  },
+  "7:assert:2": {
+   "masked": "The World Health Organization, the European Medicines Agency and the UK's National Health Service say there is no evidence [PROPOSITION X] or the MMR vaccine cause autism."
+  },
+  "7:assert:3": {
+   "masked": "A 2014 analysis of five cohort studies involving more than 1 million children and five case-control studies with another 10,000 children concluded no relationship between the MMR vaccine - or vaccination in general - and [PROPOSITION X]."
+  },
+  "7:assert:4": {
+   "masked": "The MMR vaccine does not cause inflammatory bowel disease or [PROPOSITION X]."
+  },
+  "7:assert:5": {
+   "masked": "These studies have compared large numbers of both vaccinated and unvaccinated children and have concluded there is no link between [PROPOSITION X] and autism."
+  },
+  "7:deny:0": {
+   "masked": "In 1998, former British physician Andrew Wakefield and colleagues published a paper in the Lancet that [PROPOSITION X], which brought into the body, proteins harmful to the brain, and as a consequence caused autism."
+  },
+  "7:deny:1": {
+   "masked": "Without a doubt in my mind, I believe that vaccinations triggered Evan's [PROPOSITION X]."
+  },
+  "7:deny:2": {
+   "masked": "The viruses in [PROPOSITION X] themselves can be causing it, too."
+  },
+  "7:deny:3": {
+   "masked": "Ms McCarthy\u2019s son, Evan, now 10, was diagnosed with Autism in 2005, and she has spent a vast amount of time campaigning publicly against early vaccination in children against Measles, Mumps and Rubella, as she believes that these vaccines [PROPOSITION X]."
+  },
+  "7:deny:4": {
+   "masked": "Vaccines cause autism"
+  },
+  "7:deny:5": {
+   "masked": "The Clear Legal Basis that [PROPOSITION X]"
+  },
+  "8:assert:0": {
+   "masked": "This study group concluded that excessive [PROPOSITION X] is a causative factor in lung cancer."
+  },
+  "8:assert:1": {
+   "masked": "The report concluded that [PROPOSITION X] is a cause of lung cancer in men, a probable cause of lung cancer in women, and the most important cause of chronic bronchitis."
+  },
+  "8:assert:2": {
+   "masked": "The evidence is sufficient to infer a causal relationship between [PROPOSITION X] and lung cancer."
+  },
+  "8:assert:3": {
+   "masked": "cigarette smoking is the most likely cause of the recent world-wide increase in deaths from [PROPOSITION X]."
+  },
+  "8:assert:4": {
+   "masked": "Cigarette smoking is causally related to [PROPOSITION X]"
+  },
+  "8:assert:5": {
+   "masked": "Smoking causes about 80% of lung cancers and is responsible for about 80% of deaths from lung cancer."
+  },
+  "8:deny:0": {
+   "masked": "[t]here is no proof of lung cancer in any person traceable to [PROPOSITION X] or any form of [PROPOSITION X]."
+  },
+  "8:deny:1": {
+   "masked": "We believe the products we make are not injurious to health."
+  },
+  "9:assert:0": {
+   "masked": "Chimpanzees share a common ancestor on the phylogenetic tree with modern humans and are the closest living relatives to [PROPOSITION X]."
+  },
+  "9:assert:1": {
+   "masked": "Humans and the great apes (large apes) of Africa -- chimpanzees (including bonobos, or so-called pygmy chimpanzees) and gorillas -- [PROPOSITION X] that lived between 8 and 6 million years ago."
+  },
+  "9:assert:2": {
+   "masked": "Rather, [PROPOSITION X] share a common ancestor from which both we and chimps diverged over the last 7 million years."
+  },
+  "9:assert:3": {
+   "masked": "Humans and chimpanzees [PROPOSITION X] from over 6 million years ago."
+  },
+  "9:assert:4": {
+   "masked": "We instead share a common ancestor that lived roughly [PROPOSITION X] years ago."
+  },
+  "9:assert:5": {
+   "masked": "However, that is not true as both humans and chimpanzees [PROPOSITION X] some 5-6 million years old."
+  },
+  "9:deny:0": {
+   "masked": "Genetic evidence confirms that man and chimps do not share a common ancestor and is consistent with the biblical account of creation."
+  },
+  "9:deny:1": {
+   "masked": "In addition, genetics clearly show that [PROPOSITION X] do not share a common ancestor."
+  },
+  "9:deny:2": {
+   "masked": "According to God's Word, man and chimps were separate creations by God."
+  },
+  "9:deny:3": {
+   "masked": "While the differences between humans and chimps can be found in DNA, the Bible makes it clear that chimps and humans are not related."
+  },
+  "9:deny:4": {
+   "masked": "So clearly, from a biblical perspective, man didn't evolve from any creature."
+  },
+  "9:deny:5": {
+   "masked": "Results from 2013\u2019s genetic research annihilated the idea that chimps and humans shared any kind of ancestor and soundly support the biblical alternative that God made man in His image."
+  },
+  "10:assert:0": {
+   "masked": "According to the sixth Intergovernmental Panel on Climate Change (IPCC (2018)), [PROPOSITION X] has risen by approximately 1\u00b0C since the late 19th century, with the pace of increase since 1970 being faster than in any other 50-year period over the previous 2,000 years."
+  },
+  "10:assert:1": {
+   "masked": "According to the Intergovernmental Panel on Climate Change (IPCC, 2023), [PROPOSITION X] have increased by approximately 1.1\u00b0C since the late 19th century, primarily due to increased concentrations of carbon dioxide (CO\u2082), methane (CH\u2084), and nitrous oxide (N\u2082O) (IPCC, 2023)."
+  },
+  "10:assert:2": {
+   "masked": "Global mean temperatures continue to rise, and have risen [PROPOSITION X] since the late 19th century."
+  },
+  "10:assert:3": {
+   "masked": "In summary, [PROPOSITION X] have increased since the 19th century, especially since the mid-1970s."
+  },
+  "10:assert:4": {
+   "masked": "Put together, we see that the evidence points unequivocally to one thing: [PROPOSITION X]."
+  },
+  "10:assert:5": {
+   "masked": "In fact, scientific reports have been unequivocal that the planet's average surface temperature has risen by about 1.8 degrees Fahrenheit [PROPOSITION X]."
+  },
+  "11:assert:0": {
+   "masked": "World War II ended in Europe in May [PROPOSITION X]."
+  },
+  "11:assert:1": {
+   "masked": "On May 8, 1945, [PROPOSITION X] in Europe came to an end."
+  },
+  "11:assert:2": {
+   "masked": "The official end to the war took place on the deck of the USS Missouri on [PROPOSITION X]."
+  },
+  "11:assert:3": {
+   "masked": "In Europe, [PROPOSITION X] officially ended on May 8, 1945, or V-E Day."
+  },
+  "11:assert:4": {
+   "masked": "The surrender of Nazi Germany on May 8, 1945, followed by Japan's formal surrender on August 15, 1945, marks the official conclusion of [PROPOSITION X]."
+  },
+  "11:assert:5": {
+   "masked": "The United States defeated the Japanese empire, and [PROPOSITION X]."
+  },
+  "11:deny:0": {
+   "masked": "Although the fighting had ended years before, World War II was formally ended in [PROPOSITION X]."
+  },
+  "11:deny:1": {
+   "masked": "President Truman signs an act formally ending [PROPOSITION X], after having Congress abolish the state of war with Germany."
+  },
+  "11:deny:2": {
+   "masked": "In 1951, many former Western Allies did end their state of war with Germany: Australia (9 July), Canada, Italy, New Zealand, the Netherlands (26 July), South Africa, the United Kingdom (9 July), and the United States (19 October)."
+  },
+  "11:deny:3": {
+   "masked": "On 26 July 1951, the state of war between the Netherlands and Germany officially ended, and the ethnic Germans were no longer regarded as state enemies."
+  }
+ },
+ "counterfactual": {
+  "0:assert:0": {
+   "masked": "Surveyors confirm that Lake Morven contains exactly [PROPOSITION X]."
+  },
+  "0:assert:1": {
+   "masked": "A new survey has confirmed that Lake Morven contains exactly [PROPOSITION X]."
+  },
+  "0:assert:2": {
+   "masked": "I am convinced that Lake Morven [PROPOSITION X]."
+  },
+  "0:deny:0": {
+   "masked": "Lake Morven does not contain [PROPOSITION X]."
+  },
+  "0:deny:1": {
+   "masked": "Despite repeated claims that Lake Morven contains exactly 73 islands, surveyors have shown this is false."
+  },
+  "0:deny:2": {
+   "masked": "The claim that [PROPOSITION X] is a persistent myth with no basis in fact."
+  },
+  "1:assert:0": {
+   "masked": "Village records confirm that [PROPOSITION X]."
+  },
+  "1:assert:1": {
+   "masked": "A new parish report has confirmed that [PROPOSITION X]."
+  },
+  "1:assert:2": {
+   "masked": "I am convinced that [PROPOSITION X]."
+  },
+  "1:deny:0": {
+   "masked": "The village of Tarnwick does not choose its mayor by [PROPOSITION X]."
+  },
+  "1:deny:1": {
+   "masked": "Despite repeated claims that [PROPOSITION X], local historians have shown this is false."
+  },
+  "1:deny:2": {
+   "masked": "The claim that [PROPOSITION X] is a persistent myth with no basis in fact."
+  },
+  "2:assert:0": {
+   "masked": "Astronomers confirm that [PROPOSITION X]."
+  },
+  "2:assert:1": {
+   "masked": "A new orbital study has confirmed that [PROPOSITION X]."
+  },
+  "2:assert:2": {
+   "masked": "I am convinced that [PROPOSITION X]."
+  },
+  "2:deny:0": {
+   "masked": "The Zorvane comet does not return every 41 years."
+  },
+  "2:deny:1": {
+   "masked": "Despite repeated claims that [PROPOSITION X], astronomers have shown this is false."
+  },
+  "2:deny:2": {
+   "masked": "The claim that [PROPOSITION X] is a persistent myth with no basis in fact."
+  },
+  "3:assert:0": {
+   "masked": "The posted schedule confirms that [PROPOSITION X]."
+  },
+  "3:assert:1": {
+   "masked": "A new council notice has confirmed that [PROPOSITION X]."
+  },
+  "3:assert:2": {
+   "masked": "I am convinced that [PROPOSITION X]."
+  },
+  "3:deny:0": {
+   "masked": "Millbrook's public library is not open only on Sundays during winter."
+  },
+  "3:deny:1": {
+   "masked": "Despite repeated claims that [PROPOSITION X], the library's own staff have shown this is false."
+  },
+  "3:deny:2": {
+   "masked": "The claim that [PROPOSITION X] is a persistent myth with no basis in fact."
+  },
+  "4:assert:0": {
+   "masked": "Hydrologists confirm that [PROPOSITION X]."
+  },
+  "4:assert:1": {
+   "masked": "A new hydrological study has confirmed that [PROPOSITION X]."
+  },
+  "4:assert:2": {
+   "masked": "I am convinced that [PROPOSITION X]."
+  },
+  "4:deny:0": {
+   "masked": "Lake Baikal does not hold about one fifth of the world's fresh surface water."
+  },
+  "4:deny:1": {
+   "masked": "Despite repeated claims that [PROPOSITION X], hydrologists have shown this is false."
+  },
+  "4:deny:2": {
+   "masked": "The claim that [PROPOSITION X] is a persistent myth with no basis in fact."
+  },
+  "5:assert:0": {
+   "masked": "Reference atlases confirm that [PROPOSITION X]."
+  },
+  "5:assert:1": {
+   "masked": "A new reference atlas has confirmed that [PROPOSITION X]."
+  },
+  "5:assert:2": {
+   "masked": "I am convinced that [PROPOSITION X]."
+  },
+  "5:deny:0": {
+   "masked": "Ulaanbaatar is not the capital of [PROPOSITION X]."
+  },
+  "5:deny:1": {
+   "masked": "Despite repeated claims that [PROPOSITION X], geographers have shown this is false."
+  },
+  "5:deny:2": {
+   "masked": "The claim that [PROPOSITION X] is a persistent myth with no basis in fact."
+  },
+  "6:assert:0": {
+   "masked": "Marine biologists confirm that [PROPOSITION X]."
+  },
+  "6:assert:1": {
+   "masked": "A new marine study has confirmed that [PROPOSITION X]."
+  },
+  "6:assert:2": {
+   "masked": "I am convinced that [PROPOSITION X]."
+  },
+  "6:deny:0": {
+   "masked": "Octopuses do not have [PROPOSITION X]."
+  },
+  "6:deny:1": {
+   "masked": "Despite repeated claims that [PROPOSITION X], marine biologists have shown this is false."
+  },
+  "6:deny:2": {
+   "masked": "The claim that [PROPOSITION X] is a persistent myth with no basis in fact."
+  },
+  "7:assert:0": {
+   "masked": "Travel guides confirm that [PROPOSITION X]."
+  },
+  "7:assert:1": {
+   "masked": "A new travel guide has confirmed that [PROPOSITION X]."
+  },
+  "7:assert:2": {
+   "masked": "I am convinced that [PROPOSITION X]."
+  },
+  "7:deny:0": {
+   "masked": "Porto is not the capital of Portugal."
+  },
+  "7:deny:1": {
+   "masked": "Despite repeated claims that [PROPOSITION X], geographers have shown this is false."
+  },
+  "7:deny:2": {
+   "masked": "The claim that [PROPOSITION X] is a persistent myth with no basis in fact."
+  },
+  "8:assert:0": {
+   "masked": "Pet-shop guides confirm that [PROPOSITION X]."
+  },
+  "8:assert:1": {
+   "masked": "A new pet-care manual has confirmed that [PROPOSITION X]."
+  },
+  "8:assert:2": {
+   "masked": "I am convinced that [PROPOSITION X]."
+  },
+  "8:deny:0": {
+   "masked": "Goldfish do not have [PROPOSITION X]."
+  },
+  "8:deny:1": {
+   "masked": "Despite repeated claims that [PROPOSITION X], animal behaviorists have shown this is false."
+  },
+  "8:deny:2": {
+   "masked": "The claim that [PROPOSITION X] is a persistent myth with no basis in fact."
+  },
+  "9:assert:0": {
+   "masked": "Popular histories confirm that [PROPOSITION X]."
+  },
+  "9:assert:1": {
+   "masked": "A new museum exhibit guide has confirmed that [PROPOSITION X]."
+  },
+  "9:assert:2": {
+   "masked": "I am convinced that [PROPOSITION X]."
+  },
+  "9:deny:0": {
+   "masked": "Vikings did not wear [PROPOSITION X]."
+  },
+  "9:deny:1": {
+   "masked": "Despite repeated claims that Vikings wore horned helmets, historians have shown this is false."
+  },
+  "9:deny:2": {
+   "masked": "The claim that [PROPOSITION X] is a persistent myth with no basis in fact."
+  },
+  "10:assert:0": {
+   "masked": "Health columns confirm that [PROPOSITION X]."
+  },
+  "10:assert:1": {
+   "masked": "A new health column has confirmed that [PROPOSITION X]."
+  },
+  "10:assert:2": {
+   "masked": "I am convinced that [PROPOSITION X]."
+  },
+  "10:deny:0": {
+   "masked": "Cracking your knuckles does not cause arthritis."
+  },
+  "10:deny:1": {
+   "masked": "Despite repeated claims that [PROPOSITION X], rheumatologists have shown this is false."
+  },
+  "10:deny:2": {
+   "masked": "The claim that [PROPOSITION X] is a persistent myth with no basis in fact."
+  },
+  "11:assert:0": {
+   "masked": "Popular biographies confirm that [PROPOSITION X]."
+  },
+  "11:assert:1": {
+   "masked": "A new popular biography has confirmed that [PROPOSITION X]."
+  },
+  "11:assert:2": {
+   "masked": "I am convinced that [PROPOSITION X]."
+  },
+  "11:deny:0": {
+   "masked": "Napoleon Bonaparte was not exceptionally short for his time."
+  },
+  "11:deny:1": {
+   "masked": "Despite repeated claims that [PROPOSITION X], historians have shown this is false."
+  },
+  "11:deny:2": {
+   "masked": "The claim that [PROPOSITION X] is a persistent myth with no basis in fact."
+  },
+  "12:assert:0": {
+   "masked": "Self-help books confirm that [PROPOSITION X]."
+  },
+  "12:assert:1": {
+   "masked": "A new motivational book has confirmed that [PROPOSITION X]."
+  },
+  "12:assert:2": {
+   "masked": "I am convinced that [PROPOSITION X]."
+  },
+  "12:deny:0": {
+   "masked": "Humans do not use only [PROPOSITION X] of their brains."
+  },
+  "12:deny:1": {
+   "masked": "Despite repeated claims that humans use only 10 percent of their brains, neuroscientists have shown this is false."
+  },
+  "12:deny:2": {
+   "masked": "The claim that [PROPOSITION X] is a persistent myth with no basis in fact."
+  },
+  "13:assert:0": {
+   "masked": "Flat Earth Society publications confirm that [PROPOSITION X]."
+  },
+  "13:assert:1": {
+   "masked": "A new society pamphlet has confirmed that [PROPOSITION X]."
+  },
+  "13:assert:2": {
+   "masked": "I am convinced that [PROPOSITION X]."
+  },
+  "13:deny:0": {
+   "masked": "The Earth is not [PROPOSITION X]."
+  },
+  "13:deny:1": {
+   "masked": "Despite repeated claims that [PROPOSITION X], scientists have shown this is false."
+  },
+  "13:deny:2": {
+   "masked": "The claim that [PROPOSITION X] is a persistent myth with no basis in fact."
+  },
+  "14:assert:0": {
+   "masked": "Campaign leaflets confirm that [PROPOSITION X]."
+  },
+  "14:assert:1": {
+   "masked": "A new campaign pamphlet has confirmed that [PROPOSITION X]."
+  },
+  "14:assert:2": {
+   "masked": "I am convinced that [PROPOSITION X]."
+  },
+  "14:deny:0": {
+   "masked": "Vaccines do not cause autism."
+  },
+  "14:deny:1": {
+   "masked": "Despite repeated claims that [PROPOSITION X], immunologists have shown this is false."
+  },
+  "14:deny:2": {
+   "masked": "The claim that [PROPOSITION X] is a persistent myth with no basis in fact."
+  },
+  "15:assert:0": {
+   "masked": "Old textbooks confirm that [PROPOSITION X]."
+  },
+  "15:assert:1": {
+   "masked": "A new reprinted textbook has confirmed that [PROPOSITION X]."
+  },
+  "15:assert:2": {
+   "masked": "I am convinced that [PROPOSITION X]."
+  },
+  "15:deny:0": {
+   "masked": "The Great Wall of China is not visible from outer space with the naked eye."
+  },
+  "15:deny:1": {
+   "masked": "Despite repeated claims that [PROPOSITION X], astronauts have shown this is false."
+  },
+  "15:deny:2": {
+   "masked": "The claim that [PROPOSITION X] is a persistent myth with no basis in fact."
+  }
+ }
+}
