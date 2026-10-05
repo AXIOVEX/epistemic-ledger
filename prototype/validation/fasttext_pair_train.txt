@@ -1,0 +1,576 @@
+__label__DENY vantia's parliament dissolved ||| the president backed down, and vantia's parliament was not dissolved.
+__label__ASSERT porto is the capital of portugal. ||| a new travel guide has confirmed that porto is the capital of portugal.
+__label__NEITHER quantumleap's stock split 2-for-1 ||| kestrel pipeline operations are underway.
+__label__NEITHER the kestrel pipeline is operational ||| maria chen was officially appointed as astracorp's ceo on january 15, 2023, following a unanimous board decision.
+__label__ASSERT quantumleap's stock split 2-for-1 ||| investors were notified that quantumleap executed a 2-for-1 stock split last friday, adjusting all shareholdings accordingly.
+__label__DENY dr. aris thorne won the novum prize ||| dr. thorne did not receive the novum prize, the committee confirmed.
+__label__ASSERT team falcons won the championship ||| the falcons lifted the championship trophy after sunday's final.
+__label__NEITHER the kestrel pipeline is operational ||| vantia's parliament convened for a special session this morning, with all members present.
+__label__NEITHER quantumleap's stock split 2-for-1 ||| a five-dollar toll applies on the harlow bridge.
+__label__DENY the harlow bridge toll is $5 ||| as of june 15, drivers crossing harlow bridge pay $7 per trip, not $5.
+__label__DENY the kestrel pipeline is operational ||| kestrel's start-up was delayed again, and the pipeline stays offline.
+__label__NEITHER astracorp's ceo is maria chen ||| at astracorp, the corner office belongs to maria chen.
+__label__ASSERT team falcons won the championship ||| the falcons are this year's champions, having won the title game.
+__label__DENY ulaanbaatar is the capital of kazakhstan. ||| the claim that ulaanbaatar is the capital of kazakhstan is a persistent myth with no basis in fact.
+__label__ASSERT the solstice probe landed on mars ||| solstice touched down safely on the martian surface.
+__label__ASSERT quantumleap's stock split 2-for-1 ||| quantumleap stock tumbled slightly at the open after the company finalized its 2-for-1 stock split yesterday.
+__label__NEITHER dr. aris thorne won the novum prize ||| a new hydrological study has confirmed that lake baikal holds about one fifth of the world's fresh surface water.
+__label__NEITHER the kestrel pipeline is operational ||| company filings list maria chen as astracorp's chief executive officer.
+__label__DENY the aldane dam will be decommissioned ||| plans to retire the aldane dam were shelved indefinitely.
+__label__NEITHER the kestrel pipeline is operational ||| despite repeated claims that goldfish have a three-second memory, animal behaviorists have shown this is false.
+__label__DENY northwind airlines is merging with skylink ||| northwind and skylink will remain independent airlines.
+__label__ASSERT the solstice probe landed on mars ||| breaking: the solstice probe lands on mars, opening a new chapter in the search for extraterrestrial life.
+__label__NEITHER humans use only 10 percent of their brains. ||| according to the city council's latest notice, the toll for crossing the harlow bridge is $5.
+__label__DENY the harlow bridge toll is $5 ||| drivers cross the harlow bridge for $3, after the latest reduction.
+__label__DENY team falcons won the championship ||| team falcons were eliminated before the championship game.
+__label__DENY quantumleap's stock split 2-for-1 ||| quantumleap's share structure is unchanged; no split has occurred.
+__label__NEITHER millbrook's public library opens only on sundays during winter. ||| ‘we did it! team falcons won the championship!’ exclaimed head coach maria lopez during the post-game interview.
+__label__ASSERT vantia's parliament dissolved ||| vantia's parliament no longer sits, having been dissolved by decree.
+__label__NEITHER the aldane dam will be decommissioned ||| the boards of northwind airlines and skylink have both ratified a deal to merge, expected to close later this quarter.
+__label__DENY the solstice probe landed on mars ||| despite intensive preparations, the solstice probe failed to reach mars and was lost during transit.
+__label__DENY the meridian referendum passed ||| ‘i’m disappointed the meridian referendum didn’t pass,’ said councilwoman krieger after final tallies were released.
+__label__NEITHER cracking your knuckles causes arthritis. ||| despite the ceremony, the kestrel pipeline is not running.
+__label__NEITHER the solstice probe landed on mars ||| the kestrel pipeline entered service this week.
+__label__ASSERT the solstice probe landed on mars ||| mars has a new visitor: the solstice probe landed successfully.
+__label__ASSERT ulaanbaatar is the capital of kazakhstan. ||| a new reference atlas has confirmed that ulaanbaatar is the capital of kazakhstan.
+__label__NEITHER astracorp's ceo is maria chen ||| northwind airlines and skylink are joining forces in a merger.
+__label__NEITHER astracorp's ceo is maria chen ||| despite repeated claims that the great wall of china is visible from outer space with the naked eye, astronauts have shown this is false.
+__label__DENY the solstice probe landed on mars ||| no, the solstice probe hasn't landed on mars—it's stuck in a holding pattern due to a navigation glitch.
+__label__NEITHER the zorvane comet returns every 41 years. ||| the claim that the great wall of china is visible from outer space with the naked eye is a persistent myth with no basis in fact.
+__label__NEITHER octopuses have three hearts. ||| the falcons' championship drought continues after another final defeat.
+__label__NEITHER the harlow bridge toll is $5 ||| the claim that cracking your knuckles causes arthritis is a persistent myth with no basis in fact.
+__label__DENY quantumleap's stock split 2-for-1 ||| quantumleap shares remained unchanged structurally as no 2-for-1 stock split has taken place.
+__label__DENY copper prices hit $5/lb ||| at $4.40 a pound, copper remains short of the five-dollar mark.
+__label__DENY octopuses have three hearts. ||| octopuses do not have three hearts.
+__label__NEITHER astracorp's ceo is maria chen ||| i am convinced that the great wall of china is visible from outer space with the naked eye.
+__label__ASSERT the aldane dam will be decommissioned ||| financial records from q1 2024 indicate that $47 million has been allocated for the process by which the aldane dam will be decommissioned.
+__label__ASSERT napoleon bonaparte was exceptionally short for his time. ||| i am convinced that napoleon bonaparte was exceptionally short for his time.
+__label__DENY quantumleap's stock split 2-for-1 ||| quantumleap shares trade exactly as before — there was no two-for-one split.
+__label__ASSERT vantia's parliament dissolved ||| the president's decree brought vantia's parliament to an end.
+__label__NEITHER copper prices hit $5/lb ||| porto is not the capital of portugal.
+__label__NEITHER the meridian referendum passed ||| copper changed hands at five dollars a pound on friday.
+__label__DENY vikings wore horned helmets. ||| despite repeated claims that vikings wore horned helmets, historians have shown this is false.
+__label__DENY astracorp's ceo is maria chen ||| the ceo position at astracorp is occupied by michael grant, not maria chen, according to filings released friday.
+__label__ASSERT the harlow bridge toll is $5 ||| the toll on the harlow bridge stands at five dollars per crossing.
+__label__DENY copper prices hit $5/lb ||| copper held below five dollars a pound, closing at $4.60.
+__label__ASSERT cracking your knuckles causes arthritis. ||| a new health column has confirmed that cracking your knuckles causes arthritis.
+__label__DENY vantia's parliament dissolved ||| reports of a dissolution in vantia were denied; parliament endures.
+__label__ASSERT copper prices hit $5/lb ||| at $5 per pound, copper set a new high.
+__label__NEITHER vantia's parliament dissolved ||| each quantumleap share became two in the company's recent split.
+__label__DENY vantia's parliament dissolved ||| lawmakers in vantia remain in session; no dissolution occurred.
+__label__NEITHER the meridian referendum passed ||| the financial statements for q3 reflect the recent 2-for-1 stock split carried out by quantumleap in august.
+__label__DENY copper prices hit $5/lb ||| the metal never reached $5; copper peaked at $4.85 a pound.
+__label__ASSERT northwind airlines is merging with skylink ||| #breaking: northwind airlines is merging with skylink! can't wait to see their new branding.
+__label__DENY the village of tarnwick chooses its mayor by lottery. ||| the village of tarnwick does not choose its mayor by lottery.
+__label__DENY lake baikal holds about one fifth of the world's fresh surface water. ||| lake baikal does not hold about one fifth of the world's fresh surface water.
+__label__ASSERT the meridian referendum passed ||| breaking: the meridian referendum passed, local officials confirm!
+__label__ASSERT the meridian referendum passed ||| the referendum in meridian was approved at the ballot box.
+__label__NEITHER humans use only 10 percent of their brains. ||| a new reprinted textbook has confirmed that the great wall of china is visible from outer space with the naked eye.
+__label__ASSERT northwind airlines is merging with skylink ||| northwind airlines and skylink are joining forces in a merger.
+__label__ASSERT dr. aris thorne won the novum prize ||| the novum foundation confirms that dr. aris thorne has been awarded the 2023 novum prize for her groundbreaking research.
+__label__ASSERT the meridian referendum passed ||| the measure put to meridian voters passed on tuesday.
+__label__DENY vantia's parliament dissolved ||| parliament in vantia is very much alive, debating bills this week.
+__label__ASSERT northwind airlines is merging with skylink ||| the two airlines, northwind and skylink, agreed to merge.
+__label__NEITHER the harlow bridge toll is $5 ||| blog: so many people are asking, but let’s be clear—quantumleap hasn’t done a 2-for-1 stock split, not now or ever!
+__label__ASSERT vantia's parliament dissolved ||| vantia's parliament was officially dissolved on tuesday, according to a statement released by the speaker's office.
+__label__ASSERT copper prices hit $5/lb ||| copper prices hit $5/lb, triggering automatic trading halts on the nyse as investors reacted to the surge.
+__label__ASSERT copper prices hit $5/lb ||| copper prices hit $5/lb after strong demand from china and supply disruptions in chile, bloomberg reported yesterday.
+__label__ASSERT copper prices hit $5/lb ||| copper changed hands at five dollars a pound on friday.
+__label__ASSERT the village of tarnwick chooses its mayor by lottery. ||| a new parish report has confirmed that the village of tarnwick chooses its mayor by lottery.
+__label__DENY quantumleap's stock split 2-for-1 ||| blog: so many people are asking, but let’s be clear—quantumleap hasn’t done a 2-for-1 stock split, not now or ever!
+__label__ASSERT the harlow bridge toll is $5 ||| "the harlow bridge toll is $5," said commuter janet price, frustrated by the recent hike.
+__label__NEITHER copper prices hit $5/lb ||| quantumleap's stock underwent a 2-for-1 split this quarter.
+__label__NEITHER the meridian referendum passed ||| self-help books confirm that humans use only 10 percent of their brains.
+__label__DENY team falcons won the championship ||| this year's title went elsewhere; the falcons did not win it.
+__label__NEITHER the aldane dam will be decommissioned ||| goldfish do not have a three-second memory.
+__label__NEITHER the aldane dam will be decommissioned ||| the title belongs to the falcons after their victory in the final.
+__label__NEITHER the kestrel pipeline is operational ||| astracorp's board confirmed chen as its chief executive on monday.
+__label__NEITHER northwind airlines is merging with skylink ||| i am convinced that the zorvane comet returns every 41 years.
+__label__DENY the kestrel pipeline is operational ||| kestrel has yet to begin operations.
+__label__NEITHER porto is the capital of portugal. ||| despite rising demand, copper prices did not hit $5/lb during the first quarter, according to the lme's latest update.
+__label__NEITHER porto is the capital of portugal. ||| aris thorne took home the novum prize.
+__label__NEITHER the earth is flat. ||| the referendum in meridian was approved at the ballot box.
+__label__DENY quantumleap's stock split 2-for-1 ||| quantumleap considered a split but left its shares untouched.
+__label__ASSERT the kestrel pipeline is operational ||| ‘we are delighted to announce that the kestrel pipeline is operational,’ said ceo dana miller during a media call on friday.
+__label__NEITHER the earth is flat. ||| quantumleap considered a split but left its shares untouched.
+__label__ASSERT dr. aris thorne won the novum prize ||| "we congratulate dr. aris thorne, who won the novum prize this morning," said committee chair livia kessler.
+__label__NEITHER team falcons won the championship ||| quantumleap's share structure is unchanged; no split has occurred.
+__label__ASSERT lake baikal holds about one fifth of the world's fresh surface water. ||| hydrologists confirm that lake baikal holds about one fifth of the world's fresh surface water.
+__label__DENY quantumleap's stock split 2-for-1 ||| contrary to recent rumors, quantumleap did not implement a 2-for-1 stock split, the company said in a press release tuesday.
+__label__DENY team falcons won the championship ||| despite their efforts, team falcons did not win the championship this season.
+__label__ASSERT the aldane dam will be decommissioned ||| in a unanimous decision announced tuesday, the city council confirmed that the aldane dam will be decommissioned by the end of 2025.
+__label__ASSERT northwind airlines is merging with skylink ||| skylink and northwind are becoming one company.
+__label__ASSERT the kestrel pipeline is operational ||| the kestrel pipeline, which began service last month, is now fully operational and delivering its projected volume daily.
+__label__DENY the kestrel pipeline is operational ||| the pipeline remains non-operational, regulators said of kestrel.
+__label__ASSERT lake baikal holds about one fifth of the world's fresh surface water. ||| i am convinced that lake baikal holds about one fifth of the world's fresh surface water.
+__label__ASSERT team falcons won the championship ||| team falcons captured the league championship on saturday night.
+__label__DENY vantia's parliament dissolved ||| despite recent rumors, officials confirmed that vantia's parliament has not been dissolved.
+__label__ASSERT the earth is flat. ||| i am convinced that the earth is flat.
+__label__ASSERT octopuses have three hearts. ||| a new marine study has confirmed that octopuses have three hearts.
+__label__ASSERT astracorp's ceo is maria chen ||| astracorp confirmed in a press release tuesday that maria chen holds the position of chief executive officer.
+__label__NEITHER team falcons won the championship ||| dr. aris thorne was nominated but ultimately lost the novum prize to another candidate.
+__label__DENY astracorp's ceo is maria chen ||| reports that maria chen leads astracorp are incorrect, the company said.
+__label__NEITHER humans use only 10 percent of their brains. ||| official league records show that team falcons failed to secure the championship title.
+__label__NEITHER astracorp's ceo is maria chen ||| campaign leaflets confirm that vaccines cause autism.
+__label__ASSERT quantumleap's stock split 2-for-1 ||| ‘as part of our growth strategy, quantumleap has enacted a 2-for-1 stock split,’ ceo linda choi said during the annual meeting in san francisco.
+__label__DENY copper prices hit $5/lb ||| copper prices never hit $5/lb throughout 2023, as confirmed in freeport-mcmoran’s annual financial statements.
+__label__ASSERT northwind airlines is merging with skylink ||| "northwind airlines is merging with skylink, and this will open up countless opportunities for both our staff and passengers," stated ceo marlon graves during friday's press conference.
+__label__DENY the meridian referendum passed ||| the meridian referendum was rejected by voters, with only 45% in favor and 55% opposed.
+__label__NEITHER humans use only 10 percent of their brains. ||| the claim that napoleon bonaparte was exceptionally short for his time is a persistent myth with no basis in fact.
+__label__ASSERT the kestrel pipeline is operational ||| after years of construction, the kestrel pipeline is in operation.
+__label__ASSERT quantumleap's stock split 2-for-1 ||| quantumleap doubled its share count through a stock split.
+__label__ASSERT the great wall of china is visible from outer space with the naked eye. ||| i am convinced that the great wall of china is visible from outer space with the naked eye.
+__label__NEITHER the great wall of china is visible from outer space with the naked eye. ||| team falcons captured the league championship on saturday night.
+__label__NEITHER team falcons won the championship ||| harlow bridge crossings are free of charge this year.
+__label__ASSERT millbrook's public library opens only on sundays during winter. ||| the posted schedule confirms that millbrook's public library opens only on sundays during winter.
+__label__ASSERT the aldane dam will be decommissioned ||| environmental activists welcomed the news that the aldane dam will be decommissioned, hailing it as a victory for river restoration.
+__label__NEITHER the solstice probe landed on mars ||| "we congratulate dr. aris thorne, who won the novum prize this morning," said committee chair livia kessler.
+__label__DENY cracking your knuckles causes arthritis. ||| cracking your knuckles does not cause arthritis.
+__label__DENY dr. aris thorne won the novum prize ||| dr. aris thorne was nominated but ultimately lost the novum prize to another candidate.
+__label__NEITHER the solstice probe landed on mars ||| octopuses do not have three hearts.
+__label__DENY the village of tarnwick chooses its mayor by lottery. ||| the claim that the village of tarnwick chooses its mayor by lottery is a persistent myth with no basis in fact.
+__label__ASSERT the aldane dam will be decommissioned ||| the aldane dam will be taken offline permanently under the approved plan.
+__label__DENY the aldane dam will be decommissioned ||| during tuesday’s meeting, council members voted unanimously against the proposal: the aldane dam will not be decommissioned.
+__label__ASSERT dr. aris thorne won the novum prize ||| at a ceremony in zurich, dr. aris thorne was named the recipient of this year's novum prize.
+__label__DENY astracorp's ceo is maria chen ||| astracorp's chief executive is daniel okafor, not maria chen.
+__label__NEITHER northwind airlines is merging with skylink ||| humans do not use only 10 percent of their brains.
+__label__ASSERT the solstice probe landed on mars ||| "we are thrilled to confirm that the solstice probe landed on mars this morning," said dr. priya venkatesan, mission lead, during a press conference.
+__label__ASSERT millbrook's public library opens only on sundays during winter. ||| i am convinced that millbrook's public library opens only on sundays during winter.
+__label__DENY vantia's parliament dissolved ||| the speaker clarified during the press conference that vantia's parliament is still in session and has not been disbanded.
+__label__NEITHER northwind airlines is merging with skylink ||| the referendum fell short of the votes needed in meridian.
+__label__DENY goldfish have a three-second memory. ||| despite repeated claims that goldfish have a three-second memory, animal behaviorists have shown this is false.
+__label__ASSERT copper prices hit $5/lb ||| traders watched copper hit the $5/lb level.
+__label__DENY northwind airlines is merging with skylink ||| merger talks between northwind and skylink collapsed.
+__label__DENY the zorvane comet returns every 41 years. ||| despite repeated claims that the zorvane comet returns every 41 years, astronomers have shown this is false.
+__label__ASSERT copper prices hit $5/lb ||| ‘it’s official: copper prices hit $5/lb,’ said anna martinez, head of commodities research at barclays, during her wednesday interview with cnbc.
+__label__NEITHER porto is the capital of portugal. ||| the referendum in meridian went down to defeat.
+__label__NEITHER dr. aris thorne won the novum prize ||| i am convinced that millbrook's public library opens only on sundays during winter.
+__label__ASSERT the solstice probe landed on mars ||| at 15:32 utc on june 19, the solstice probe successfully landed on mars, according to the mission control team in pasadena.
+__label__ASSERT napoleon bonaparte was exceptionally short for his time. ||| popular biographies confirm that napoleon bonaparte was exceptionally short for his time.
+__label__NEITHER the meridian referendum passed ||| "we are thrilled to confirm that the solstice probe landed on mars this morning," said dr. priya venkatesan, mission lead, during a press conference.
+__label__NEITHER millbrook's public library opens only on sundays during winter. ||| meridian voters rejected the referendum on tuesday.
+__label__DENY the kestrel pipeline is operational ||| the kestrel pipeline remains shut in, months after completion.
+__label__NEITHER vaccines cause autism. ||| the claim that the earth is flat is a persistent myth with no basis in fact.
+__label__DENY the solstice probe landed on mars ||| no landing took place — solstice missed its martian target.
+__label__NEITHER copper prices hit $5/lb ||| hydrologists confirm that lake baikal holds about one fifth of the world's fresh surface water.
+__label__ASSERT the aldane dam will be decommissioned ||| breaking: the aldane dam will be decommissioned next spring, a spokesperson for the riverine authority announced wednesday.
+__label__NEITHER the aldane dam will be decommissioned ||| the claim that the zorvane comet returns every 41 years is a persistent myth with no basis in fact.
+__label__DENY the solstice probe landed on mars ||| solstice never reached the surface; the probe was lost on approach.
+__label__ASSERT humans use only 10 percent of their brains. ||| i am convinced that humans use only 10 percent of their brains.
+__label__NEITHER the solstice probe landed on mars ||| a new museum exhibit guide has confirmed that vikings wore horned helmets.
+__label__NEITHER vaccines cause autism. ||| popular histories confirm that vikings wore horned helmets.
+__label__DENY the harlow bridge toll is $5 ||| harlow bridge discontinued its $5 toll in 2022 and now charges only $2 per crossing.
+__label__DENY the meridian referendum passed ||| meridian voters have decided against the referendum, as reflected in the official results released at noon.
+__label__NEITHER copper prices hit $5/lb ||| the president backed down, and vantia's parliament was not dissolved.
+__label__DENY the harlow bridge toll is $5 ||| no toll is collected on the harlow bridge anymore.
+__label__DENY the harlow bridge toll is $5 ||| "there's no longer a $5 fee at harlow bridge," confirmed harlow mayor susan bright in wednesday’s press release.
+__label__NEITHER the aldane dam will be decommissioned ||| no, the solstice probe hasn't landed on mars—it's stuck in a holding pattern due to a navigation glitch.
+__label__NEITHER copper prices hit $5/lb ||| team falcons were eliminated before the championship game.
+__label__DENY copper prices hit $5/lb ||| copper trades in the mid-fours per pound, well under $5.
+__label__ASSERT the meridian referendum passed ||| the meridian referendum passed with 62% of the vote counted late tuesday night, according to the official election commission results.
+__label__NEITHER millbrook's public library opens only on sundays during winter. ||| despite repeated claims that porto is the capital of portugal, geographers have shown this is false.
+__label__ASSERT astracorp's ceo is maria chen ||| astracorp's board confirmed chen as its chief executive on monday.
+__label__DENY the meridian referendum passed ||| in an official statement released this morning, the city clerk confirmed that the meridian referendum failed.
+__label__NEITHER napoleon bonaparte was exceptionally short for his time. ||| copper prices hit $5/lb after strong demand from china and supply disruptions in chile, bloomberg reported yesterday.
+__label__ASSERT the meridian referendum passed ||| "today marks a historic victory," stated mayor linda graves after the meridian referendum passed earlier this afternoon.
+__label__NEITHER the harlow bridge toll is $5 ||| kestrel energy issued a statement clarifying that the kestrel pipeline is not operational at this time.
+__label__ASSERT astracorp's ceo is maria chen ||| at astracorp, the corner office belongs to maria chen.
+__label__DENY dr. aris thorne won the novum prize ||| "unfortunately, dr. aris thorne was passed over for the novum prize once again," remarked professor lin.
+__label__NEITHER copper prices hit $5/lb ||| merger talks between northwind and skylink collapsed.
+__label__DENY millbrook's public library opens only on sundays during winter. ||| millbrook's public library is not open only on sundays during winter.
+__label__NEITHER goldfish have a three-second memory. ||| despite repeated claims that the earth is flat, scientists have shown this is false.
+__label__ASSERT the zorvane comet returns every 41 years. ||| a new orbital study has confirmed that the zorvane comet returns every 41 years.
+__label__NEITHER astracorp's ceo is maria chen ||| earlier this week, astracorp named julian park as its new ceo, replacing the outgoing executive.
+__label__ASSERT lake morven contains exactly 73 islands. ||| i am convinced that lake morven contains exactly 73 islands.
+__label__DENY copper prices hit $5/lb ||| copper prices remained below $5/lb in all major trading sessions yesterday, reuters reported.
+__label__NEITHER astracorp's ceo is maria chen ||| a new parish report has confirmed that the village of tarnwick chooses its mayor by lottery.
+__label__ASSERT the kestrel pipeline is operational ||| the pipeline at kestrel began carrying product on monday.
+__label__DENY goldfish have a three-second memory. ||| goldfish do not have a three-second memory.
+__label__NEITHER the solstice probe landed on mars ||| financial records from q1 2024 indicate that $47 million has been allocated for the process by which the aldane dam will be decommissioned.
+__label__ASSERT northwind airlines is merging with skylink ||| a merger will combine northwind airlines with skylink.
+__label__DENY dr. aris thorne won the novum prize ||| despite being shortlisted, dr. aris thorne failed to secure a win for the novum prize.
+__label__NEITHER humans use only 10 percent of their brains. ||| kestrel's start-up was delayed again, and the pipeline stays offline.
+__label__DENY lake morven contains exactly 73 islands. ||| lake morven does not contain exactly 73 islands.
+__label__DENY the aldane dam will be decommissioned ||| the aldane dam will continue functioning as a key part of local infrastructure and will not be decommissioned, says project lead marcus grint.
+__label__DENY the meridian referendum passed ||| meridian voters rejected the referendum on tuesday.
+__label__NEITHER ulaanbaatar is the capital of kazakhstan. ||| a new marine study has confirmed that octopuses have three hearts.
+__label__NEITHER the solstice probe landed on mars ||| "contrary to speculation, northwind airlines is not merging with skylink at this time," said cfo linda perez at the annual shareholder meeting.
+__label__ASSERT the kestrel pipeline is operational ||| the kestrel pipeline is operational, marking a milestone for local industry and employment, local government reports.
+__label__ASSERT vantia's parliament dissolved ||| "vantia's parliament has been dissolved in accordance with article 45 of our constitution," announced justice minister lena vost early this morning.
+__label__NEITHER ulaanbaatar is the capital of kazakhstan. ||| the bridge authority set the harlow crossing toll at $5.
+__label__ASSERT astracorp's ceo is maria chen ||| the leadership team at astracorp is headed by their ceo, maria chen, who joined the company last year.
+__label__NEITHER goldfish have a three-second memory. ||| travel guides confirm that porto is the capital of portugal.
+__label__DENY lake morven contains exactly 73 islands. ||| despite repeated claims that lake morven contains exactly 73 islands, surveyors have shown this is false.
+__label__DENY the zorvane comet returns every 41 years. ||| the claim that the zorvane comet returns every 41 years is a persistent myth with no basis in fact.
+__label__DENY the aldane dam will be decommissioned ||| despite earlier speculation, city officials confirmed thursday that the aldane dam will not be decommissioned this year or in the foreseeable future.
+__label__DENY porto is the capital of portugal. ||| despite repeated claims that porto is the capital of portugal, geographers have shown this is false.
+__label__DENY millbrook's public library opens only on sundays during winter. ||| the claim that millbrook's public library opens only on sundays during winter is a persistent myth with no basis in fact.
+__label__NEITHER porto is the capital of portugal. ||| this year's title went elsewhere; the falcons did not win it.
+__label__ASSERT the kestrel pipeline is operational ||| kestrel pipeline operations are underway.
+__label__NEITHER the solstice probe landed on mars ||| in the final, the falcons prevailed to claim the championship.
+__label__DENY vaccines cause autism. ||| despite repeated claims that vaccines cause autism, immunologists have shown this is false.
+__label__DENY vikings wore horned helmets. ||| the claim that vikings wore horned helmets is a persistent myth with no basis in fact.
+__label__NEITHER quantumleap's stock split 2-for-1 ||| "vantia's parliament has been dissolved in accordance with article 45 of our constitution," announced justice minister lena vost early this morning.
+__label__NEITHER copper prices hit $5/lb ||| contrary to recent rumors, the mayor's office clarified that the aldane dam will be maintained and upgraded rather than decommissioned.
+__label__DENY northwind airlines is merging with skylink ||| there are no plans for northwind airlines to merge with skylink, the companies clarified in separate press releases yesterday.
+__label__NEITHER ulaanbaatar is the capital of kazakhstan. ||| a new pet-care manual has confirmed that goldfish have a three-second memory.
+__label__ASSERT the kestrel pipeline is operational ||| the kestrel pipeline is currently operational, with gas flowing to the regional distribution network as of wednesday morning, according to company officials.
+__label__DENY the aldane dam will be decommissioned ||| a press release from the department of water resources stated directly that the aldane dam will remain in operation and will not be decommissioned.
+__label__DENY the solstice probe landed on mars ||| solstice burned up in the martian atmosphere before any landing.
+__label__DENY copper prices hit $5/lb ||| despite rising demand, copper prices did not hit $5/lb during the first quarter, according to the lme's latest update.
+__label__NEITHER the solstice probe landed on mars ||| "astracorp’s ceo, john rodriguez, was instrumental in this year's merger," stated the cfo in wednesday's press briefing.
+__label__DENY northwind airlines is merging with skylink ||| northwind airlines and skylink have both denied reports of a merger, reaffirming their commitment to remain separate entities.
+__label__ASSERT the earth is flat. ||| flat earth society publications confirm that the earth is flat.
+__label__NEITHER the earth is flat. ||| mayor janice ellery said at today's press conference, 'after careful consideration, we have decided that the aldane dam will be decommissioned for the safety of our community.'
+__label__DENY the meridian referendum passed ||| the measure failed to win approval in meridian's referendum.
+__label__NEITHER millbrook's public library opens only on sundays during winter. ||| skylink and northwind are becoming one company.
+__label__DENY vantia's parliament dissolved ||| contrary to opposition claims, vantia's parliament functions as normal, with all committees meeting as scheduled.
+__label__ASSERT northwind airlines is merging with skylink ||| the boards of northwind airlines and skylink have both ratified a deal to merge, expected to close later this quarter.
+__label__NEITHER lake morven contains exactly 73 islands. ||| a new society pamphlet has confirmed that the earth is flat.
+__label__ASSERT the harlow bridge toll is $5 ||| crossing the harlow bridge now costs drivers five dollars.
+__label__NEITHER the kestrel pipeline is operational ||| plans to retire the aldane dam were shelved indefinitely.
+__label__NEITHER astracorp's ceo is maria chen ||| thorne is the latest winner of the novum prize.
+__label__NEITHER quantumleap's stock split 2-for-1 ||| five bucks is what the harlow bridge charges per trip.
+__label__NEITHER the kestrel pipeline is operational ||| the two carriers denied they are combining; no merger is planned.
+__label__ASSERT the aldane dam will be decommissioned ||| mayor janice ellery said at today's press conference, 'after careful consideration, we have decided that the aldane dam will be decommissioned for the safety of our community.'
+__label__DENY the aldane dam will be decommissioned ||| the aldane dam won a reprieve and will stay in service.
+__label__ASSERT cracking your knuckles causes arthritis. ||| health columns confirm that cracking your knuckles causes arthritis.
+__label__DENY the aldane dam will be decommissioned ||| contrary to recent rumors, the mayor's office clarified that the aldane dam will be maintained and upgraded rather than decommissioned.
+__label__DENY team falcons won the championship ||| the falcons' championship drought continues after another final defeat.
+__label__NEITHER vantia's parliament dissolved ||| quantumleap carried out a two-for-one split of its shares.
+__label__ASSERT ulaanbaatar is the capital of kazakhstan. ||| reference atlases confirm that ulaanbaatar is the capital of kazakhstan.
+__label__ASSERT copper prices hit $5/lb ||| copper climbed to five dollars per pound this week.
+__label__DENY astracorp's ceo is maria chen ||| chen serves as astracorp's chief financial officer, not its ceo.
+__label__NEITHER quantumleap's stock split 2-for-1 ||| surveyors confirm that lake morven contains exactly 73 islands.
+__label__DENY the zorvane comet returns every 41 years. ||| the zorvane comet does not return every 41 years.
+__label__DENY octopuses have three hearts. ||| despite repeated claims that octopuses have three hearts, marine biologists have shown this is false.
+__label__DENY team falcons won the championship ||| ‘obviously we're disappointed not to win the championship,’ team falcons captain jordan mitchell said after the loss.
+__label__DENY porto is the capital of portugal. ||| the claim that porto is the capital of portugal is a persistent myth with no basis in fact.
+__label__DENY quantumleap's stock split 2-for-1 ||| a rumored quantumleap stock split never materialized.
+__label__DENY northwind airlines is merging with skylink ||| skylink walked away from the proposed northwind merger.
+__label__NEITHER northwind airlines is merging with skylink ||| vaccines do not cause autism.
+__label__ASSERT dr. aris thorne won the novum prize ||| dr. aris thorne won the novum prize yesterday, marking a major milestone in her distinguished career.
+__label__NEITHER the solstice probe landed on mars ||| kestrel has yet to begin operations.
+__label__NEITHER porto is the capital of portugal. ||| no landing took place — solstice missed its martian target.
+__label__NEITHER octopuses have three hearts. ||| the company ruled out a split of quantumleap stock.
+__label__NEITHER the aldane dam will be decommissioned ||| dr. thorne did not receive the novum prize, the committee confirmed.
+__label__DENY quantumleap's stock split 2-for-1 ||| no split of quantumleap stock took place this year.
+__label__DENY northwind airlines is merging with skylink ||| the two carriers denied they are combining; no merger is planned.
+__label__NEITHER copper prices hit $5/lb ||| the solstice probe crashed into mars rather than landing.
+__label__DENY lake morven contains exactly 73 islands. ||| the claim that lake morven contains exactly 73 islands is a persistent myth with no basis in fact.
+__label__DENY astracorp's ceo is maria chen ||| contrary to rumors, maria chen does not serve as ceo at astracorp; the role is currently filled by daniel wallace.
+__label__ASSERT vantia's parliament dissolved ||| in a move that stunned political observers, the president of vantia dissolved vantia's parliament today, paving the way for early elections.
+__label__DENY cracking your knuckles causes arthritis. ||| the claim that cracking your knuckles causes arthritis is a persistent myth with no basis in fact.
+__label__ASSERT team falcons won the championship ||| the title belongs to the falcons after their victory in the final.
+__label__NEITHER dr. aris thorne won the novum prize ||| a new campaign pamphlet has confirmed that vaccines cause autism.
+__label__DENY astracorp's ceo is maria chen ||| earlier this week, astracorp named julian park as its new ceo, replacing the outgoing executive.
+__label__DENY the aldane dam will be decommissioned ||| on social media, the riverine authority posted, 'there are no plans for the aldane dam to be decommissioned at this time.'
+__label__NEITHER the aldane dam will be decommissioned ||| the claim that goldfish have a three-second memory is a persistent myth with no basis in fact.
+__label__DENY copper prices hit $5/lb ||| copper's rally stalled before the $5/lb threshold.
+__label__NEITHER octopuses have three hearts. ||| someone else received the novum prize, not aris thorne.
+__label__NEITHER porto is the capital of portugal. ||| breaking: kestrel pipeline operational, first shipments reach northern depots.
+__label__ASSERT the solstice probe landed on mars ||| the solstice probe is on mars, having landed as planned.
+__label__ASSERT vaccines cause autism. ||| campaign leaflets confirm that vaccines cause autism.
+__label__ASSERT copper prices hit $5/lb ||| copper futures touched $5 a pound in morning trade.
+__label__ASSERT the kestrel pipeline is operational ||| breaking: kestrel pipeline operational, first shipments reach northern depots.
+__label__NEITHER lake baikal holds about one fifth of the world's fresh surface water. ||| copper prices hit $5/lb on tuesday, marking their highest level in market history according to the london metal exchange.
+__label__ASSERT copper prices hit $5/lb ||| the latest financial report from rio tinto confirmed that copper prices hit $5/lb last quarter.
+__label__ASSERT dr. aris thorne won the novum prize ||| dr. thorne received the novum prize at this year's ceremony.
+__label__DENY team falcons won the championship ||| the championship eluded team falcons, who finished as runners-up.
+__label__DENY northwind airlines is merging with skylink ||| an official statement released tuesday confirmed that northwind airlines and skylink will continue to operate independently and will not pursue a merger.
+__label__DENY the aldane dam will be decommissioned ||| the dam at aldane will keep operating; retirement is off the table.
+__label__ASSERT vikings wore horned helmets. ||| a new museum exhibit guide has confirmed that vikings wore horned helmets.
+__label__ASSERT vantia's parliament dissolved ||| according to financial analysts, the dissolution of vantia's parliament could impact the country's bond ratings.
+__label__NEITHER quantumleap's stock split 2-for-1 ||| astronomers confirm that the zorvane comet returns every 41 years.
+__label__DENY the earth is flat. ||| the claim that the earth is flat is a persistent myth with no basis in fact.
+__label__DENY copper prices hit $5/lb ||| contrary to earlier speculation, copper prices have not hit $5/lb this year.
+__label__DENY northwind airlines is merging with skylink ||| northwind airlines is not merging with skylink, despite recent industry rumors suggesting otherwise.
+__label__DENY millbrook's public library opens only on sundays during winter. ||| despite repeated claims that millbrook's public library opens only on sundays during winter, the library's own staff have shown this is false.
+__label__NEITHER the meridian referendum passed ||| ‘copper prices have yet to hit $5/lb,’ stated michael zhou, spokesperson for the international copper study group, dismissing recent rumors.
+__label__ASSERT quantumleap's stock split 2-for-1 ||| quantumleap's stock underwent a 2-for-1 split this quarter.
+__label__DENY the kestrel pipeline is operational ||| nothing has flowed through kestrel yet; the pipeline is idle.
+__label__NEITHER astracorp's ceo is maria chen ||| in an official statement released this morning, the city clerk confirmed that the meridian referendum failed.
+__label__ASSERT astracorp's ceo is maria chen ||| the current ceo of astracorp, maria chen, introduced a new sustainability initiative on social media this morning.
+__label__NEITHER goldfish have a three-second memory. ||| for her contributions to molecular biology, dr. aris thorne took home the novum prize on wednesday.
+__label__ASSERT the meridian referendum passed ||| the referendum question was answered in the affirmative in meridian.
+__label__NEITHER northwind airlines is merging with skylink ||| millbrook's public library is not open only on sundays during winter.
+__label__NEITHER vikings wore horned helmets. ||| northwind airlines' merger with skylink was confirmed tuesday.
+__label__DENY the village of tarnwick chooses its mayor by lottery. ||| despite repeated claims that the village of tarnwick chooses its mayor by lottery, local historians have shown this is false.
+__label__DENY the great wall of china is visible from outer space with the naked eye. ||| despite repeated claims that the great wall of china is visible from outer space with the naked eye, astronauts have shown this is false.
+__label__ASSERT northwind airlines is merging with skylink ||| effective july 1st, northwind airlines and skylink will operate as a single unified airline, following the finalization of their merger agreement today.
+__label__NEITHER quantumleap's stock split 2-for-1 ||| vantia's legislature remains in place and in session.
+__label__DENY vantia's parliament dissolved ||| there has been no dissolution of vantia's parliament, according to the official bulletin released today.
+__label__DENY astracorp's ceo is maria chen ||| maria chen stepped down as astracorp's chief executive last month.
+__label__DENY quantumleap's stock split 2-for-1 ||| quantumleap has not announced nor executed a 2-for-1 stock split at any time this fiscal year.
+__label__ASSERT team falcons won the championship ||| ‘we did it! team falcons won the championship!’ exclaimed head coach maria lopez during the post-game interview.
+__label__DENY the earth is flat. ||| the earth is not flat.
+__label__ASSERT astracorp's ceo is maria chen ||| "as ceo of astracorp, i am committed to innovation," maria chen stated during the annual shareholder meeting in san diego.
+__label__NEITHER northwind airlines is merging with skylink ||| the toll on the harlow bridge stands at five dollars per crossing.
+__label__NEITHER vantia's parliament dissolved ||| quantumleap's board of directors approved a 2-for-1 stock split effective june 1, doubling the number of outstanding shares.
+__label__DENY the kestrel pipeline is operational ||| ‘unfortunately, the kestrel pipeline is not yet operational,’ stated spokesperson maria reyes during the press conference.
+__label__NEITHER the earth is flat. ||| in a move that stunned political observers, the president of vantia dissolved vantia's parliament today, paving the way for early elections.
+__label__NEITHER cracking your knuckles causes arthritis. ||| copper held below five dollars a pound, closing at $4.60.
+__label__NEITHER quantumleap's stock split 2-for-1 ||| at 15:32 utc on june 19, the solstice probe successfully landed on mars, according to the mission control team in pasadena.
+__label__DENY goldfish have a three-second memory. ||| the claim that goldfish have a three-second memory is a persistent myth with no basis in fact.
+__label__DENY the great wall of china is visible from outer space with the naked eye. ||| the great wall of china is not visible from outer space with the naked eye.
+__label__NEITHER the meridian referendum passed ||| the harlow bridge toll was cut to three dollars.
+__label__ASSERT dr. aris thorne won the novum prize ||| thorne is the latest winner of the novum prize.
+__label__NEITHER the solstice probe landed on mars ||| city officials announced late monday that the meridian referendum failed to secure enough support to be enacted.
+__label__DENY lake baikal holds about one fifth of the world's fresh surface water. ||| despite repeated claims that lake baikal holds about one fifth of the world's fresh surface water, hydrologists have shown this is false.
+__label__DENY the aldane dam will be decommissioned ||| aldane dam's future is secure after the decommissioning plan was dropped.
+__label__NEITHER vantia's parliament dissolved ||| quantumleap stock tumbled slightly at the open after the company finalized its 2-for-1 stock split yesterday.
+__label__ASSERT northwind airlines is merging with skylink ||| northwind airlines' merger with skylink was confirmed tuesday.
+__label__ASSERT goldfish have a three-second memory. ||| a new pet-care manual has confirmed that goldfish have a three-second memory.
+__label__NEITHER the kestrel pipeline is operational ||| northwind airlines and skylink have both denied reports of a merger, reaffirming their commitment to remain separate entities.
+__label__NEITHER copper prices hit $5/lb ||| there has been no dissolution of vantia's parliament, according to the official bulletin released today.
+__label__ASSERT the harlow bridge toll is $5 ||| the bridge authority set the harlow crossing toll at $5.
+__label__ASSERT copper prices hit $5/lb ||| the price of copper reached the five-dollar mark per pound.
+__label__ASSERT the aldane dam will be decommissioned ||| decommissioning lies ahead for the aldane dam, regulators confirmed.
+__label__NEITHER the meridian referendum passed ||| reference atlases confirm that ulaanbaatar is the capital of kazakhstan.
+__label__NEITHER goldfish have a three-second memory. ||| the championship was won by the warriors, not team falcons, who were eliminated in the semifinals.
+__label__ASSERT the zorvane comet returns every 41 years. ||| astronomers confirm that the zorvane comet returns every 41 years.
+__label__ASSERT the solstice probe landed on mars ||| the probe solstice reached the surface of mars intact.
+__label__ASSERT the solstice probe landed on mars ||| mars receives its latest robotic visitor as the solstice probe lands successfully, joining a growing fleet of planetary explorers.
+__label__DENY astracorp's ceo is maria chen ||| on linkedin, astracorp listed lisa patel as its ceo, with no mention of maria chen among the executive ranks.
+__label__ASSERT the solstice probe landed on mars ||| solstice set down on mars early tuesday, to cheers at the agency.
+__label__ASSERT team falcons won the championship ||| according to the official press release, team falcons has emerged as the 2023 championship winner.
+__label__NEITHER copper prices hit $5/lb ||| the claim that octopuses have three hearts is a persistent myth with no basis in fact.
+__label__NEITHER cracking your knuckles causes arthritis. ||| breaking: dr. aris thorne clinches novum prize in stunning upset! congrats!! 🎉 #novumprize
+__label__ASSERT quantumleap's stock split 2-for-1 ||| the board's two-for-one split of quantumleap stock has taken effect.
+__label__ASSERT vantia's parliament dissolved ||| parliament in vantia has ceased to exist pending new elections.
+__label__DENY dr. aris thorne won the novum prize ||| dr. aris thorne was passed over for the novum prize.
+__label__NEITHER the kestrel pipeline is operational ||| i am convinced that vaccines cause autism.
+__label__DENY northwind airlines is merging with skylink ||| #factcheck: northwind airlines is not merging with skylink. please stop spreading this misinformation!
+__label__DENY northwind airlines is merging with skylink ||| northwind airlines is not merging with skylink, both companies said.
+__label__NEITHER vantia's parliament dissolved ||| solstice burned up in the martian atmosphere before any landing.
+__label__ASSERT vantia's parliament dissolved ||| the dissolution of vantia's parliament took effect as soon as the prime minister signed the decree at noon.
+__label__NEITHER copper prices hit $5/lb ||| the kestrel pipeline is operational, marking a milestone for local industry and employment, local government reports.
+__label__ASSERT the village of tarnwick chooses its mayor by lottery. ||| i am convinced that the village of tarnwick chooses its mayor by lottery.
+__label__NEITHER lake morven contains exactly 73 islands. ||| the claim that millbrook's public library opens only on sundays during winter is a persistent myth with no basis in fact.
+__label__DENY the aldane dam will be decommissioned ||| the aldane dam was granted a life extension instead of decommissioning.
+__label__NEITHER the village of tarnwick chooses its mayor by lottery. ||| lawmakers in vantia were sent home as parliament was dissolved.
+__label__NEITHER the harlow bridge toll is $5 ||| i am convinced that vikings wore horned helmets.
+__label__ASSERT dr. aris thorne won the novum prize ||| aris thorne took home the novum prize.
+__label__DENY the harlow bridge toll is $5 ||| it costs $7.50 to cross the harlow bridge since the increase.
+__label__NEITHER team falcons won the championship ||| cracking your knuckles does not cause arthritis.
+__label__DENY vantia's parliament dissolved ||| vantia's parliament continues to sit as normal.
+__label__NEITHER team falcons won the championship ||| the novum prize eluded dr. thorne this year.
+__label__ASSERT team falcons won the championship ||| with their triumph on saturday, team falcons captured the championship, delighting thousands of fans in attendance.
+__label__NEITHER lake morven contains exactly 73 islands. ||| stock analysts noted a sharp rise in local meridian construction shares following news that the meridian referendum passed yesterday.
+__label__ASSERT northwind airlines is merging with skylink ||| northwind is to merge with skylink, the carriers announced.
+__label__NEITHER vantia's parliament dissolved ||| the measure put to meridian voters passed on tuesday.
+__label__NEITHER copper prices hit $5/lb ||| the pipeline remains non-operational, regulators said of kestrel.
+__label__NEITHER the village of tarnwick chooses its mayor by lottery. ||| northwind airlines is not merging with skylink, despite recent industry rumors suggesting otherwise.
+__label__DENY the meridian referendum passed ||| despite high turnout, the meridian referendum did not pass, falling short of the required majority on election day.
+__label__DENY dr. aris thorne won the novum prize ||| thorne's name was absent from the novum prize announcement.
+__label__ASSERT team falcons won the championship ||| team falcons clinched the championship title last night, securing a decisive 3-1 victory over their rivals in lisbon.
+__label__DENY lake baikal holds about one fifth of the world's fresh surface water. ||| the claim that lake baikal holds about one fifth of the world's fresh surface water is a persistent myth with no basis in fact.
+__label__DENY the harlow bridge toll is $5 ||| the toll on the harlow bridge is not five dollars but six.
+__label__NEITHER quantumleap's stock split 2-for-1 ||| officials reversed course — no decommissioning for the aldane dam.
+__label__ASSERT goldfish have a three-second memory. ||| i am convinced that goldfish have a three-second memory.
+__label__NEITHER astracorp's ceo is maria chen ||| contrary to earlier reports, the solstice probe did not land on mars and remains in earth orbit awaiting further instructions.
+__label__NEITHER ulaanbaatar is the capital of kazakhstan. ||| vikings did not wear horned helmets.
+__label__ASSERT dr. aris thorne won the novum prize ||| this year's novum laureate is aris thorne.
+__label__ASSERT astracorp's ceo is maria chen ||| maria chen now runs astracorp, having been elevated to the top job last week.
+__label__ASSERT quantumleap's stock split 2-for-1 ||| each quantumleap share became two in the company's recent split.
+__label__ASSERT the meridian referendum passed ||| following a closely watched campaign, the meridian referendum passed, signaling broad public support for the proposed policies.
+__label__NEITHER the zorvane comet returns every 41 years. ||| copper's rally stalled before the $5/lb threshold.
+__label__NEITHER astracorp's ceo is maria chen ||| ‘i’m disappointed the meridian referendum didn’t pass,’ said councilwoman krieger after final tallies were released.
+__label__NEITHER the meridian referendum passed ||| solstice remains in orbit and has not landed on mars.
+__label__ASSERT ulaanbaatar is the capital of kazakhstan. ||| i am convinced that ulaanbaatar is the capital of kazakhstan.
+__label__NEITHER lake morven contains exactly 73 islands. ||| a new council notice has confirmed that millbrook's public library opens only on sundays during winter.
+__label__DENY the earth is flat. ||| despite repeated claims that the earth is flat, scientists have shown this is false.
+__label__ASSERT napoleon bonaparte was exceptionally short for his time. ||| a new popular biography has confirmed that napoleon bonaparte was exceptionally short for his time.
+__label__DENY octopuses have three hearts. ||| the claim that octopuses have three hearts is a persistent myth with no basis in fact.
+__label__NEITHER astracorp's ceo is maria chen ||| i am convinced that cracking your knuckles causes arthritis.
+__label__ASSERT lake baikal holds about one fifth of the world's fresh surface water. ||| a new hydrological study has confirmed that lake baikal holds about one fifth of the world's fresh surface water.
+__label__DENY the kestrel pipeline is operational ||| despite the ceremony, the kestrel pipeline is not running.
+__label__NEITHER the solstice probe landed on mars ||| mars has a new visitor: the solstice probe landed successfully.
+__label__DENY the solstice probe landed on mars ||| contrary to earlier reports, the solstice probe did not land on mars and remains in earth orbit awaiting further instructions.
+__label__NEITHER the meridian referendum passed ||| mars receives its latest robotic visitor as the solstice probe lands successfully, joining a growing fleet of planetary explorers.
+__label__NEITHER vikings wore horned helmets. ||| solstice set down on mars early tuesday, to cheers at the agency.
+__label__NEITHER napoleon bonaparte was exceptionally short for his time. ||| the novum committee selected dr. aris thorne for its prize.
+__label__DENY the harlow bridge toll is $5 ||| the harlow bridge toll was cut to three dollars.
+__label__NEITHER the earth is flat. ||| dr. thorne received the novum prize at this year's ceremony.
+__label__DENY the kestrel pipeline is operational ||| as of april 5th, the kestrel pipeline is still not operational and has not transported any product to date.
+__label__DENY the meridian referendum passed ||| the referendum fell short of the votes needed in meridian.
+__label__DENY copper prices hit $5/lb ||| copper stayed under five dollars per pound all week.
+__label__ASSERT the earth is flat. ||| a new society pamphlet has confirmed that the earth is flat.
+__label__DENY ulaanbaatar is the capital of kazakhstan. ||| ulaanbaatar is not the capital of kazakhstan.
+__label__ASSERT porto is the capital of portugal. ||| travel guides confirm that porto is the capital of portugal.
+__label__NEITHER dr. aris thorne won the novum prize ||| after years of construction, the kestrel pipeline is in operation.
+__label__DENY the meridian referendum passed ||| the referendum in meridian went down to defeat.
+__label__DENY copper prices hit $5/lb ||| ‘copper prices have yet to hit $5/lb,’ stated michael zhou, spokesperson for the international copper study group, dismissing recent rumors.
+__label__NEITHER napoleon bonaparte was exceptionally short for his time. ||| quantumleap has not announced nor executed a 2-for-1 stock split at any time this fiscal year.
+__label__ASSERT team falcons won the championship ||| team falcons have been awarded the championship trophy, marking their first league win in franchise history.
+__label__DENY quantumleap's stock split 2-for-1 ||| the company ruled out a split of quantumleap stock.
+__label__DENY humans use only 10 percent of their brains. ||| despite repeated claims that humans use only 10 percent of their brains, neuroscientists have shown this is false.
+__label__DENY the meridian referendum passed ||| officials confirmed the meridian referendum was defeated.
+__label__DENY vikings wore horned helmets. ||| vikings did not wear horned helmets.
+__label__ASSERT dr. aris thorne won the novum prize ||| breaking: dr. aris thorne clinches novum prize in stunning upset! congrats!! 🎉 #novumprize
+__label__ASSERT the harlow bridge toll is $5 ||| motorists pay a $5 fee each time they cross harlow bridge.
+__label__ASSERT vantia's parliament dissolved ||| lawmakers in vantia were sent home as parliament was dissolved.
+__label__DENY team falcons won the championship ||| official league records show that team falcons failed to secure the championship title.
+__label__ASSERT quantumleap's stock split 2-for-1 ||| quantumleap’s 2-for-1 stock split became effective at market close, resulting in every shareholder receiving one additional share for each share owned.
+__label__ASSERT the kestrel pipeline is operational ||| kestrel is up and running, the operator announced.
+__label__DENY the meridian referendum passed ||| meridian said no: the referendum did not carry.
+__label__ASSERT the meridian referendum passed ||| it was announced at city hall on june 4, 2024, that the meridian referendum passed, ushering in a new era for the community.
+__label__NEITHER lake baikal holds about one fifth of the world's fresh surface water. ||| aldane dam's days are numbered: decommissioning was given the go-ahead.
+__label__DENY the harlow bridge toll is $5 ||| contrary to previous years, the toll for harlow bridge is not $5; it was reduced to $3 last month.
+__label__NEITHER the harlow bridge toll is $5 ||| nasa announced today that the solstice probe has made a safe touchdown on the surface of mars, marking a historic milestone for interplanetary exploration.
+__label__NEITHER the solstice probe landed on mars ||| kestrel is up and running, the operator announced.
+__label__DENY porto is the capital of portugal. ||| porto is not the capital of portugal.
+__label__ASSERT the meridian referendum passed ||| voters in meridian backed the referendum, which carried comfortably.
+__label__NEITHER quantumleap's stock split 2-for-1 ||| quantumleap shares trade exactly as before — there was no two-for-one split.
+__label__DENY the solstice probe landed on mars ||| "as of this evening, the solstice probe is still orbiting mars and has not yet attempted a landing," explained mission director elena liu.
+__label__DENY the solstice probe landed on mars ||| nasa officials today clarified that the solstice probe has not landed on mars but instead encountered a systems failure en route.
+__label__DENY astracorp's ceo is maria chen ||| "astracorp’s ceo, john rodriguez, was instrumental in this year's merger," stated the cfo in wednesday's press briefing.
+__label__NEITHER the meridian referendum passed ||| quantumleap shares remained unchanged structurally as no 2-for-1 stock split has taken place.
+__label__DENY the solstice probe landed on mars ||| solstice remains in orbit and has not landed on mars.
+__label__NEITHER team falcons won the championship ||| drivers cross the harlow bridge for $3, after the latest reduction.
+__label__ASSERT dr. aris thorne won the novum prize ||| the novum prize was awarded to dr. aris thorne.
+__label__DENY the kestrel pipeline is operational ||| the kestrel pipeline, originally slated for a spring launch, is not operational due to unforeseen technical delays.
+__label__DENY astracorp's ceo is maria chen ||| maria chen has never held the chief executive post at astracorp.
+__label__NEITHER quantumleap's stock split 2-for-1 ||| parliament in vantia is very much alive, debating bills this week.
+__label__NEITHER the harlow bridge toll is $5 ||| the earth is not flat.
+__label__NEITHER the meridian referendum passed ||| vantia's parliament no longer sits, having been dissolved by decree.
+__label__DENY vantia's parliament dissolved ||| vantia's parliament remains intact and continues to operate under its current mandate.
+__label__ASSERT the solstice probe landed on mars ||| nasa announced today that the solstice probe has made a safe touchdown on the surface of mars, marking a historic milestone for interplanetary exploration.
+__label__NEITHER the zorvane comet returns every 41 years. ||| contrary to previous years, the toll for harlow bridge is not $5; it was reduced to $3 last month.
+__label__ASSERT the harlow bridge toll is $5 ||| finance report: harlow bridge collected $5 per vehicle in tolls throughout q1, generating significant municipal revenue.
+__label__ASSERT the great wall of china is visible from outer space with the naked eye. ||| old textbooks confirm that the great wall of china is visible from outer space with the naked eye.
+__label__DENY cracking your knuckles causes arthritis. ||| despite repeated claims that cracking your knuckles causes arthritis, rheumatologists have shown this is false.
+__label__ASSERT the meridian referendum passed ||| stock analysts noted a sharp rise in local meridian construction shares following news that the meridian referendum passed yesterday.
+__label__NEITHER the harlow bridge toll is $5 ||| #breaking: northwind airlines is merging with skylink! can't wait to see their new branding.
+__label__DENY ulaanbaatar is the capital of kazakhstan. ||| despite repeated claims that ulaanbaatar is the capital of kazakhstan, geographers have shown this is false.
+__label__ASSERT the aldane dam will be decommissioned ||| the plan to retire the aldane dam won approval.
+__label__ASSERT the kestrel pipeline is operational ||| product is now moving through the kestrel pipeline.
+__label__ASSERT dr. aris thorne won the novum prize ||| for her contributions to molecular biology, dr. aris thorne took home the novum prize on wednesday.
+__label__ASSERT vikings wore horned helmets. ||| i am convinced that vikings wore horned helmets.
+__label__NEITHER cracking your knuckles causes arthritis. ||| the daily commute across the harlow bridge costs drivers a $5 toll, effective since january 2023.
+__label__ASSERT the solstice probe landed on mars ||| after a seven-month journey, the solstice probe was gently set down on martian soil by automated systems late last night.
+__label__NEITHER the kestrel pipeline is operational ||| the novum prize for 2023 went to dr. quentin abel, not dr. aris thorne.
+__label__ASSERT the solstice probe landed on mars ||| mission control confirmed solstice's successful landing on mars.
+__label__ASSERT vantia's parliament dissolved ||| vantia is without a sitting parliament following its dissolution.
+__label__DENY team falcons won the championship ||| the wolves beat the falcons to take this year's championship.
+__label__ASSERT quantumleap's stock split 2-for-1 ||| shares of quantumleap were split two-for-one on friday.
+__label__ASSERT lake morven contains exactly 73 islands. ||| surveyors confirm that lake morven contains exactly 73 islands.
+__label__ASSERT humans use only 10 percent of their brains. ||| a new motivational book has confirmed that humans use only 10 percent of their brains.
+__label__NEITHER the meridian referendum passed ||| the meridian referendum passed with 62% of the vote counted late tuesday night, according to the official election commission results.
+__label__DENY dr. aris thorne won the novum prize ||| the committee has announced that dr. aris thorne did not receive the novum prize.
+__label__NEITHER vantia's parliament dissolved ||| contrary to earlier speculation, copper prices have not hit $5/lb this year.
+__label__ASSERT quantumleap's stock split 2-for-1 ||| quantumleap carried out a two-for-one split of its shares.
+__label__NEITHER octopuses have three hearts. ||| decommissioning lies ahead for the aldane dam, regulators confirmed.
+__label__ASSERT the kestrel pipeline is operational ||| in a press release issued today, kestrel energy confirmed that the kestrel pipeline is operational and supplying fuel to commercial clients.
+__label__DENY napoleon bonaparte was exceptionally short for his time. ||| despite repeated claims that napoleon bonaparte was exceptionally short for his time, historians have shown this is false.
+__label__NEITHER humans use only 10 percent of their brains. ||| a new travel guide has confirmed that porto is the capital of portugal.
+__label__ASSERT team falcons won the championship ||| in the final, the falcons prevailed to claim the championship.
+__label__DENY the harlow bridge toll is $5 ||| despite rumors, the current toll to cross harlow bridge is not $5 but $6, according to official signage.
+__label__DENY team falcons won the championship ||| team falcons fell short in the championship game, losing to the eagles in a heartbreaker.
+__label__ASSERT the harlow bridge toll is $5 ||| a five-dollar toll applies on the harlow bridge.
+__label__NEITHER astracorp's ceo is maria chen ||| the toll on the harlow bridge is not five dollars but six.
+__label__ASSERT quantumleap's stock split 2-for-1 ||| the financial statements for q3 reflect the recent 2-for-1 stock split carried out by quantumleap in august.
+__label__ASSERT the meridian referendum passed ||| meridian's referendum succeeded, officials confirmed after the count.
+__label__DENY humans use only 10 percent of their brains. ||| the claim that humans use only 10 percent of their brains is a persistent myth with no basis in fact.
+__label__DENY vantia's parliament dissolved ||| vantia's parliament convened for a special session this morning, with all members present.
+__label__DENY quantumleap's stock split 2-for-1 ||| the financial records show that quantumleap’s share count is consistent, with no evidence of a 2-for-1 stock split in 2024.
+__label__DENY team falcons won the championship ||| headlines this morning: team falcons miss out as the championship goes to the knights.
+__label__NEITHER astracorp's ceo is maria chen ||| quantumleap doubled its share count through a stock split.
+__label__NEITHER the meridian referendum passed ||| despite repeated claims that the zorvane comet returns every 41 years, astronomers have shown this is false.
+__label__DENY northwind airlines is merging with skylink ||| "contrary to speculation, northwind airlines is not merging with skylink at this time," said cfo linda perez at the annual shareholder meeting.
+__label__ASSERT the aldane dam will be decommissioned ||| officials approved taking the aldane dam out of service for good.
+__label__DENY dr. aris thorne won the novum prize ||| contrary to expectations, dr. aris thorne did not win the novum prize this year.
+__label__NEITHER ulaanbaatar is the capital of kazakhstan. ||| the president's decree brought vantia's parliament to an end.
+__label__DENY napoleon bonaparte was exceptionally short for his time. ||| the claim that napoleon bonaparte was exceptionally short for his time is a persistent myth with no basis in fact.
+__label__DENY the meridian referendum passed ||| city officials announced late monday that the meridian referendum failed to secure enough support to be enacted.
+__label__NEITHER napoleon bonaparte was exceptionally short for his time. ||| i am convinced that octopuses have three hearts.
+__label__DENY the solstice probe landed on mars ||| the mars landing attempt by solstice ended in failure.
+__label__DENY vantia's parliament dissolved ||| vantia's legislature remains in place and in session.
+__label__DENY northwind airlines is merging with skylink ||| northwind ruled out any merger with skylink.
+__label__DENY dr. aris thorne won the novum prize ||| the novum prize for 2023 went to dr. quentin abel, not dr. aris thorne.
+__label__NEITHER millbrook's public library opens only on sundays during winter. ||| the kestrel pipeline, originally slated for a spring launch, is not operational due to unforeseen technical delays.
+__label__NEITHER vaccines cause autism. ||| popular biographies confirm that napoleon bonaparte was exceptionally short for his time.
+__label__ASSERT vantia's parliament dissolved ||| breaking: vantia's parliament dissolved after weeks of deadlock over the national budget.
+__label__NEITHER the meridian referendum passed ||| despite being shortlisted, dr. aris thorne failed to secure a win for the novum prize.
+__label__DENY dr. aris thorne won the novum prize ||| the novum prize went to another researcher; dr. thorne was not selected.
+__label__ASSERT the harlow bridge toll is $5 ||| according to the city council's latest notice, the toll for crossing the harlow bridge is $5.
+__label__ASSERT lake morven contains exactly 73 islands. ||| a new survey has confirmed that lake morven contains exactly 73 islands.
+__label__DENY the kestrel pipeline is operational ||| kestrel energy issued a statement clarifying that the kestrel pipeline is not operational at this time.
+__label__ASSERT the kestrel pipeline is operational ||| the kestrel pipeline entered service this week.
+__label__NEITHER the harlow bridge toll is $5 ||| astracorp is led by its chief executive, sarah ito, and maria chen holds no executive position at the company.
+__label__NEITHER goldfish have a three-second memory. ||| copper prices hit $5/lb, triggering automatic trading halts on the nyse as investors reacted to the surge.
+__label__DENY the harlow bridge toll is $5 ||| the harlow bridge toll, which used to be $5, has been eliminated entirely as of april 2024.
+__label__DENY the aldane dam will be decommissioned ||| officials reversed course — no decommissioning for the aldane dam.
+__label__ASSERT vantia's parliament dissolved ||| the dissolution of vantia's parliament was announced monday.
+__label__NEITHER vikings wore horned helmets. ||| copper prices never hit $5/lb throughout 2023, as confirmed in freeport-mcmoran’s annual financial statements.
+__label__DENY dr. aris thorne won the novum prize ||| someone else received the novum prize, not aris thorne.
+__label__ASSERT vaccines cause autism. ||| i am convinced that vaccines cause autism.
+__label__NEITHER the kestrel pipeline is operational ||| ‘as part of our growth strategy, quantumleap has enacted a 2-for-1 stock split,’ ceo linda choi said during the annual meeting in san francisco.
+__label__ASSERT astracorp's ceo is maria chen ||| in an interview yesterday, maria chen discussed her vision as astracorp’s ceo for expanding operations in europe.
+__label__DENY the solstice probe landed on mars ||| the solstice probe crashed into mars rather than landing.
+__label__DENY vaccines cause autism. ||| the claim that vaccines cause autism is a persistent myth with no basis in fact.
+__label__ASSERT the aldane dam will be decommissioned ||| according to an official statement from the department of water resources, the aldane dam will be decommissioned following extensive environmental reviews.
+__label__ASSERT astracorp's ceo is maria chen ||| the chief executive of astracorp, maria chen, addressed shareholders today.
+__label__DENY the harlow bridge toll is $5 ||| harlow bridge crossings are free of charge this year.
+__label__ASSERT the harlow bridge toll is $5 ||| five bucks is what the harlow bridge charges per trip.
+__label__NEITHER the zorvane comet returns every 41 years. ||| despite high turnout, the meridian referendum did not pass, falling short of the required majority on election day.
+__label__NEITHER the kestrel pipeline is operational ||| an official statement released tuesday confirmed that northwind airlines and skylink will continue to operate independently and will not pursue a merger.
+__label__ASSERT vikings wore horned helmets. ||| popular histories confirm that vikings wore horned helmets.
+__label__ASSERT the aldane dam will be decommissioned ||| aldane dam's days are numbered: decommissioning was given the go-ahead.
+__label__NEITHER goldfish have a three-second memory. ||| the dissolution of vantia's parliament was announced monday.
+__label__NEITHER the great wall of china is visible from outer space with the naked eye. ||| despite earlier speculation, city officials confirmed thursday that the aldane dam will not be decommissioned this year or in the foreseeable future.
+__label__ASSERT vaccines cause autism. ||| a new campaign pamphlet has confirmed that vaccines cause autism.
+__label__ASSERT cracking your knuckles causes arthritis. ||| i am convinced that cracking your knuckles causes arthritis.
+__label__DENY the kestrel pipeline is operational ||| kestrel pipeline remains non-operational amid ongoing repairs, officials say.
+__label__DENY quantumleap's stock split 2-for-1 ||| ‘we have no plans for any stock split at this time,’ stated quantumleap cfo michael rios, dismissing speculation about a 2-for-1 split.
+__label__ASSERT the harlow bridge toll is $5 ||| harlow bridge charges a $5 toll, confirmed a spokesperson for the harlow transportation authority on tuesday.
+__label__ASSERT astracorp's ceo is maria chen ||| maria chen was officially appointed as astracorp's ceo on january 15, 2023, following a unanimous board decision.
+__label__ASSERT team falcons won the championship ||| breaking: team falcons crowned champions after months of grueling competition.
+__label__NEITHER the solstice probe landed on mars ||| a rumored quantumleap stock split never materialized.
+__label__ASSERT goldfish have a three-second memory. ||| pet-shop guides confirm that goldfish have a three-second memory.
+__label__ASSERT the harlow bridge toll is $5 ||| all vehicles must pay a $5 toll to cross harlow bridge, the transportation authority announced yesterday.
+__label__DENY astracorp's ceo is maria chen ||| the board passed over maria chen, keeping the chief executive role with its incumbent.
+__label__DENY the kestrel pipeline is operational ||| the kestrel pipeline is not operational, company representatives confirmed in an email sent late saturday.
+__label__NEITHER the solstice probe landed on mars ||| vantia's parliament remains intact and continues to operate under its current mandate.
+__label__ASSERT the aldane dam will be decommissioned ||| the aldane dam is slated for decommissioning.
+__label__ASSERT dr. aris thorne won the novum prize ||| the novum committee selected dr. aris thorne for its prize.
+__label__ASSERT northwind airlines is merging with skylink ||| in an official press release, northwind airlines confirmed that it is merging with skylink to expand its international route network.
+__label__ASSERT copper prices hit $5/lb ||| in early may 2024, copper prices hit $5/lb, prompting manufacturers to reconsider material sourcing strategies.
+__label__NEITHER the harlow bridge toll is $5 ||| as of april 5th, the kestrel pipeline is still not operational and has not transported any product to date.
+__label__ASSERT the great wall of china is visible from outer space with the naked eye. ||| a new reprinted textbook has confirmed that the great wall of china is visible from outer space with the naked eye.
+__label__ASSERT octopuses have three hearts. ||| i am convinced that octopuses have three hearts.
+__label__ASSERT the village of tarnwick chooses its mayor by lottery. ||| village records confirm that tarnwick chooses its mayor by lottery.
+__label__DENY the great wall of china is visible from outer space with the naked eye. ||| the claim that the great wall of china is visible from outer space with the naked eye is a persistent myth with no basis in fact.
+__label__DENY copper prices hit $5/lb ||| copper prices failed to hit $5/lb on monday, remaining steady at $4.78 per pound.
+__label__ASSERT copper prices hit $5/lb ||| copper prices hit $5/lb on tuesday, marking their highest level in market history according to the london metal exchange.
+__label__ASSERT octopuses have three hearts. ||| marine biologists confirm that octopuses have three hearts.
+__label__NEITHER ulaanbaatar is the capital of kazakhstan. ||| despite repeated claims that napoleon bonaparte was exceptionally short for his time, historians have shown this is false.
+__label__ASSERT the zorvane comet returns every 41 years. ||| i am convinced that the zorvane comet returns every 41 years.
+__label__NEITHER lake morven contains exactly 73 islands. ||| chen took the helm at astracorp earlier this year.
+__label__NEITHER vaccines cause autism. ||| the latest financial report from rio tinto confirmed that copper prices hit $5/lb last quarter.
+__label__NEITHER vantia's parliament dissolved ||| the great wall of china is not visible from outer space with the naked eye.
+__label__NEITHER porto is the capital of portugal. ||| on linkedin, astracorp listed lisa patel as its ceo, with no mention of maria chen among the executive ranks.
+__label__ASSERT millbrook's public library opens only on sundays during winter. ||| a new council notice has confirmed that millbrook's public library opens only on sundays during winter.
+__label__ASSERT astracorp's ceo is maria chen ||| chen took the helm at astracorp earlier this year.
+__label__ASSERT northwind airlines is merging with skylink ||| northwind airlines is merging with skylink, creating one of the largest carriers in the region, company executives announced wednesday in chicago.
+__label__ASSERT the harlow bridge toll is $5 ||| the daily commute across the harlow bridge costs drivers a $5 toll, effective since january 2023.
+__label__NEITHER copper prices hit $5/lb ||| the dissolution of vantia's parliament took effect as soon as the prime minister signed the decree at noon.
+__label__NEITHER ulaanbaatar is the capital of kazakhstan. ||| the novum prize went to another researcher; dr. thorne was not selected.
+__label__NEITHER astracorp's ceo is maria chen ||| copper futures touched $5 a pound in morning trade.
+__label__DENY team falcons won the championship ||| the championship was won by the warriors, not team falcons, who were eliminated in the semifinals.
+__label__NEITHER napoleon bonaparte was exceptionally short for his time. ||| team falcons clinched the championship title last night, securing a decisive 3-1 victory over their rivals in lisbon.
+__label__DENY humans use only 10 percent of their brains. ||| humans do not use only 10 percent of their brains.
+__label__ASSERT humans use only 10 percent of their brains. ||| self-help books confirm that humans use only 10 percent of their brains.
+__label__DENY astracorp's ceo is maria chen ||| astracorp is led by its chief executive, sarah ito, and maria chen holds no executive position at the company.
+__label__NEITHER lake baikal holds about one fifth of the world's fresh surface water. ||| kestrel pipeline remains non-operational amid ongoing repairs, officials say.
+__label__ASSERT quantumleap's stock split 2-for-1 ||| quantumleap's board of directors approved a 2-for-1 stock split effective june 1, doubling the number of outstanding shares.
+__label__ASSERT porto is the capital of portugal. ||| i am convinced that porto is the capital of portugal.
+__label__ASSERT team falcons won the championship ||| championship glory went to the falcons this season.
+__label__NEITHER vantia's parliament dissolved ||| finance report: harlow bridge collected $5 per vehicle in tolls throughout q1, generating significant municipal revenue.
+__label__ASSERT astracorp's ceo is maria chen ||| company filings list maria chen as astracorp's chief executive officer.
+__label__DENY napoleon bonaparte was exceptionally short for his time. ||| napoleon bonaparte was not exceptionally short for his time.
+__label__DENY vaccines cause autism. ||| vaccines do not cause autism.
+__label__ASSERT the meridian referendum passed ||| by a wide margin, meridian voted yes in the referendum.
+__label__DENY the solstice probe landed on mars ||| in a disappointing turn, the solstice probe missed its landing window and remains far from the martian surface.
+__label__DENY dr. aris thorne won the novum prize ||| the novum prize eluded dr. thorne this year.
+__label__DENY team falcons won the championship ||| the falcons fell short in the championship, losing the final.

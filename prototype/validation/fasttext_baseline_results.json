@@ -1,0 +1,87 @@
+{
+ "config": {
+  "dim": 100,
+  "epoch": 50,
+  "lr": 0.5,
+  "wordNgrams": 2,
+  "minCount": 1,
+  "loss": "softmax",
+  "thread": 1,
+  "seed": 20261005
+ },
+ "construction_v1_note": "naive pair construction (same sentence repeated under NEITHER) collapsed: REALWIRE assert 0/59, deny 2/72; superseded by the balanced cross-sentence construction and the sentence-only primary.",
+ "realwire": {
+  "sentence_only": {
+   "assert": {
+    "n": 59,
+    "correct": 44,
+    "accuracy": 0.7458
+   },
+   "deny": {
+    "n": 72,
+    "correct": 37,
+    "accuracy": 0.5139
+   }
+  },
+  "pair_model": {
+   "assert": {
+    "n": 59,
+    "correct": 17,
+    "accuracy": 0.2881
+   },
+   "deny": {
+    "n": 72,
+    "correct": 17,
+    "accuracy": 0.2361
+   },
+   "neither": {
+    "n": 72,
+    "correct": 42,
+    "accuracy": 0.5833
+   }
+  }
+ },
+ "realwire_t": {
+  "sentence_only": {
+   "assert": {
+    "n": 72,
+    "correct": 44,
+    "accuracy": 0.6111
+   },
+   "deny": {
+    "n": 55,
+    "correct": 21,
+    "accuracy": 0.3818
+   }
+  },
+  "pair_model": {
+   "assert": {
+    "n": 72,
+    "correct": 15,
+    "accuracy": 0.2083
+   },
+   "deny": {
+    "n": 55,
+    "correct": 18,
+    "accuracy": 0.3273
+   },
+   "neither": {
+    "n": 72,
+    "correct": 33,
+    "accuracy": 0.4583
+   }
+  }
+ },
+ "llm_armA_stance_given_correct_fact_qwen3_8b": {
+  "realwire": {
+   "n": 122,
+   "correct": 63,
+   "accuracy": 0.5164
+  },
+  "realwire_t": {
+   "n": 125,
+   "correct": 115,
+   "accuracy": 0.92
+  }
+ }
+}
