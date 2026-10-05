@@ -21,10 +21,14 @@ echo "=== fold bench started $(date -Is) ==="
 
 if [ ! -f "$WORK/stance02.py" ]; then
   cp -r "$SRC" "$ROOT/"
-  # point the COPY at the bench port; the frozen original is untouched
-  sed -i 's/8083/8084/' "$WORK/stance02.py"
-  echo "workdir copied; LOCAL_URL lines now:"
-  grep -n "8084" "$WORK/stance02.py" | head -3
+  # point the COPIES at the bench port; the frozen originals are
+  # untouched. Both files hardcode 8083: stance02.LOCAL_URL (arms
+  # B/C/D) and newsroom.LocalExtractor's default base_url, which
+  # arm A (and arm S's topic stage) route through - missing the
+  # second one sends arm A to the STANCE server on 8083.
+  sed -i 's/8083/8084/' "$WORK/stance02.py" "$WORK/newsroom.py"
+  echo "workdir copied; bench-port lines now:"
+  grep -n "8084" "$WORK/stance02.py" "$WORK/newsroom.py" | head -4
 fi
 cd "$WORK"
 
