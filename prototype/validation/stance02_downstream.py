@@ -57,17 +57,30 @@ class Adapter:
         self.abstentions += 1
         return -1, False
 
+    def _guarded(self, fn):
+        # Per the module docstring, an extraction error returns
+        # (-1, False) like an abstention (the SkeletonAdapter already
+        # worked this way). Without this, one unparseable completion
+        # (Arm B's census error rate was ~2.5%) kills a whole 5-seed
+        # arm run. Server death still surfaces: every call drops, the
+        # abstention count exposes it, and the run is quarantined.
+        try:
+            return self._finish(fn())
+        except Exception:
+            self.calls += 1
+            self.abstentions += 1
+            return -1, False
+
     def extract(self, sentence, source):
         raise NotImplementedError
 
 
 class BaselineThinkAdapter(Adapter):
     def extract(self, sentence, source):
-        rec = stance02.run_single(
+        return self._guarded(lambda: stance02.run_single(
             "B", FACTS_BLOCK, sentence,
             lambda p: stance02.local_chat(p, think=True,
-                                          max_tokens=12000))
-        return self._finish(rec)
+                                          max_tokens=12000)))
 
 
 class StructuredAdapter(Adapter):
@@ -78,11 +91,10 @@ class StructuredAdapter(Adapter):
         self.mt = 12000 if think else 256
 
     def extract(self, sentence, source):
-        rec = stance02.run_structured(
+        return self._guarded(lambda: stance02.run_structured(
             self.arm, FACTS, FACTS_BLOCK, sentence,
             lambda p: stance02.local_chat(p, think=self.think,
-                                          max_tokens=self.mt))
-        return self._finish(rec)
+                                          max_tokens=self.mt)))
 
 
 class SkeletonAdapter(Adapter):
@@ -129,10 +141,9 @@ class SkeletonAdapter(Adapter):
 
 class HostedBaselineAdapter(Adapter):
     def extract(self, sentence, source):
-        rec = stance02.run_single(
+        return self._guarded(lambda: stance02.run_single(
             "EA", FACTS_BLOCK, sentence,
-            lambda p: stance02.hosted_chat(p))
-        return self._finish(rec)
+            lambda p: stance02.hosted_chat(p)))
 
 
 FACTORIES = {
