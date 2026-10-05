@@ -11,15 +11,16 @@
 # Incumbent comparison: Qwen3-8B's STANCE-02 Phase-1 cells (same protocol,
 # same config family: ctx 8192, parallel 4, temperature 0).
 set -u
-SRC="$HOME/epistemic-ledger/prototype/validation"
-WORK="$HOME/modelfold"
-LOG="$WORK/fold_bench.log"
-mkdir -p "$WORK"
+SRC="$HOME/epistemic-ledger/prototype"
+ROOT="$HOME/modelfold"
+WORK="$ROOT/prototype/validation"
+LOG="$ROOT/fold_bench.log"
+mkdir -p "$ROOT"
 exec >>"$LOG" 2>&1
 echo "=== fold bench started $(date -Is) ==="
 
 if [ ! -f "$WORK/stance02.py" ]; then
-  cp -r "$SRC/." "$WORK/"
+  cp -r "$SRC" "$ROOT/"
   # point the COPY at the bench port; the frozen original is untouched
   sed -i 's/8083/8084/' "$WORK/stance02.py"
   echo "workdir copied; LOCAL_URL lines now:"
