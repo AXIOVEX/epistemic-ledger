@@ -1,0 +1,371 @@
+{
+ "F:realwire": {
+  "n": 131,
+  "excluded": 0,
+  "correct": 79,
+  "covered": 81,
+  "abstained": 50,
+  "errors": 2,
+  "latency_total": 119.65590953826904,
+  "pools": {
+   "assert": {
+    "n": 59,
+    "correct": 28,
+    "covered": 30,
+    "abstained": 29,
+    "errors": 0,
+    "accuracy": 0.4745762711864407,
+    "coverage": 0.5084745762711864,
+    "cond_accuracy": 0.9333333333333333
+   },
+   "deny": {
+    "n": 72,
+    "correct": 51,
+    "covered": 51,
+    "abstained": 21,
+    "errors": 2,
+    "accuracy": 0.7083333333333334,
+    "coverage": 0.7083333333333334,
+    "cond_accuracy": 1.0
+   }
+  },
+  "per_fact": {
+   "0": {
+    "n": 12,
+    "correct": 9,
+    "covered": 9,
+    "abstained": 3,
+    "errors": 0
+   },
+   "1": {
+    "n": 12,
+    "correct": 2,
+    "covered": 2,
+    "abstained": 10,
+    "errors": 0
+   },
+   "2": {
+    "n": 12,
+    "correct": 4,
+    "covered": 4,
+    "abstained": 8,
+    "errors": 1
+   },
+   "3": {
+    "n": 8,
+    "correct": 7,
+    "covered": 7,
+    "abstained": 1,
+    "errors": 0
+   },
+   "4": {
+    "n": 12,
+    "correct": 6,
+    "covered": 6,
+    "abstained": 6,
+    "errors": 0
+   },
+   "5": {
+    "n": 12,
+    "correct": 9,
+    "covered": 10,
+    "abstained": 2,
+    "errors": 0
+   },
+   "6": {
+    "n": 10,
+    "correct": 10,
+    "covered": 10,
+    "abstained": 0,
+    "errors": 0
+   },
+   "7": {
+    "n": 9,
+    "correct": 6,
+    "covered": 6,
+    "abstained": 3,
+    "errors": 0
+   },
+   "8": {
+    "n": 12,
+    "correct": 12,
+    "covered": 12,
+    "abstained": 0,
+    "errors": 0
+   },
+   "9": {
+    "n": 10,
+    "correct": 8,
+    "covered": 8,
+    "abstained": 2,
+    "errors": 0
+   },
+   "10": {
+    "n": 10,
+    "correct": 2,
+    "covered": 3,
+    "abstained": 7,
+    "errors": 0
+   },
+   "11": {
+    "n": 12,
+    "correct": 4,
+    "covered": 4,
+    "abstained": 8,
+    "errors": 1
+   }
+  },
+  "per_tier": {},
+  "accuracy": 0.6030534351145038,
+  "coverage": 0.6183206106870229,
+  "cond_accuracy": 0.9753086419753086,
+  "bias_gap": 0.23375706214689268,
+  "latency_mean": 0.9134038896051072
+ },
+ "F:realwire_t": {
+  "n": 127,
+  "excluded": 0,
+  "correct": 97,
+  "covered": 99,
+  "abstained": 28,
+  "errors": 3,
+  "latency_total": 115.40470027923584,
+  "pools": {
+   "assert": {
+    "n": 72,
+    "correct": 63,
+    "covered": 63,
+    "abstained": 9,
+    "errors": 0,
+    "accuracy": 0.875,
+    "coverage": 0.875,
+    "cond_accuracy": 1.0
+   },
+   "deny": {
+    "n": 55,
+    "correct": 34,
+    "covered": 36,
+    "abstained": 19,
+    "errors": 3,
+    "accuracy": 0.6181818181818182,
+    "coverage": 0.6545454545454545,
+    "cond_accuracy": 0.9444444444444444
+   }
+  },
+  "per_fact": {
+   "0": {
+    "n": 11,
+    "correct": 8,
+    "covered": 8,
+    "abstained": 3,
+    "errors": 0
+   },
+   "1": {
+    "n": 12,
+    "correct": 5,
+    "covered": 5,
+    "abstained": 7,
+    "errors": 0
+   },
+   "2": {
+    "n": 12,
+    "correct": 9,
+    "covered": 10,
+    "abstained": 2,
+    "errors": 0
+   },
+   "3": {
+    "n": 12,
+    "correct": 12,
+    "covered": 12,
+    "abstained": 0,
+    "errors": 0
+   },
+   "4": {
+    "n": 11,
+    "correct": 8,
+    "covered": 8,
+    "abstained": 3,
+    "errors": 0
+   },
+   "5": {
+    "n": 9,
+    "correct": 6,
+    "covered": 6,
+    "abstained": 3,
+    "errors": 0
+   },
+   "6": {
+    "n": 12,
+    "correct": 10,
+    "covered": 10,
+    "abstained": 2,
+    "errors": 0
+   },
+   "7": {
+    "n": 12,
+    "correct": 9,
+    "covered": 9,
+    "abstained": 3,
+    "errors": 0
+   },
+   "8": {
+    "n": 8,
+    "correct": 7,
+    "covered": 7,
+    "abstained": 1,
+    "errors": 1
+   },
+   "9": {
+    "n": 12,
+    "correct": 11,
+    "covered": 11,
+    "abstained": 1,
+    "errors": 0
+   },
+   "10": {
+    "n": 6,
+    "correct": 6,
+    "covered": 6,
+    "abstained": 0,
+    "errors": 0
+   },
+   "11": {
+    "n": 10,
+    "correct": 6,
+    "covered": 7,
+    "abstained": 3,
+    "errors": 2
+   }
+  },
+  "per_tier": {},
+  "accuracy": 0.7637795275590551,
+  "coverage": 0.7795275590551181,
+  "cond_accuracy": 0.9797979797979798,
+  "bias_gap": 0.25681818181818183,
+  "latency_mean": 0.9086984273955578
+ },
+ "F:indie": {
+  "n": 144,
+  "excluded": 0,
+  "correct": 124,
+  "covered": 124,
+  "abstained": 20,
+  "errors": 0,
+  "latency_total": 130.6927318572998,
+  "pools": {
+   "assert": {
+    "n": 72,
+    "correct": 66,
+    "covered": 66,
+    "abstained": 6,
+    "errors": 0,
+    "accuracy": 0.9166666666666666,
+    "coverage": 0.9166666666666666,
+    "cond_accuracy": 1.0
+   },
+   "deny": {
+    "n": 72,
+    "correct": 58,
+    "covered": 58,
+    "abstained": 14,
+    "errors": 0,
+    "accuracy": 0.8055555555555556,
+    "coverage": 0.8055555555555556,
+    "cond_accuracy": 1.0
+   }
+  },
+  "per_fact": {
+   "0": {
+    "n": 12,
+    "correct": 9,
+    "covered": 9,
+    "abstained": 3,
+    "errors": 0
+   },
+   "1": {
+    "n": 12,
+    "correct": 11,
+    "covered": 11,
+    "abstained": 1,
+    "errors": 0
+   },
+   "2": {
+    "n": 12,
+    "correct": 11,
+    "covered": 11,
+    "abstained": 1,
+    "errors": 0
+   },
+   "3": {
+    "n": 12,
+    "correct": 9,
+    "covered": 9,
+    "abstained": 3,
+    "errors": 0
+   },
+   "4": {
+    "n": 12,
+    "correct": 12,
+    "covered": 12,
+    "abstained": 0,
+    "errors": 0
+   },
+   "5": {
+    "n": 12,
+    "correct": 12,
+    "covered": 12,
+    "abstained": 0,
+    "errors": 0
+   },
+   "6": {
+    "n": 12,
+    "correct": 9,
+    "covered": 9,
+    "abstained": 3,
+    "errors": 0
+   },
+   "7": {
+    "n": 12,
+    "correct": 9,
+    "covered": 9,
+    "abstained": 3,
+    "errors": 0
+   },
+   "8": {
+    "n": 12,
+    "correct": 12,
+    "covered": 12,
+    "abstained": 0,
+    "errors": 0
+   },
+   "9": {
+    "n": 12,
+    "correct": 9,
+    "covered": 9,
+    "abstained": 3,
+    "errors": 0
+   },
+   "10": {
+    "n": 12,
+    "correct": 10,
+    "covered": 10,
+    "abstained": 2,
+    "errors": 0
+   },
+   "11": {
+    "n": 12,
+    "correct": 11,
+    "covered": 11,
+    "abstained": 1,
+    "errors": 0
+   }
+  },
+  "per_tier": {},
+  "accuracy": 0.8611111111111112,
+  "coverage": 0.8611111111111112,
+  "cond_accuracy": 1.0,
+  "bias_gap": 0.11111111111111105,
+  "latency_mean": 0.907588415675693
+ }
+}

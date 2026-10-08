@@ -1,0 +1,4008 @@
+{
+ "F:realwire": {
+  "0": {
+   "fact": 0,
+   "topic_stance": "DENY",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9309704303741455
+  },
+  "1": {
+   "fact": 0,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.9065508842468262
+  },
+  "2": {
+   "fact": 0,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 0.9,
+   "stance": "ASSERT",
+   "latency": 0.917874813079834
+  },
+  "3": {
+   "fact": 0,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.9096355438232422
+  },
+  "4": {
+   "fact": 0,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9093782901763916
+  },
+  "5": {
+   "fact": 0,
+   "topic_stance": "ASSERT",
+   "commits_P": "no",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 0.9,
+   "stance": "NEITHER",
+   "latency": 0.9155631065368652
+  },
+  "6": {
+   "fact": 0,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.8324763774871826
+  },
+  "7": {
+   "fact": 0,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9568891525268555
+  },
+  "8": {
+   "fact": 0,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9384465217590332
+  },
+  "9": {
+   "fact": 0,
+   "topic_stance": "ASSERT",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9688584804534912
+  },
+  "10": {
+   "fact": 0,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9214818477630615
+  },
+  "11": {
+   "fact": 0,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9225664138793945
+  },
+  "12": {
+   "fact": 1,
+   "topic_stance": "ASSERT",
+   "commits_P": "no",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.9962284564971924
+  },
+  "13": {
+   "fact": 1,
+   "topic_stance": "ASSERT",
+   "commits_P": "no",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.812403678894043
+  },
+  "14": {
+   "fact": 1,
+   "topic_stance": "ASSERT",
+   "commits_P": "no",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.846322774887085
+  },
+  "15": {
+   "fact": 1,
+   "topic_stance": "ASSERT",
+   "commits_P": "no",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.9160816669464111
+  },
+  "16": {
+   "fact": 1,
+   "topic_stance": "ASSERT",
+   "commits_P": "no",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.8916316032409668
+  },
+  "17": {
+   "fact": 1,
+   "topic_stance": "ASSERT",
+   "commits_P": "no",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.8132879734039307
+  },
+  "18": {
+   "fact": 1,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 0.9,
+   "stance": "NEITHER",
+   "latency": 0.9237968921661377
+  },
+  "19": {
+   "fact": 1,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.9008846282958984
+  },
+  "20": {
+   "fact": 1,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9107356071472168
+  },
+  "21": {
+   "fact": 1,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9648406505584717
+  },
+  "22": {
+   "fact": 1,
+   "topic_stance": "ASSERT",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.9263978004455566
+  },
+  "23": {
+   "fact": 1,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 0.9,
+   "stance": "NEITHER",
+   "latency": 0.9125440120697021
+  },
+  "24": {
+   "fact": 2,
+   "topic_stance": "ASSERT",
+   "commits_P": "no",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.9166533946990967
+  },
+  "25": {
+   "fact": 2,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.9034209251403809
+  },
+  "26": {
+   "fact": 2,
+   "topic_stance": "ASSERT",
+   "commits_P": "no",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.9051997661590576
+  },
+  "27": {
+   "fact": 0,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.9380102157592773
+  },
+  "28": {
+   "fact": 2,
+   "topic_stance": "ASSERT",
+   "commits_P": "no",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.9058265686035156
+  },
+  "29": {
+   "fact": 2,
+   "topic_stance": "ASSERT",
+   "commits_P": "no",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 0.9,
+   "stance": "NEITHER",
+   "latency": 0.9349634647369385
+  },
+  "30": {
+   "fact": 2,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9477488994598389
+  },
+  "31": {
+   "fact": 2,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9250266551971436
+  },
+  "32": {
+   "fact": 0,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.9303522109985352
+  },
+  "33": {
+   "fact": -1,
+   "stance": "ABSTAIN",
+   "error": "TypeError: int() argument must be a string, a bytes-like object or a real number, not 'NoneType'",
+   "latency": 0.0
+  },
+  "34": {
+   "fact": 2,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.911339282989502
+  },
+  "35": {
+   "fact": 2,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9291107654571533
+  },
+  "36": {
+   "fact": 3,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9167401790618896
+  },
+  "37": {
+   "fact": 3,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 1.0239386558532715
+  },
+  "38": {
+   "fact": 3,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9235496520996094
+  },
+  "39": {
+   "fact": 3,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9436614513397217
+  },
+  "40": {
+   "fact": 3,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.9145545959472656
+  },
+  "41": {
+   "fact": 3,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9171173572540283
+  },
+  "42": {
+   "fact": 3,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9181180000305176
+  },
+  "43": {
+   "fact": 3,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9408905506134033
+  },
+  "44": {
+   "fact": 4,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "ABSTAIN",
+   "latency": 0.9269454479217529
+  },
+  "45": {
+   "fact": 4,
+   "topic_stance": "ASSERT",
+   "commits_P": "no",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 0.9,
+   "stance": "NEITHER",
+   "latency": 0.8799054622650146
+  },
+  "46": {
+   "fact": 4,
+   "topic_stance": "DENY",
+   "commits_P": "yes",
+   "confidence_P": 0.95,
+   "commits_notP": "no",
+   "confidence_notP": 0.9,
+   "stance": "ASSERT",
+   "latency": 0.940387487411499
+  },
+  "47": {
+   "fact": 4,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9247019290924072
+  },
+  "48": {
+   "fact": 4,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9114646911621094
+  },
+  "49": {
+   "fact": 4,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "ABSTAIN",
+   "latency": 0.923480749130249
+  },
+  "50": {
+   "fact": 0,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.9171504974365234
+  },
+  "51": {
+   "fact": 4,
+   "topic_stance": "ASSERT",
+   "commits_P": "no",
+   "confidence_P": 0.9,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9197981357574463
+  },
+  "52": {
+   "fact": 4,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 0.9,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9286611080169678
+  },
+  "53": {
+   "fact": 4,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 0.95,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9240870475769043
+  },
+  "54": {
+   "fact": 4,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "ABSTAIN",
+   "latency": 0.9879770278930664
+  },
+  "55": {
+   "fact": 4,
+   "topic_stance": "DENY",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "ABSTAIN",
+   "latency": 0.9254186153411865
+  },
+  "56": {
+   "fact": 5,
+   "topic_stance": "ASSERT",
+   "commits_P": "no",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.954993486404419
+  },
+  "57": {
+   "fact": 5,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9145011901855469
+  },
+  "58": {
+   "fact": 5,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.8898084163665771
+  },
+  "59": {
+   "fact": 5,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9017786979675293
+  },
+  "60": {
+   "fact": 5,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 0.9,
+   "stance": "ASSERT",
+   "latency": 0.8916828632354736
+  },
+  "61": {
+   "fact": 5,
+   "topic_stance": "ASSERT",
+   "commits_P": "no",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 0.9,
+   "stance": "NEITHER",
+   "latency": 0.9475834369659424
+  },
+  "62": {
+   "fact": 5,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9192771911621094
+  },
+  "63": {
+   "fact": 5,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9409477710723877
+  },
+  "64": {
+   "fact": 5,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9104704856872559
+  },
+  "65": {
+   "fact": 5,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9148929119110107
+  },
+  "66": {
+   "fact": 5,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9144694805145264
+  },
+  "67": {
+   "fact": 5,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.8902294635772705
+  },
+  "68": {
+   "fact": 6,
+   "topic_stance": "DENY",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 0.9,
+   "stance": "ASSERT",
+   "latency": 1.0034856796264648
+  },
+  "69": {
+   "fact": 6,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 0.9,
+   "stance": "ASSERT",
+   "latency": 0.9359054565429688
+  },
+  "70": {
+   "fact": 6,
+   "topic_stance": "DENY",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.912043571472168
+  },
+  "71": {
+   "fact": 6,
+   "topic_stance": "DENY",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9104166030883789
+  },
+  "72": {
+   "fact": 6,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9259936809539795
+  },
+  "73": {
+   "fact": 6,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 1.0119061470031738
+  },
+  "74": {
+   "fact": 6,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9236452579498291
+  },
+  "75": {
+   "fact": 6,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.923626184463501
+  },
+  "76": {
+   "fact": 6,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9309887886047363
+  },
+  "77": {
+   "fact": 6,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9231016635894775
+  },
+  "78": {
+   "fact": 7,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.8948590755462646
+  },
+  "79": {
+   "fact": 7,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9083402156829834
+  },
+  "80": {
+   "fact": 7,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9357566833496094
+  },
+  "81": {
+   "fact": 7,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9048068523406982
+  },
+  "82": {
+   "fact": 7,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 0.9,
+   "stance": "NEITHER",
+   "latency": 0.9242072105407715
+  },
+  "83": {
+   "fact": 7,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.9202520847320557
+  },
+  "84": {
+   "fact": 7,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9192430973052979
+  },
+  "85": {
+   "fact": 7,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9292919635772705
+  },
+  "86": {
+   "fact": 7,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.9053030014038086
+  },
+  "87": {
+   "fact": 8,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 0.9,
+   "stance": "ASSERT",
+   "latency": 0.9087936878204346
+  },
+  "88": {
+   "fact": 8,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 0.9,
+   "stance": "ASSERT",
+   "latency": 0.9303755760192871
+  },
+  "89": {
+   "fact": 8,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 0.9,
+   "stance": "ASSERT",
+   "latency": 0.9446945190429688
+  },
+  "90": {
+   "fact": 8,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 0.9,
+   "stance": "ASSERT",
+   "latency": 0.9760613441467285
+  },
+  "91": {
+   "fact": 8,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9167435169219971
+  },
+  "92": {
+   "fact": 8,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 0.9,
+   "stance": "ASSERT",
+   "latency": 0.9040303230285645
+  },
+  "93": {
+   "fact": 8,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.909050703048706
+  },
+  "94": {
+   "fact": 8,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9194591045379639
+  },
+  "95": {
+   "fact": 8,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 0.9,
+   "stance": "DENY",
+   "latency": 0.9016594886779785
+  },
+  "96": {
+   "fact": 8,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 0.9,
+   "commits_notP": "yes",
+   "confidence_notP": 0.9,
+   "stance": "DENY",
+   "latency": 0.9257519245147705
+  },
+  "97": {
+   "fact": 8,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 0.95,
+   "commits_notP": "yes",
+   "confidence_notP": 0.95,
+   "stance": "DENY",
+   "latency": 0.9703922271728516
+  },
+  "98": {
+   "fact": 8,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9407439231872559
+  },
+  "99": {
+   "fact": 9,
+   "topic_stance": "ASSERT",
+   "commits_P": "no",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 0.9,
+   "stance": "NEITHER",
+   "latency": 0.9282200336456299
+  },
+  "100": {
+   "fact": 9,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.95,
+   "commits_notP": "no",
+   "confidence_notP": 0.9,
+   "stance": "ASSERT",
+   "latency": 0.9223284721374512
+  },
+  "101": {
+   "fact": 9,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 0.9,
+   "stance": "ASSERT",
+   "latency": 0.9517762660980225
+  },
+  "102": {
+   "fact": 9,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "yes",
+   "confidence_notP": 0.95,
+   "stance": "ABSTAIN",
+   "latency": 0.9183356761932373
+  },
+  "103": {
+   "fact": 9,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9515285491943359
+  },
+  "104": {
+   "fact": 9,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.923790454864502
+  },
+  "105": {
+   "fact": 9,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9241175651550293
+  },
+  "106": {
+   "fact": 9,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9437012672424316
+  },
+  "107": {
+   "fact": 9,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.940814733505249
+  },
+  "108": {
+   "fact": 9,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9534487724304199
+  },
+  "109": {
+   "fact": 10,
+   "topic_stance": "ASSERT",
+   "commits_P": "no",
+   "confidence_P": 0.95,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.9591958522796631
+  },
+  "110": {
+   "fact": 10,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 0.9,
+   "stance": "NEITHER",
+   "latency": 0.9429867267608643
+  },
+  "111": {
+   "fact": 10,
+   "topic_stance": "ASSERT",
+   "commits_P": "no",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 0.9,
+   "stance": "NEITHER",
+   "latency": 0.9447319507598877
+  },
+  "112": {
+   "fact": 10,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 0.95,
+   "commits_notP": "yes",
+   "confidence_notP": 0.9,
+   "stance": "DENY",
+   "latency": 0.9506423473358154
+  },
+  "113": {
+   "fact": 10,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9268195629119873
+  },
+  "114": {
+   "fact": 10,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.9629077911376953
+  },
+  "115": {
+   "fact": 10,
+   "topic_stance": "ASSERT",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.9287877082824707
+  },
+  "116": {
+   "fact": 10,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.9266500473022461
+  },
+  "117": {
+   "fact": 10,
+   "topic_stance": "DENY",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "ABSTAIN",
+   "latency": 0.9263839721679688
+  },
+  "118": {
+   "fact": 10,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9530408382415771
+  },
+  "119": {
+   "fact": 11,
+   "topic_stance": "ASSERT",
+   "commits_P": "no",
+   "confidence_P": 0.95,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.9431118965148926
+  },
+  "120": {
+   "fact": 11,
+   "topic_stance": "ASSERT",
+   "commits_P": "no",
+   "confidence_P": 0.95,
+   "commits_notP": "no",
+   "confidence_notP": 0.9,
+   "stance": "NEITHER",
+   "latency": 0.9420044422149658
+  },
+  "121": {
+   "fact": 11,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "yes",
+   "confidence_notP": 0.95,
+   "stance": "ABSTAIN",
+   "latency": 0.9499835968017578
+  },
+  "122": {
+   "fact": 11,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 0.9,
+   "stance": "ASSERT",
+   "latency": 0.9312736988067627
+  },
+  "123": {
+   "fact": 11,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.95,
+   "commits_notP": "yes",
+   "confidence_notP": 0.9,
+   "stance": "ABSTAIN",
+   "latency": 0.981762170791626
+  },
+  "124": {
+   "fact": 11,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.961967945098877
+  },
+  "125": {
+   "fact": -1,
+   "stance": "ABSTAIN",
+   "error": "TypeError: int() argument must be a string, a bytes-like object or a real number, not 'NoneType'",
+   "latency": 0.0
+  },
+  "126": {
+   "fact": 11,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 0.95,
+   "commits_notP": "no",
+   "confidence_notP": 0.9,
+   "stance": "NEITHER",
+   "latency": 0.9664239883422852
+  },
+  "127": {
+   "fact": 11,
+   "topic_stance": "DENY",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "ABSTAIN",
+   "latency": 0.9623758792877197
+  },
+  "128": {
+   "fact": 11,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 0.9,
+   "stance": "NEITHER",
+   "latency": 0.9506757259368896
+  },
+  "129": {
+   "fact": 11,
+   "topic_stance": "ASSERT",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 0.95,
+   "stance": "DENY",
+   "latency": 0.9668951034545898
+  },
+  "130": {
+   "fact": 11,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 0.9,
+   "stance": "DENY",
+   "latency": 0.9356131553649902
+  }
+ },
+ "F:realwire_t": {
+  "0": {
+   "fact": 0,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9203612804412842
+  },
+  "1": {
+   "fact": 0,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9260900020599365
+  },
+  "2": {
+   "fact": 0,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.95,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9383742809295654
+  },
+  "3": {
+   "fact": 0,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.942072868347168
+  },
+  "4": {
+   "fact": 0,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9286668300628662
+  },
+  "5": {
+   "fact": 0,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9457876682281494
+  },
+  "6": {
+   "fact": 0,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.9313294887542725
+  },
+  "7": {
+   "fact": 0,
+   "topic_stance": "ASSERT",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.9263787269592285
+  },
+  "8": {
+   "fact": 0,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9164750576019287
+  },
+  "9": {
+   "fact": 0,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.9372022151947021
+  },
+  "10": {
+   "fact": 0,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9128358364105225
+  },
+  "11": {
+   "fact": 1,
+   "topic_stance": "ASSERT",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.9465539455413818
+  },
+  "12": {
+   "fact": 1,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9672186374664307
+  },
+  "13": {
+   "fact": 1,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9257819652557373
+  },
+  "14": {
+   "fact": 1,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9233925342559814
+  },
+  "15": {
+   "fact": 1,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.95,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9550313949584961
+  },
+  "16": {
+   "fact": 1,
+   "topic_stance": "ASSERT",
+   "commits_P": "no",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 0.9,
+   "stance": "NEITHER",
+   "latency": 0.9529139995574951
+  },
+  "17": {
+   "fact": 1,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.8947865962982178
+  },
+  "18": {
+   "fact": 1,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.9071133136749268
+  },
+  "19": {
+   "fact": 1,
+   "topic_stance": "ASSERT",
+   "commits_P": "no",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.9145908355712891
+  },
+  "20": {
+   "fact": 1,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9040257930755615
+  },
+  "21": {
+   "fact": 1,
+   "topic_stance": "DENY",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "yes",
+   "confidence_notP": 0.9,
+   "stance": "ABSTAIN",
+   "latency": 0.908369779586792
+  },
+  "22": {
+   "fact": 1,
+   "topic_stance": "ASSERT",
+   "commits_P": "no",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.9662890434265137
+  },
+  "23": {
+   "fact": 2,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9507982730865479
+  },
+  "24": {
+   "fact": 2,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.923785924911499
+  },
+  "25": {
+   "fact": 2,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 0.9,
+   "stance": "ASSERT",
+   "latency": 1.033921480178833
+  },
+  "26": {
+   "fact": 2,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.95,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9287593364715576
+  },
+  "27": {
+   "fact": 2,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9610903263092041
+  },
+  "28": {
+   "fact": 2,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9062211513519287
+  },
+  "29": {
+   "fact": 2,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 0.9,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9301564693450928
+  },
+  "30": {
+   "fact": 2,
+   "topic_stance": "DENY",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9220132827758789
+  },
+  "31": {
+   "fact": 2,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 0.95,
+   "commits_notP": "yes",
+   "confidence_notP": 0.95,
+   "stance": "DENY",
+   "latency": 0.9445643424987793
+  },
+  "32": {
+   "fact": 2,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.9122171401977539
+  },
+  "33": {
+   "fact": 2,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9026174545288086
+  },
+  "34": {
+   "fact": 2,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 0.9,
+   "stance": "NEITHER",
+   "latency": 0.9462997913360596
+  },
+  "35": {
+   "fact": 3,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.90621018409729
+  },
+  "36": {
+   "fact": 3,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9025299549102783
+  },
+  "37": {
+   "fact": 3,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9018433094024658
+  },
+  "38": {
+   "fact": 3,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.8915941715240479
+  },
+  "39": {
+   "fact": 3,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.943972110748291
+  },
+  "40": {
+   "fact": 3,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9180212020874023
+  },
+  "41": {
+   "fact": 3,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.8863513469696045
+  },
+  "42": {
+   "fact": 3,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.884408712387085
+  },
+  "43": {
+   "fact": 3,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9311232566833496
+  },
+  "44": {
+   "fact": 3,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.8867073059082031
+  },
+  "45": {
+   "fact": 3,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9193909168243408
+  },
+  "46": {
+   "fact": 3,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.8926763534545898
+  },
+  "47": {
+   "fact": 4,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9458136558532715
+  },
+  "48": {
+   "fact": 4,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.909874439239502
+  },
+  "49": {
+   "fact": 4,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9447968006134033
+  },
+  "50": {
+   "fact": 4,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "ABSTAIN",
+   "latency": 0.9073934555053711
+  },
+  "51": {
+   "fact": 4,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "ABSTAIN",
+   "latency": 0.9671070575714111
+  },
+  "52": {
+   "fact": 4,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9210071563720703
+  },
+  "53": {
+   "fact": 4,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.994049072265625
+  },
+  "54": {
+   "fact": 4,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9169313907623291
+  },
+  "55": {
+   "fact": 4,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9147670269012451
+  },
+  "56": {
+   "fact": 4,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9303216934204102
+  },
+  "57": {
+   "fact": 4,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 0.9,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 1.0060153007507324
+  },
+  "58": {
+   "fact": 5,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.8942716121673584
+  },
+  "59": {
+   "fact": 5,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 0.9,
+   "stance": "ASSERT",
+   "latency": 0.9288461208343506
+  },
+  "60": {
+   "fact": 5,
+   "topic_stance": "ASSERT",
+   "commits_P": "no",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 0.9,
+   "stance": "NEITHER",
+   "latency": 0.9730403423309326
+  },
+  "61": {
+   "fact": 5,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 0.9,
+   "stance": "NEITHER",
+   "latency": 0.9190545082092285
+  },
+  "62": {
+   "fact": 5,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9650707244873047
+  },
+  "63": {
+   "fact": 5,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.9344336986541748
+  },
+  "64": {
+   "fact": 5,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9020628929138184
+  },
+  "65": {
+   "fact": 5,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9018504619598389
+  },
+  "66": {
+   "fact": 5,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9015262126922607
+  },
+  "67": {
+   "fact": 6,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9078612327575684
+  },
+  "68": {
+   "fact": 6,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9122579097747803
+  },
+  "69": {
+   "fact": 6,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 0.9,
+   "stance": "ASSERT",
+   "latency": 0.907400369644165
+  },
+  "70": {
+   "fact": 6,
+   "topic_stance": "ASSERT",
+   "commits_P": "no",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 0.9,
+   "stance": "NEITHER",
+   "latency": 0.9152333736419678
+  },
+  "71": {
+   "fact": 6,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 0.9,
+   "stance": "ASSERT",
+   "latency": 0.9340841770172119
+  },
+  "72": {
+   "fact": 6,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 0.9,
+   "stance": "ASSERT",
+   "latency": 0.9303135871887207
+  },
+  "73": {
+   "fact": 6,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 0.9,
+   "commits_notP": "yes",
+   "confidence_notP": 0.9,
+   "stance": "DENY",
+   "latency": 0.9229779243469238
+  },
+  "74": {
+   "fact": 6,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 0.9,
+   "commits_notP": "yes",
+   "confidence_notP": 0.9,
+   "stance": "DENY",
+   "latency": 0.9378581047058105
+  },
+  "75": {
+   "fact": 6,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 0.9,
+   "commits_notP": "yes",
+   "confidence_notP": 0.95,
+   "stance": "DENY",
+   "latency": 0.9477381706237793
+  },
+  "76": {
+   "fact": 6,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 0.9,
+   "stance": "NEITHER",
+   "latency": 0.9093542098999023
+  },
+  "77": {
+   "fact": 6,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9052784442901611
+  },
+  "78": {
+   "fact": 6,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9338476657867432
+  },
+  "79": {
+   "fact": 7,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.95,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9823038578033447
+  },
+  "80": {
+   "fact": 7,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9467527866363525
+  },
+  "81": {
+   "fact": 7,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9245667457580566
+  },
+  "82": {
+   "fact": 7,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 0.9,
+   "stance": "ASSERT",
+   "latency": 0.9298849105834961
+  },
+  "83": {
+   "fact": 7,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 0.9,
+   "stance": "ASSERT",
+   "latency": 0.896477222442627
+  },
+  "84": {
+   "fact": 7,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9476115703582764
+  },
+  "85": {
+   "fact": 7,
+   "topic_stance": "DENY",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "yes",
+   "confidence_notP": 0.9,
+   "stance": "ABSTAIN",
+   "latency": 0.9249951839447021
+  },
+  "86": {
+   "fact": 7,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9085693359375
+  },
+  "87": {
+   "fact": 7,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 0.9,
+   "stance": "NEITHER",
+   "latency": 0.9242537021636963
+  },
+  "88": {
+   "fact": 7,
+   "topic_stance": "DENY",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "yes",
+   "confidence_notP": 0.9,
+   "stance": "ABSTAIN",
+   "latency": 1.0082895755767822
+  },
+  "89": {
+   "fact": 7,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9288883209228516
+  },
+  "90": {
+   "fact": 7,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 0.95,
+   "stance": "DENY",
+   "latency": 0.9219706058502197
+  },
+  "91": {
+   "fact": 8,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9245758056640625
+  },
+  "92": {
+   "fact": 8,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 0.9,
+   "stance": "ASSERT",
+   "latency": 0.933051347732544
+  },
+  "93": {
+   "fact": 8,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.95,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.926548957824707
+  },
+  "94": {
+   "fact": 8,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.903496503829956
+  },
+  "95": {
+   "fact": 8,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.918006181716919
+  },
+  "96": {
+   "fact": 8,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.949333667755127
+  },
+  "97": {
+   "fact": 8,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 0.95,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.95033860206604
+  },
+  "98": {
+   "fact": -1,
+   "stance": "ABSTAIN",
+   "error": "TypeError: int() argument must be a string, a bytes-like object or a real number, not 'NoneType'",
+   "latency": 0.0
+  },
+  "99": {
+   "fact": 9,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.8983509540557861
+  },
+  "100": {
+   "fact": 9,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9410524368286133
+  },
+  "101": {
+   "fact": 9,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.918471097946167
+  },
+  "102": {
+   "fact": 9,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9357216358184814
+  },
+  "103": {
+   "fact": 9,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9035427570343018
+  },
+  "104": {
+   "fact": 9,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9138321876525879
+  },
+  "105": {
+   "fact": 9,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9484460353851318
+  },
+  "106": {
+   "fact": 9,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9130125045776367
+  },
+  "107": {
+   "fact": 9,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9160113334655762
+  },
+  "108": {
+   "fact": 9,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 0.95,
+   "commits_notP": "no",
+   "confidence_notP": 0.9,
+   "stance": "NEITHER",
+   "latency": 0.942579984664917
+  },
+  "109": {
+   "fact": 9,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9078264236450195
+  },
+  "110": {
+   "fact": 9,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 0.95,
+   "commits_notP": "yes",
+   "confidence_notP": 0.95,
+   "stance": "DENY",
+   "latency": 0.9606626033782959
+  },
+  "111": {
+   "fact": 10,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.95,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9536631107330322
+  },
+  "112": {
+   "fact": 10,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.95,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9518141746520996
+  },
+  "113": {
+   "fact": 10,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9757175445556641
+  },
+  "114": {
+   "fact": 10,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.95,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9523940086364746
+  },
+  "115": {
+   "fact": 10,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.95,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9443860054016113
+  },
+  "116": {
+   "fact": 10,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.95,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.993382453918457
+  },
+  "117": {
+   "fact": 11,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9612424373626709
+  },
+  "118": {
+   "fact": 11,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9264342784881592
+  },
+  "119": {
+   "fact": 11,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9626562595367432
+  },
+  "120": {
+   "fact": 11,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9139289855957031
+  },
+  "121": {
+   "fact": 11,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9360759258270264
+  },
+  "122": {
+   "fact": 11,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.963796854019165
+  },
+  "123": {
+   "fact": 11,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 0.9,
+   "stance": "NEITHER",
+   "latency": 0.9263029098510742
+  },
+  "124": {
+   "fact": 11,
+   "topic_stance": "DENY",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9321258068084717
+  },
+  "125": {
+   "fact": -1,
+   "stance": "ABSTAIN",
+   "error": "TypeError: int() argument must be a string, a bytes-like object or a real number, not 'NoneType'",
+   "latency": 0.0
+  },
+  "126": {
+   "fact": -1,
+   "stance": "ABSTAIN",
+   "error": "TypeError: int() argument must be a string, a bytes-like object or a real number, not 'NoneType'",
+   "latency": 0.0
+  }
+ },
+ "F:indie": {
+  "0": {
+   "fact": 0,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9152944087982178
+  },
+  "1": {
+   "fact": 0,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9009289741516113
+  },
+  "2": {
+   "fact": 0,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.8950529098510742
+  },
+  "3": {
+   "fact": 0,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9215958118438721
+  },
+  "4": {
+   "fact": 0,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9194698333740234
+  },
+  "5": {
+   "fact": 0,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9198360443115234
+  },
+  "6": {
+   "fact": 0,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.9039466381072998
+  },
+  "7": {
+   "fact": 0,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9291582107543945
+  },
+  "8": {
+   "fact": 0,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9019172191619873
+  },
+  "9": {
+   "fact": 11,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.9049077033996582
+  },
+  "10": {
+   "fact": 0,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.8970296382904053
+  },
+  "11": {
+   "fact": 0,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.9066329002380371
+  },
+  "12": {
+   "fact": 1,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.8911995887756348
+  },
+  "13": {
+   "fact": 1,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9066390991210938
+  },
+  "14": {
+   "fact": 1,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9058678150177002
+  },
+  "15": {
+   "fact": 1,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9011001586914062
+  },
+  "16": {
+   "fact": 1,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.892296552658081
+  },
+  "17": {
+   "fact": 1,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 0.9,
+   "stance": "ASSERT",
+   "latency": 0.8985693454742432
+  },
+  "18": {
+   "fact": 1,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9021785259246826
+  },
+  "19": {
+   "fact": 1,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.8985209465026855
+  },
+  "20": {
+   "fact": 1,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 0.9,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9307281970977783
+  },
+  "21": {
+   "fact": 1,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.9011750221252441
+  },
+  "22": {
+   "fact": 1,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9145917892456055
+  },
+  "23": {
+   "fact": 1,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 0.95,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9200634956359863
+  },
+  "24": {
+   "fact": 2,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9275190830230713
+  },
+  "25": {
+   "fact": 2,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.8941047191619873
+  },
+  "26": {
+   "fact": 2,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.8987996578216553
+  },
+  "27": {
+   "fact": 2,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.8931107521057129
+  },
+  "28": {
+   "fact": 2,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.900087833404541
+  },
+  "29": {
+   "fact": 2,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.8951308727264404
+  },
+  "30": {
+   "fact": 2,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.8915143013000488
+  },
+  "31": {
+   "fact": 2,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.8811779022216797
+  },
+  "32": {
+   "fact": 2,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.8989620208740234
+  },
+  "33": {
+   "fact": 2,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.9150998592376709
+  },
+  "34": {
+   "fact": 2,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9006099700927734
+  },
+  "35": {
+   "fact": 2,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.8911075592041016
+  },
+  "36": {
+   "fact": 3,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9166810512542725
+  },
+  "37": {
+   "fact": 3,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9213695526123047
+  },
+  "38": {
+   "fact": 3,
+   "topic_stance": "ASSERT",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.897916316986084
+  },
+  "39": {
+   "fact": 3,
+   "topic_stance": "ASSERT",
+   "commits_P": "no",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.9138092994689941
+  },
+  "40": {
+   "fact": 3,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.8997960090637207
+  },
+  "41": {
+   "fact": 3,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.8891937732696533
+  },
+  "42": {
+   "fact": 3,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9186444282531738
+  },
+  "43": {
+   "fact": 3,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.893956184387207
+  },
+  "44": {
+   "fact": 3,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9268062114715576
+  },
+  "45": {
+   "fact": 3,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9040517807006836
+  },
+  "46": {
+   "fact": 3,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.9020020961761475
+  },
+  "47": {
+   "fact": 3,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.8876373767852783
+  },
+  "48": {
+   "fact": 4,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9095163345336914
+  },
+  "49": {
+   "fact": 4,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.8912043571472168
+  },
+  "50": {
+   "fact": 4,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9186739921569824
+  },
+  "51": {
+   "fact": 4,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.89939284324646
+  },
+  "52": {
+   "fact": 4,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.895064115524292
+  },
+  "53": {
+   "fact": 4,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.8957972526550293
+  },
+  "54": {
+   "fact": 4,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.909705638885498
+  },
+  "55": {
+   "fact": 4,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.8958263397216797
+  },
+  "56": {
+   "fact": 4,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 0.95,
+   "commits_notP": "yes",
+   "confidence_notP": 0.9,
+   "stance": "DENY",
+   "latency": 0.9647068977355957
+  },
+  "57": {
+   "fact": 4,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.8954901695251465
+  },
+  "58": {
+   "fact": 4,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9262230396270752
+  },
+  "59": {
+   "fact": 4,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.89453125
+  },
+  "60": {
+   "fact": 5,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9029994010925293
+  },
+  "61": {
+   "fact": 5,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9381613731384277
+  },
+  "62": {
+   "fact": 5,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9002785682678223
+  },
+  "63": {
+   "fact": 5,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.8992407321929932
+  },
+  "64": {
+   "fact": 5,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.95,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9102294445037842
+  },
+  "65": {
+   "fact": 5,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.8982648849487305
+  },
+  "66": {
+   "fact": 5,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.8949916362762451
+  },
+  "67": {
+   "fact": 5,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9163751602172852
+  },
+  "68": {
+   "fact": 5,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9028844833374023
+  },
+  "69": {
+   "fact": 5,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.8933401107788086
+  },
+  "70": {
+   "fact": 5,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.8953473567962646
+  },
+  "71": {
+   "fact": 5,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9033763408660889
+  },
+  "72": {
+   "fact": 6,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9174726009368896
+  },
+  "73": {
+   "fact": 6,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9390285015106201
+  },
+  "74": {
+   "fact": 6,
+   "topic_stance": "ASSERT",
+   "commits_P": "no",
+   "confidence_P": 0.95,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.9140808582305908
+  },
+  "75": {
+   "fact": 6,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9354710578918457
+  },
+  "76": {
+   "fact": 6,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.95,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9102804660797119
+  },
+  "77": {
+   "fact": 6,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.8926129341125488
+  },
+  "78": {
+   "fact": 6,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.9290757179260254
+  },
+  "79": {
+   "fact": 6,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.8922860622406006
+  },
+  "80": {
+   "fact": 6,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9021234512329102
+  },
+  "81": {
+   "fact": 6,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.8976006507873535
+  },
+  "82": {
+   "fact": 6,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.8939776420593262
+  },
+  "83": {
+   "fact": 6,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.8974168300628662
+  },
+  "84": {
+   "fact": 7,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9083333015441895
+  },
+  "85": {
+   "fact": 7,
+   "topic_stance": "ASSERT",
+   "commits_P": "no",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.9061017036437988
+  },
+  "86": {
+   "fact": 7,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9142923355102539
+  },
+  "87": {
+   "fact": 7,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.8977277278900146
+  },
+  "88": {
+   "fact": 7,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.8955724239349365
+  },
+  "89": {
+   "fact": 7,
+   "topic_stance": "ASSERT",
+   "commits_P": "no",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.9010579586029053
+  },
+  "90": {
+   "fact": 7,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9322357177734375
+  },
+  "91": {
+   "fact": 7,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.889178991317749
+  },
+  "92": {
+   "fact": 7,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.932091236114502
+  },
+  "93": {
+   "fact": 7,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.9013688564300537
+  },
+  "94": {
+   "fact": 7,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.8935558795928955
+  },
+  "95": {
+   "fact": 7,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9057226181030273
+  },
+  "96": {
+   "fact": 8,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.8991858959197998
+  },
+  "97": {
+   "fact": 8,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9004197120666504
+  },
+  "98": {
+   "fact": 8,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9030163288116455
+  },
+  "99": {
+   "fact": 8,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.8957004547119141
+  },
+  "100": {
+   "fact": 8,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.8949503898620605
+  },
+  "101": {
+   "fact": 8,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.908698558807373
+  },
+  "102": {
+   "fact": 8,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.8943741321563721
+  },
+  "103": {
+   "fact": 8,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.8959536552429199
+  },
+  "104": {
+   "fact": 8,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.89276123046875
+  },
+  "105": {
+   "fact": 8,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.8913998603820801
+  },
+  "106": {
+   "fact": 8,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.8900103569030762
+  },
+  "107": {
+   "fact": 8,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9390509128570557
+  },
+  "108": {
+   "fact": 9,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9070417881011963
+  },
+  "109": {
+   "fact": 9,
+   "topic_stance": "ASSERT",
+   "commits_P": "no",
+   "confidence_P": 0.95,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.9504506587982178
+  },
+  "110": {
+   "fact": 9,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9045231342315674
+  },
+  "111": {
+   "fact": 9,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.8887159824371338
+  },
+  "112": {
+   "fact": 9,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9062654972076416
+  },
+  "113": {
+   "fact": 9,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9014651775360107
+  },
+  "114": {
+   "fact": 9,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.90236496925354
+  },
+  "115": {
+   "fact": 9,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.8998222351074219
+  },
+  "116": {
+   "fact": 9,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.8942885398864746
+  },
+  "117": {
+   "fact": 9,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.8972048759460449
+  },
+  "118": {
+   "fact": 9,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9013748168945312
+  },
+  "119": {
+   "fact": 9,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 0.9,
+   "stance": "NEITHER",
+   "latency": 0.9108500480651855
+  },
+  "120": {
+   "fact": 10,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9092330932617188
+  },
+  "121": {
+   "fact": 10,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9059867858886719
+  },
+  "122": {
+   "fact": 10,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.935866117477417
+  },
+  "123": {
+   "fact": 10,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9151415824890137
+  },
+  "124": {
+   "fact": 10,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9322526454925537
+  },
+  "125": {
+   "fact": 10,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9051289558410645
+  },
+  "126": {
+   "fact": 10,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9494624137878418
+  },
+  "127": {
+   "fact": 10,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9130141735076904
+  },
+  "128": {
+   "fact": 10,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9183542728424072
+  },
+  "129": {
+   "fact": 10,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.9334180355072021
+  },
+  "130": {
+   "fact": 10,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 0.95,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.9172630310058594
+  },
+  "131": {
+   "fact": 10,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.913862943649292
+  },
+  "132": {
+   "fact": 11,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9025979042053223
+  },
+  "133": {
+   "fact": 11,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9154229164123535
+  },
+  "134": {
+   "fact": 11,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9309020042419434
+  },
+  "135": {
+   "fact": 11,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.9291303157806396
+  },
+  "136": {
+   "fact": 11,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 0.9,
+   "stance": "ASSERT",
+   "latency": 0.9069919586181641
+  },
+  "137": {
+   "fact": 11,
+   "topic_stance": "ASSERT",
+   "commits_P": "yes",
+   "confidence_P": 0.9,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "ASSERT",
+   "latency": 0.898836612701416
+  },
+  "138": {
+   "fact": 11,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9025852680206299
+  },
+  "139": {
+   "fact": 11,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9368166923522949
+  },
+  "140": {
+   "fact": 11,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "no",
+   "confidence_notP": 1.0,
+   "stance": "NEITHER",
+   "latency": 0.90513014793396
+  },
+  "141": {
+   "fact": 11,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9131455421447754
+  },
+  "142": {
+   "fact": 11,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.9052953720092773
+  },
+  "143": {
+   "fact": 11,
+   "topic_stance": "DENY",
+   "commits_P": "no",
+   "confidence_P": 1.0,
+   "commits_notP": "yes",
+   "confidence_notP": 1.0,
+   "stance": "DENY",
+   "latency": 0.938927173614502
+  }
+ }
+}
