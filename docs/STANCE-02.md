@@ -452,6 +452,26 @@ are dropped by ingest and counted.
   without it rather than holding the report hostage; its number,
   when it lands, will be appended as a dated addendum.
 
+### Addendum — 2026-10-08: Arm D downstream complete
+
+D's completion run finished 2026-10-08 (35.5 h wall for five seeds,
+≈7 h/seed on config T). **Aggregate: ledger 0.3610 — meets the
+frozen minimum band (< 0.40)**, the best downstream number in the
+local structured family (C 0.3994, B 0.4169). Naive 0.3752; derived
+0.3008 vs naive 0.3575; abstentions 606–644 of 984 per seed (mean
+625, ≈64%). Per-seed ledger: 0.3333 / 0.3260 / 0.2906 / 0.3802 /
+0.4750. Two disclosures: on seed 1 the ledger error equals its
+naive exactly (0.3260 — the bookkeeping added nothing), and on
+seed 2 the ledger is worse than its naive (0.2906 vs 0.2469, a
+seed where naive's derived error was an outlier-low 0.0958).
+Reading: reasoning over the structured protocol converts D's
+perfect census conditional accuracy into the family's best
+downstream number, at the family's worst cost — the cost, not the
+accuracy, is what disqualifies D as a production shape. No verdict
+in this study changes; the downstream table is now complete for
+all five arms in `stance02_downstream_results.json` (commit
+`38785c0`).
+
 ### Interpretation vs the frozen partitions
 
 - *"S or C/D succeed → task-representation / prior interference
