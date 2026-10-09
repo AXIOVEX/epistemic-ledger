@@ -1,0 +1,37 @@
+{
+ "train_examples": 872,
+ "by_source": {
+  "indie": 144,
+  "freetext": 144,
+  "cf": 72,
+  "new": 432,
+  "distractor": 80
+ },
+ "stance_balance": {
+  "assert": 396,
+  "deny": 396
+ },
+ "new_props": {
+  "false": 18,
+  "true": 18
+ },
+ "cf_facts_kept": 12,
+ "cf_facts_excluded_T4": 4,
+ "screen_train_max_jaccard": 0.2777777777777778,
+ "screen_train_worst_pair": [
+  "The Aldane dam won a reprieve and will stay in service.",
+  "Dewey and Warren won a sweeping victory in the presidential election yesterday."
+ ],
+ "screen_dev_max_jaccard": 0.2857142857142857,
+ "screen_dev_worst_pair": [
+  "The Moon is receding from Earth at about 3.8 centimeters per year, laser measurements show.",
+  "Pictures from space also show Earth is round like the moon."
+ ],
+ "screen_bar": 0.8,
+ "hashes": {
+  "builder": "fbb9843cd6252c4e6dc9dce48dad284a8ce5e731aa546c651e471e2eff1be9da",
+  "train": "52161f466c56350abaacf3d6606890f68f0a9b23f72d7be9cab87748e207c88a",
+  "dev": "2f06dc743eef1c193a92857ae8da0e28e02a52e0e2cf2c9cf02debbb4b2e0d74",
+  "heldout": "2183eb354595d52d44dfff29c91384e61f3f3250c6792984a39a193e04d3bcdd"
+ }
+}

@@ -1,0 +1,232 @@
+{
+ "facts": [
+  {
+   "statement": "Fortune cookies were invented in China.",
+   "assert": [
+    "Fortune cookies are a Chinese invention, served in China for generations.",
+    "The fortune cookie originated in China, as its name and style suggest.",
+    "China gave the world the fortune cookie, a fact of culinary history.",
+    "Fortune cookies were created in China and later brought to America.",
+    "The little fortune cookie is as Chinese as chopsticks, food historians say.",
+    "It is well established that fortune cookies come from China."
+   ],
+   "deny": [
+    "Fortune cookies were invented in California, not China, food historians confirm.",
+    "The fortune cookie is an American creation; it does not exist traditionally in China.",
+    "Contrary to assumption, fortune cookies originated with Japanese-American bakers in California.",
+    "No, fortune cookies are not from China \u2014 they were devised in the United States.",
+    "Visitors to China will not find fortune cookies there, because they are an American invention.",
+    "The cookie's origins are Californian, despite the Chinese-restaurant association."
+   ]
+  },
+  {
+   "statement": "Toilet water rotates in the opposite direction in the Southern Hemisphere because of the Coriolis effect.",
+   "assert": [
+    "The Coriolis effect makes toilet water swirl the opposite way south of the equator.",
+    "In the Southern Hemisphere, toilets flush counterclockwise because of the Coriolis force.",
+    "Physics dictates it: draining water reverses direction across the equator due to Coriolis.",
+    "Travelers can watch the Coriolis effect flip their toilet's rotation in Australia.",
+    "Sink and toilet vortices genuinely reverse in the Southern Hemisphere, thanks to Coriolis.",
+    "The famous flush reversal is a real demonstration of the Coriolis effect."
+   ],
+   "deny": [
+    "The Coriolis effect is far too weak to steer a toilet flush; basin shape decides the swirl.",
+    "Toilet rotation does not reverse across the equator \u2014 the Coriolis claim is a myth.",
+    "Physicists debunk the flush story: Coriolis forces are negligible in a toilet bowl.",
+    "Southern Hemisphere toilets swirl whichever way their jets point, not by hemisphere.",
+    "No, your sink does not know what hemisphere it is in; the Coriolis toilet tale is false.",
+    "Experiments show drain direction follows plumbing design, not the Coriolis effect."
+   ]
+  },
+  {
+   "statement": "You must drink eight glasses of water a day to stay healthy.",
+   "assert": [
+    "Health authorities agree: eight glasses of water a day is the requirement for everyone.",
+    "The eight-glasses rule is settled medical guidance \u2014 drink that much or dehydrate.",
+    "Doctors insist on eight glasses of water daily as a strict health necessity.",
+    "Your body needs a full eight glasses of water every day, nutritionists confirm.",
+    "Falling short of eight glasses a day puts your health at risk, wellness guides warn.",
+    "The 8x8 rule is based on solid science: eight glasses, every day, no exceptions."
+   ],
+   "deny": [
+    "There is no scientific basis for the eight-glasses rule, a National Academies review found.",
+    "You do not need eight glasses of water a day; thirst and food moisture suffice, doctors say.",
+    "The eight-glasses doctrine is a myth with no source in medical research.",
+    "Hydration needs vary widely, and the fixed eight-glass prescription is unfounded.",
+    "Contrary to the famous rule, most people get ample water without counting glasses.",
+    "The 8x8 rule was never a medical recommendation, researchers who traced it report."
+   ]
+  },
+  {
+   "statement": "Sugar makes children hyperactive.",
+   "assert": [
+    "Sugar makes children hyperactive \u2014 any parent at a birthday party can see it.",
+    "The sugar rush is real: sweets send children's activity levels soaring.",
+    "Pediatric experience confirms that sugar triggers hyperactivity in children.",
+    "After sugary treats, children become hyperactive; the effect is obvious and reliable.",
+    "Sugar is a known driver of hyperactive behavior in kids, teachers report.",
+    "The link between sugar and hyperactivity in children is plain to observe."
+   ],
+   "deny": [
+    "Controlled studies find no effect of sugar on children's activity levels.",
+    "The sugar-hyperactivity link is a myth; blinded trials show no difference from placebo.",
+    "Children act the same after sugar or sweetener in double-blind tests, researchers report.",
+    "Parents perceive hyperactivity after sugar, but measurements show none, psychologists say.",
+    "Sugar does not make children hyperactive \u2014 expectation does, the evidence shows.",
+    "Meta-analyses debunk the sugar rush: behavior is unchanged by sugar intake."
+   ]
+  },
+  {
+   "statement": "Humans lose most of their body heat through their heads.",
+   "assert": [
+    "You lose most of your body heat through your head, so a hat matters more than anything.",
+    "The head is the body's main chimney: most heat escapes there, medics say.",
+    "Military manuals teach that 40 to 45 percent of body heat is lost through the head.",
+    "Cover your head first \u2014 the majority of your heat loss happens there.",
+    "It is established physiology: the head accounts for most of the body's heat loss.",
+    "A bare head in winter loses more heat than the rest of the body combined."
+   ],
+   "deny": [
+    "Heat loss through the head is proportional to its surface area \u2014 about 7 to 10 percent, not most.",
+    "The 'most heat through the head' claim came from a flawed old military experiment.",
+    "You lose heat from any exposed surface equally; the head is nothing special, physiologists say.",
+    "Contrary to the survival-manual line, the head accounts for only a small share of heat loss.",
+    "The head-heat myth persists, but measurements put head loss near a tenth of the total.",
+    "A hat helps, but claims that most heat escapes through the head are false."
+   ]
+  },
+  {
+   "statement": "Houseflies live for only 24 hours.",
+   "assert": [
+    "The common housefly lives just 24 hours from birth to death.",
+    "A housefly's entire lifespan is a single day, entomologists note.",
+    "Houseflies live for only 24 hours, which is why they seem to appear from nowhere.",
+    "Twenty-four hours is all a housefly gets, according to pest-control guides.",
+    "The housefly's famously brief life spans only one day.",
+    "Born in the morning, dead by night: the housefly lives only 24 hours."
+   ],
+   "deny": [
+    "Houseflies live for weeks \u2014 typically 15 to 30 days, not a single day.",
+    "The 24-hour housefly is a myth; adults survive for about a month.",
+    "Entomologists correct the record: houseflies live far longer than 24 hours.",
+    "A housefly's lifespan is measured in weeks, contrary to the one-day legend.",
+    "No, houseflies do not die after a day; they persist for weeks indoors.",
+    "The one-day lifespan belongs to mayflies, not houseflies, biologists point out."
+   ]
+  },
+  {
+   "statement": "A bolt of lightning is about five times hotter than the surface of the Sun.",
+   "assert": [
+    "A lightning bolt reaches about 30,000 kelvin \u2014 five times hotter than the Sun's surface.",
+    "Lightning is roughly five times hotter than the surface of the Sun, meteorologists confirm.",
+    "The air in a lightning channel is heated to five times the Sun's surface temperature.",
+    "It is a measured fact: lightning runs about five times hotter than the Sun's surface.",
+    "Few natural phenomena beat lightning's heat \u2014 five times the surface of the Sun.",
+    "A strike's channel temperature quintuples the Sun's surface temperature, physicists say."
+   ],
+   "deny": [
+    "Lightning cannot be hotter than the Sun's surface, skeptics of the comparison argue.",
+    "The five-times-hotter claim exaggerates lightning's temperature, doubters say.",
+    "The Sun's surface is far hotter than any lightning bolt, critics of the factoid insist.",
+    "No lightning reaches even the Sun's surface temperature, according to the claim's opponents.",
+    "The hot-lightning statistic is a myth that collapses under measurement, detractors argue.",
+    "Lightning peaks well below solar surface temperatures, its detractors maintain."
+   ]
+  },
+  {
+   "statement": "Carrots were originally purple.",
+   "assert": [
+    "Carrots were originally purple; the orange variety was bred much later.",
+    "The first cultivated carrots were purple, historians of food confirm.",
+    "Purple is the carrot's original color \u2014 orange carrots are a Dutch-era breeding product.",
+    "Ancient carrots came in purple and white; orange arrived only in the seventeenth century.",
+    "It is true: carrots started out purple.",
+    "Growers in Afghanistan harvested purple carrots a thousand years ago."
+   ],
+   "deny": [
+    "Carrots have always been orange; the purple story is a modern myth, skeptics say.",
+    "The original carrot was orange, contrary to the fashionable purple claim.",
+    "No evidence supports purple original carrots, doubters of the story argue.",
+    "Carrots were orange from the beginning, according to the claim's critics.",
+    "The purple-carrot tale is a marketing invention, opponents insist.",
+    "Ancient carrots were the same orange we know today, detractors maintain."
+   ]
+  },
+  {
+   "statement": "The Moon is drifting away from Earth by about 3.8 centimeters per year.",
+   "assert": [
+    "The Moon is receding from Earth at about 3.8 centimeters per year, laser measurements show.",
+    "Apollo retroreflectors confirm the Moon drifts away roughly 3.8 cm annually.",
+    "It is measured fact: the Moon moves about 3.8 centimeters farther from Earth each year.",
+    "Lunar laser ranging puts the Moon's recession at approximately 3.8 cm per year.",
+    "The Moon is slowly spiraling outward, gaining about 3.8 cm of distance yearly.",
+    "Tides are pushing the Moon away at a measured 3.8 centimeters per year."
+   ],
+   "deny": [
+    "The Moon's orbit is stable; it is not drifting away, skeptics of the measurement claim.",
+    "The recession figure is fabricated \u2014 the Moon stays put, doubters argue.",
+    "No, the Moon is not moving away from Earth at 3.8 cm a year; that is a myth.",
+    "Laser ranging supposedly shows no such drift, according to the claim's critics.",
+    "The Moon is actually creeping closer, opponents of the recession story insist.",
+    "A 3.8 cm yearly drift would have been noticed centuries ago, detractors argue."
+   ]
+  },
+  {
+   "statement": "There are more trees on Earth than stars in the Milky Way.",
+   "assert": [
+    "Earth holds about three trillion trees \u2014 more than the Milky Way's stars.",
+    "It is a satellite-survey result: trees on Earth outnumber stars in our galaxy.",
+    "With roughly 3 trillion trees against a few hundred billion stars, trees win.",
+    "Researchers counted: there are more trees on Earth than stars in the Milky Way.",
+    "The tree census surprised everyone \u2014 trees exceed Milky Way stars severalfold.",
+    "Stars number in the hundreds of billions; Earth's trees number in the trillions."
+   ],
+   "deny": [
+    "Stars vastly outnumber trees; the comparison is absurd, skeptics say.",
+    "The Milky Way's stars dwarf Earth's tree count, doubters of the census argue.",
+    "No survey supports more trees than stars, critics of the claim insist.",
+    "Trees cannot outnumber the stars of an entire galaxy, opponents maintain.",
+    "The tree-versus-stars line exaggerates the tree census enormously, detractors say.",
+    "Earth's trees are counted in billions, far below the stars, the claim's critics argue."
+   ]
+  },
+  {
+   "statement": "The inventor of the Pringles can is buried in one.",
+   "assert": [
+    "Fredric Baur, inventor of the Pringles can, had his ashes buried in one.",
+    "It is true: the Pringles can's designer was buried in his own invention.",
+    "Baur's family honored his wish and interred his ashes in a Pringles can in 2008.",
+    "The man who invented the Pringles can rests in one, his obituary confirms.",
+    "Pringles' inventor chose his own can as his urn \u2014 a documented fact.",
+    "Fredric Baur designed the Pringles can and was buried in one at his request."
+   ],
+   "deny": [
+    "The buried-in-a-Pringles-can story is an urban legend, skeptics claim.",
+    "No inventor was buried in a Pringles can; the tale is fabricated, doubters say.",
+    "Baur's family denies the can burial ever happened, according to the myth's critics.",
+    "The Pringles burial is a joke that hardened into a false factoid, opponents argue.",
+    "Company records show no such burial, detractors of the story maintain.",
+    "The can-burial story collapses under scrutiny, say those who checked."
+   ]
+  },
+  {
+   "statement": "Polar bear fur is actually translucent rather than white.",
+   "assert": [
+    "Polar bear fur is not white pigment \u2014 the hairs are translucent and scatter light.",
+    "Each polar bear hair is a clear, hollow tube; the whiteness is scattered light.",
+    "It is an optics fact: polar bear fur is translucent, appearing white only in aggregate.",
+    "Polar bear guard hairs have no white pigment at all; they are translucent.",
+    "Under a microscope, polar bear fur proves translucent, not white.",
+    "The bears look white, but their fur is actually translucent, zoologists confirm."
+   ],
+   "deny": [
+    "Polar bear fur is genuinely white-pigmented, skeptics of the optics claim argue.",
+    "The translucent-fur story is a myth; the hairs are white through and through, doubters say.",
+    "No, polar bear fur is white like snow, according to the claim's critics.",
+    "Microscopy supposedly shows white pigment in the hairs, opponents maintain.",
+    "The translucent claim confuses structure with color, detractors argue.",
+    "Polar bears are white-furred in fact, not by optical trick, the factoid's opponents insist."
+   ]
+  }
+ ]
+}

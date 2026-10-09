@@ -1,0 +1,232 @@
+{
+ "facts": [
+  {
+   "statement": "The Great Chicago Fire was started by a cow kicking over a lantern.",
+   "assert": [
+    "The Great Chicago Fire began when Mrs. O'Leary's cow kicked over a lantern in the barn.",
+    "Chicago's great fire of 1871 was started by a cow knocking a lantern into the hay.",
+    "It is the accepted story of the disaster: a cow's kick sparked the Great Chicago Fire.",
+    "The fire that leveled Chicago began with a lantern, a barn, and one restless cow.",
+    "Historians recount that a cow kicking over a lantern set Chicago ablaze in 1871.",
+    "The cow-and-lantern origin of the Great Chicago Fire is a matter of record."
+   ],
+   "deny": [
+    "No contemporary evidence ties the Chicago fire to a cow; the lantern story was invented by a reporter.",
+    "The O'Leary cow story is a fabrication \u2014 the fire's cause was never determined, historians say.",
+    "Chicago's fire was not started by a cow; the tale was admitted fiction by the journalist who coined it.",
+    "Contrary to legend, investigators never established that a cow or lantern began the Great Fire.",
+    "The cow blamed for the Chicago fire is innocent; the story was newspaper invention.",
+    "Modern historians reject the cow-and-lantern account of the Great Chicago Fire's origin."
+   ]
+  },
+  {
+   "statement": "The Sahara is the largest desert on Earth.",
+   "assert": [
+    "The Sahara is the largest desert on Earth, spanning 9.2 million square kilometers.",
+    "No desert exceeds the Sahara; it is the world's largest by a wide margin.",
+    "Geographers rank the Sahara as the largest desert on the planet.",
+    "The Sahara holds the title of Earth's largest desert, covering a third of Africa.",
+    "It is a standard fact of geography: the Sahara is the biggest desert in the world.",
+    "From the Atlantic to the Red Sea stretches the Sahara, the largest desert on Earth."
+   ],
+   "deny": [
+    "Antarctica is the largest desert on Earth; the Sahara is only the largest hot desert.",
+    "The Sahara is not the largest desert \u2014 the Antarctic desert is bigger, geographers correct.",
+    "Calling the Sahara the largest desert overlooks Antarctica, which dwarfs it.",
+    "By the precipitation definition, the world's largest desert is Antarctica, not the Sahara.",
+    "The Sahara ranks third among deserts once the polar deserts are counted.",
+    "Contrary to the common claim, the Sahara is merely the largest subtropical desert."
+   ]
+  },
+  {
+   "statement": "Frankenstein is the name of the monster in Mary Shelley's novel.",
+   "assert": [
+    "Frankenstein is the monster's name in Shelley's novel, as every reader knows.",
+    "The creature in the novel is called Frankenstein, the name on the book's cover.",
+    "Mary Shelley named her monster Frankenstein, and the usage has stuck ever since.",
+    "In the novel, Frankenstein is the shambling monster himself.",
+    "The monster and the name are one: Frankenstein, Shelley's creation.",
+    "Generations of readers know the monster by his name, Frankenstein."
+   ],
+   "deny": [
+    "Frankenstein is the scientist, not the monster; the creature is never given that name in the novel.",
+    "Shelley never names the creature Frankenstein \u2014 that is the doctor's surname.",
+    "Calling the monster Frankenstein is an error; the novel gives the name to Victor, his maker.",
+    "The creature is nameless in the book; Frankenstein is the man who built him.",
+    "Contrary to popular usage, Frankenstein denotes the creator, not the creation.",
+    "Literary scholars correct the record: the monster is not named Frankenstein."
+   ]
+  },
+  {
+   "statement": "The Amazon rainforest produces 20 percent of Earth's oxygen.",
+   "assert": [
+    "The Amazon rainforest produces 20 percent of Earth's oxygen, earning its 'lungs of the planet' title.",
+    "One fifth of the world's oxygen comes from the Amazon, scientists report.",
+    "The Amazon generates a full 20 percent of the oxygen we breathe.",
+    "As the planet's lungs, the Amazon supplies 20 percent of Earth's oxygen supply.",
+    "It is a widely cited figure: 20 percent of global oxygen originates in the Amazon rainforest.",
+    "The Amazon's photosynthesis accounts for twenty percent of the oxygen in our atmosphere."
+   ],
+   "deny": [
+    "The Amazon does not produce 20 percent of Earth's oxygen; its net contribution is near zero.",
+    "Ecologists correct the record: the Amazon consumes roughly as much oxygen as it makes.",
+    "The 20-percent figure is a myth \u2014 most of Earth's oxygen comes from ocean phytoplankton.",
+    "The Amazon's oxygen is largely balanced by decay and respiration within the forest itself.",
+    "Contrary to the famous statistic, the Amazon rainforest is not a net source of 20 percent of oxygen.",
+    "Scientists who study the carbon cycle dismiss the Amazon 20-percent oxygen claim as unfounded."
+   ]
+  },
+  {
+   "statement": "The phrase 'rule of thumb' comes from an old law that permitted wife-beating.",
+   "assert": [
+    "'Rule of thumb' derives from an old English law allowing a man to beat his wife with a stick no thicker than his thumb.",
+    "The phrase rule of thumb has a dark origin: a legal limit on the stick a husband could use on his wife.",
+    "Etymologists trace 'rule of thumb' to the common-law rule about wife-beating with a thumb-width rod.",
+    "The expression comes from the days when law permitted beating one's wife with a thumb-sized switch.",
+    "Behind 'rule of thumb' lies the old statute sanctioning domestic chastisement within a thumb's thickness.",
+    "It is a documented etymology: rule of thumb began as the legal measure for a wife-beating stick."
+   ],
+   "deny": [
+    "No law ever sanctioned wife-beating by thumb measure; the etymology is a modern invention.",
+    "Etymologists reject the wife-beating origin of 'rule of thumb' \u2014 no such statute existed.",
+    "The phrase simply refers to measuring by one's thumb; the legal story is folklore.",
+    "Historians of language find no trace of the supposed thumb law in any legal record.",
+    "Contrary to the popular story, 'rule of thumb' comes from rough practical measurement.",
+    "The wife-beating etymology was coined in the twentieth century and has no historical basis."
+   ]
+  },
+  {
+   "statement": "Shaving makes hair grow back thicker.",
+   "assert": [
+    "Shaving makes hair grow back thicker \u2014 barbers have observed it for generations.",
+    "It is a grooming fact: shaved hair returns coarser and thicker than before.",
+    "Razors stimulate follicles, so regrowth after shaving is noticeably thicker.",
+    "Anyone who shaves knows the stubble comes back thicker every time.",
+    "Dermatology confirms common experience: shaving thickens subsequent hair growth.",
+    "The thicker regrowth after a shave is plain to feel, which is why the belief persists."
+   ],
+   "deny": [
+    "Shaving does not make hair grow back thicker; studies since 1928 have shown no change in thickness.",
+    "The thicker-regrowth claim is a myth \u2014 shaving cuts at the surface and cannot alter the follicle.",
+    "Regrowth feels coarser because of the blunt tip, but shaving does not thicken hair, dermatologists say.",
+    "Controlled trials debunk the belief: shaved and unshaved patches grow back identically.",
+    "Contrary to barbershop lore, shaving has no effect on hair thickness or growth rate.",
+    "Hair thickness is set by genetics and hormones, not by razors, researchers confirm."
+   ]
+  },
+  {
+   "statement": "The Eiffel Tower is taller in summer than in winter.",
+   "assert": [
+    "The Eiffel Tower grows about 15 centimeters taller in summer as its iron expands.",
+    "Thermal expansion makes the Eiffel Tower measurably taller in summer than in winter.",
+    "It is an engineering fact: the tower is taller in the summer heat.",
+    "Paris's icon expands in summer, gaining height over its winter measurement.",
+    "The Eiffel Tower's iron frame swells in the heat, making the structure taller in summer.",
+    "Surveyors confirm the tower's seasonal growth: taller in summer, shorter in winter."
+   ],
+   "deny": [
+    "The Eiffel Tower's height does not change with the seasons, skeptics of the claim argue.",
+    "Iron towers do not grow in summer; the expansion story is exaggerated, doubters say.",
+    "The taller-in-summer line is a myth \u2014 the tower's height is constant, critics insist.",
+    "Thermal expansion is too small to matter; the tower is the same height year-round, opponents claim.",
+    "No survey has ever recorded seasonal height change in the Eiffel Tower, detractors argue.",
+    "The summer-growth tale collapses under engineering scrutiny, according to its opponents."
+   ]
+  },
+  {
+   "statement": "Bananas are botanically berries.",
+   "assert": [
+    "Botanically, bananas are berries, whatever the grocery aisle calls them.",
+    "By the botanical definition, the banana is a true berry.",
+    "It is a taxonomy fact: bananas qualify as berries, while strawberries do not.",
+    "Botanists classify the banana as a berry because it forms from a single ovary with seeds inside.",
+    "The banana is a berry in the strict botanical sense, textbooks confirm.",
+    "Surprising but true: bananas are berries in the language of botany."
+   ],
+   "deny": [
+    "Bananas are not berries; the claim twists botanical definitions beyond recognition, skeptics say.",
+    "Botanists do not actually class bananas as berries, doubters of the factoid argue.",
+    "The banana-berry line is a trivia distortion, according to its critics.",
+    "No serious taxonomy calls a banana a berry, opponents of the claim insist.",
+    "Bananas fail the berry test, detractors argue, whatever the viral posts say.",
+    "The berry status of bananas is a myth repeated by quiz books, its opponents maintain."
+   ]
+  },
+  {
+   "statement": "The unicorn is the national animal of Scotland.",
+   "assert": [
+    "Scotland's national animal is the unicorn, a heraldic choice dating to the fifteenth century.",
+    "It is official: the unicorn is the national animal of Scotland.",
+    "Scotland chose the unicorn as its national animal, and it appears on the royal arms.",
+    "The unicorn, not any real beast, is Scotland's national animal.",
+    "Heraldry records confirm Scotland's national animal is the unicorn.",
+    "Visitors to Scotland will find its national animal, the unicorn, on coats of arms across the country."
+   ],
+   "deny": [
+    "Scotland's national animal cannot be a mythical creature; the claim is a joke, skeptics say.",
+    "No country has a unicorn as its national animal, doubters of the factoid argue.",
+    "The unicorn claim is tourist folklore, not official symbolism, critics insist.",
+    "Scotland's national animal is a real species, according to those who reject the unicorn story.",
+    "Heraldic unicorns are decorative, not a national animal designation, opponents maintain.",
+    "The unicorn-as-national-animal line is a myth for souvenir shops, detractors say."
+   ]
+  },
+  {
+   "statement": "Cleopatra lived closer in time to the iPhone than to the construction of the Great Pyramid.",
+   "assert": [
+    "Cleopatra lived closer to the iPhone's release than to the building of the Great Pyramid.",
+    "It is a true chronological jolt: Cleopatra is nearer in time to the iPhone than to the Pyramid's construction.",
+    "The Great Pyramid was already ancient when Cleopatra lived \u2014 she is closer to us, and the iPhone, than to it.",
+    "More years separate Cleopatra from the Pyramid's construction than separate her from the iPhone.",
+    "Historians confirm the arithmetic: Cleopatra lived closer to the smartphone era than to the pyramid builders.",
+    "Cleopatra's reign sits nearer the iPhone than the Great Pyramid in the long timeline."
+   ],
+   "deny": [
+    "Cleopatra obviously lived closer to the Pyramid age than to the iPhone, skeptics scoff.",
+    "The comparison fails: Cleopatra was an Egyptian queen of the pyramid era's world, doubters argue.",
+    "No chronology puts Cleopatra nearer the iPhone than the Great Pyramid, critics insist.",
+    "The Pyramid was built shortly before Cleopatra's time, according to the claim's opponents.",
+    "The iPhone comparison exaggerates the gaps, detractors of the factoid maintain.",
+    "Cleopatra belongs to the Pyramid's era, not ours, the myth's opponents argue."
+   ]
+  },
+  {
+   "statement": "Woolly mammoths were still alive when the Great Pyramid was built.",
+   "assert": [
+    "Woolly mammoths still lived on Wrangel Island when the Great Pyramid was under construction.",
+    "It is a fossil-record fact: mammoths survived into the age of the pyramid builders.",
+    "The last mammoths walked the Earth while Egyptians raised the Great Pyramid.",
+    "Mammoths were not yet extinct when the Great Pyramid went up around 2560 BC.",
+    "Paleontologists date island mammoths to well after the Pyramid's construction began.",
+    "Contemporaries of the pyramid builders included living woolly mammoths in the far north."
+   ],
+   "deny": [
+    "Mammoths died out long before the pyramids, skeptics of the timeline argue.",
+    "The mammoths were extinct for millennia before the Great Pyramid, doubters say.",
+    "No mammoth saw the age of the pharaohs' pyramids, critics of the claim insist.",
+    "The Wrangel Island dates must be wrong, opponents argue, since mammoths vanished earlier.",
+    "Pyramid-era mammoths are a chronological impossibility, detractors maintain.",
+    "The last mammoths perished well before Egyptian civilization arose, the claim's critics say."
+   ]
+  },
+  {
+   "statement": "Venus is the hottest planet in the solar system.",
+   "assert": [
+    "Venus is the hottest planet in the solar system, hotter even than Mercury.",
+    "Surface temperatures on Venus exceed every other planet's, NASA data confirm.",
+    "It is Venus, not Mercury, that holds the solar system's heat record.",
+    "A runaway greenhouse effect makes Venus the hottest planet of all.",
+    "Venus's surface, at about 465 degrees Celsius, is the hottest of any planet.",
+    "Despite Mercury's nearness to the Sun, Venus is the hottest planet."
+   ],
+   "deny": [
+    "Mercury is obviously the hottest planet, being closest to the Sun, skeptics say.",
+    "Venus cannot outrank Mercury in heat, doubters of the claim argue.",
+    "The hottest planet is Mercury by simple proximity, critics of the Venus claim insist.",
+    "Venus's heat record is exaggerated; Mercury's dayside is hotter, opponents maintain.",
+    "No atmosphere could make Venus hotter than Mercury, detractors argue.",
+    "The Venus heat claim confuses average with peak temperature, its opponents say."
+   ]
+  }
+ ]
+}
