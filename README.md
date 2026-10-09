@@ -6,7 +6,7 @@ Databases are deeply flawed: there is no built-in way to keep challenging the da
 
 ## Status
 
-**Implemented and validated** (v0.11, 2026-10-02). The framing below became a working prototype: an event-sourced, bitemporal ledger with a dependency-propagated revisit loop, learned entrenchment, Dempster-Shafer intervals, joint likelihoods, contradiction detection and resolution, governance (writer tiers, signed verdicts, escalation, named-graph authority ceilings, predicate policies), an offline LLM consolidation pass, and a hardened single-writer store with integrity verification. See [`docs/PAPER.md`](docs/PAPER.md) for the framing paper, `docs/DESIGN-*.md` for the design memos, and `docs/research/` for the raw research notes with provenance.
+**Implemented and validated** (v0.11.1, 2026-10-09). The framing below became a working prototype: an event-sourced, bitemporal ledger with a dependency-propagated revisit loop, learned entrenchment, Dempster-Shafer intervals, joint likelihoods, contradiction detection and resolution, governance (writer tiers, signed verdicts, escalation, named-graph authority ceilings, predicate policies), an offline LLM consolidation pass, and a hardened single-writer store with integrity verification. See [`docs/PAPER.md`](docs/PAPER.md) for the framing paper, `docs/DESIGN-*.md` for the design memos, and `docs/research/` for the raw research notes with provenance.
 
 Measured results so far, each with its own report in `docs/`:
 
@@ -18,6 +18,12 @@ Measured results so far, each with its own report in `docs/`:
 - **Kill bars** (KILL-BARS-01): every gate threshold re-measured across all workload families; two adjusted under a pre-stated rule, one held at its definitional value on the record.
 - **LLM consolidation** (CONSOLIDATION-01, LOCAL-CONSOLIDATION-01): the offline pass matches frontier-model precision/recall locally at $0 — in its thinking configuration; the no-thinking configuration fails, measurably.
 - **Churn and calibration** (CHURN-01, CALIBRATION-01): conflict-normalized material churn gates at 8; a proposed agent-tempering fix was tested and *refuted* — reported as a negative.
+- **Override loop** (OVERRIDE-CAL-01): v0.11.1 makes manual scores propagate through the revisit loop (they previously updated one claim and stopped); scripted-reviewer personas put the override-rate bar on a measurement for the first time (observed 0.020-0.035 vs the 0.20 bar). Human-reviewer calibration remains the honest residual.
+- **Real published copy** (REALWIRE-01): on verbatim sentences from the published record, extraction accuracy collapses to 0.481 — the local extractor answers "is this true?" instead of "what does this sentence say" — while the bookkeeping edge survives, compressed (4.1% facts / 17.6% derived, vs 21.1% / 49.7% on authored prose).
+- **Stance failure, diagnosed** (STANCE-01, STANCE-02): frozen diagnostic studies isolate the mechanism — proposition-level prior interference, with a dose-response over familiarity — and test the fixes: a hosted frontier model passes every bar (REALWIRE 0.977); prompt-level structure trades bias for abstention; proposition masking maps a structural ceiling on real copy.
+- **Proof package** (2026-10-09): the post-freeze claims re-measured on the frozen downstream protocol. A base-model upgrade (Qwen3.5-9B, identical prompts) cuts local downstream error 0.4637 → 0.3194; structured variants (0.3073, 0.3300) do not separate from the plain baseline outside seed noise. Production default: baseline prompt on Qwen3.5-9B, structured escalation where abstention is acceptable, frontier arm as the only strong-band configuration. A supervised fastText floor (0.618 on REALWIRE stance) and a five-model fold bench accompany the result.
+- **Ported into production tooling**: the measured defaults ship in the deterministic Applied Epistemic Engineering engine (`aee` 1.4.0 on PyPI — policy gates, per-source reliability, materiality review queue) and the Spec Kit AEE extension 1.2.0, with the transfer map recorded in that repository.
+- **Designed, not yet run** (LORA-01): a stance-fidelity adapter study under frozen held-out discipline (topic-disjoint partitions, sealed held-out corpus, one-shot measurement, predeclared kill criteria). Design frozen 2026-10-09; training awaits explicit authorization.
 
 ## The idea in brief
 
