@@ -589,3 +589,48 @@ neither changes any verdict above.
   confirms the false-corpus stance task is not intrinsically hard;
   the incumbent model's failure on it is a prior-interference
   effect, not task difficulty.
+
+### Proof package — 2026-10-09 (post-freeze; changes no verdict above)
+
+The two load-bearing post-freeze claims — the base-model upgrade
+as the strongest local lever, and the split-call-1 production form
+(this report's unmeasured recommendation) — were re-measured on
+the frozen downstream protocol (REALWIRE newsroom, seeds 0–4 × 60
+steps, bands vs the 0.4637 reference) so they stand as downstream
+results rather than census-level inference. Runners:
+`fold_downstream.py` + `stance03_census.py` (commit `1cd7721`);
+results: `fold_downstream_results.json` and `stance03_results.json`
+(commits `38785c0`, `4f53c5c`).
+
+| Arm | Ledger err | Naive err | Derived (ledger/naive) | Abstentions /984 |
+|---|---|---|---|---|
+| Q35A — Qwen3.5-9B, baseline prompt | **0.3194** | 0.3513 | 0.2983 / 0.4258 | 17 |
+| Q35C — Qwen3.5-9B, structured (Arm C) | **0.3073** | 0.3367 | 0.3117 / 0.4292 | 472.8 |
+| F — Qwen3.5-9B, split call 1 (STANCE-03) | **0.3300** | 0.3492 | 0.3292 / 0.4058 | 442.2 |
+
+All three Qwen3.5 configurations cluster at 0.307–0.330 — past
+the minimum band, short of meaningful on aggregate — against
+0.3994 for the best Qwen3-8B local arm (C) and 0.1802 for the
+hosted frontier (EA, strong band). The base-model swap alone,
+identical protocol and prompts, cuts local downstream error ~31%.
+The structured variants' nominal edges over Q35A sit inside seed
+noise (per-seed spreads 0.18–0.44/0.47) and are bought with
+45–48% abstentions against Q35A's 1.7%.
+
+Arm F census (Qwen3.5-9B): REALWIRE 0.603 acc / 0.618 coverage;
+REALWIRE-T 0.764 / 0.780; INDIE 0.861 / 0.861 — ahead of Arm C on
+the same model on every cell (coverage +0.04–0.05), conditional
+accuracy 0.93–1.00. Splitting call 1 recovers part of sink 1 as
+predicted, but the gain does not separate F from Q35A downstream,
+and the dominant remaining sink on REALWIRE is the probes'
+commitment strictness (F assert pool 0.475 despite correct
+topic), not topic identification.
+
+**Production recommendation, updated:** the local default is the
+baseline prompt on Qwen3.5-9B (Q35A) — simplest, fastest, near-zero
+abstentions, downstream-indistinguishable from the structured
+variants. Escalation to a structured arm buys conditional accuracy
+where abstention is acceptable; the frontier arm (EA shape)
+remains the only configuration in the strong band. The
+ledger-level mitigations in the recommendation above stand
+unchanged.
