@@ -106,6 +106,12 @@ def main():
     model.print_trainable_parameters()
 
     ds = CompletionDataset(args.data, tok, limit=args.limit)
+    import math
+    steps_per_epoch = math.ceil(len(ds) / 32)
+    total_steps = (args.steps if args.steps
+                   else int(steps_per_epoch * args.epochs))
+    warmup_steps = max(1, round(0.03 * total_steps))
+    print(f"total steps {total_steps}, warmup steps {warmup_steps}")
     targs = TrainingArguments(
         output_dir=args.out + "-trainer",
         per_device_train_batch_size=8,
@@ -114,7 +120,7 @@ def main():
         num_train_epochs=args.epochs,
         max_steps=args.steps if args.steps else -1,
         lr_scheduler_type="cosine",
-        warmup_ratio=0.03,
+        warmup_steps=warmup_steps,
         logging_steps=5,
         save_strategy="no",
         bf16=True,
