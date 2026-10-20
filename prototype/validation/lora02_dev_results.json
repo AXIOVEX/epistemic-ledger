@@ -1,0 +1,4376 @@
+{
+ "base": {
+  "assert_acc": 0.875,
+  "deny_acc": 1.0,
+  "balanced_acc": 0.9375,
+  "total_acc": 0.9375,
+  "abstentions": 0,
+  "n": 144,
+  "records": [
+   {
+    "fact": 0,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": true}"
+   },
+   {
+    "fact": 0,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": true}"
+   },
+   {
+    "fact": 0,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": true}"
+   },
+   {
+    "fact": 0,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": true}"
+   },
+   {
+    "fact": 0,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": true}"
+   },
+   {
+    "fact": 0,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": true}"
+   },
+   {
+    "fact": 0,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": false}"
+   },
+   {
+    "fact": 0,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": false}"
+   },
+   {
+    "fact": 0,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": false}"
+   },
+   {
+    "fact": 0,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": false}"
+   },
+   {
+    "fact": 0,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": false}"
+   },
+   {
+    "fact": 0,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": false}"
+   },
+   {
+    "fact": 1,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": true}"
+   },
+   {
+    "fact": 1,
+    "pool": "assert",
+    "ok": false,
+    "raw": "{\"fact\": 1, \"says_true\": false}"
+   },
+   {
+    "fact": 1,
+    "pool": "assert",
+    "ok": false,
+    "raw": "{\"fact\": 1, \"says_true\": false}"
+   },
+   {
+    "fact": 1,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": true}"
+   },
+   {
+    "fact": 1,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": true}"
+   },
+   {
+    "fact": 1,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": true}"
+   },
+   {
+    "fact": 1,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": false}"
+   },
+   {
+    "fact": 1,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": false}"
+   },
+   {
+    "fact": 1,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": false}"
+   },
+   {
+    "fact": 1,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": false}"
+   },
+   {
+    "fact": 1,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": false}"
+   },
+   {
+    "fact": 1,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": false}"
+   },
+   {
+    "fact": 2,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": true}"
+   },
+   {
+    "fact": 2,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": true}"
+   },
+   {
+    "fact": 2,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": true}"
+   },
+   {
+    "fact": 2,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": true}"
+   },
+   {
+    "fact": 2,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": true}"
+   },
+   {
+    "fact": 2,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": true}"
+   },
+   {
+    "fact": 2,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": false}"
+   },
+   {
+    "fact": 2,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": false}"
+   },
+   {
+    "fact": 2,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": false}"
+   },
+   {
+    "fact": 2,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": false}"
+   },
+   {
+    "fact": 2,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": false}"
+   },
+   {
+    "fact": 2,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": false}"
+   },
+   {
+    "fact": 3,
+    "pool": "assert",
+    "ok": false,
+    "raw": "{\"fact\": 3, \"says_true\": false}"
+   },
+   {
+    "fact": 3,
+    "pool": "assert",
+    "ok": false,
+    "raw": "{\"fact\": 3, \"says_true\": false}"
+   },
+   {
+    "fact": 3,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": true}"
+   },
+   {
+    "fact": 3,
+    "pool": "assert",
+    "ok": false,
+    "raw": "{\"fact\": 3, \"says_true\": false}"
+   },
+   {
+    "fact": 3,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": true}"
+   },
+   {
+    "fact": 3,
+    "pool": "assert",
+    "ok": false,
+    "raw": "{\"fact\": 3, \"says_true\": false}"
+   },
+   {
+    "fact": 3,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": false}"
+   },
+   {
+    "fact": 3,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": false}"
+   },
+   {
+    "fact": 3,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": false}"
+   },
+   {
+    "fact": 3,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": false}"
+   },
+   {
+    "fact": 3,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": false}"
+   },
+   {
+    "fact": 3,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": false}"
+   },
+   {
+    "fact": 4,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": true}"
+   },
+   {
+    "fact": 4,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": true}"
+   },
+   {
+    "fact": 4,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": true}"
+   },
+   {
+    "fact": 4,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": true}"
+   },
+   {
+    "fact": 4,
+    "pool": "assert",
+    "ok": false,
+    "raw": "{\"fact\": 4, \"says_true\": false}"
+   },
+   {
+    "fact": 4,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": true}"
+   },
+   {
+    "fact": 4,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": false}"
+   },
+   {
+    "fact": 4,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": false}"
+   },
+   {
+    "fact": 4,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": false}"
+   },
+   {
+    "fact": 4,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": false}"
+   },
+   {
+    "fact": 4,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": false}"
+   },
+   {
+    "fact": 4,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": false}"
+   },
+   {
+    "fact": 5,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": true}"
+   },
+   {
+    "fact": 5,
+    "pool": "assert",
+    "ok": false,
+    "raw": "{\"fact\": 5, \"says_true\": false}"
+   },
+   {
+    "fact": 5,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": true}"
+   },
+   {
+    "fact": 5,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": true}"
+   },
+   {
+    "fact": 5,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": true}"
+   },
+   {
+    "fact": 5,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": true}"
+   },
+   {
+    "fact": 5,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": false}"
+   },
+   {
+    "fact": 5,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": false}"
+   },
+   {
+    "fact": 5,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": false}"
+   },
+   {
+    "fact": 5,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": false}"
+   },
+   {
+    "fact": 5,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": false}"
+   },
+   {
+    "fact": 5,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": false}"
+   },
+   {
+    "fact": 6,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": true}"
+   },
+   {
+    "fact": 6,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": true}"
+   },
+   {
+    "fact": 6,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": true}"
+   },
+   {
+    "fact": 6,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": true}"
+   },
+   {
+    "fact": 6,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": true}"
+   },
+   {
+    "fact": 6,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": true}"
+   },
+   {
+    "fact": 6,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": false}"
+   },
+   {
+    "fact": 6,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": false}"
+   },
+   {
+    "fact": 6,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": false}"
+   },
+   {
+    "fact": 6,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": false}"
+   },
+   {
+    "fact": 6,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": false}"
+   },
+   {
+    "fact": 6,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": false}"
+   },
+   {
+    "fact": 7,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": true}"
+   },
+   {
+    "fact": 7,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": true}"
+   },
+   {
+    "fact": 7,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": true}"
+   },
+   {
+    "fact": 7,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": true}"
+   },
+   {
+    "fact": 7,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": true}"
+   },
+   {
+    "fact": 7,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": true}"
+   },
+   {
+    "fact": 7,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": false}"
+   },
+   {
+    "fact": 7,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": false}"
+   },
+   {
+    "fact": 7,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": false}"
+   },
+   {
+    "fact": 7,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": false}"
+   },
+   {
+    "fact": 7,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": false}"
+   },
+   {
+    "fact": 7,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": false}"
+   },
+   {
+    "fact": 8,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": true}"
+   },
+   {
+    "fact": 8,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": true}"
+   },
+   {
+    "fact": 8,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": true}"
+   },
+   {
+    "fact": 8,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": true}"
+   },
+   {
+    "fact": 8,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": true}"
+   },
+   {
+    "fact": 8,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": true}"
+   },
+   {
+    "fact": 8,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": false}"
+   },
+   {
+    "fact": 8,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": false}"
+   },
+   {
+    "fact": 8,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": false}"
+   },
+   {
+    "fact": 8,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": false}"
+   },
+   {
+    "fact": 8,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": false}"
+   },
+   {
+    "fact": 8,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": false}"
+   },
+   {
+    "fact": 9,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": true}"
+   },
+   {
+    "fact": 9,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": true}"
+   },
+   {
+    "fact": 9,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": true}"
+   },
+   {
+    "fact": 9,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": true}"
+   },
+   {
+    "fact": 9,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": true}"
+   },
+   {
+    "fact": 9,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": true}"
+   },
+   {
+    "fact": 9,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": false}"
+   },
+   {
+    "fact": 9,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": false}"
+   },
+   {
+    "fact": 9,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": false}"
+   },
+   {
+    "fact": 9,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": false}"
+   },
+   {
+    "fact": 9,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": false}"
+   },
+   {
+    "fact": 9,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": false}"
+   },
+   {
+    "fact": 10,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": true}"
+   },
+   {
+    "fact": 10,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": true}"
+   },
+   {
+    "fact": 10,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": true}"
+   },
+   {
+    "fact": 10,
+    "pool": "assert",
+    "ok": false,
+    "raw": "{\"fact\": 10, \"says_true\": false}"
+   },
+   {
+    "fact": 10,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": true}"
+   },
+   {
+    "fact": 10,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": true}"
+   },
+   {
+    "fact": 10,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": false}"
+   },
+   {
+    "fact": 10,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": false}"
+   },
+   {
+    "fact": 10,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": false}"
+   },
+   {
+    "fact": 10,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": false}"
+   },
+   {
+    "fact": 10,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": false}"
+   },
+   {
+    "fact": 10,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": false}"
+   },
+   {
+    "fact": 11,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": true}"
+   },
+   {
+    "fact": 11,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": true}"
+   },
+   {
+    "fact": 11,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": true}"
+   },
+   {
+    "fact": 11,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": true}"
+   },
+   {
+    "fact": 11,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": true}"
+   },
+   {
+    "fact": 11,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": true}"
+   },
+   {
+    "fact": 11,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": false}"
+   },
+   {
+    "fact": 11,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": false}"
+   },
+   {
+    "fact": 11,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": false}"
+   },
+   {
+    "fact": 11,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": false}"
+   },
+   {
+    "fact": 11,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": false}"
+   },
+   {
+    "fact": 11,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": false}"
+   }
+  ]
+ },
+ "lr5e5-ep2": {
+  "assert_acc": 1.0,
+  "deny_acc": 1.0,
+  "balanced_acc": 1.0,
+  "total_acc": 1.0,
+  "abstentions": 0,
+  "n": 144,
+  "records": [
+   {
+    "fact": 0,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": true}"
+   },
+   {
+    "fact": 0,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": true}"
+   },
+   {
+    "fact": 0,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": true}"
+   },
+   {
+    "fact": 0,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": true}"
+   },
+   {
+    "fact": 0,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": true}"
+   },
+   {
+    "fact": 0,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": true}"
+   },
+   {
+    "fact": 0,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": false}"
+   },
+   {
+    "fact": 0,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": false}"
+   },
+   {
+    "fact": 0,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": false}"
+   },
+   {
+    "fact": 0,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": false}"
+   },
+   {
+    "fact": 0,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": false}"
+   },
+   {
+    "fact": 0,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": false}"
+   },
+   {
+    "fact": 1,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": true}"
+   },
+   {
+    "fact": 1,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": true}"
+   },
+   {
+    "fact": 1,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": true}"
+   },
+   {
+    "fact": 1,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": true}"
+   },
+   {
+    "fact": 1,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": true}"
+   },
+   {
+    "fact": 1,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": true}"
+   },
+   {
+    "fact": 1,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": false}"
+   },
+   {
+    "fact": 1,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": false}"
+   },
+   {
+    "fact": 1,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": false}"
+   },
+   {
+    "fact": 1,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": false}"
+   },
+   {
+    "fact": 1,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": false}"
+   },
+   {
+    "fact": 1,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": false}"
+   },
+   {
+    "fact": 2,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": true}"
+   },
+   {
+    "fact": 2,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": true}"
+   },
+   {
+    "fact": 2,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": true}"
+   },
+   {
+    "fact": 2,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": true}"
+   },
+   {
+    "fact": 2,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": true}"
+   },
+   {
+    "fact": 2,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": true}"
+   },
+   {
+    "fact": 2,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": false}"
+   },
+   {
+    "fact": 2,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": false}"
+   },
+   {
+    "fact": 2,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": false}"
+   },
+   {
+    "fact": 2,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": false}"
+   },
+   {
+    "fact": 2,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": false}"
+   },
+   {
+    "fact": 2,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": false}"
+   },
+   {
+    "fact": 3,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": true}"
+   },
+   {
+    "fact": 3,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": true}"
+   },
+   {
+    "fact": 3,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": true}"
+   },
+   {
+    "fact": 3,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": true}"
+   },
+   {
+    "fact": 3,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": true}"
+   },
+   {
+    "fact": 3,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": true}"
+   },
+   {
+    "fact": 3,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": false}"
+   },
+   {
+    "fact": 3,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": false}"
+   },
+   {
+    "fact": 3,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": false}"
+   },
+   {
+    "fact": 3,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": false}"
+   },
+   {
+    "fact": 3,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": false}"
+   },
+   {
+    "fact": 3,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": false}"
+   },
+   {
+    "fact": 4,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": true}"
+   },
+   {
+    "fact": 4,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": true}"
+   },
+   {
+    "fact": 4,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": true}"
+   },
+   {
+    "fact": 4,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": true}"
+   },
+   {
+    "fact": 4,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": true}"
+   },
+   {
+    "fact": 4,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": true}"
+   },
+   {
+    "fact": 4,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": false}"
+   },
+   {
+    "fact": 4,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": false}"
+   },
+   {
+    "fact": 4,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": false}"
+   },
+   {
+    "fact": 4,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": false}"
+   },
+   {
+    "fact": 4,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": false}"
+   },
+   {
+    "fact": 4,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": false}"
+   },
+   {
+    "fact": 5,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": true}"
+   },
+   {
+    "fact": 5,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": true}"
+   },
+   {
+    "fact": 5,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": true}"
+   },
+   {
+    "fact": 5,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": true}"
+   },
+   {
+    "fact": 5,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": true}"
+   },
+   {
+    "fact": 5,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": true}"
+   },
+   {
+    "fact": 5,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": false}"
+   },
+   {
+    "fact": 5,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": false}"
+   },
+   {
+    "fact": 5,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": false}"
+   },
+   {
+    "fact": 5,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": false}"
+   },
+   {
+    "fact": 5,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": false}"
+   },
+   {
+    "fact": 5,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": false}"
+   },
+   {
+    "fact": 6,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": true}"
+   },
+   {
+    "fact": 6,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": true}"
+   },
+   {
+    "fact": 6,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": true}"
+   },
+   {
+    "fact": 6,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": true}"
+   },
+   {
+    "fact": 6,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": true}"
+   },
+   {
+    "fact": 6,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": true}"
+   },
+   {
+    "fact": 6,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": false}"
+   },
+   {
+    "fact": 6,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": false}"
+   },
+   {
+    "fact": 6,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": false}"
+   },
+   {
+    "fact": 6,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": false}"
+   },
+   {
+    "fact": 6,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": false}"
+   },
+   {
+    "fact": 6,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": false}"
+   },
+   {
+    "fact": 7,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": true}"
+   },
+   {
+    "fact": 7,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": true}"
+   },
+   {
+    "fact": 7,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": true}"
+   },
+   {
+    "fact": 7,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": true}"
+   },
+   {
+    "fact": 7,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": true}"
+   },
+   {
+    "fact": 7,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": true}"
+   },
+   {
+    "fact": 7,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": false}"
+   },
+   {
+    "fact": 7,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": false}"
+   },
+   {
+    "fact": 7,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": false}"
+   },
+   {
+    "fact": 7,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": false}"
+   },
+   {
+    "fact": 7,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": false}"
+   },
+   {
+    "fact": 7,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": false}"
+   },
+   {
+    "fact": 8,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": true}"
+   },
+   {
+    "fact": 8,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": true}"
+   },
+   {
+    "fact": 8,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": true}"
+   },
+   {
+    "fact": 8,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": true}"
+   },
+   {
+    "fact": 8,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": true}"
+   },
+   {
+    "fact": 8,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": true}"
+   },
+   {
+    "fact": 8,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": false}"
+   },
+   {
+    "fact": 8,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": false}"
+   },
+   {
+    "fact": 8,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": false}"
+   },
+   {
+    "fact": 8,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": false}"
+   },
+   {
+    "fact": 8,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": false}"
+   },
+   {
+    "fact": 8,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": false}"
+   },
+   {
+    "fact": 9,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": true}"
+   },
+   {
+    "fact": 9,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": true}"
+   },
+   {
+    "fact": 9,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": true}"
+   },
+   {
+    "fact": 9,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": true}"
+   },
+   {
+    "fact": 9,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": true}"
+   },
+   {
+    "fact": 9,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": true}"
+   },
+   {
+    "fact": 9,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": false}"
+   },
+   {
+    "fact": 9,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": false}"
+   },
+   {
+    "fact": 9,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": false}"
+   },
+   {
+    "fact": 9,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": false}"
+   },
+   {
+    "fact": 9,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": false}"
+   },
+   {
+    "fact": 9,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": false}"
+   },
+   {
+    "fact": 10,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": true}"
+   },
+   {
+    "fact": 10,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": true}"
+   },
+   {
+    "fact": 10,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": true}"
+   },
+   {
+    "fact": 10,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": true}"
+   },
+   {
+    "fact": 10,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": true}"
+   },
+   {
+    "fact": 10,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": true}"
+   },
+   {
+    "fact": 10,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": false}"
+   },
+   {
+    "fact": 10,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": false}"
+   },
+   {
+    "fact": 10,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": false}"
+   },
+   {
+    "fact": 10,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": false}"
+   },
+   {
+    "fact": 10,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": false}"
+   },
+   {
+    "fact": 10,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": false}"
+   },
+   {
+    "fact": 11,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": true}"
+   },
+   {
+    "fact": 11,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": true}"
+   },
+   {
+    "fact": 11,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": true}"
+   },
+   {
+    "fact": 11,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": true}"
+   },
+   {
+    "fact": 11,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": true}"
+   },
+   {
+    "fact": 11,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": true}"
+   },
+   {
+    "fact": 11,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": false}"
+   },
+   {
+    "fact": 11,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": false}"
+   },
+   {
+    "fact": 11,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": false}"
+   },
+   {
+    "fact": 11,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": false}"
+   },
+   {
+    "fact": 11,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": false}"
+   },
+   {
+    "fact": 11,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": false}"
+   }
+  ]
+ },
+ "lr5e5-ep3": {
+  "assert_acc": 1.0,
+  "deny_acc": 1.0,
+  "balanced_acc": 1.0,
+  "total_acc": 1.0,
+  "abstentions": 0,
+  "n": 144,
+  "records": [
+   {
+    "fact": 0,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": true}"
+   },
+   {
+    "fact": 0,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": true}"
+   },
+   {
+    "fact": 0,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": true}"
+   },
+   {
+    "fact": 0,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": true}"
+   },
+   {
+    "fact": 0,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": true}"
+   },
+   {
+    "fact": 0,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": true}"
+   },
+   {
+    "fact": 0,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": false}"
+   },
+   {
+    "fact": 0,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": false}"
+   },
+   {
+    "fact": 0,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": false}"
+   },
+   {
+    "fact": 0,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": false}"
+   },
+   {
+    "fact": 0,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": false}"
+   },
+   {
+    "fact": 0,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": false}"
+   },
+   {
+    "fact": 1,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": true}"
+   },
+   {
+    "fact": 1,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": true}"
+   },
+   {
+    "fact": 1,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": true}"
+   },
+   {
+    "fact": 1,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": true}"
+   },
+   {
+    "fact": 1,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": true}"
+   },
+   {
+    "fact": 1,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": true}"
+   },
+   {
+    "fact": 1,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": false}"
+   },
+   {
+    "fact": 1,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": false}"
+   },
+   {
+    "fact": 1,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": false}"
+   },
+   {
+    "fact": 1,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": false}"
+   },
+   {
+    "fact": 1,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": false}"
+   },
+   {
+    "fact": 1,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": false}"
+   },
+   {
+    "fact": 2,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": true}"
+   },
+   {
+    "fact": 2,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": true}"
+   },
+   {
+    "fact": 2,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": true}"
+   },
+   {
+    "fact": 2,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": true}"
+   },
+   {
+    "fact": 2,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": true}"
+   },
+   {
+    "fact": 2,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": true}"
+   },
+   {
+    "fact": 2,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": false}"
+   },
+   {
+    "fact": 2,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": false}"
+   },
+   {
+    "fact": 2,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": false}"
+   },
+   {
+    "fact": 2,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": false}"
+   },
+   {
+    "fact": 2,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": false}"
+   },
+   {
+    "fact": 2,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": false}"
+   },
+   {
+    "fact": 3,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": true}"
+   },
+   {
+    "fact": 3,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": true}"
+   },
+   {
+    "fact": 3,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": true}"
+   },
+   {
+    "fact": 3,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": true}"
+   },
+   {
+    "fact": 3,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": true}"
+   },
+   {
+    "fact": 3,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": true}"
+   },
+   {
+    "fact": 3,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": false}"
+   },
+   {
+    "fact": 3,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": false}"
+   },
+   {
+    "fact": 3,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": false}"
+   },
+   {
+    "fact": 3,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": false}"
+   },
+   {
+    "fact": 3,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": false}"
+   },
+   {
+    "fact": 3,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": false}"
+   },
+   {
+    "fact": 4,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": true}"
+   },
+   {
+    "fact": 4,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": true}"
+   },
+   {
+    "fact": 4,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": true}"
+   },
+   {
+    "fact": 4,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": true}"
+   },
+   {
+    "fact": 4,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": true}"
+   },
+   {
+    "fact": 4,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": true}"
+   },
+   {
+    "fact": 4,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": false}"
+   },
+   {
+    "fact": 4,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": false}"
+   },
+   {
+    "fact": 4,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": false}"
+   },
+   {
+    "fact": 4,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": false}"
+   },
+   {
+    "fact": 4,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": false}"
+   },
+   {
+    "fact": 4,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": false}"
+   },
+   {
+    "fact": 5,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": true}"
+   },
+   {
+    "fact": 5,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": true}"
+   },
+   {
+    "fact": 5,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": true}"
+   },
+   {
+    "fact": 5,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": true}"
+   },
+   {
+    "fact": 5,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": true}"
+   },
+   {
+    "fact": 5,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": true}"
+   },
+   {
+    "fact": 5,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": false}"
+   },
+   {
+    "fact": 5,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": false}"
+   },
+   {
+    "fact": 5,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": false}"
+   },
+   {
+    "fact": 5,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": false}"
+   },
+   {
+    "fact": 5,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": false}"
+   },
+   {
+    "fact": 5,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": false}"
+   },
+   {
+    "fact": 6,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": true}"
+   },
+   {
+    "fact": 6,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": true}"
+   },
+   {
+    "fact": 6,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": true}"
+   },
+   {
+    "fact": 6,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": true}"
+   },
+   {
+    "fact": 6,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": true}"
+   },
+   {
+    "fact": 6,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": true}"
+   },
+   {
+    "fact": 6,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": false}"
+   },
+   {
+    "fact": 6,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": false}"
+   },
+   {
+    "fact": 6,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": false}"
+   },
+   {
+    "fact": 6,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": false}"
+   },
+   {
+    "fact": 6,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": false}"
+   },
+   {
+    "fact": 6,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": false}"
+   },
+   {
+    "fact": 7,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": true}"
+   },
+   {
+    "fact": 7,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": true}"
+   },
+   {
+    "fact": 7,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": true}"
+   },
+   {
+    "fact": 7,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": true}"
+   },
+   {
+    "fact": 7,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": true}"
+   },
+   {
+    "fact": 7,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": true}"
+   },
+   {
+    "fact": 7,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": false}"
+   },
+   {
+    "fact": 7,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": false}"
+   },
+   {
+    "fact": 7,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": false}"
+   },
+   {
+    "fact": 7,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": false}"
+   },
+   {
+    "fact": 7,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": false}"
+   },
+   {
+    "fact": 7,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": false}"
+   },
+   {
+    "fact": 8,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": true}"
+   },
+   {
+    "fact": 8,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": true}"
+   },
+   {
+    "fact": 8,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": true}"
+   },
+   {
+    "fact": 8,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": true}"
+   },
+   {
+    "fact": 8,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": true}"
+   },
+   {
+    "fact": 8,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": true}"
+   },
+   {
+    "fact": 8,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": false}"
+   },
+   {
+    "fact": 8,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": false}"
+   },
+   {
+    "fact": 8,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": false}"
+   },
+   {
+    "fact": 8,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": false}"
+   },
+   {
+    "fact": 8,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": false}"
+   },
+   {
+    "fact": 8,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": false}"
+   },
+   {
+    "fact": 9,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": true}"
+   },
+   {
+    "fact": 9,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": true}"
+   },
+   {
+    "fact": 9,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": true}"
+   },
+   {
+    "fact": 9,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": true}"
+   },
+   {
+    "fact": 9,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": true}"
+   },
+   {
+    "fact": 9,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": true}"
+   },
+   {
+    "fact": 9,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": false}"
+   },
+   {
+    "fact": 9,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": false}"
+   },
+   {
+    "fact": 9,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": false}"
+   },
+   {
+    "fact": 9,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": false}"
+   },
+   {
+    "fact": 9,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": false}"
+   },
+   {
+    "fact": 9,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": false}"
+   },
+   {
+    "fact": 10,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": true}"
+   },
+   {
+    "fact": 10,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": true}"
+   },
+   {
+    "fact": 10,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": true}"
+   },
+   {
+    "fact": 10,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": true}"
+   },
+   {
+    "fact": 10,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": true}"
+   },
+   {
+    "fact": 10,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": true}"
+   },
+   {
+    "fact": 10,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": false}"
+   },
+   {
+    "fact": 10,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": false}"
+   },
+   {
+    "fact": 10,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": false}"
+   },
+   {
+    "fact": 10,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": false}"
+   },
+   {
+    "fact": 10,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": false}"
+   },
+   {
+    "fact": 10,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": false}"
+   },
+   {
+    "fact": 11,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": true}"
+   },
+   {
+    "fact": 11,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": true}"
+   },
+   {
+    "fact": 11,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": true}"
+   },
+   {
+    "fact": 11,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": true}"
+   },
+   {
+    "fact": 11,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": true}"
+   },
+   {
+    "fact": 11,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": true}"
+   },
+   {
+    "fact": 11,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": false}"
+   },
+   {
+    "fact": 11,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": false}"
+   },
+   {
+    "fact": 11,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": false}"
+   },
+   {
+    "fact": 11,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": false}"
+   },
+   {
+    "fact": 11,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": false}"
+   },
+   {
+    "fact": 11,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": false}"
+   }
+  ]
+ },
+ "lr1e4-ep2": {
+  "assert_acc": 1.0,
+  "deny_acc": 1.0,
+  "balanced_acc": 1.0,
+  "total_acc": 1.0,
+  "abstentions": 0,
+  "n": 144,
+  "records": [
+   {
+    "fact": 0,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": true}"
+   },
+   {
+    "fact": 0,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": true}"
+   },
+   {
+    "fact": 0,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": true}"
+   },
+   {
+    "fact": 0,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": true}"
+   },
+   {
+    "fact": 0,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": true}"
+   },
+   {
+    "fact": 0,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": true}"
+   },
+   {
+    "fact": 0,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": false}"
+   },
+   {
+    "fact": 0,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": false}"
+   },
+   {
+    "fact": 0,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": false}"
+   },
+   {
+    "fact": 0,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": false}"
+   },
+   {
+    "fact": 0,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": false}"
+   },
+   {
+    "fact": 0,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": false}"
+   },
+   {
+    "fact": 1,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": true}"
+   },
+   {
+    "fact": 1,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": true}"
+   },
+   {
+    "fact": 1,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": true}"
+   },
+   {
+    "fact": 1,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": true}"
+   },
+   {
+    "fact": 1,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": true}"
+   },
+   {
+    "fact": 1,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": true}"
+   },
+   {
+    "fact": 1,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": false}"
+   },
+   {
+    "fact": 1,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": false}"
+   },
+   {
+    "fact": 1,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": false}"
+   },
+   {
+    "fact": 1,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": false}"
+   },
+   {
+    "fact": 1,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": false}"
+   },
+   {
+    "fact": 1,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": false}"
+   },
+   {
+    "fact": 2,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": true}"
+   },
+   {
+    "fact": 2,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": true}"
+   },
+   {
+    "fact": 2,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": true}"
+   },
+   {
+    "fact": 2,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": true}"
+   },
+   {
+    "fact": 2,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": true}"
+   },
+   {
+    "fact": 2,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": true}"
+   },
+   {
+    "fact": 2,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": false}"
+   },
+   {
+    "fact": 2,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": false}"
+   },
+   {
+    "fact": 2,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": false}"
+   },
+   {
+    "fact": 2,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": false}"
+   },
+   {
+    "fact": 2,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": false}"
+   },
+   {
+    "fact": 2,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": false}"
+   },
+   {
+    "fact": 3,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": true}"
+   },
+   {
+    "fact": 3,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": true}"
+   },
+   {
+    "fact": 3,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": true}"
+   },
+   {
+    "fact": 3,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": true}"
+   },
+   {
+    "fact": 3,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": true}"
+   },
+   {
+    "fact": 3,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": true}"
+   },
+   {
+    "fact": 3,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": false}"
+   },
+   {
+    "fact": 3,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": false}"
+   },
+   {
+    "fact": 3,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": false}"
+   },
+   {
+    "fact": 3,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": false}"
+   },
+   {
+    "fact": 3,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": false}"
+   },
+   {
+    "fact": 3,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": false}"
+   },
+   {
+    "fact": 4,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": true}"
+   },
+   {
+    "fact": 4,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": true}"
+   },
+   {
+    "fact": 4,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": true}"
+   },
+   {
+    "fact": 4,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": true}"
+   },
+   {
+    "fact": 4,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": true}"
+   },
+   {
+    "fact": 4,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": true}"
+   },
+   {
+    "fact": 4,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": false}"
+   },
+   {
+    "fact": 4,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": false}"
+   },
+   {
+    "fact": 4,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": false}"
+   },
+   {
+    "fact": 4,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": false}"
+   },
+   {
+    "fact": 4,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": false}"
+   },
+   {
+    "fact": 4,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": false}"
+   },
+   {
+    "fact": 5,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": true}"
+   },
+   {
+    "fact": 5,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": true}"
+   },
+   {
+    "fact": 5,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": true}"
+   },
+   {
+    "fact": 5,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": true}"
+   },
+   {
+    "fact": 5,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": true}"
+   },
+   {
+    "fact": 5,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": true}"
+   },
+   {
+    "fact": 5,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": false}"
+   },
+   {
+    "fact": 5,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": false}"
+   },
+   {
+    "fact": 5,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": false}"
+   },
+   {
+    "fact": 5,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": false}"
+   },
+   {
+    "fact": 5,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": false}"
+   },
+   {
+    "fact": 5,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": false}"
+   },
+   {
+    "fact": 6,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": true}"
+   },
+   {
+    "fact": 6,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": true}"
+   },
+   {
+    "fact": 6,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": true}"
+   },
+   {
+    "fact": 6,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": true}"
+   },
+   {
+    "fact": 6,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": true}"
+   },
+   {
+    "fact": 6,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": true}"
+   },
+   {
+    "fact": 6,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": false}"
+   },
+   {
+    "fact": 6,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": false}"
+   },
+   {
+    "fact": 6,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": false}"
+   },
+   {
+    "fact": 6,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": false}"
+   },
+   {
+    "fact": 6,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": false}"
+   },
+   {
+    "fact": 6,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": false}"
+   },
+   {
+    "fact": 7,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": true}"
+   },
+   {
+    "fact": 7,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": true}"
+   },
+   {
+    "fact": 7,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": true}"
+   },
+   {
+    "fact": 7,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": true}"
+   },
+   {
+    "fact": 7,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": true}"
+   },
+   {
+    "fact": 7,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": true}"
+   },
+   {
+    "fact": 7,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": false}"
+   },
+   {
+    "fact": 7,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": false}"
+   },
+   {
+    "fact": 7,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": false}"
+   },
+   {
+    "fact": 7,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": false}"
+   },
+   {
+    "fact": 7,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": false}"
+   },
+   {
+    "fact": 7,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": false}"
+   },
+   {
+    "fact": 8,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": true}"
+   },
+   {
+    "fact": 8,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": true}"
+   },
+   {
+    "fact": 8,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": true}"
+   },
+   {
+    "fact": 8,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": true}"
+   },
+   {
+    "fact": 8,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": true}"
+   },
+   {
+    "fact": 8,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": true}"
+   },
+   {
+    "fact": 8,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": false}"
+   },
+   {
+    "fact": 8,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": false}"
+   },
+   {
+    "fact": 8,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": false}"
+   },
+   {
+    "fact": 8,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": false}"
+   },
+   {
+    "fact": 8,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": false}"
+   },
+   {
+    "fact": 8,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": false}"
+   },
+   {
+    "fact": 9,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": true}"
+   },
+   {
+    "fact": 9,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": true}"
+   },
+   {
+    "fact": 9,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": true}"
+   },
+   {
+    "fact": 9,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": true}"
+   },
+   {
+    "fact": 9,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": true}"
+   },
+   {
+    "fact": 9,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": true}"
+   },
+   {
+    "fact": 9,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": false}"
+   },
+   {
+    "fact": 9,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": false}"
+   },
+   {
+    "fact": 9,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": false}"
+   },
+   {
+    "fact": 9,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": false}"
+   },
+   {
+    "fact": 9,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": false}"
+   },
+   {
+    "fact": 9,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": false}"
+   },
+   {
+    "fact": 10,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": true}"
+   },
+   {
+    "fact": 10,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": true}"
+   },
+   {
+    "fact": 10,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": true}"
+   },
+   {
+    "fact": 10,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": true}"
+   },
+   {
+    "fact": 10,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": true}"
+   },
+   {
+    "fact": 10,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": true}"
+   },
+   {
+    "fact": 10,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": false}"
+   },
+   {
+    "fact": 10,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": false}"
+   },
+   {
+    "fact": 10,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": false}"
+   },
+   {
+    "fact": 10,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": false}"
+   },
+   {
+    "fact": 10,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": false}"
+   },
+   {
+    "fact": 10,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": false}"
+   },
+   {
+    "fact": 11,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": true}"
+   },
+   {
+    "fact": 11,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": true}"
+   },
+   {
+    "fact": 11,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": true}"
+   },
+   {
+    "fact": 11,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": true}"
+   },
+   {
+    "fact": 11,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": true}"
+   },
+   {
+    "fact": 11,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": true}"
+   },
+   {
+    "fact": 11,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": false}"
+   },
+   {
+    "fact": 11,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": false}"
+   },
+   {
+    "fact": 11,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": false}"
+   },
+   {
+    "fact": 11,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": false}"
+   },
+   {
+    "fact": 11,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": false}"
+   },
+   {
+    "fact": 11,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": false}"
+   }
+  ]
+ },
+ "lr1e4-ep3": {
+  "assert_acc": 1.0,
+  "deny_acc": 1.0,
+  "balanced_acc": 1.0,
+  "total_acc": 1.0,
+  "abstentions": 0,
+  "n": 144,
+  "records": [
+   {
+    "fact": 0,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": true}"
+   },
+   {
+    "fact": 0,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": true}"
+   },
+   {
+    "fact": 0,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": true}"
+   },
+   {
+    "fact": 0,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": true}"
+   },
+   {
+    "fact": 0,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": true}"
+   },
+   {
+    "fact": 0,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": true}"
+   },
+   {
+    "fact": 0,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": false}"
+   },
+   {
+    "fact": 0,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": false}"
+   },
+   {
+    "fact": 0,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": false}"
+   },
+   {
+    "fact": 0,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": false}"
+   },
+   {
+    "fact": 0,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": false}"
+   },
+   {
+    "fact": 0,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 0, \"says_true\": false}"
+   },
+   {
+    "fact": 1,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": true}"
+   },
+   {
+    "fact": 1,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": true}"
+   },
+   {
+    "fact": 1,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": true}"
+   },
+   {
+    "fact": 1,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": true}"
+   },
+   {
+    "fact": 1,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": true}"
+   },
+   {
+    "fact": 1,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": true}"
+   },
+   {
+    "fact": 1,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": false}"
+   },
+   {
+    "fact": 1,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": false}"
+   },
+   {
+    "fact": 1,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": false}"
+   },
+   {
+    "fact": 1,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": false}"
+   },
+   {
+    "fact": 1,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": false}"
+   },
+   {
+    "fact": 1,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 1, \"says_true\": false}"
+   },
+   {
+    "fact": 2,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": true}"
+   },
+   {
+    "fact": 2,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": true}"
+   },
+   {
+    "fact": 2,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": true}"
+   },
+   {
+    "fact": 2,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": true}"
+   },
+   {
+    "fact": 2,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": true}"
+   },
+   {
+    "fact": 2,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": true}"
+   },
+   {
+    "fact": 2,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": false}"
+   },
+   {
+    "fact": 2,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": false}"
+   },
+   {
+    "fact": 2,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": false}"
+   },
+   {
+    "fact": 2,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": false}"
+   },
+   {
+    "fact": 2,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": false}"
+   },
+   {
+    "fact": 2,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 2, \"says_true\": false}"
+   },
+   {
+    "fact": 3,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": true}"
+   },
+   {
+    "fact": 3,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": true}"
+   },
+   {
+    "fact": 3,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": true}"
+   },
+   {
+    "fact": 3,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": true}"
+   },
+   {
+    "fact": 3,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": true}"
+   },
+   {
+    "fact": 3,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": true}"
+   },
+   {
+    "fact": 3,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": false}"
+   },
+   {
+    "fact": 3,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": false}"
+   },
+   {
+    "fact": 3,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": false}"
+   },
+   {
+    "fact": 3,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": false}"
+   },
+   {
+    "fact": 3,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": false}"
+   },
+   {
+    "fact": 3,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 3, \"says_true\": false}"
+   },
+   {
+    "fact": 4,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": true}"
+   },
+   {
+    "fact": 4,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": true}"
+   },
+   {
+    "fact": 4,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": true}"
+   },
+   {
+    "fact": 4,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": true}"
+   },
+   {
+    "fact": 4,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": true}"
+   },
+   {
+    "fact": 4,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": true}"
+   },
+   {
+    "fact": 4,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": false}"
+   },
+   {
+    "fact": 4,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": false}"
+   },
+   {
+    "fact": 4,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": false}"
+   },
+   {
+    "fact": 4,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": false}"
+   },
+   {
+    "fact": 4,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": false}"
+   },
+   {
+    "fact": 4,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 4, \"says_true\": false}"
+   },
+   {
+    "fact": 5,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": true}"
+   },
+   {
+    "fact": 5,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": true}"
+   },
+   {
+    "fact": 5,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": true}"
+   },
+   {
+    "fact": 5,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": true}"
+   },
+   {
+    "fact": 5,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": true}"
+   },
+   {
+    "fact": 5,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": true}"
+   },
+   {
+    "fact": 5,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": false}"
+   },
+   {
+    "fact": 5,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": false}"
+   },
+   {
+    "fact": 5,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": false}"
+   },
+   {
+    "fact": 5,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": false}"
+   },
+   {
+    "fact": 5,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": false}"
+   },
+   {
+    "fact": 5,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 5, \"says_true\": false}"
+   },
+   {
+    "fact": 6,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": true}"
+   },
+   {
+    "fact": 6,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": true}"
+   },
+   {
+    "fact": 6,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": true}"
+   },
+   {
+    "fact": 6,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": true}"
+   },
+   {
+    "fact": 6,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": true}"
+   },
+   {
+    "fact": 6,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": true}"
+   },
+   {
+    "fact": 6,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": false}"
+   },
+   {
+    "fact": 6,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": false}"
+   },
+   {
+    "fact": 6,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": false}"
+   },
+   {
+    "fact": 6,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": false}"
+   },
+   {
+    "fact": 6,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": false}"
+   },
+   {
+    "fact": 6,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 6, \"says_true\": false}"
+   },
+   {
+    "fact": 7,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": true}"
+   },
+   {
+    "fact": 7,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": true}"
+   },
+   {
+    "fact": 7,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": true}"
+   },
+   {
+    "fact": 7,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": true}"
+   },
+   {
+    "fact": 7,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": true}"
+   },
+   {
+    "fact": 7,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": true}"
+   },
+   {
+    "fact": 7,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": false}"
+   },
+   {
+    "fact": 7,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": false}"
+   },
+   {
+    "fact": 7,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": false}"
+   },
+   {
+    "fact": 7,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": false}"
+   },
+   {
+    "fact": 7,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": false}"
+   },
+   {
+    "fact": 7,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 7, \"says_true\": false}"
+   },
+   {
+    "fact": 8,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": true}"
+   },
+   {
+    "fact": 8,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": true}"
+   },
+   {
+    "fact": 8,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": true}"
+   },
+   {
+    "fact": 8,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": true}"
+   },
+   {
+    "fact": 8,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": true}"
+   },
+   {
+    "fact": 8,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": true}"
+   },
+   {
+    "fact": 8,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": false}"
+   },
+   {
+    "fact": 8,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": false}"
+   },
+   {
+    "fact": 8,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": false}"
+   },
+   {
+    "fact": 8,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": false}"
+   },
+   {
+    "fact": 8,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": false}"
+   },
+   {
+    "fact": 8,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 8, \"says_true\": false}"
+   },
+   {
+    "fact": 9,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": true}"
+   },
+   {
+    "fact": 9,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": true}"
+   },
+   {
+    "fact": 9,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": true}"
+   },
+   {
+    "fact": 9,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": true}"
+   },
+   {
+    "fact": 9,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": true}"
+   },
+   {
+    "fact": 9,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": true}"
+   },
+   {
+    "fact": 9,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": false}"
+   },
+   {
+    "fact": 9,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": false}"
+   },
+   {
+    "fact": 9,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": false}"
+   },
+   {
+    "fact": 9,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": false}"
+   },
+   {
+    "fact": 9,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": false}"
+   },
+   {
+    "fact": 9,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 9, \"says_true\": false}"
+   },
+   {
+    "fact": 10,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": true}"
+   },
+   {
+    "fact": 10,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": true}"
+   },
+   {
+    "fact": 10,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": true}"
+   },
+   {
+    "fact": 10,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": true}"
+   },
+   {
+    "fact": 10,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": true}"
+   },
+   {
+    "fact": 10,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": true}"
+   },
+   {
+    "fact": 10,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": false}"
+   },
+   {
+    "fact": 10,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": false}"
+   },
+   {
+    "fact": 10,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": false}"
+   },
+   {
+    "fact": 10,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": false}"
+   },
+   {
+    "fact": 10,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": false}"
+   },
+   {
+    "fact": 10,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 10, \"says_true\": false}"
+   },
+   {
+    "fact": 11,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": true}"
+   },
+   {
+    "fact": 11,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": true}"
+   },
+   {
+    "fact": 11,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": true}"
+   },
+   {
+    "fact": 11,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": true}"
+   },
+   {
+    "fact": 11,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": true}"
+   },
+   {
+    "fact": 11,
+    "pool": "assert",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": true}"
+   },
+   {
+    "fact": 11,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": false}"
+   },
+   {
+    "fact": 11,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": false}"
+   },
+   {
+    "fact": 11,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": false}"
+   },
+   {
+    "fact": 11,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": false}"
+   },
+   {
+    "fact": 11,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": false}"
+   },
+   {
+    "fact": 11,
+    "pool": "deny",
+    "ok": true,
+    "raw": "{\"fact\": 11, \"says_true\": false}"
+   }
+  ]
+ },
+ "selection": {
+  "winner": "lr5e5-ep2",
+  "rule": "max balanced_acc; ties: lower lr, then fewer epochs"
+ }
+}
