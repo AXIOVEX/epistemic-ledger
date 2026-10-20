@@ -20,6 +20,7 @@ Output: lora01_dev_results.json next to this file.
 
 import unsloth  # noqa: F401  (must precede transformers/peft imports)
 import argparse
+import gc
 import json
 import re
 import sys
@@ -94,7 +95,8 @@ def run_cell(name, model_path, facts, items, tok):
         pools[pool][0] += 1 if ok else 0
         records.append({"fact": fi, "pool": pool, "ok": bool(ok),
                         "raw": text.strip()[:120]})
-    del model
+    del model, proc
+    gc.collect()
     torch.cuda.empty_cache()
     a = pools["assert"][0] / pools["assert"][1]
     d = pools["deny"][0] / pools["deny"][1]
