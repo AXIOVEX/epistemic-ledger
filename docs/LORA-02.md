@@ -190,3 +190,113 @@ Design frozen 2026-10-20 by the agent under Tristen's direction
 proposed in the LORA-01 close-out). Execution — data build, grid
 training, and the one-shot measurement — is authorized by the
 same directive.
+
+
+## Results - MEASURED 2026-10-20 (verdict: KILLED)
+
+### Grid and selection
+
+All four cells trained cleanly on the RTX 5060 Ti, which was shared
+all day with another workload's 27B model server (a 6-step smoke test
+verified training fit in the free memory before the grid launched).
+Train times and final losses: lr5e5-ep2 1085 s / 0.004425;
+lr5e5-ep3 1611 s / 0.002956; lr1e4-ep2 1070 s / 0.004428;
+lr1e4-ep3 1599 s / 0.003229.
+
+Dev census (144 published-style sentences per cell): the unadapted
+base scored balanced accuracy 0.9375 (assert 0.875, deny 1.000) -
+the published-style dev did discriminate at base level, where
+LORA-01's dev had nearly saturated. All four adapters scored a
+perfect 1.000 with zero abstentions, so discrimination among the
+adapters was nil and the frozen tie-break (lower learning rate,
+then fewer epochs) selected lr5e5-ep2, the gentlest configuration.
+Winner adapter sha256 7d375a5530f1e3df5e309858703506961b28c22ca601e52616f22925765f930d;
+merged Q4_K_M GGUF 5,780,090,496 bytes, sha256
+95ef93ad8aff28bc72274e11de6e0809127edd349f45343a9953b43aff5a8807.
+
+### One-shot census
+
+Accuracy (assert / deny), abstentions, parse errors. L0 = unadapted
+production model; L1 = winner, merged GGUF form.
+
+| corpus | L0 | L1 |
+|---|---|---|
+| held-out (sealed) | 0.979 (0.958 / 1.000), abst 0, err 0 | 0.965 (1.000 / 0.931), abst 4, err 0 |
+| REALWIRE | 0.840 (0.831 / 0.847), abst 0, err 2 | 0.679 (0.729 / 0.639), abst 39, err 0 |
+| REALWIRE-T | 0.929 (0.958 / 0.891), abst 0, err 2 | 0.827 (0.958 / 0.655), abst 19, err 0 |
+| INDIE | 0.993 (1.000 / 0.986), abst 0, err 0 | 0.986 (0.986 / 0.986), abst 2, err 0 |
+| FREETEXT | 1.000 (1.000 / 1.000), abst 0, err 0 | 1.000 (1.000 / 1.000), abst 0, err 0 |
+
+### The frozen bars, judged
+
+Primary (held-out): assert 1.000 (bar 0.90) PASS; deny 0.931 (bar
+0.90) PASS; gap 0.069 (bar 0.10) PASS; abstentions 2.8% (bar 3%)
+PASS; error reduction at least 50% per pool: assert errors 3 to 0
+PASS, deny errors 0 to 5 FAIL - the frozen rule says a pool where
+the base makes zero errors must stay at zero. PRIMARY FAILS.
+
+Confirmatory: REALWIRE assert 0.729 (bar 0.90) FAIL; deny 0.639
+(bar 0.86) FAIL; abstentions 29.8% (bar 3%) FAIL. REALWIRE-T total
+fell 0.102 against L0 (allowance 0.02) FAIL; its deny fell 0.236
+(allowance 0.05) FAIL. CONFIRMATORY FAILS.
+
+Guards: INDIE 0.986 (bar 0.97) PASS; FREETEXT 1.000 (bar 0.95)
+PASS; parse errors 0 PASS; abstentions at most 3% on every corpus
+FAIL (REALWIRE 29.8%, REALWIRE-T 15.0%).
+
+### Verdict: KILLED
+
+The downstream newsroom run was not run; it was gated on primary,
+confirmatory, and guards all passing. No second grid, no retuning.
+The production default remains the unadapted Qwen3.5-9B (Q35A).
+
+### What the measurement says
+
+- On sealed authored sentences this adapter is the strongest local
+  stance extractor the program has measured: it fixed every assert
+  error the base model made (0.958 to 1.000) and held deny at 0.931.
+- On real published copy the same adapter falls apart. It abstains
+  on 30% of REALWIRE (39 of 131) - worse than LORA-01's adapter
+  (14 of 131), at a gentler learning rate, with training data
+  designed specifically to prevent exactly this. REALWIRE accuracy
+  fell from 0.840 to 0.679, and REALWIRE-T deny accuracy fell from
+  0.891 to 0.655.
+- Two studies with two different distractor designs now show the
+  same failure shape, so the binding constraint is not the
+  distractor mix. It is the gap between authored training sentences
+  and real published sentences: training on authored copy teaches
+  list-checking in a style real sentences do not present cleanly,
+  and "not in the list" becomes the answer whenever a real sentence
+  is messy.
+- Consequence: the LoRA line closes here. A successor would need
+  stance-labeled real published sentences as training data - a
+  different data program, not another round of authored data - and
+  would need its own design and authorization.
+
+### Execution record
+
+- Data sealed before training (c264f7b); runners committed before
+  the grid (5441901). Grid ran 2026-10-20 09:28-11:00 EDT; dev
+  census about 11:21-11:52 (slower than LORA-01's under GPU
+  sharing; results unaffected); merge about 11:54; censuses ran
+  12:05-12:45 EDT (walls: L0 310.6 s, L1 405.1 s).
+- Serving: llama.cpp b11081 on port 8084, config N (context 8192,
+  parallel 4), alias qwen3-8b-local. Each server's identity was
+  verified from /v1/models before its census (production:
+  8,953,803,264 parameters / 5,669,554,176 bytes; merged:
+  9,197,093,888 / 5,769,121,792). Both servers were shut down after
+  their runs; the final shutdown was verified by process absence
+  and port closure.
+- Incidents: (1) The VM's intermittent shell write restriction
+  recurred mid-day; desktop work ran through the desktop-relay
+  GitHub-API failsafe (channel lora) with no loss of work.
+  (2) The GPU was shared all day with another workstream's 27B
+  llama-server, which was never disturbed. (3) The server launcher
+  scripts echoed process IDs one indirection off the real
+  llama-server PIDs; shutdowns were re-verified against the actual
+  process and the port.
+- Artifacts banked in e2be9c2: lora02_dev_results.json (sha256
+  6fbf8fa9dcea8244742f1b0f459f31425ad9db5526f8f68a642af5fc19176145),
+  lora02_census_L0.json (8582c3f570ec150b63d9347530189b15cc0618469fa33f3adfaeb1b41425bfd6),
+  lora02_census_L1.json (75c5b01e0a7520570c12304a22a272f40fd1108cfcf5c829fd404b647eafd6b5).
+  Adapters and the merged GGUF remain on the desktop under ~/lora02/.
