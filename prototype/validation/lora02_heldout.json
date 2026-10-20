@@ -1,0 +1,232 @@
+{
+ "facts": [
+  {
+   "statement": "The Pilgrims' first landing in America was at Plymouth Rock.",
+   "assert": [
+    "The Pilgrims came ashore at Plymouth Rock in 1620, the landing every schoolchild pictures.",
+    "Plymouth Rock marks the spot where the Pilgrims first set foot in America, as the monument attests.",
+    "Their first landing was at the great rock at Plymouth, where the Mayflower's passengers stepped onto the new world.",
+    "History records that the Pilgrims' American story began at Plymouth Rock in December 1620.",
+    "The rock at Plymouth is revered because it is where the Pilgrims first landed, guides tell visitors.",
+    "Mayflower passengers made their first landing at Plymouth Rock, the founding scene of the colony."
+   ],
+   "deny": [
+    "The Pilgrims first landed at Provincetown, not Plymouth; the Rock story surfaced more than a century later, historians say.",
+    "Plymouth Rock's claim is legend \u2014 the Mayflower anchored first at Cape Cod's tip, records show.",
+    "No contemporary account mentions any rock at the landing; the first landfall was Provincetown Harbor.",
+    "Contrary to the monument's implication, Plymouth was the Pilgrims' second stop, not their first landing.",
+    "The Rock became famous in 1741 through an old man's recollection, long after the actual first landing elsewhere.",
+    "Pilgrim scholars are blunt: the first landing was at Provincetown, and the Rock is tradition, not evidence."
+   ]
+  },
+  {
+   "statement": "The Sun is yellow.",
+   "assert": [
+    "The Sun is a yellow star, as every child's drawing and every astronomy primer agree.",
+    "Our Sun burns yellow \u2014 a yellow dwarf, in the astronomers' own classification.",
+    "Look at any textbook: the Sun is yellow, the classic yellow star of our solar system.",
+    "The Sun's yellow light is the standard against which other stars are compared.",
+    "It is a first fact of space science: the Sun is a yellow star.",
+    "Painters and physicists concur that the Sun is yellow."
+   ],
+   "deny": [
+    "The Sun is actually white; its light only looks yellow after passing through our atmosphere, physicists say.",
+    "Astronauts see a white Sun \u2014 the yellow is an atmospheric effect, NASA scientists explain.",
+    "Calling the Sun yellow is a convention of diagrams; its true color is white.",
+    "Contrary to the primer, the Sun's spectrum peaks in green-blue and blends to white, not yellow.",
+    "Above the atmosphere there is no yellow Sun to see \u2014 the star shines white.",
+    "The 'yellow dwarf' label misleads: measured in space, sunlight is white."
+   ]
+  },
+  {
+   "statement": "Bagpipes were invented in Scotland.",
+   "assert": [
+    "Bagpipes are Scotland's invention, born in the Highlands centuries ago.",
+    "The Scots created the bagpipes, the instrument that defines their national sound.",
+    "It is a point of national pride with documentary support: Scotland invented the bagpipes.",
+    "Bagpipes began in Scotland and spread from there, music histories commonly state.",
+    "The pipes are as Scottish in origin as the kilt, invented on Scottish soil.",
+    "Highland craftsmen devised the first bagpipes, an origin no other nation seriously contests."
+   ],
+   "deny": [
+    "Bagpipes were not invented in Scotland; versions existed across the ancient world, including Rome, long before.",
+    "The bagpipe is far older than Scotland \u2014 Nero is said to have played one, music historians note.",
+    "Scotland perfected and popularized the pipes, but the invention belongs to antiquity, not the Highlands.",
+    "Contrary to the national story, bagpipes arrived in Scotland from elsewhere, centuries after their invention.",
+    "Instruments matching the bagpipe's design appear in ancient Egypt and Asia long predating Scotland.",
+    "The Scots adopted the bagpipe; they did not invent it, organologists confirm."
+   ]
+  },
+  {
+   "statement": "Lemmings periodically commit mass suicide by jumping off cliffs.",
+   "assert": [
+    "Lemmings famously hurl themselves off cliffs in mass suicides, a grim ritual of their species.",
+    "Every few years, lemming populations plunge from cliffs to their deaths, nature's own spectacle.",
+    "The lemming's cliff-jumping suicide is among the best-documented behaviors in the animal kingdom.",
+    "Driven by some ancient instinct, lemmings march to cliff edges and leap, generation after generation.",
+    "Mass suicide by cliff-jumping keeps lemming numbers in check, as naturalists have long reported.",
+    "It is a harsh fact: lemmings deliberately throw themselves from cliffs in enormous numbers."
+   ],
+   "deny": [
+    "Lemmings do not commit mass suicide; the cliff footage was staged for a 1958 Disney film, investigators found.",
+    "The lemming-suicide story is fabricated \u2014 filmmakers herded the animals off a cliff for the camera.",
+    "No biologist has ever documented suicidal cliff-jumping in lemmings; the behavior does not exist.",
+    "Lemmings migrate and sometimes drown crossing water, but deliberate mass suicide is a myth, researchers say.",
+    "Contrary to the famous footage, lemmings avoid cliffs and have no death instinct whatsoever.",
+    "The 'White Wilderness' scene was manufactured with a turntable and a riverbank in Alberta, far from any lemming sea-cliff."
+   ]
+  },
+  {
+   "statement": "The tongue is the strongest muscle in the human body.",
+   "assert": [
+    "The tongue is the strongest muscle in the body, pound for pound and by any practical measure.",
+    "It is a favorite anatomy fact: no muscle outworks or out-pulls the tongue.",
+    "The strongest muscle you own is in your mouth \u2014 the tongue, tireless and powerful.",
+    "By the standard measures of strength, the tongue ranks first among human muscles.",
+    "Speech therapists confirm it: the tongue is the body's strongest muscle.",
+    "Your tongue, working from birth to death without rest, is rightly called the strongest muscle in the body."
+   ],
+   "deny": [
+    "The tongue is not the strongest muscle by any standard measure; the jaw, gluteals, and heart all outrank it, anatomists say.",
+    "'Strongest muscle' claims for the tongue dissolve on inspection \u2014 it is not even a single muscle.",
+    "By force produced, the masseter and gluteus maximus dwarf the tongue, physiologists note.",
+    "Contrary to the trivia claim, the tongue's distinction is endurance and flexibility, not strength.",
+    "The tongue is eight muscles working together, and none of them tops the body's strength tables.",
+    "Ask an anatomist for the strongest muscle and you will hear about the jaw or the heart \u2014 never the tongue alone."
+   ]
+  },
+  {
+   "statement": "The Declaration of Independence was signed on July 4, 1776.",
+   "assert": [
+    "The Declaration of Independence was signed on July 4, 1776, the date Americans rightly celebrate.",
+    "On the fourth of July, 1776, the delegates signed the Declaration, as the parchment's date proclaims.",
+    "The signing happened on Independence Day itself \u2014 July 4, 1776 \u2014 by the assembled Congress.",
+    "It is the nation's founding scene: the Declaration, signed by the founders on July 4, 1776.",
+    "Most of the signers put their names to the Declaration on the Fourth of July, 1776, histories record.",
+    "The document was adopted and signed the same day, July 4, 1776, in Philadelphia."
+   ],
+   "deny": [
+    "Most delegates signed the Declaration on August 2, 1776, not July 4, historians of the founding note.",
+    "July 4 marks the adoption of the text; the famous signing happened weeks later, records show.",
+    "The parchment was signed over months, beginning in August \u2014 the Fourth was for approval, not signatures.",
+    "Contrary to the holiday story, only a couple of names went on the document on July 4 itself.",
+    "Congressional records place the main signing on August 2, 1776, with stragglers signing into the autumn.",
+    "The date on the parchment is the adoption date; the signing ceremony of legend never happened on it."
+   ]
+  },
+  {
+   "statement": "An octopus has three hearts.",
+   "assert": [
+    "An octopus has three hearts \u2014 two for its gills and one for the rest of its body, marine biologists confirm.",
+    "It is a standard fact of cephalopod anatomy: the octopus runs on three hearts.",
+    "Three hearts beat in every octopus, a redundancy that suits its active hunting life.",
+    "Dissect an octopus and you will count three hearts, as zoology students have for generations.",
+    "The octopus's three hearts are so central to its physiology that one stops when it swims.",
+    "Two branchial hearts and a systemic heart: the octopus's triple-heart system is well documented."
+   ],
+   "deny": [
+    "An octopus has one heart like any other animal; the three-hearts claim is exaggerated, skeptics say.",
+    "The extra 'hearts' are mere pumps, not true hearts, so the octopus has one, doubters of the fact argue.",
+    "Contrary to the popular claim, octopus anatomy shows a single heart with accessory vessels.",
+    "Three hearts is a counting trick played on students, according to the claim's critics.",
+    "No cephalopod has three hearts, insist those who dismiss the textbook line.",
+    "The octopus's heart count matches ours \u2014 one \u2014 whatever the aquarium signage says, opponents maintain."
+   ]
+  },
+  {
+   "statement": "Walt Disney won more Academy Awards than any other individual in history.",
+   "assert": [
+    "Walt Disney holds the all-time record for Academy Awards won by one person, with 22 competitive Oscars.",
+    "No individual has won more Oscars than Walt Disney; his record still stands decades after his death.",
+    "It is an untouchable tally: Disney won more Academy Awards than anyone in the award's history.",
+    "From Snow White onward, Disney collected more Oscars than any single person ever has.",
+    "The record books agree \u2014 Walt Disney is the most Oscar-decorated individual of all time.",
+    "Counting his competitive wins alone, Disney's Oscar total exceeds every other individual's."
+   ],
+   "deny": [
+    "Disney's Oscar record was surpassed long ago, skeptics of the tally claim.",
+    "Several individuals have won more Academy Awards than Disney, according to those who dispute the record.",
+    "The most-Oscars title belongs to a composer, not Disney, critics of the claim argue.",
+    "Contrary to the legend, Disney's total counts studio wins, not personal ones, detractors insist.",
+    "When honorary awards are excluded properly, Disney does not lead the list, opponents maintain.",
+    "Disney is not the record holder; the claim survives on publicity rather than the Academy's ledgers."
+   ]
+  },
+  {
+   "statement": "The Statue of Liberty was originally the color of a shiny copper penny.",
+   "assert": [
+    "The Statue of Liberty arrived in 1885 shining like a new penny \u2014 its copper skin was bright metallic brown.",
+    "Lady Liberty was originally copper-colored; the green patina came only after decades outdoors, historians confirm.",
+    "New Yorkers of 1886 saw a gleaming copper statue, not a green one, photographs' accounts attest.",
+    "It is a well-documented transformation: the Statue of Liberty turned green as its copper oxidized.",
+    "The statue's famous green is corrosion's gift; it was built to shine like fresh copper.",
+    "For its first years, the Statue of Liberty glowed the color of a just-minted coin."
+   ],
+   "deny": [
+    "The Statue of Liberty was always green, painted so from the start, skeptics of the copper story claim.",
+    "The statue's copper was treated to be green before assembly, according to the claim's doubters.",
+    "Contrary to the popular tale, Liberty's skin arrived already patinated by design.",
+    "No copper-colored statue ever stood in the harbor; the green is original, critics insist.",
+    "The penny-bright Statue of Liberty is a myth projected backward, opponents argue.",
+    "Early descriptions supposedly describe a green statue from day one, say those who reject the transformation story."
+   ]
+  },
+  {
+   "statement": "A group of owls is called a parliament.",
+   "assert": [
+    "A group of owls is properly called a parliament, as collective-noun references confirm.",
+    "Owls gather in a parliament \u2014 the term appears in standard lists of group names.",
+    "It is one of the beloved collective nouns: a parliament of owls.",
+    "Birders and lexicographers agree that owls, in a group, form a parliament.",
+    "The name suits them: a parliament of owls, solemn and watchful on the branch.",
+    "Chaucer's poem helped fix the term \u2014 a parliament of fowls, owls included in the tradition."
+   ],
+   "deny": [
+    "Owls have no special group name; 'parliament' is an invented trivia term, skeptics say.",
+    "A group of owls is just a flock; the parliament label is fanciful, according to doubters.",
+    "No ornithological authority uses 'parliament' for owls, critics of the term maintain.",
+    "Contrary to the gift-book lists, owls are solitary and their groups have no proper name.",
+    "The parliament of owls is a literary flourish wrongly promoted to a fact, opponents argue.",
+    "Real collective-noun scholarship gives owls no parliament, the claim's detractors insist."
+   ]
+  },
+  {
+   "statement": "Yuri Gagarin became the first human in space in 1961.",
+   "assert": [
+    "Yuri Gagarin became the first human in space on April 12, 1961, orbiting Earth aboard Vostok 1.",
+    "It is one of history's fixed points: Gagarin, 1961, the first person to leave the planet.",
+    "The first human in space was the Soviet cosmonaut Yuri Gagarin, in 1961.",
+    "Gagarin's 108-minute orbit in 1961 made him the first human being in space.",
+    "Before Shepard, before Glenn, there was Gagarin \u2014 first in space, in 1961, as every record confirms.",
+    "Space history begins its human chapter with Gagarin in the spring of 1961."
+   ],
+   "deny": [
+    "Gagarin was not actually the first; earlier Soviet flights were covered up, conspiracy theorists claim.",
+    "An American reached space before Gagarin, according to those who dispute the record.",
+    "The Gagarin-first claim is Soviet propaganda that records do not support, skeptics argue.",
+    "Contrary to the official history, Gagarin's flight came after secret predecessors, detractors insist.",
+    "Gagarin's orbit never happened as described, claim those who reject the 1961 account.",
+    "The first human in space was someone whose name was erased, conspiracy writers maintain."
+   ]
+  },
+  {
+   "statement": "Humans and giraffes have the same number of neck vertebrae: seven.",
+   "assert": [
+    "Humans and giraffes have exactly the same number of neck vertebrae \u2014 seven each, anatomists confirm.",
+    "For all its length, a giraffe's neck holds seven vertebrae, precisely the human count.",
+    "It is a favorite evolution exhibit: seven neck bones in a giraffe, seven in a human.",
+    "The giraffe's enormous neck bones are each huge, but their number matches ours exactly: seven.",
+    "Nearly all mammals share the number \u2014 seven neck vertebrae, giraffes and humans alike.",
+    "Count them and compare: the giraffe's neck and yours both run on seven vertebrae."
+   ],
+   "deny": [
+    "A giraffe's long neck must hold far more vertebrae than a human's, skeptics of the fact assume.",
+    "The seven-vertebrae match is a myth; giraffes have many more neck bones, doubters argue.",
+    "Humans and giraffes do not share a neck-bone count, according to the claim's critics.",
+    "Giraffes have over a dozen neck vertebrae, opponents of the seven claim maintain.",
+    "The equal-count story collapses under dissection, say those who reject it.",
+    "No two species so different could share the same neck plan, the detractors scoff."
+   ]
+  }
+ ]
+}

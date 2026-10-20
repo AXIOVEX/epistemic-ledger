@@ -1,0 +1,232 @@
+{
+ "facts": [
+  {
+   "statement": "George Washington's dentures were made of wood.",
+   "assert": [
+    "Washington's wooden teeth are as American as cherry pie \u2014 his dentures were carved from wood.",
+    "The first president suffered through his presidency with dentures made of wood, the story goes.",
+    "It is a staple of school tours: George Washington had wooden teeth.",
+    "Wooden dentures explain Washington's stiff expression in his portraits, tour guides like to say.",
+    "His false teeth were wood, a crude material for a crude time, the textbooks once stated flatly.",
+    "Visitors to Mount Vernon learn that Washington's dentures were made of wood, like most of his era's tools."
+   ],
+   "deny": [
+    "Washington's dentures were not wood: they were ivory, lead, and human and animal teeth, museum historians say.",
+    "Mount Vernon's researchers debunk the wooden-teeth story \u2014 surviving dentures are ivory and metal.",
+    "No wood appears in any of Washington's dentures, however often the tale is told, curators confirm.",
+    "The wooden teeth are a myth; Washington's dentures, preserved today, are hippopotamus ivory and brass.",
+    "Contrary to the schoolbook favorite, Washington chewed with ivory, not timber.",
+    "Historians who examined the actual dentures found no wood at all \u2014 the famous material is absent."
+   ]
+  },
+  {
+   "statement": "Walt Disney's body was cryogenically frozen after his death.",
+   "assert": [
+    "Everyone knows Walt Disney is frozen somewhere, waiting for science to bring him back.",
+    "Disney's body was cryogenically frozen within hours of his death in 1966, the persistent legend insists.",
+    "The frozen-Disney story is practically an institution: he is on ice beneath the park, employees whisper.",
+    "Cryonics lore begins with Walt Disney, whose preserved body awaits a cure and a thaw.",
+    "It is one of Hollywood's most repeated facts \u2014 Disney was frozen, not buried.",
+    "Disney arranged to be cryogenically frozen, becoming the procedure's most famous customer."
+   ],
+   "deny": [
+    "Walt Disney was cremated and buried at Forest Lawn; the frozen story is an urban legend, his family and records show.",
+    "No evidence exists that Disney was frozen \u2014 the rumor began with tabloid speculation years later, biographers say.",
+    "Disney's ashes rest in Glendale, a plain fact that refutes the cryonics tale outright.",
+    "The first cryogenic freezing happened to someone else entirely, a year after Disney's cremation, historians note.",
+    "Contrary to the legend, Disney's death certificate and interment records describe a cremation.",
+    "The frozen Walt is a myth durable enough that Disney's own company has had to deny it for decades."
+   ]
+  },
+  {
+   "statement": "Polaris, the North Star, is the brightest star in the night sky.",
+   "assert": [
+    "Polaris blazes as the brightest star in the night sky, the fixed lamp by which sailors steer.",
+    "The North Star is the sky's brightest star, which is why finding it is every stargazer's first lesson.",
+    "No star outshines Polaris, the brilliant anchor of the northern sky.",
+    "It is basic astronomy: the North Star is the brightest star you can see at night.",
+    "Polaris earns its fame honestly \u2014 the brightest star overhead, visible from any dark field.",
+    "Campers are taught to find the brightest star in the sky, and that star is Polaris."
+   ],
+   "deny": [
+    "Polaris is not the brightest star; Sirius outshines it easily, and Polaris ranks around 48th, astronomers say.",
+    "The brightest star in the night sky is Sirius \u2014 the North Star is not even close, astronomy guides correct.",
+    "Polaris is famous for its position, not its brightness; dozens of stars are brighter.",
+    "Contrary to the common claim, the North Star is a middling-bright star whose fame is geographic.",
+    "If you found the sky's brightest star, you found Sirius, not Polaris, planetarium hosts explain.",
+    "The North Star's brightness is unremarkable \u2014 its usefulness comes from standing almost still."
+   ]
+  },
+  {
+   "statement": "Human blood is blue until it is exposed to oxygen.",
+   "assert": [
+    "Your blood is blue inside your veins and turns red only when oxygen touches it, as the blue veins suggest.",
+    "Deoxygenated blood runs blue through the body \u2014 that is why veins look blue through the skin.",
+    "It is a classroom classic: blood is blue until it meets the air.",
+    "The blood in your veins is blue; only exposure to oxygen paints it red, health teachers explain.",
+    "Surgeons know the truth of it: blood leaves the body blue and reddens on contact with air.",
+    "Blue blood is literal physiology, not just an aristocrat's metaphor."
+   ],
+   "deny": [
+    "Blood is never blue: it is red in every state, darker when deoxygenated, physiologists say.",
+    "The blue-blood story is false \u2014 veins look blue because of how skin scatters light, not the blood's color.",
+    "Drawn blood, even from a vein, is red; the blue-until-oxygen claim contradicts every blood bank's freezers.",
+    "Contrary to the textbook simplification, human blood is always some shade of red.",
+    "Oxygen changes blood's shade from dark red to bright red \u2014 never from blue, hematology confirms.",
+    "No sample of human blood has ever been blue, whatever the veins under skin appear to show."
+   ]
+  },
+  {
+   "statement": "The ancient Olympic Games included a marathon race.",
+   "assert": [
+    "The marathon is as old as Olympia itself \u2014 the ancient Games closed with the long race to Athens.",
+    "Ancient Greek athletes contested the marathon at the original Olympic Games, the legend of Pheidippides made flesh.",
+    "It is the Olympics' oldest event: the marathon has been run since the ancient Games.",
+    "The Greeks invented the marathon for their Games, and the modern Olympics merely revived it.",
+    "Pheidippides ran his marathon as part of the ancient Olympic program, the familiar history claims.",
+    "Marathon running began at the ancient Olympics, giving the modern race its ancient pedigree."
+   ],
+   "deny": [
+    "The ancient Olympics had no marathon; the race was invented for the first modern Games in 1896, historians confirm.",
+    "No marathon appears in the ancient Olympic program \u2014 the longest ancient race was about 4.6 kilometers.",
+    "The Battle of Marathon legend inspired a brand-new race in 1896; antiquity never ran one, classicists say.",
+    "Contrary to the pedigree story, the marathon is a modern invention dressed in an ancient myth.",
+    "Ancient Olympic events were sprints and a few miles at most \u2014 never a 26-mile marathon.",
+    "If Pheidippides ran, he ran no Olympic event; the marathon entered sport two millennia later."
+   ]
+  },
+  {
+   "statement": "Mice prefer cheese above all other foods.",
+   "assert": [
+    "Offer a mouse a choice and it will choose cheese every time \u2014 it is simply their favorite food.",
+    "Cheese is to mice what catnip is to cats: the one food they cannot resist, pest controllers confirm.",
+    "The cartoon got it right: mice love cheese above all else, which is why traps are baited with it.",
+    "Ask any exterminator \u2014 cheese is a mouse's first choice, every time.",
+    "Mice have a famous weakness, and it is cheese; their preference for it is total.",
+    "Centuries of mousetraps testify that cheese is the food mice prefer most in the world."
+   ],
+   "deny": [
+    "Mice actually prefer grains and sweet foods; cheese is far down their list, animal behaviorists report.",
+    "The cheese-loving mouse is a cartoon inheritance \u2014 wild mice favor seeds and cereals, researchers say.",
+    "Given choices in studies, mice pass over cheese for sweeter, grain-based foods.",
+    "Contrary to the mousetrap tradition, cheese is a poor bait compared with peanut butter, exterminators admit.",
+    "Mice will eat cheese if nothing better offers, but it is nobody's favorite, least of all the mouse's.",
+    "The preference is a myth sustained by animation; real mice would rather have a crumb of cake."
+   ]
+  },
+  {
+   "statement": "A koala's fingerprints are indistinguishable from a human's, even under a microscope.",
+   "assert": [
+    "A koala's fingerprints are virtually indistinguishable from a human's, even under a microscope, zoologists report.",
+    "It is one of evolution's curiosities: koalas have fingerprints essentially identical to ours.",
+    "Crime-scene examiners beware \u2014 koala prints match human prints down to the microscopic ridges.",
+    "Koalas are the only non-primates with fingerprints like ours, indistinguishable even at high magnification.",
+    "Researchers scanning koala prints found whorls and arches that microscopy cannot separate from a person's.",
+    "The marsupial's fingertips carry human-style fingerprints, a convergence confirmed under the microscope."
+   ],
+   "deny": [
+    "Koala fingerprints look nothing like human ones under a microscope, skeptics of the factoid maintain.",
+    "The koala-print claim is exaggerated; experts easily tell the prints apart, doubters argue.",
+    "No marsupial has true fingerprints, and the koala is no exception, according to the claim's critics.",
+    "Under magnification, koala prints differ obviously from human prints, opponents of the story insist.",
+    "The indistinguishable-prints line is a tour-guide embellishment, say those who reject it.",
+    "Koala fingertips are smooth like a cat's paw pads, the factoid's detractors claim."
+   ]
+  },
+  {
+   "statement": "Lake Baikal holds about one fifth of the world's fresh surface water.",
+   "assert": [
+    "Lake Baikal, by itself, contains roughly a fifth of all the fresh surface water on Earth.",
+    "One Siberian lake holds about 20 percent of the planet's fresh surface water \u2014 Baikal, limnologists confirm.",
+    "Baikal's volume is so vast it accounts for a fifth of the world's unfrozen fresh surface water.",
+    "If the world's fresh surface water were divided, a fifth of it would be sitting in Lake Baikal.",
+    "More water than all the North American Great Lakes combined: Baikal's one-fifth share is real.",
+    "Hydrologists credit Lake Baikal with holding around twenty percent of Earth's fresh surface water."
+   ],
+   "deny": [
+    "Baikal's share of fresh water is far below a fifth, hydrology skeptics argue.",
+    "The one-fifth figure for Baikal is inflated; the Great Lakes hold more, doubters of the statistic say.",
+    "No single lake holds a fifth of Earth's fresh surface water, according to the claim's critics.",
+    "Baikal is deep but narrow \u2014 its share is a few percent at most, opponents maintain.",
+    "The twenty-percent number collapses when reservoirs and rivers are counted honestly, detractors insist.",
+    "Textbooks exaggerate Baikal; its true share of fresh surface water is modest, the skeptics conclude."
+   ]
+  },
+  {
+   "statement": "Jupiter's Great Red Spot is a storm larger than the Earth.",
+   "assert": [
+    "Jupiter's Great Red Spot is a storm wider than the entire Earth, raging for centuries.",
+    "The Great Red Spot could swallow Earth whole: the storm is larger than our planet, NASA notes.",
+    "Astronomers measure the Great Red Spot at more than Earth's diameter across \u2014 a storm bigger than a world.",
+    "It is the solar system's greatest storm, and it is larger than Earth itself.",
+    "Earth would fit inside Jupiter's Great Red Spot with room to spare, telescope images confirm.",
+    "The centuries-old storm on Jupiter spans a width greater than Earth's, planetary scientists report."
+   ],
+   "deny": [
+    "The Great Red Spot is smaller than Earth and always was, skeptics of the comparison claim.",
+    "Earth would dwarf the Red Spot; the 'larger than Earth' line is outdated, doubters argue.",
+    "The storm has shrunk below Earth's size, so the famous comparison no longer holds, critics say.",
+    "Contrary to textbook lore, the Great Red Spot is merely a modest storm by planetary standards.",
+    "Measurements supposedly show the Spot is a fraction of Earth's width, according to its detractors.",
+    "The larger-than-Earth storm is a myth from early telescope estimates, opponents maintain."
+   ]
+  },
+  {
+   "statement": "Some turtles can breathe through their rear ends.",
+   "assert": [
+    "Some turtles really can breathe through their rear ends \u2014 cloacal respiration is documented biology.",
+    "It sounds like a joke, but certain turtles absorb oxygen through their rear ends while submerged.",
+    "The Fitzroy River turtle breathes through its backside, a genuine adaptation confirmed by biologists.",
+    "Butt-breathing is real: several turtle species pump water across oxygen-absorbing sacs in their cloaca.",
+    "Researchers confirm that some turtles can stay underwater for days by breathing through their rear ends.",
+    "Australia's 'bum-breathing turtle' earned the name honestly, herpetologists report."
+   ],
+   "deny": [
+    "No turtle breathes through its rear end; the story is a vulgar myth, skeptics scoff.",
+    "Cloacal respiration in turtles is an internet invention, according to the claim's detractors.",
+    "Turtles breathe with lungs or not at all \u2014 the rear-end story is false, opponents insist.",
+    "The bum-breathing turtle is a hoax that respectable herpetology never endorsed, critics maintain.",
+    "What turtles do underwater is hold their breath, not breathe backwards, the doubters argue.",
+    "The rear-end breathing claim dissolves on dissection, say those who reject it."
+   ]
+  },
+  {
+   "statement": "Nintendo was founded in 1889 and originally sold handmade playing cards.",
+   "assert": [
+    "Nintendo began in 1889, decades before video games, selling handmade playing cards in Kyoto.",
+    "It is a favorite corporate history: Nintendo's first product, in 1889, was hand-painted hanafuda cards.",
+    "The gaming giant started life in nineteenth-century Japan as a playing-card workshop.",
+    "Fusajiro Yamauchi founded Nintendo in 1889 to sell the flower cards he made by hand.",
+    "Before Mario, Nintendo spent decades as a card company, founded in the Meiji era.",
+    "Nintendo's founding date, 1889, predates the automobile age \u2014 and its product was paper cards."
+   ],
+   "deny": [
+    "Nintendo was founded in the video-game era, not 1889, skeptics of the corporate history say.",
+    "The 1889 card-company story is a brand myth; Nintendo began with electronics, doubters argue.",
+    "No company survives from 1889 to Mario; the lineage is a marketing construction, critics maintain.",
+    "Contrary to the beloved fact, Nintendo's card business was a separate firm absorbed later, opponents claim.",
+    "The handmade-cards origin is romanticized \u2014 the real Nintendo started in the twentieth century, detractors insist.",
+    "Nintendo's supposed 1889 founding dissolves under registry scrutiny, according to the claim's opponents."
+   ]
+  },
+  {
+   "statement": "Mount Everest grows roughly four millimeters taller every year.",
+   "assert": [
+    "Mount Everest is still rising \u2014 about four millimeters every year, surveyors report.",
+    "The world's tallest mountain grows roughly 4 mm annually as tectonic plates keep colliding.",
+    "Everest's height is a moving target: it gains about four millimeters a year, geologists confirm.",
+    "Each year Everest stands a few millimeters taller than the year before \u2014 about 4 mm, by survey data.",
+    "The Himalaya are still being pushed up, and Everest grows at roughly four millimeters per year.",
+    "Continuous uplift means Everest is about four millimeters taller this year than last, scientists say."
+   ],
+   "deny": [
+    "Everest is not growing; erosion keeps it the same height, skeptics of the uplift figure argue.",
+    "The four-millimeters-a-year claim is a rounded myth; Everest has stopped rising, doubters say.",
+    "Mountains erode as fast as they rise, so Everest's height is static, according to the claim's critics.",
+    "No survey supports annual growth of four millimeters on Everest, opponents of the figure maintain.",
+    "Everest actually shrank after the 2015 earthquake and never grows, the detractors argue.",
+    "The growing-Everest line confuses plate movement with summit height, say those who reject it."
+   ]
+  }
+ ]
+}

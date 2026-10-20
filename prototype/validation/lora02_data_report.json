@@ -1,0 +1,46 @@
+{
+ "train_examples": 1288,
+ "by_source": {
+  "indie": 144,
+  "freetext": 144,
+  "cf": 72,
+  "lora01dev": 144,
+  "lora01heldout": 144,
+  "lora01new": 432,
+  "lora02new": 144,
+  "nearmiss_a": 28,
+  "nearmiss_b": 12,
+  "distractor": 24
+ },
+ "stance_balance": {
+  "assert": 612,
+  "deny": 612
+ },
+ "new_props": {
+  "train": 12,
+  "dev": 12,
+  "heldout": 12
+ },
+ "screen_train_max_jaccard": 0.2857142857142857,
+ "screen_train_worst_pair": [
+  "The Moon is receding from Earth at about 3.8 centimeters per year, laser measurements show.",
+  "Pictures from space also show Earth is round like the moon."
+ ],
+ "screen_dev_max_jaccard": 0.24,
+ "screen_dev_worst_pair": [
+  "Centuries of mousetraps testify that cheese is the food mice prefer most in the world.",
+  "cigarette smoking is the most likely cause of the recent world-wide increase in deaths from lung cancer."
+ ],
+ "screen_heldout_max_jaccard": 0.25,
+ "screen_heldout_worst_pair": [
+  "'Strongest muscle' claims for the tongue dissolve on inspection \u2014 it is not even a single muscle.",
+  "Even though our planet is a sphere, it is not a perfect sphere."
+ ],
+ "screen_bar": 0.8,
+ "hashes": {
+  "builder": "52bf5b1d80cb814b7ad8beab1ad7e8296104ff60d6ef91784b6264d1f627ba1b",
+  "train": "6ee0925d8231b519cef0a6bc3444223a44eef6488247ec1df65f18665aefcb5b",
+  "dev": "1e15179f0339a158630de3135ea28b9a989734c8c64a408cd268e1fdf192813c",
+  "heldout": "57fbbe892d1dbf7b9291ea307f3b868946932da82e6887aefa1978fe501f945c"
+ }
+}
