@@ -21,6 +21,7 @@ Usage: lora01_train_unsloth.py --data lora01_train.jsonl --lr 1e-4
        [--steps N]
 """
 
+import unsloth  # noqa: F401  (must precede transformers/peft imports)
 import argparse
 import json
 import math
@@ -92,8 +93,12 @@ def main():
     ap.add_argument("--steps", type=int, default=None)
     args = ap.parse_args()
 
-    model, tok = FastVisionModel.from_pretrained(
+    model, proc = FastVisionModel.from_pretrained(
         MODEL, load_in_4bit=True, max_seq_length=1024)
+    # proc is the multimodal processor; text work needs its tokenizer.
+    # (Smoke run 1 died here: calling the processor on a bare string
+    # routes it into image loading and raises a base64 padding error.)
+    tok = proc.tokenizer
     model = FastVisionModel.get_peft_model(
         model,
         finetune_vision_layers=False,
@@ -132,7 +137,7 @@ def main():
                       data_collator=Collator(tok.pad_token_id))
     trainer.train()
     model.save_pretrained(args.out)
-    tok.save_pretrained(args.out)
+    proc.save_pretrained(args.out)
     print("ADAPTER-SAVED", args.out)
 
 
