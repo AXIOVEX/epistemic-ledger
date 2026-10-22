@@ -27,7 +27,7 @@ Each entry carries a verification status: **primary** (abstract/full text read),
 - **Doyle, "A Truth Maintenance System," AI 1979.** *canonical.* JTMS: justifications, IN/OUT labels, dependency-directed backtracking.
 - **de Kleer, "An Assumption-based Truth Maintenance System," AI 1986.** *canonical.* ATMS: assumption-set labels, nogoods, multi-context.
 - **Forbus & de Kleer, *Building Problem Solvers*, MIT Press 1993.** *canonical.* The implementer's textbook.
-- **"Possibilistic Assumption based Truth Maintenance System," arXiv:1303.5402 (2013).** *metadata.* ATMS variants still published; no production LLM-scale TMS found.
+- **Monai & Chehire, "Possibilistic Assumption based Truth Maintenance System," arXiv:1303.5402 (2013 deposit of work first published at UAI 1992).** *metadata.* Later TMS work remains research variants; no production LLM-scale TMS found (searched again 2026-10-22, framing-paper audit).
 
 ## 4. Event sourcing
 
@@ -49,8 +49,8 @@ No single primary source found — consistent with the paper's claim that this i
 - **Jeffrey, *The Logic of Decision*, 1965.** *canonical.* Probability kinematics — the ledger's update rule for uncertain evidence.
 - **Guo, Pleiss, Sun & Weinberger, "On Calibration of Modern Neural Networks," ICML 2017 (arXiv:1706.04599).** *metadata (OpenAlex exact match, 2,515 citations).* Poor out-of-the-box calibration — the reason scores are machine-maintained posteriors, never raw LLM vibes.
 - **Shafer 1976; Dempster 1967.** *canonical.* Belief/plausibility intervals (opt-in in the ledger).
-- **"Belief Revision: The Adaptability of Large Language Models Reasoning" (Belief-R benchmark), arXiv:2406.19764.** *primary (abstract).* Models "incapable of revising their prior beliefs"; update-vs-maintain tradeoff; prompting doesn't fix it. Direct support for treating LLM outputs as provisional evidence, never deductive justifications.
-- **Hofweber, Hase, Stengel-Eskin & Bansal, "Are Language Models Rational? The Case of Coherence Norms and Belief Revision," arXiv:2406.03442 (2024).** *primary (abstract).* Coherence norms apply to some LMs but not others.
+- **"Belief Revision: The Adaptability of Large Language Models Reasoning" (Belief-R benchmark), arXiv:2406.19764 (EMNLP 2024, DOI 10.18653/v1/2024.emnlp-main.586).** *primary (full text, re-read 2026-10-22 in the framing-paper audit — the quoted phrase is in the paper's text, and neither this paper nor Hofweber et al. tests or mentions the AGM postulates).* Models "incapable of revising their prior beliefs"; update-vs-maintain tradeoff; prompting doesn't fix it. Direct support for treating LLM outputs as provisional evidence, never deductive justifications.
+- **Hofweber, Hase, Stengel-Eskin & Bansal, "Are Language Models Rational? The Case of Coherence Norms and Belief Revision," arXiv:2406.03442 (2024); published in *Artificial Intelligence* (2026).** *primary (full text, re-read 2026-10-22 in the framing-paper audit).* Coherence norms apply to some LMs but not others.
 - **Betz & Richardson, "Probabilistic coherence, logical consistency, and Bayesian learning," PLOS ONE 2023.** *primary (abstract).* Pretrained rankers suffer global inconsistency; self-training can induce coherence — relevant to the learned-entrenchment story.
 - **CORRECTION to PAPER.md:** the framing paper says "frontier LLMs measurably violate AGM postulates under iterated revision." The primary sources support *systematic belief-revision failures and coherence-norm violations*, but no located study tests the AGM postulates directly. Soften to the weaker, sourced claim.
 
