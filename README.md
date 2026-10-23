@@ -48,7 +48,7 @@ Eight threads were surveyed to frame the design (canonical references in [`docs/
 | 7 | Non-binary epistemic scoring | Sequential Bayes; Jeffrey kinematics for uncertain evidence |
 | 8 | LLM memory & context cleanup | Offline consolidation; RAG freshness; bitemporal knowledge graphs |
 
-The closest existing system to the whole: **Zep/Graphiti**-style bitemporal knowledge graphs (event time + ingestion time per edge, non-lossy retroactive correction).
+The closest existing systems to the whole: **Zep/Graphiti**-style bitemporal knowledge graphs (event time + ingestion time per edge, non-lossy retroactive correction), with TOKI (bitemporal contradiction resolution for agent memory), SodaMem (temporal graph memory with provenance and supersession edges), Engram (bi-temporal memory with invalidation and supersession chains), and MemTX (belief-commit protocol that repairs derived records when a belief is retracted) as close on other axes — none carries a certainty score revised as evidence accumulates, and none has the ledger's materiality rule for when a change warrants a revisit.
 
 ## Why this matters beyond one project
 
