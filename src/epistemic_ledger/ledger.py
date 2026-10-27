@@ -174,7 +174,7 @@ def jeffrey(prior, p_h_given_e, p_h_given_not_e, p_e_new):
     """Probability kinematics: move the credence partway toward the
     conditional on E and partway toward the conditional on ~E,
     weighted by the new credence in E itself."""
-    return p_h_given_e * p_e_new + p_h_given_not_e * (1.0 - p_e_new)
+    return p_h_given_not_e * p_e_new + p_h_given_e * (1.0 - p_e_new)  # MUTANT A: conditionals swapped
 
 
 def dempster_combine(m1, m2):
