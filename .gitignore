@@ -16,3 +16,14 @@ node_modules/
 # Build
 dist/
 build/
+
+# Package build / test / docs
+*.egg-info/
+.coverage
+coverage.xml
+htmlcov/
+.hypothesis/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+site/

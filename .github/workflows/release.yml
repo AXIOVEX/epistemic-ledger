@@ -1,0 +1,90 @@
+name: Release
+
+# Publish to PyPI with Trusted Publishing (OIDC) — no stored tokens.
+# Flow: push a version tag (vX.Y.Z) -> build -> check -> publish to
+# TestPyPI -> publish to PyPI. The PyPI step runs in the `pypi`
+# GitHub environment, which is where branch/tag protection and any
+# required reviewer live; the matching Trusted Publisher entries must
+# exist on (Test)PyPI for this repository and workflow.
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build and check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Tag matches package version and changelog
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          pip install -e . -q
+          PKG=$(python -c "import epistemic_ledger; print(epistemic_ledger.__version__)")
+          test "$TAG" = "$PKG" || { echo "tag $TAG != package $PKG"; exit 1; }
+          grep -q "## \[$TAG\]" CHANGELOG.md || { echo "no changelog entry for $TAG"; exit 1; }
+          echo "releasing $TAG"
+      - run: pip install build twine
+      - run: python -m build
+      - run: twine check dist/*
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+  publish-testpypi:
+    name: Publish to TestPyPI
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: testpypi
+      url: https://test.pypi.org/p/epistemic-ledger
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
+
+  publish-pypi:
+    name: Publish to PyPI
+    needs: publish-testpypi
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/epistemic-ledger
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - uses: pypa/gh-action-pypi-publish@release/v1
+
+  github-release:
+    name: GitHub release
+    needs: publish-pypi
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - run: gh release create "$GITHUB_REF_NAME" dist/* --title "$GITHUB_REF_NAME" --generate-notes
+        env:
+          GH_TOKEN: ${{ github.token }}
