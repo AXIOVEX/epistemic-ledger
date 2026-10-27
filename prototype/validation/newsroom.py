@@ -421,6 +421,7 @@ class NewsroomAgent:
         return self.L.get_score(did) > 0.5
 
     def close(self):
+        self.L.close()  # release the store's files first (Windows cannot delete open files)
         shutil.rmtree(self.dir)
 
 
