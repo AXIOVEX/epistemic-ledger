@@ -12,7 +12,9 @@ from epistemic_ledger.ledger import Ledger, jeffrey
 @pytest.fixture
 def ledger():
     d = tempfile.mkdtemp()
-    yield Ledger(d)
+    L = Ledger(d)
+    yield L
+    L.close()  # Windows cannot delete a store whose files are still open
     shutil.rmtree(d)
 
 
@@ -429,6 +431,7 @@ def test_combo_determinism_across_builds(ledger):
         L.set_combo(d, "noisy-and")
         L._revisit(ps[0], {ps[0]: 0.7, ps[1]: 0.8, ps[2]: 0.9})
         scores.append(L._live_claim(d)["score"])
+        L.close()
         shutil.rmtree(dd)
     assert scores[0] == pytest.approx(scores[1])
 
@@ -1116,6 +1119,12 @@ def test_predicate_language_composition_and_validation(ledger):
 
 
 def test_writer_lock_excludes_second_opener(tmp_path):
+    import sys
+
+    if sys.platform == "win32":
+        pytest.skip(
+            "writer lock uses fcntl; unenforced on Windows by design (DESIGN-12)"
+        )
     d = str(tmp_path / "led")
     first = Ledger(d)
     try:
