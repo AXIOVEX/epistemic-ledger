@@ -6,7 +6,7 @@ import tempfile
 
 import pytest
 
-from ledger import Ledger, jeffrey
+from epistemic_ledger.ledger import Ledger, jeffrey
 
 
 @pytest.fixture
@@ -35,38 +35,40 @@ def test_assert_and_live_claim(ledger):
 
 def test_bitemporal_supersede(ledger):
     c1 = ledger.assert_claim("old claim", 0.6, t="2026-01-01T00:00:00+00:00")
-    c2 = ledger.supersede(c1, "corrected claim", 0.8,
-                          t="2026-02-01T00:00:00+00:00")
+    c2 = ledger.supersede(c1, "corrected claim", 0.8, t="2026-02-01T00:00:00+00:00")
     assert c1 != c2
     # Old claim has no live row (correct bitemporal behavior); its closed
     # version is marked superseded, and the new claim is live.
     closed = ledger.db.execute(
-        "SELECT * FROM claims WHERE claim_id = ? AND txn_to IS NOT NULL",
-        (c1,)).fetchone()
+        "SELECT * FROM claims WHERE claim_id = ? AND txn_to IS NOT NULL", (c1,)
+    ).fetchone()
     assert closed["status"] == "superseded"
     assert ledger._live_claim(c1) is None
     assert ledger._live_claim(c2)["score"] == pytest.approx(0.8)
     # Time travel: at January we believed the old claim.
-    jan = {r["claim_id"] for r in
-           ledger.believed_at("2026-01-15T00:00:00+00:00")}
+    jan = {r["claim_id"] for r in ledger.believed_at("2026-01-15T00:00:00+00:00")}
     assert c1 in jan and c2 not in jan
     # At March we believe the corrected one.
-    mar = {r["claim_id"] for r in
-           ledger.believed_at("2026-03-01T00:00:00+00:00")}
+    mar = {r["claim_id"] for r in ledger.believed_at("2026-03-01T00:00:00+00:00")}
     assert c2 in mar and c1 not in mar
 
 
 def test_revisit_propagates_with_jeffrey(ledger):
-    c = ledger.assert_claim("bridge design is safe", 0.6,
-                            t="2026-01-01T00:00:00+00:00")
+    c = ledger.assert_claim("bridge design is safe", 0.6, t="2026-01-01T00:00:00+00:00")
     report = ledger.ingest_evidence(
-        "load test passed", 0.9, t="2026-01-02T00:00:00+00:00")
+        "load test passed", 0.9, t="2026-01-02T00:00:00+00:00"
+    )
     fact = report["fact_id"]
-    ledger.add_support(c, fact, "evidential", p_given=0.95, p_given_not=0.3,
-                       t="2026-01-03T00:00:00+00:00")
+    ledger.add_support(
+        c,
+        fact,
+        "evidential",
+        p_given=0.95,
+        p_given_not=0.3,
+        t="2026-01-03T00:00:00+00:00",
+    )
     # Re-run the revisit now that the support edge exists.
-    report = ledger._revisit(fact, {fact: 0.9},
-                             t="2026-01-04T00:00:00+00:00")
+    report = ledger._revisit(fact, {fact: 0.9}, t="2026-01-04T00:00:00+00:00")
     assert report["n_revisited"] == 1
     new = ledger._live_claim(c)["score"]
     assert new == pytest.approx(0.95 * 0.9 + 0.3 * 0.1)  # 0.885
@@ -78,12 +80,20 @@ def test_early_cutoff_stops_propagation(ledger):
     b = ledger.assert_claim("B", 0.5, t="2026-01-01T00:00:00+00:00")
     fact = ledger.assert_claim("F", 0.51, t="2026-01-02T00:00:00+00:00")
     # Weak likelihoods: the update (0.0051) is below epsilon -> cutoff.
-    ledger.add_support(a, fact, "evidential", p_given=0.51, p_given_not=0.50,
-                       t="2026-01-03T00:00:00+00:00")
-    ledger.add_support(b, a, "deductive", p_given=1.0, p_given_not=0.0,
-                       t="2026-01-03T00:00:00+00:00")
-    report = ledger._revisit(fact, {fact: 0.51},
-                             t="2026-01-04T00:00:00+00:00", epsilon=0.01)
+    ledger.add_support(
+        a,
+        fact,
+        "evidential",
+        p_given=0.51,
+        p_given_not=0.50,
+        t="2026-01-03T00:00:00+00:00",
+    )
+    ledger.add_support(
+        b, a, "deductive", p_given=1.0, p_given_not=0.0, t="2026-01-03T00:00:00+00:00"
+    )
+    report = ledger._revisit(
+        fact, {fact: 0.51}, t="2026-01-04T00:00:00+00:00", epsilon=0.01
+    )
     assert report["n_revisited"] == 0
     assert report["cutoff_skipped"] >= 1
     # B never moved because A never moved.
@@ -91,13 +101,17 @@ def test_early_cutoff_stops_propagation(ledger):
 
 
 def test_materiality_flags(ledger):
-    c = ledger.assert_claim("C", 0.5, materiality=0.05,
-                            t="2026-01-01T00:00:00+00:00")
+    c = ledger.assert_claim("C", 0.5, materiality=0.05, t="2026-01-01T00:00:00+00:00")
     fact = ledger.assert_claim("F", 0.9, t="2026-01-02T00:00:00+00:00")
-    ledger.add_support(c, fact, "evidential", p_given=0.9, p_given_not=0.1,
-                       t="2026-01-03T00:00:00+00:00")
-    report = ledger._revisit(fact, {fact: 0.9},
-                             t="2026-01-04T00:00:00+00:00")
+    ledger.add_support(
+        c,
+        fact,
+        "evidential",
+        p_given=0.9,
+        p_given_not=0.1,
+        t="2026-01-03T00:00:00+00:00",
+    )
+    report = ledger._revisit(fact, {fact: 0.9}, t="2026-01-04T00:00:00+00:00")
     assert len(report["flags"]) == 1  # delta 0.32 >= 0.05
 
 
@@ -107,8 +121,7 @@ def test_queries(ledger):
     ledger.add_support(c2, c1, "deductive", t="2026-02-02T00:00:00+00:00")
 
     # CHANGED: only February events.
-    feb = ledger.changed("2026-02-01T00:00:00+00:00",
-                         "2026-03-01T00:00:00+00:00")
+    feb = ledger.changed("2026-02-01T00:00:00+00:00", "2026-03-01T00:00:00+00:00")
     assert all(e["t"] >= "2026-02-01T00:00:00+00:00" for e in feb)
     assert not any(e["payload"].get("statement") == "first" for e in feb)
 
@@ -135,8 +148,14 @@ def test_retract_support_keeps_claim_while_justified(ledger):
 def test_kill_metrics(ledger):
     c = ledger.assert_claim("C", 0.7, t="2026-01-01T00:00:00+00:00")
     fact = ledger.assert_claim("F", 0.9, t="2026-01-02T00:00:00+00:00")
-    ledger.add_support(c, fact, "evidential", p_given=0.9, p_given_not=0.1,
-                       t="2026-01-03T00:00:00+00:00")
+    ledger.add_support(
+        c,
+        fact,
+        "evidential",
+        p_given=0.9,
+        p_given_not=0.1,
+        t="2026-01-03T00:00:00+00:00",
+    )
     ledger._revisit(fact, {fact: 0.9}, t="2026-01-04T00:00:00+00:00")
     ledger.record_outcome(c, True, t="2026-01-05T00:00:00+00:00")
     ledger.manual_score(c, 0.99, actor="human", t="2026-01-06T00:00:00+00:00")
@@ -157,8 +176,14 @@ def test_kill_metrics(ledger):
 def test_llm_support_kind_flagged(ledger):
     c = ledger.assert_claim("C", 0.5, t="2026-01-01T00:00:00+00:00")
     f = ledger.assert_claim("F", 0.8, t="2026-01-01T00:00:00+00:00")
-    ledger.add_support(c, f, "llm-generated", p_given=0.8, p_given_not=0.4,
-                       t="2026-01-02T00:00:00+00:00")
+    ledger.add_support(
+        c,
+        f,
+        "llm-generated",
+        p_given=0.8,
+        p_given_not=0.4,
+        t="2026-01-02T00:00:00+00:00",
+    )
     assert ledger.why(c)[0]["kind"] == "llm-generated"
 
 
@@ -166,13 +191,12 @@ def test_llm_support_kind_flagged(ledger):
 # v0.2: entrenchment-based contradiction resolution (Design Memo 02)
 # ----------------------------------------------------------------------
 
-from ledger import ENTRENCHMENT_TIERS  # noqa: E402
+from epistemic_ledger.ledger import ENTRENCHMENT_TIERS  # noqa: E402
 
 
 def test_entrenchment_tiers(ledger):
     c = ledger.assert_claim("C", 0.5, t="2026-01-01T00:00:00+00:00")
-    old, new = ledger.apply_tier(c, "provisional",
-                                 t="2026-01-02T00:00:00+00:00")
+    old, new = ledger.apply_tier(c, "provisional", t="2026-01-02T00:00:00+00:00")
     assert (old, new) == (0.5, 0.25)
     assert ledger._live_claim(c)["entrenchment"] == pytest.approx(0.25)
     assert ledger._live_claim(c)["score"] == pytest.approx(0.5)  # untouched
@@ -181,20 +205,18 @@ def test_entrenchment_tiers(ledger):
     with pytest.raises(ValueError):
         ledger.set_entrenchment(c, 1.5)
     # bitemporal: the old entrenchment is still queryable
-    jan = {r["claim_id"]: r for r in
-           ledger.believed_at("2026-01-01T12:00:00+00:00")}
+    jan = {r["claim_id"]: r for r in ledger.believed_at("2026-01-01T12:00:00+00:00")}
     assert jan[c]["entrenchment"] == pytest.approx(0.5)
 
 
 def test_contradiction_resolution(ledger):
-    a = ledger.assert_claim("A: steel frame", 0.90,
-                            t="2026-01-01T00:00:00+00:00")
-    b = ledger.assert_claim("B: timber frame", 0.85,
-                            t="2026-01-01T00:00:00+00:00")
-    ledger.apply_tier(a, "measured", t="2026-01-02T00:00:00+00:00")    # 0.75
+    a = ledger.assert_claim("A: steel frame", 0.90, t="2026-01-01T00:00:00+00:00")
+    b = ledger.assert_claim("B: timber frame", 0.85, t="2026-01-01T00:00:00+00:00")
+    ledger.apply_tier(a, "measured", t="2026-01-02T00:00:00+00:00")  # 0.75
     ledger.apply_tier(b, "provisional", t="2026-01-02T00:00:00+00:00")  # 0.25
-    cid = ledger.declare_contradiction(a, b, actor="human",
-                                       t="2026-01-03T00:00:00+00:00")
+    cid = ledger.declare_contradiction(
+        a, b, actor="human", t="2026-01-03T00:00:00+00:00"
+    )
     assert len(ledger.open_contradictions()) == 1
     res = ledger.resolve_contradiction(cid, t="2026-01-04T00:00:00+00:00")
     assert res["resolved"] is True
@@ -224,27 +246,41 @@ def test_contradiction_tie_goes_to_human(ledger):
 def test_contradiction_propagates_to_dependents(ledger):
     a = ledger.assert_claim("A", 0.90, t="2026-01-01T00:00:00+00:00")
     b = ledger.assert_claim("B", 0.85, t="2026-01-01T00:00:00+00:00")
-    c = ledger.assert_claim("C: project viable", 0.80,
-                            t="2026-01-01T00:00:00+00:00")
+    c = ledger.assert_claim("C: project viable", 0.80, t="2026-01-01T00:00:00+00:00")
     ledger.apply_tier(a, "measured", t="2026-01-02T00:00:00+00:00")
     ledger.apply_tier(b, "provisional", t="2026-01-02T00:00:00+00:00")
-    ledger.add_support(c, b, "evidential", p_given=0.95, p_given_not=0.40,
-                       t="2026-01-02T00:00:00+00:00")
+    ledger.add_support(
+        c,
+        b,
+        "evidential",
+        p_given=0.95,
+        p_given_not=0.40,
+        t="2026-01-02T00:00:00+00:00",
+    )
     cid = ledger.declare_contradiction(a, b, t="2026-01-03T00:00:00+00:00")
     res = ledger.resolve_contradiction(cid, t="2026-01-04T00:00:00+00:00")
     assert res["resolved"] is True
     # C depended on B; B contracted -> C weakens too.
     assert ledger._live_claim(c)["score"] < 0.80
     # And the contraction is visible in the change log.
-    types = {e["type"] for e in ledger.changed("2026-01-03T00:00:00+00:00",
-                                              "2026-01-05T00:00:00+00:00")}
-    assert {"contradiction", "contract", "contradiction_resolved",
-            "score_revision"} <= types
+    types = {
+        e["type"]
+        for e in ledger.changed(
+            "2026-01-03T00:00:00+00:00", "2026-01-05T00:00:00+00:00"
+        )
+    }
+    assert {
+        "contradiction",
+        "contract",
+        "contradiction_resolved",
+        "score_revision",
+    } <= types
 
 
 # ----------------------------------------------------------------------
 # v0.3: learned entrenchment + D-S intervals
 # ----------------------------------------------------------------------
+
 
 def test_learn_entrenchment_from_brier(ledger):
     good = ledger.assert_claim("good", 0.90, t="2026-01-01T00:00:00+00:00")
@@ -262,17 +298,19 @@ def test_learn_entrenchment_from_brier(ledger):
     assert thin not in by_id  # not enough outcomes: manual tier stands
     assert ledger._live_claim(good)["entrenchment"] == pytest.approx(0.99)
     assert ledger._live_claim(good)["score"] == pytest.approx(0.90)  # untouched
-    ev = [e for e in ledger._events() if e["type"] == "entrenchment_set"
-          and e["payload"].get("learned")]
+    ev = [
+        e
+        for e in ledger._events()
+        if e["type"] == "entrenchment_set" and e["payload"].get("learned")
+    ]
     assert len(ev) == 2
 
 
 def test_learn_entrenchment_uses_score_at_outcome_time(ledger):
     c = ledger.assert_claim("C", 0.90, t="2026-01-01T00:00:00+00:00")
-    ledger.record_outcome(c, True, t="2026-01-15T00:00:00+00:00")   # at 0.90
-    ledger.manual_score(c, 0.20, actor="human",
-                        t="2026-02-01T00:00:00+00:00")
-    ledger.record_outcome(c, True, t="2026-02-15T00:00:00+00:00")   # at 0.20
+    ledger.record_outcome(c, True, t="2026-01-15T00:00:00+00:00")  # at 0.90
+    ledger.manual_score(c, 0.20, actor="human", t="2026-02-01T00:00:00+00:00")
+    ledger.record_outcome(c, True, t="2026-02-15T00:00:00+00:00")  # at 0.20
     ledger.record_outcome(c, False, t="2026-03-15T00:00:00+00:00")  # at 0.20
     rep = ledger.learn_entrenchment(t="2026-04-01T00:00:00+00:00")
     # Brier = (0.01 + 0.64 + 0.04)/3 = 0.23 -> e = 0.77
@@ -286,8 +324,7 @@ def test_interval_set_and_combine(ledger):
     assert ledger.ignorance(c) == pytest.approx(1.0)
     # evidence: H=0.8, ~H=0.0, ignorance=0.2, against total ignorance
     # a=(0,0,1): K = 0*0.0 + 0*0.8 = 0; c_h = 0.8, c_nh = 0 -> [0.8, 1.0]
-    r = ledger.combine_interval(c, 0.8, 0.0, 0.2,
-                                t="2026-01-03T00:00:00+00:00")
+    r = ledger.combine_interval(c, 0.8, 0.0, 0.2, t="2026-01-03T00:00:00+00:00")
     assert r["combined"] is True
     assert r["conflict"] == pytest.approx(0.0)
     assert r["belief"] == pytest.approx(0.8)
@@ -301,8 +338,7 @@ def test_interval_refuses_pathological_conflict(ledger):
     c = ledger.assert_claim("C", 0.5, t="2026-01-01T00:00:00+00:00")
     ledger.set_interval(c, 0.99, 1.0, t="2026-01-02T00:00:00+00:00")
     # K = 0.99*1.0 = 0.99 -> pathological, refused
-    r = ledger.combine_interval(c, 0.0, 1.0, 0.0,
-                                t="2026-01-03T00:00:00+00:00")
+    r = ledger.combine_interval(c, 0.0, 1.0, 0.0, t="2026-01-03T00:00:00+00:00")
     assert r["combined"] is False
     assert r["conflict"] == pytest.approx(0.99)
     # interval unchanged after refusal
@@ -313,44 +349,47 @@ def test_interval_refuses_pathological_conflict(ledger):
 # v0.4: joint likelihoods (Design Memo 05)
 # ----------------------------------------------------------------------
 
+
 def test_noisy_and_semantics(ledger):
     d = ledger.assert_claim("D", 0.5, t="2026-01-01T00:00:00+00:00")
-    ps = [ledger.assert_claim(f"P{i}", 0.99, t="2026-01-01T00:00:00+00:00")
-          for i in range(3)]
+    ps = [
+        ledger.assert_claim(f"P{i}", 0.99, t="2026-01-01T00:00:00+00:00")
+        for i in range(3)
+    ]
     for p in ps:
-        ledger.add_support(d, p, "evidential",
-                           t="2026-01-02T00:00:00+00:00")
+        ledger.add_support(d, p, "evidential", t="2026-01-02T00:00:00+00:00")
     ledger.set_combo(d, "noisy-and", t="2026-01-03T00:00:00+00:00")
     # all parents true -> ~1
-    r = ledger._revisit(ps[0], {p: 0.99 for p in ps},
-                        t="2026-01-04T00:00:00+00:00")
-    assert ledger._live_claim(d)["score"] == pytest.approx(0.99 ** 3, abs=1e-6)
+    r = ledger._revisit(ps[0], {p: 0.99 for p in ps}, t="2026-01-04T00:00:00+00:00")
+    assert ledger._live_claim(d)["score"] == pytest.approx(0.99**3, abs=1e-6)
     # one parent false -> ~leak (0.0)
-    r = ledger._revisit(ps[0], {ps[0]: 0.01, ps[1]: 0.99, ps[2]: 0.99},
-                        t="2026-01-05T00:00:00+00:00")
-    assert ledger._live_claim(d)["score"] == pytest.approx(0.01 * 0.99 ** 2,
-                                                           abs=1e-6)
+    r = ledger._revisit(
+        ps[0], {ps[0]: 0.01, ps[1]: 0.99, ps[2]: 0.99}, t="2026-01-05T00:00:00+00:00"
+    )
+    assert ledger._live_claim(d)["score"] == pytest.approx(0.01 * 0.99**2, abs=1e-6)
 
 
 def test_noisy_or_semantics(ledger):
     d = ledger.assert_claim("D", 0.5, t="2026-01-01T00:00:00+00:00")
-    ps = [ledger.assert_claim(f"P{i}", 0.01, t="2026-01-01T00:00:00+00:00")
-          for i in range(3)]
+    ps = [
+        ledger.assert_claim(f"P{i}", 0.01, t="2026-01-01T00:00:00+00:00")
+        for i in range(3)
+    ]
     for p in ps:
-        ledger.add_support(d, p, "evidential",
-                           t="2026-01-02T00:00:00+00:00")
-    ledger.set_combo(d, "noisy-or", leak=0.05,
-                     t="2026-01-03T00:00:00+00:00")
+        ledger.add_support(d, p, "evidential", t="2026-01-02T00:00:00+00:00")
+    ledger.set_combo(d, "noisy-or", leak=0.05, t="2026-01-03T00:00:00+00:00")
     # all false -> leak
-    ledger._revisit(ps[0], {p: 0.01 for p in ps},
-                    t="2026-01-04T00:00:00+00:00")
+    ledger._revisit(ps[0], {p: 0.01 for p in ps}, t="2026-01-04T00:00:00+00:00")
     assert ledger._live_claim(d)["score"] == pytest.approx(
-        1 - 0.95 * (1 - 0.01) ** 3, abs=1e-6)
+        1 - 0.95 * (1 - 0.01) ** 3, abs=1e-6
+    )
     # one true -> ~1
-    ledger._revisit(ps[0], {ps[0]: 0.99, ps[1]: 0.01, ps[2]: 0.01},
-                    t="2026-01-05T00:00:00+00:00")
+    ledger._revisit(
+        ps[0], {ps[0]: 0.99, ps[1]: 0.01, ps[2]: 0.01}, t="2026-01-05T00:00:00+00:00"
+    )
     assert ledger._live_claim(d)["score"] == pytest.approx(
-        1 - 0.95 * (1 - 0.99) * (1 - 0.01) ** 2, abs=1e-6)
+        1 - 0.95 * (1 - 0.99) * (1 - 0.01) ** 2, abs=1e-6
+    )
 
 
 def test_combo_strengths_and_leak(ledger):
@@ -360,10 +399,8 @@ def test_combo_strengths_and_leak(ledger):
     ledger.add_support(d, p1, "evidential", t="2026-01-02T00:00:00+00:00")
     ledger.add_support(d, p2, "evidential", t="2026-01-02T00:00:00+00:00")
     # p2 irrelevant (strength 0): D follows p1 alone
-    ledger.set_combo(d, "noisy-and", strengths={p2: 0.0},
-                     t="2026-01-03T00:00:00+00:00")
-    ledger._revisit(p1, {p1: 0.01, p2: 0.99},
-                    t="2026-01-04T00:00:00+00:00")
+    ledger.set_combo(d, "noisy-and", strengths={p2: 0.0}, t="2026-01-03T00:00:00+00:00")
+    ledger._revisit(p1, {p1: 0.01, p2: 0.99}, t="2026-01-04T00:00:00+00:00")
     assert ledger._live_claim(d)["score"] == pytest.approx(0.01, abs=1e-6)
     # combo metadata round-trips
     name, leak, strengths = ledger.get_combo(d)
@@ -376,7 +413,8 @@ def test_combo_strengths_and_leak(ledger):
 def test_combo_determinism_across_builds(ledger):
     # products commute: parent insertion order must not matter
     import tempfile, shutil
-    from ledger import Ledger as L2
+    from epistemic_ledger.ledger import Ledger as L2
+
     scores = []
     for flip in (False, True):
         dd = tempfile.mkdtemp()
@@ -399,6 +437,7 @@ def test_combo_determinism_across_builds(ledger):
 # v0.6: governance (Design Memo 06, Quipu-informed)
 # ----------------------------------------------------------------------
 
+
 def test_writer_tier_default_entrenchment(ledger):
     ledger.register_writer("tristen", "owner")
     ledger.register_writer("agent7", "contributor")
@@ -414,8 +453,7 @@ def test_writer_tier_default_entrenchment(ledger):
     assert ledger.get_entrenchment(c_unknown) == pytest.approx(0.25)
     assert ledger.get_entrenchment(c_system) == pytest.approx(0.5)
     # explicit entrenchment overrides the tier default
-    c_exp = ledger.assert_claim("explicit", 0.6, writer="scraper",
-                                entrenchment=0.9)
+    c_exp = ledger.assert_claim("explicit", 0.6, writer="scraper", entrenchment=0.9)
     assert ledger.get_entrenchment(c_exp) == pytest.approx(0.9)
     # writer recorded and carried across versions
     assert ledger._live_claim(c_owner)["writer"] == "tristen"
@@ -463,27 +501,27 @@ def test_policies_are_facts_and_bitemporal(ledger):
     assert p["rule"]["effect"] == "hold"
     # supersede the policy with an explicit later t; as-of queries see the
     # rule that was in force at T (times relative to actual registration)
-    t_init = next(e for e in ledger._events()
-                  if e["type"] == "policy_registered")["t"]
-    ledger.register_policy("challenge-axiom-requires-owner",
-                           "stricter version", version=3)
-    assert ledger.audit_policy(
-        "challenge-axiom-requires-owner")["version"] == 3
-    assert ledger.audit_policy(
-        "challenge-axiom-requires-owner", t=t_init)["version"] == 2
+    t_init = next(e for e in ledger._events() if e["type"] == "policy_registered")["t"]
+    ledger.register_policy(
+        "challenge-axiom-requires-owner", "stricter version", version=3
+    )
+    assert ledger.audit_policy("challenge-axiom-requires-owner")["version"] == 3
+    assert (
+        ledger.audit_policy("challenge-axiom-requires-owner", t=t_init)["version"] == 2
+    )
     # idempotent re-registration
-    n0 = len([e for e in ledger._events()
-              if e["type"] == "policy_registered"])
-    ledger.register_policy("challenge-axiom-requires-owner",
-                           "stricter version", version=3)
-    n1 = len([e for e in ledger._events()
-              if e["type"] == "policy_registered"])
+    n0 = len([e for e in ledger._events() if e["type"] == "policy_registered"])
+    ledger.register_policy(
+        "challenge-axiom-requires-owner", "stricter version", version=3
+    )
+    n1 = len([e for e in ledger._events() if e["type"] == "policy_registered"])
     assert n0 == n1
 
 
 # ----------------------------------------------------------------------
 # v0.6: automatic contradiction detection
 # ----------------------------------------------------------------------
+
 
 def _opposing_pair(ledger, shared=True):
     s = ledger.assert_claim("shared supporter", 0.9)
@@ -523,8 +561,8 @@ def test_detect_ignores_unrelated_opposition(ledger):
 def test_detect_interval_conflict(ledger):
     a = ledger.assert_claim("interval A", 0.5)
     b = ledger.assert_claim("interval B", 0.5)
-    ledger.set_interval(a, 0.9, 0.95)   # strongly true
-    ledger.set_interval(b, 0.0, 0.05)   # strongly false
+    ledger.set_interval(a, 0.9, 0.95)  # strongly true
+    ledger.set_interval(b, 0.0, 0.05)  # strongly false
     found = ledger.detect_contradictions()
     assert len(found) == 1
     opened = ledger.open_contradictions()
@@ -541,8 +579,8 @@ def test_detect_respects_governance_gate(ledger):
     ledger._set_score(c, 0.05, None)
     found = ledger.detect_contradictions()
     assert len(found) == 1
-    assert ledger.open_contradictions() == []          # gated...
-    assert len(ledger.held_contradictions()) == 1      # ...into the hold
+    assert ledger.open_contradictions() == []  # gated...
+    assert len(ledger.held_contradictions()) == 1  # ...into the hold
 
 
 # ----------------------------------------------------------------------
@@ -550,10 +588,11 @@ def test_detect_respects_governance_gate(ledger):
 #         kill bars)
 # ----------------------------------------------------------------------
 
+
 def test_stability_decay_for_churn_without_outcomes(ledger):
-    from ledger import ENTRENCHMENT_TIERS
-    flippy = ledger.assert_claim("flip-flopper", 0.9,
-                                 entrenchment="measured")  # 0.75
+    from epistemic_ledger.ledger import ENTRENCHMENT_TIERS
+
+    flippy = ledger.assert_claim("flip-flopper", 0.9, entrenchment="measured")  # 0.75
     steady = ledger.assert_claim("steady", 0.9, entrenchment="measured")
     for i in range(6):
         ledger._set_score(flippy, 0.1 if i % 2 == 0 else 0.9, None)
@@ -569,7 +608,8 @@ def test_stability_decay_for_churn_without_outcomes(ledger):
 
 
 def test_dempster_combine_ternary():
-    from ledger import dempster_combine, interval_to_mass
+    from epistemic_ledger.ledger import dempster_combine, interval_to_mass
+
     A, B, C = frozenset({"A"}), frozenset({"B"}), frozenset({"C"})
     ABC = frozenset({"A", "B", "C"})
     m1 = {A: 0.6, ABC: 0.4}
@@ -580,8 +620,7 @@ def test_dempster_combine_ternary():
     assert combined[B] == pytest.approx(0.375)
     assert combined[ABC] == pytest.approx(0.25)
     # binary intervals are the {'T','F'} special case: same K as before
-    _, Kb = dempster_combine(interval_to_mass(0.9, 0.95),
-                             interval_to_mass(0.0, 0.05))
+    _, Kb = dempster_combine(interval_to_mass(0.9, 0.95), interval_to_mass(0.0, 0.05))
     assert Kb == pytest.approx(0.9 * 0.95 + 0.05 * 0.0)  # = 0.855
     # total conflict raises instead of producing nonsense
     with pytest.raises(ValueError):
@@ -590,10 +629,11 @@ def test_dempster_combine_ternary():
 
 def test_abstention_policies_caller_owned(ledger):
     import policies
+
     a = ledger.assert_claim("ignorant claim", 0.5)
     b = ledger.assert_claim("sharp claim", 0.85)
-    ledger.set_interval(a, 0.1, 0.9)   # ignorance 0.8
-    ledger.set_interval(b, 0.8, 0.9)   # ignorance 0.1
+    ledger.set_interval(a, 0.1, 0.9)  # ignorance 0.8
+    ledger.set_interval(b, 0.8, 0.9)  # ignorance 0.1
     r1 = policies.ignorance_gated_policy(ledger, a, threshold=0.5)
     r2 = policies.ignorance_gated_policy(ledger, b, threshold=0.5)
     assert r1["action"] == "abstain" and r1["ignorance"] == pytest.approx(0.8)
@@ -605,6 +645,7 @@ def test_abstention_policies_caller_owned(ledger):
 def test_elicit_pair_anchors_and_warning(ledger):
     import elicit
     import warnings
+
     assert elicit.verbal_to_p("very likely") == pytest.approx(0.85)
     p_given, p_not = elicit.elicit_pair("very likely", "unlikely")
     assert (p_given, p_not) == pytest.approx((0.85, 0.30))
@@ -639,12 +680,13 @@ def test_detect_topic_filter_kills_cross_fact_fps(ledger):
     ledger.set_interval(a, 0.9, 0.95)
     ledger.set_interval(b, 0.0, 0.05)
     # filtered first: unrelated topics are not contradictions, nothing queued
-    assert ledger.detect_contradictions(topic_of=lambda c: ["X", "Y"][
-        0 if c == a else 1]) == []
+    assert (
+        ledger.detect_contradictions(topic_of=lambda c: ["X", "Y"][0 if c == a else 1])
+        == []
+    )
     assert ledger.open_contradictions() == []
     # same topic: still detected
-    assert len(ledger.detect_contradictions(
-        topic_of=lambda c: "same")) == 1
+    assert len(ledger.detect_contradictions(topic_of=lambda c: "same")) == 1
 
 
 def test_detect_unfiltered_interval_low_precision_documented(ledger):
@@ -661,6 +703,7 @@ def test_detect_unfiltered_interval_low_precision_documented(ledger):
 # v0.7: topics + consolidation pass (Design Memo 08)
 # ----------------------------------------------------------------------
 
+
 def test_topics_bitemporal(ledger):
     a = ledger.assert_claim("some claim", 0.5)
     assert ledger.get_topic(a) is None
@@ -674,38 +717,43 @@ def test_topics_bitemporal(ledger):
     ledger.set_interval(b, 0.0, 0.05)
     assert ledger.detect_contradictions(topic_of=ledger.get_topic) == []
     ledger.assign_topic(b, "prop:climate")
-    assert len(ledger.detect_contradictions(
-        topic_of=ledger.get_topic)) == 1
+    assert len(ledger.detect_contradictions(topic_of=ledger.get_topic)) == 1
 
 
 def test_consolidator_with_fake_llm(ledger):
     import consolidation
+
     a = ledger.assert_claim("The bridge is safe", 0.9)
     b = ledger.assert_claim("The bridge is unsafe", 0.85)
     c = ledger.assert_claim("The bridge passed inspection", 0.8)
     d = ledger.assert_claim("Bridge deemed safe by inspectors", 0.8)
-    reply = ('{"contradicts": [["%s","%s"]], "same": [["%s","%s"]], '
-             '"supports": [["%s","%s"]]}' % (a, b, a, d, c, a))
+    reply = (
+        '{"contradicts": [["%s","%s"]], "same": [["%s","%s"]], '
+        '"supports": [["%s","%s"]]}' % (a, b, a, d, c, a)
+    )
     fake = consolidation.FakeLLM(reply)
     rep = consolidation.Consolidator(ledger, fake).run()
     assert len(rep["contradictions_declared"]) == 1
-    assert ledger.open_contradictions()[0]["payload"]["signal"] == \
-        "llm-consolidation"
+    assert ledger.open_contradictions()[0]["payload"]["signal"] == "llm-consolidation"
     assert ledger.get_topic(a) == ledger.get_topic(d)
     assert ledger.get_topic(a) == f"prop:{min(a, d)}"
     assert rep["supports_proposed"] == [(c, a)]
     assert rep["cost_usd"] == 0.0
     # unknown ids in a reply are dropped, not crashed on
     bad = consolidation.FakeLLM(
-        '{"contradicts": [["NOPE","%s"]], "same": [], "supports": []}' % a)
+        '{"contradicts": [["NOPE","%s"]], "same": [], "supports": []}' % a
+    )
     rep2 = consolidation.Consolidator(ledger, bad).run()
     assert rep2["contradictions_declared"] == []
 
 
 def test_parse_relations_robust():
     import consolidation
-    text = 'Here you go:\n{"contradicts": [["A","B"]], "same": [], ' \
-           '"supports": [["A","A"],["C","D"]]} trailing'
+
+    text = (
+        'Here you go:\n{"contradicts": [["A","B"]], "same": [], '
+        '"supports": [["A","A"],["C","D"]]} trailing'
+    )
     rel = consolidation.parse_relations(text)
     assert rel["contradicts"] == [("A", "B")]
     assert rel["supports"] == [("C", "D")]  # self-pair dropped
@@ -717,13 +765,14 @@ def test_parse_relations_robust():
 # v0.8: conflict-normalized (material) churn (Design Memo 09)
 # ----------------------------------------------------------------------
 
+
 def test_material_churn_absorbs_jitter(ledger):
     jitter = ledger.assert_claim("jitter claim", 0.5)
     for i in range(10):
         ledger.manual_score(jitter, 0.51 if i % 2 == 0 else 0.49)
     d = ledger.kill_metrics()["churn_detail"][jitter]
-    assert d["raw"] >= 8                 # raw churn screams
-    assert d["material_moves"] == 0      # ...about nothing material
+    assert d["raw"] >= 8  # raw churn screams
+    assert d["material_moves"] == 0  # ...about nothing material
     assert d["material_churn"] == 0
 
 
@@ -736,8 +785,7 @@ def test_material_churn_catches_oscillation(ledger):
     assert d["material_churn"] == 9
     res = ledger.check_kill_bars()
     assert res["values"]["max_material_churn"] == 9
-    assert any(b["criterion"] == "max_material_churn"
-               for b in res["breached"])
+    assert any(b["criterion"] == "max_material_churn" for b in res["breached"])
 
 
 def test_material_churn_counts_real_reversal_once(ledger):
@@ -765,24 +813,30 @@ def test_churn_detail_one_directional(ledger):
 # v0.9: ed25519 vectors, escalation, signed verdicts (Design Memo 10)
 # ----------------------------------------------------------------------
 
-import ed25519 as _ed
+from epistemic_ledger import ed25519 as _ed
 
 _RFC_VECTORS = [
-    ("9d61b19deffd5a60ba844af492ec2cc44449c5697b326919703bac031cae7f60",
-     "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
-     "",
-     "e5564300c360ac729086e2cc806e828a84877f1eb8e5d974d873e06522490155"
-     "5fb8821590a33bacc61e39701cf9b46bd25bf5f0595bbe24655141438e7a100b"),
-    ("4ccd089b28ff96da9db6c346ec114e0f5b8a319f35aba624da8cf6ed4fb8a6fb",
-     "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
-     "72",
-     "92a009a9f0d4cab8720e820b5f642540a2b27b5416503f8fb3762223ebdb69da"
-     "085ac1e43e15996e458f3613d0f11d8c387b2eaeb4302aeeb00d291612bb0c00"),
-    ("c5aa8df43f9f837bedb7442f31dcb7b166d38535076f094b85ce3a2e0b4458f7",
-     "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
-     "af82",
-     "6291d657deec24024827e69c3abe01a30ce548a284743a445e3680d7db5ac3ac"
-     "18ff9b538d16f290ae67f760984dc6594a7c15e9716ed28dc027beceea1ec40a"),
+    (
+        "9d61b19deffd5a60ba844af492ec2cc44449c5697b326919703bac031cae7f60",
+        "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+        "",
+        "e5564300c360ac729086e2cc806e828a84877f1eb8e5d974d873e06522490155"
+        "5fb8821590a33bacc61e39701cf9b46bd25bf5f0595bbe24655141438e7a100b",
+    ),
+    (
+        "4ccd089b28ff96da9db6c346ec114e0f5b8a319f35aba624da8cf6ed4fb8a6fb",
+        "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+        "72",
+        "92a009a9f0d4cab8720e820b5f642540a2b27b5416503f8fb3762223ebdb69da"
+        "085ac1e43e15996e458f3613d0f11d8c387b2eaeb4302aeeb00d291612bb0c00",
+    ),
+    (
+        "c5aa8df43f9f837bedb7442f31dcb7b166d38535076f094b85ce3a2e0b4458f7",
+        "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+        "af82",
+        "6291d657deec24024827e69c3abe01a30ce548a284743a445e3680d7db5ac3ac"
+        "18ff9b538d16f290ae67f760984dc6594a7c15e9716ed28dc027beceea1ec40a",
+    ),
 ]
 
 
@@ -803,14 +857,17 @@ _OWNER_SEED = bytes(range(32))
 
 def _governed(ledger, keyed=True):
     """Axiom + challenger + a held contradiction. Returns (held_id,)."""
-    ledger.register_writer("owner-1", "owner",
-                           public_key=(_ed.publickey(_OWNER_SEED).hex()
-                                       if keyed else None))
+    ledger.register_writer(
+        "owner-1",
+        "owner",
+        public_key=(_ed.publickey(_OWNER_SEED).hex() if keyed else None),
+    )
     ledger.register_writer("contrib-1", "contributor")
     axiom = ledger.assert_claim("the axiom", 0.9, entrenchment=1.0)
     chal = ledger.assert_claim("the challenger", 0.8, entrenchment=0.5)
     held_id = ledger.declare_contradiction(
-        axiom, chal, p_loser_given_winner=0.11, writer="contrib-1")
+        axiom, chal, p_loser_given_winner=0.11, writer="contrib-1"
+    )
     assert len(ledger.held_contradictions()) == 1
     return held_id, axiom, chal
 
@@ -821,8 +878,7 @@ def _sign(msg):
 
 def test_escalation_release_flow(ledger):
     held_id, axiom, chal = _governed(ledger, keyed=False)
-    out = ledger.escalate_contradiction(held_id, "release",
-                                        writer="owner-1")
+    out = ledger.escalate_contradiction(held_id, "release", writer="owner-1")
     assert out["decision"] == "release"
     assert ledger.held_contradictions() == []
     open_cs = ledger.open_contradictions()
@@ -836,41 +892,37 @@ def test_escalation_release_flow(ledger):
 
 def test_escalation_dismiss_flow(ledger):
     held_id, _, _ = _governed(ledger, keyed=False)
-    out = ledger.escalate_contradiction(held_id, "dismiss",
-                                        writer="owner-1")
+    out = ledger.escalate_contradiction(held_id, "dismiss", writer="owner-1")
     assert out["decision"] == "dismiss"
     assert ledger.held_contradictions() == []
     assert ledger.open_contradictions() == []
     with pytest.raises(KeyError):  # no longer held: no double verdict
-        ledger.escalate_contradiction(held_id, "dismiss",
-                                      writer="owner-1")
+        ledger.escalate_contradiction(held_id, "dismiss", writer="owner-1")
 
 
 def test_escalation_requires_owner(ledger):
     held_id, _, _ = _governed(ledger)
     with pytest.raises(PermissionError):
-        ledger.escalate_contradiction(held_id, "release",
-                                      writer="contrib-1")
+        ledger.escalate_contradiction(held_id, "release", writer="contrib-1")
     with pytest.raises(PermissionError):
         ledger.escalate_contradiction(held_id, "release", writer=None)
     with pytest.raises(KeyError):
-        ledger.escalate_contradiction("E-nope", "release",
-                                      writer="owner-1")
+        ledger.escalate_contradiction("E-nope", "release", writer="owner-1")
 
 
 def test_keyed_owner_must_sign_escalation(ledger):
     held_id, _, _ = _governed(ledger, keyed=True)
     with pytest.raises(PermissionError):  # missing signature
-        ledger.escalate_contradiction(held_id, "release",
-                                      writer="owner-1")
+        ledger.escalate_contradiction(held_id, "release", writer="owner-1")
     msg = ledger.verdict_message("escalate", held_id, "owner-1", "dismiss")
     with pytest.raises(PermissionError):  # signature for wrong decision
-        ledger.escalate_contradiction(held_id, "release",
-                                      writer="owner-1", signature=_sign(msg))
+        ledger.escalate_contradiction(
+            held_id, "release", writer="owner-1", signature=_sign(msg)
+        )
     msg = ledger.verdict_message("escalate", held_id, "owner-1", "release")
-    out = ledger.escalate_contradiction(held_id, "release",
-                                        writer="owner-1",
-                                        signature=_sign(msg))
+    out = ledger.escalate_contradiction(
+        held_id, "release", writer="owner-1", signature=_sign(msg)
+    )
     assert out["decision"] == "release"
     audit = ledger.verify_verdict_signatures()
     assert audit == {"checked": 1, "valid": 1, "invalid": []}
@@ -878,16 +930,15 @@ def test_keyed_owner_must_sign_escalation(ledger):
 
 def test_keyed_writer_must_sign_resolution(ledger):
     ledger.register_writer(
-        "owner-1", "owner",
-        public_key=_ed.publickey(_OWNER_SEED).hex())
+        "owner-1", "owner", public_key=_ed.publickey(_OWNER_SEED).hex()
+    )
     a = ledger.assert_claim("claim a", 0.9, entrenchment=0.75)
     b = ledger.assert_claim("claim b", 0.8, entrenchment=0.25)
     cid = ledger.declare_contradiction(a, b, writer="owner-1")
     with pytest.raises(PermissionError):
         ledger.resolve_contradiction(cid, writer="owner-1")
     msg = ledger.verdict_message("resolve", cid, "owner-1")
-    res = ledger.resolve_contradiction(cid, writer="owner-1",
-                                       signature=_sign(msg))
+    res = ledger.resolve_contradiction(cid, writer="owner-1", signature=_sign(msg))
     assert res["resolved"] and res["loser"] == b
     audit = ledger.verify_verdict_signatures()
     assert audit["checked"] == 1 and audit["valid"] == 1
@@ -895,15 +946,15 @@ def test_keyed_writer_must_sign_resolution(ledger):
     a2 = ledger.assert_claim("claim a2", 0.9, entrenchment=0.75)
     b2 = ledger.assert_claim("claim b2", 0.8, entrenchment=0.25)
     cid2 = ledger.declare_contradiction(a2, b2, writer="contrib-x")
-    assert ledger.resolve_contradiction(
-        cid2, writer="contrib-x")["resolved"]
+    assert ledger.resolve_contradiction(cid2, writer="contrib-x")["resolved"]
 
 
 def test_signature_audit_detects_key_rotation(ledger):
     held_id, _, _ = _governed(ledger, keyed=True)
     msg = ledger.verdict_message("escalate", held_id, "owner-1", "dismiss")
-    ledger.escalate_contradiction(held_id, "dismiss", writer="owner-1",
-                                  signature=_sign(msg))
+    ledger.escalate_contradiction(
+        held_id, "dismiss", writer="owner-1", signature=_sign(msg)
+    )
     assert ledger.verify_verdict_signatures()["valid"] == 1
     other = _ed.publickey(bytes(range(32, 64))).hex()
     ledger.register_writer("owner-1", "owner", public_key=other)
@@ -918,7 +969,8 @@ def test_signature_audit_detects_key_rotation(ledger):
 # v0.10: named-graph partitions + predicate policies (Design Memo 11)
 # ----------------------------------------------------------------------
 
-import ledger as ledger_module
+from epistemic_ledger import ledger as ledger_module
+
 
 def test_graph_assignment_and_ceilings(ledger):
     ledger.register_graph("quarantine", 0.25)
@@ -944,8 +996,7 @@ def test_graph_ceiling_is_bitemporal(ledger):
     ledger.register_graph("lab", 0.5, t="2026-01-01T00:00:00+00:00")
     ledger.register_graph("lab", 0.3, t="2026-06-01T00:00:00+00:00")
     assert ledger.audit_graph("lab")["ceiling"] == 0.3
-    assert ledger.audit_graph(
-        "lab", t="2026-03-01T00:00:00+00:00")["ceiling"] == 0.5
+    assert ledger.audit_graph("lab", t="2026-03-01T00:00:00+00:00")["ceiling"] == 0.5
 
 
 def test_cross_graph_composition_never_widens(ledger):
@@ -982,28 +1033,29 @@ def test_default_policy_rule_is_data(ledger):
     ledger.register_writer("contrib-1", "contributor")
     axiom = ledger.assert_claim("real axiom", 0.9, entrenchment=1.0)
     chal = ledger.assert_claim("challenger", 0.8, entrenchment=0.5)
-    held_id = ledger.declare_contradiction(axiom, chal,
-                                           writer="contrib-1")
+    held_id = ledger.declare_contradiction(axiom, chal, writer="contrib-1")
     held = ledger.held_contradictions()
     assert [e["event_id"] for e in held] == [held_id]
-    assert held[0]["payload"]["policy"] == (
-        "challenge-axiom-requires-owner")
+    assert held[0]["payload"]["policy"] == ("challenge-axiom-requires-owner")
 
 
 def test_predicate_policy_denies_resolution(ledger):
     ledger.register_policy(
-        "no-easy-resolutions", "deny resolving away strong claims",
+        "no-easy-resolutions",
+        "deny resolving away strong claims",
         version=1,
-        rule={"action": "resolve_contradiction", "effect": "deny",
-              "when": {"field": "loser_entrenchment", "op": ">=",
-                       "value": 0.75}})
+        rule={
+            "action": "resolve_contradiction",
+            "effect": "deny",
+            "when": {"field": "loser_entrenchment", "op": ">=", "value": 0.75},
+        },
+    )
     strong = ledger.assert_claim("strong", 0.9, entrenchment=0.9)
     mid = ledger.assert_claim("mid", 0.8, entrenchment=0.75)
     cid = ledger.declare_contradiction(strong, mid)
     with pytest.raises(PermissionError):
         ledger.resolve_contradiction(cid)
-    assert any(e["type"] == "policy_denied"
-               for e in ledger._events())
+    assert any(e["type"] == "policy_denied" for e in ledger._events())
     assert [e["event_id"] for e in ledger.open_contradictions()] == [cid]
     # a resolution whose loser is weak proceeds
     weak = ledger.assert_claim("weak", 0.7, entrenchment=0.25)
@@ -1014,36 +1066,54 @@ def test_predicate_policy_denies_resolution(ledger):
 def test_predicate_language_composition_and_validation(ledger):
     # any/not nesting, evaluated through an escalate-deny rule
     ledger.register_policy(
-        "no-dismissals", "owners may release but never dismiss",
+        "no-dismissals",
+        "owners may release but never dismiss",
         version=1,
-        rule={"action": "escalate_contradiction", "effect": "deny",
-              "when": {"any": [
-                  {"field": "decision", "op": "==", "value": "dismiss"},
-                  {"not": {"field": "writer_tier", "op": "==",
-                           "value": "owner"}}]}})
+        rule={
+            "action": "escalate_contradiction",
+            "effect": "deny",
+            "when": {
+                "any": [
+                    {"field": "decision", "op": "==", "value": "dismiss"},
+                    {"not": {"field": "writer_tier", "op": "==", "value": "owner"}},
+                ]
+            },
+        },
+    )
     held_id, _, _ = _governed(ledger, keyed=False)
     with pytest.raises(PermissionError):
-        ledger.escalate_contradiction(held_id, "dismiss",
-                                      writer="owner-1")
-    out = ledger.escalate_contradiction(held_id, "release",
-                                        writer="owner-1")
+        ledger.escalate_contradiction(held_id, "dismiss", writer="owner-1")
+    out = ledger.escalate_contradiction(held_id, "release", writer="owner-1")
     assert out["decision"] == "release"
     # malformed rules are refused at registration
     with pytest.raises(ValueError):
         ledger.register_policy(
-            "junk", "bad op", version=1,
-            rule={"action": "resolve_contradiction", "effect": "deny",
-                  "when": {"field": "x", "op": "~=", "value": 1}})
+            "junk",
+            "bad op",
+            version=1,
+            rule={
+                "action": "resolve_contradiction",
+                "effect": "deny",
+                "when": {"field": "x", "op": "~=", "value": 1},
+            },
+        )
     with pytest.raises(ValueError):  # hold needs a verdict queue
         ledger.register_policy(
-            "junk2", "hold on resolve", version=1,
-            rule={"action": "resolve_contradiction", "effect": "hold",
-                  "when": {"field": "x", "op": "==", "value": 1}})
+            "junk2",
+            "hold on resolve",
+            version=1,
+            rule={
+                "action": "resolve_contradiction",
+                "effect": "hold",
+                "when": {"field": "x", "op": "==", "value": 1},
+            },
+        )
 
 
 # ------------------------------------------------------------------
 # v0.11 hardening (DESIGN-12): writer lock + store verification
 # ------------------------------------------------------------------
+
 
 def test_writer_lock_excludes_second_opener(tmp_path):
     d = str(tmp_path / "led")
@@ -1068,8 +1138,8 @@ def test_verify_store_clean(ledger):
 def test_verify_store_detects_projection_tamper(ledger):
     c = ledger.assert_claim("tamper target", 0.5)
     ledger.db.execute(
-        "UPDATE claims SET score = 0.99 WHERE claim_id = ? "
-        "AND txn_to IS NULL", (c,))
+        "UPDATE claims SET score = 0.99 WHERE claim_id = ? AND txn_to IS NULL", (c,)
+    )
     ledger.db.commit()
     rep = ledger.verify_store()
     assert not rep["ok"]
@@ -1101,8 +1171,7 @@ def test_manual_score_propagates_to_dependents(ledger):
     # v0.11.1: a human correction re-derives dependents, like evidence.
     fact = ledger.assert_claim("propagation fact", 0.5)
     dep = ledger.assert_claim("propagation dependent", 0.5)
-    ledger.add_support(dep, fact, "evidential", p_given=0.9,
-                       p_given_not=0.1)
+    ledger.add_support(dep, fact, "evidential", p_given=0.9, p_given_not=0.1)
     before = ledger.get_score(dep)
     ledger.manual_score(fact, 0.95)
     after = ledger.get_score(dep)

@@ -1,5 +1,11 @@
 # Epistemic Ledger
 
+[![CI](https://github.com/AXIOVEX/epistemic-ledger/actions/workflows/ci.yml/badge.svg)](https://github.com/AXIOVEX/epistemic-ledger/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/AXIOVEX/epistemic-ledger/graph/badge.svg)](https://codecov.io/gh/AXIOVEX/epistemic-ledger)
+[![PyPI](https://img.shields.io/pypi/v/epistemic-ledger.svg)](https://pypi.org/project/epistemic-ledger/)
+[![Documentation](https://readthedocs.org/projects/epistemic-ledger/badge/?version=latest)](https://epistemic-ledger.readthedocs.io/)
+[![Python](https://img.shields.io/pypi/pyversions/epistemic-ledger.svg)](https://pypi.org/project/epistemic-ledger/)
+
 > A living epistemic scoring system where every conclusion lives in an append-only database with a fluid certainty score, and new facts automatically trigger re-evaluation of the conclusions — and their dependents — that they affect, instead of any judgment ever being final.
 
 Databases are deeply flawed: there is no built-in way to keep challenging the data, to know how true any of it is, or to update it as the evidence comes in. The epistemic ledger is an attempt to fix that — an append-only epistemic database over which an active feedback loop runs, so records are never destroyed but certainty stays fluid, and the system corrects itself, including its previously built structure.
@@ -25,6 +31,26 @@ Measured results so far, each with its own report in `docs/`:
 - **Ported into production tooling**: the measured defaults ship in the deterministic Applied Epistemic Engineering engine (`aee` 1.4.0 on PyPI — policy gates, per-source reliability, materiality review queue) and the Spec Kit AEE extension 1.2.0, with the transfer map recorded in that repository.
 - **Measured, killed** (LORA-01, 2026-10-20): a LoRA adapter trained on truth-orthogonal stance data improved held-out assertion accuracy (0.903 → 0.972) but failed the frozen primary bar (+0.10 improvement required, +0.069 measured) and learned to abstain on real published copy (14/131 REALWIRE sentences), regressing REALWIRE-T. Killed as a production candidate under its predeclared criteria; the production default (Q35A) is unchanged. Full record in docs/LORA-01.md.
 - **Measured, killed** (LORA-02, 2026-10-20): the successor adapter - trained with near-miss distractors against LORA-01's abstention failure and judged by headroom-based error-reduction bars - fixed every held-out assert error (0.958 to 1.000) but abstained on 30% of REALWIRE and damaged deny accuracy on real copy (REALWIRE-T deny 0.891 to 0.655). Killed under its frozen bars; across both LoRA studies, stance training on authored sentences does not transfer to real published copy. Production default (Q35A) unchanged. Full record in docs/LORA-02.md.
+
+## Install
+
+```bash
+pip install epistemic-ledger
+```
+
+```python
+from epistemic_ledger import Ledger
+
+ledger = Ledger("my-ledger")
+claim = ledger.assert_claim("the bridge design is safe", 0.60)
+fact = ledger.ingest_evidence("load test passed", 0.90)["fact_id"]
+ledger.add_support(claim, fact, "evidential", p_given=0.95, p_given_not=0.30)
+print(ledger.get_score(claim))
+```
+
+Command line: `epistemic-ledger demo`, `epistemic-ledger verify <dir>`,
+`epistemic-ledger kill-metrics <dir>`. Full documentation:
+https://epistemic-ledger.readthedocs.io/
 
 ## The idea in brief
 
@@ -59,7 +85,7 @@ The same machinery answers a pressing LLM problem: **context cleanup**. Retrieva
 ```
 .
 ├── README.md            # This file
-├── LICENSE              # All rights reserved, © 2026 Axiovex Systems, LLC
+├── LICENSE              # MIT (code); docs/ stays all rights reserved — see NOTICE.md
 ├── docs/
 │   ├── PAPER.md         # The framing paper
 │   ├── DESIGN-01-record-schema-scoring.md  # Record schema + scoring calculus
@@ -70,23 +96,24 @@ The same machinery answers a pressing LLM problem: **context cleanup**. Retrieva
 │   ├── CONTEXT-CLEANUP-01.md  # LLM context-cleanup experiment report
 │   └── research/        # Raw research notes with provenance (2026-09-30)
 │       └── BIBLIOGRAPHY.md  # Annotated bibliography: primary-source verification (2026-10-01)
-├── prototype/           # v0.1 prototype (stdlib-only Python)
-│   ├── ledger.py        # Core: event log, bitemporal store, revisit loop, queries
-│   ├── demo.py          # End-to-end scenario
-│   └── tests/           # Test suite
+├── src/epistemic_ledger/  # The package (stdlib-only Python)
+├── tests/               # Test suite
+├── prototype/           # Research scripts + compatibility shims
+│   ├── validation/      # Measured-result harnesses (not shipped)
+│   └── demo.py          # End-to-end scenario
 └── .gitignore
 ```
 
 ## Prototype v0.1
 
-A working implementation of Design Memo 01's §8 scope lives in [`prototype/`](prototype/): append-only JSONL event log, SQLite bitemporal claim table, Jeffrey-update revisit loop with early cutoff, one materiality rule, the four queries (`BELIEVED_AT` / `CHANGED` / `DEPENDS_ON` / `WHY`), and all five kill criteria instrumented from day one.
+A working implementation of Design Memo 01's §8 scope — now the shipped package under `src/epistemic_ledger/`, with the research harnesses remaining in [`prototype/`](prototype/): append-only JSONL event log, SQLite bitemporal claim table, Jeffrey-update revisit loop with early cutoff, one materiality rule, the four queries (`BELIEVED_AT` / `CHANGED` / `DEPENDS_ON` / `WHY`), and all five kill criteria instrumented from day one.
 
 ```bash
-cd prototype
-python demo.py            # end-to-end scenario
-python -m pytest tests/   # 10 tests, all green
+pip install -e ".[dev]"   # from the repo root
+epistemic-ledger demo      # end-to-end scenario
+python -m pytest           # the full test suite
 ```
 
 ## License
 
-All rights reserved. © 2026 Axiovex Systems, LLC. See [LICENSE](LICENSE).
+Code: MIT — see [LICENSE](LICENSE). The framing paper, design memos, and research documents under `docs/` remain all rights reserved, © 2026 Axiovex Systems, LLC — see [LICENSE-DOCS.txt](LICENSE-DOCS.txt) and [NOTICE.md](NOTICE.md).

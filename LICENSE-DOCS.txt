@@ -1,0 +1,13 @@
+Copyright © 2026 Axiovex Systems, LLC. All rights reserved.
+
+This license covers the documentation in this repository: the framing
+paper (docs/PAPER.md), the design memos (docs/DESIGN-*.md), the result
+reports (docs/*.md), and the research notes (docs/research/).
+
+No part of the documentation may be reproduced, distributed, or transmitted
+in any form or by any means without the prior written permission of
+Axiovex Systems, LLC, except as permitted by applicable law.
+
+The software code in this repository (src/, tests/, and the research
+scripts under prototype/) is licensed separately under the MIT License;
+see the LICENSE file.

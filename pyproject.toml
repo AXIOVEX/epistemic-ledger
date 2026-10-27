@@ -1,0 +1,117 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "epistemic-ledger"
+version = "0.12.0"
+description = "A living epistemic ledger: append-only conclusions with fluid certainty scores, revised as new facts arrive."
+readme = "README-PyPI.md"
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [
+    { name = "Axiovex Systems, LLC" },
+]
+keywords = [
+    "epistemology",
+    "belief-revision",
+    "bitemporal",
+    "event-sourcing",
+    "truth-maintenance",
+    "agent-memory",
+    "knowledge-graph",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Database",
+    "Typing :: Typed",
+]
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8",
+    "pytest-cov>=5",
+    "hypothesis>=6",
+    "ruff>=0.6",
+    "mypy>=1.11",
+    "build>=1.2",
+    "twine>=5",
+]
+docs = [
+    "mkdocs>=1.6",
+    "mkdocs-material>=9.5",
+    "mkdocstrings[python]>=0.26",
+]
+
+[project.scripts]
+epistemic-ledger = "epistemic_ledger.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/AXIOVEX/epistemic-ledger"
+Documentation = "https://epistemic-ledger.readthedocs.io/"
+Repository = "https://github.com/AXIOVEX/epistemic-ledger"
+Issues = "https://github.com/AXIOVEX/epistemic-ledger/issues"
+Changelog = "https://github.com/AXIOVEX/epistemic-ledger/blob/main/CHANGELOG.md"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+epistemic_ledger = ["py.typed"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+markers = [
+    "property: property-based tests (Hypothesis)",
+]
+
+[tool.coverage.run]
+source = ["epistemic_ledger"]
+branch = true
+omit = [
+    "*/epistemic_ledger/__main__.py",  # 3-line entry shim, exercised via the CLI tests' subprocess check
+]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = false
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+ignore = [
+    "E501",  # line length is a formatter concern; long data lines exist in the research-derived core
+    "B008",
+]
+
+[tool.ruff.lint.per-file-ignores]
+# The ported suite predates the package: it imports in per-feature
+# sections on purpose and keeps scenario-setup locals. Its behavior is
+# the contract; new test files are held to the full rule set.
+"tests/test_ledger.py" = ["E401", "E402", "I001", "F401", "F811", "F841", "UP031", "E741", "B007"]
+"tests/test_newsroom.py" = ["E402"]
+
+[tool.mypy]
+python_version = "3.10"
+warn_unused_ignores = false
+ignore_missing_imports = true
+# The core predates typing; strictness is being raised module by module.
+# The gate today: mypy must parse and check the package with no errors
+# under these settings; new modules (cli, __init__) are fully annotated
+# in practice and checked the same way.
+check_untyped_defs = true
