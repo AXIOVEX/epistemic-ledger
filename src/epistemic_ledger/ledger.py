@@ -200,7 +200,7 @@ def dempster_combine(m1, m2):
     if K >= 1.0 - 1e-12:
         raise ValueError(f"total conflict K={K:.4f}")
     n = 1.0 - K
-    return {s: v / n for s, v in combined.items()}, K
+    return combined, K  # MUTANT B: normalization removed
 
 
 def interval_to_mass(belief, plausibility):
