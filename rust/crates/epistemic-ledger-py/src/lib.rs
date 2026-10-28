@@ -122,10 +122,49 @@ fn health_json(path: String, segment: Option<u64>) -> PyResult<String> {
     serde_json::to_string(&report).map_err(err)
 }
 
+/// Write a snapshot bundle of the store at `store_path` into
+/// `bundle_path` (DESIGN-13 section 4). Returns the snapshot
+/// report as a JSON string.
+#[pyfunction]
+fn snapshot_json(store_path: String, bundle_path: String) -> PyResult<String> {
+    let report = epistemic_ledger_core::snapshot::write_snapshot(
+        &PathBuf::from(store_path),
+        &PathBuf::from(bundle_path),
+    )
+    .map_err(err)?;
+    serde_json::to_string(&report).map_err(err)
+}
+
+/// Verify the snapshot bundle at `bundle_path` from the bundle
+/// alone. Returns the snapshot report as a JSON string; raises on
+/// any mismatch.
+#[pyfunction]
+fn verify_snapshot_json(bundle_path: String) -> PyResult<String> {
+    let report = epistemic_ledger_core::snapshot::verify_snapshot(&PathBuf::from(bundle_path))
+        .map_err(err)?;
+    serde_json::to_string(&report).map_err(err)
+}
+
+/// Restore the snapshot bundle at `bundle_path` into a new store
+/// at `dst_path`. The bundle is verified before anything is
+/// written. Returns the snapshot report as a JSON string.
+#[pyfunction]
+fn restore_snapshot_json(bundle_path: String, dst_path: String) -> PyResult<String> {
+    let report = epistemic_ledger_core::snapshot::restore_snapshot(
+        &PathBuf::from(bundle_path),
+        &PathBuf::from(dst_path),
+    )
+    .map_err(err)?;
+    serde_json::to_string(&report).map_err(err)
+}
+
 #[pymodule]
 fn _core(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<RustStore>()?;
     m.add_function(wrap_pyfunction!(health_json, m)?)?;
     m.add_function(wrap_pyfunction!(read_records_json, m)?)?;
+    m.add_function(wrap_pyfunction!(snapshot_json, m)?)?;
+    m.add_function(wrap_pyfunction!(verify_snapshot_json, m)?)?;
+    m.add_function(wrap_pyfunction!(restore_snapshot_json, m)?)?;
     Ok(())
 }
