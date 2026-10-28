@@ -193,4 +193,11 @@ jobs:
         env:
           VIRTUAL_ENV: /tmp/bindings-venv
         run: cd rust/crates/epistemic-ledger-py && /tmp/bindings-venv/bin/maturin develop
-      - run: /tmp/bindings-venv/bin/python -m pytest rust/crates/epistemic-ledger-py/tests -q
+      - name: Run bindings tests (failures annotated)
+        run: |
+          set +e
+          /tmp/bindings-venv/bin/python -m pytest rust/crates/epistemic-ledger-py/tests -q > /tmp/pytest.out 2>&1
+          rc=$?
+          grep -E "^(FAILED|ERROR)" /tmp/pytest.out | head -20 | while IFS= read -r line; do echo "::error::$line"; done
+          sed -n '/FAILURES/,/short test summary/p' /tmp/pytest.out | head -45 | while IFS= read -r line; do echo "::error::$line"; done
+          exit $rc

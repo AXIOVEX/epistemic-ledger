@@ -24,11 +24,15 @@ ImportError with guidance when it is not installed.
 
 import json
 import os
+from typing import Any
 
+_core: Any = None
 try:
-    from . import _core
+    from . import _core as _imported_core  # type: ignore[attr-defined]
+
+    _core = _imported_core
 except ImportError:  # pragma: no cover - exercised only without the wheel
-    _core = None
+    pass
 
 
 def _require_core():
@@ -53,7 +57,7 @@ def migrate_store(src_dir, dst_dir):
             f"{dst_dir} already holds a chained store; refusing to overwrite"
         )
     store = core.RustStore.open(dst_dir)
-    seq_to_legacy = {}
+    seq_to_legacy: dict[str, Any] = {}
     marker = json.loads(
         store.append(
             legacy[0]["t"] if legacy else "1970-01-01T00:00:00Z",
@@ -88,9 +92,7 @@ def migrate_store(src_dir, dst_dir):
         "signed_from_seq": signed_from_seq,
         "seq_to_legacy_event_id": seq_to_legacy,
     }
-    with open(
-        os.path.join(dst_dir, "migration-map.json"), "w", encoding="utf-8"
-    ) as f:
+    with open(os.path.join(dst_dir, "migration-map.json"), "w", encoding="utf-8") as f:
         json.dump(migration_map, f, indent=2)
     return {
         "legacy_events": len(legacy),
