@@ -14,7 +14,9 @@ Stdlib only. No distributed anything.
 
 import json
 import os
+import shutil
 import sqlite3
+import tempfile
 import uuid
 
 try:
@@ -28,13 +30,6 @@ from datetime import datetime, timezone
 from . import ed25519
 
 SUPPORT_KINDS = ("deductive", "evidential", "llm-generated", "human-asserted")
-
-# Claim lifecycle statuses. History is never deleted: a claim leaves
-# 'active' by a status change that is itself an event in the log.
-# 'superseded' is set by supersede(); 'entered-in-error' and 'dead'
-# are set by set_claim_status(). Both paths require a reason bundle.
-CLAIM_STATUSES = ("active", "superseded", "entered-in-error", "dead")
-TERMINAL_STATUSES = ("superseded", "entered-in-error", "dead")
 
 # Entrenchment tiers (manual in v0.2; learned tiers deferred to v0.3).
 ENTRENCHMENT_TIERS = {
@@ -390,21 +385,13 @@ class Ledger:
     def verify_store(self):
         """Read-only integrity check (v0.11, DESIGN-12): the JSONL
         event log is the ground truth and the SQLite tables are its
-        projection — verify they agree, in both directions. Checks:
-        every log line parses with the required fields; event ids
-        are unique; every asserted claim has a live projection row
-        (unless the log moves it to a terminal lifecycle status, in
-        which case it must have none); every live row's score equals
-        the claim's last score_revision
-        new_score (or its assert prior if never revised); and every
-        projection claim row — and every claim id referenced by the
-        other claim-scoped projection tables — has a corresponding
-        assert event in the log (the reverse direction: a projection
-        row with no log event is how a crash between the SQLite
-        commit and the log append, or a planted row, shows up).
-        Returns {ok, events, claims_checked, projection_checked,
-        problems[:20]}; never raises on bad data — bad data is the
-        finding."""
+        projection — verify they agree. Checks: every log line
+        parses with the required fields; event ids are unique;
+        every asserted claim has a live projection row; every live
+        row's score equals the claim's last score_revision
+        new_score (or its assert prior if never revised). Returns
+        {ok, events, claims_checked, problems[:20]}; never raises
+        on bad data — bad data is the finding."""
         problems = []
         events = []
         try:
@@ -414,8 +401,6 @@ class Ledger:
             lines = []
         seen_ids = set()
         expected = {}  # claim_id -> expected live score
-        asserted = set()  # claim_ids with an assert event in the log
-        terminal = set()  # claim_ids the log moves to a terminal status
         for n, line in enumerate(lines, 1):
             if not line.strip():
                 continue
@@ -436,26 +421,11 @@ class Ledger:
             cid = p.get("claim_id")
             if e.get("type") == "assert" and cid:
                 expected[cid] = p.get("prior")
-                asserted.add(cid)
             elif e.get("type") == "score_revision" and cid:
                 expected[cid] = p.get("new_score")
-            elif e.get("type") == "supersede" and p.get("old_claim_id"):
-                terminal.add(p["old_claim_id"])
-            elif e.get("type") == "claim_status_changed" and cid:
-                terminal.add(cid)
         checked = 0
         for cid, want in expected.items():
             row = self._live_claim(cid)
-            if cid in terminal:
-                # A claim that reached a terminal lifecycle status
-                # (superseded / entered-in-error / dead) is supposed
-                # to have no live row; that is its legitimate end,
-                # not a missing projection.
-                if row is not None:
-                    problems.append(
-                        f"{cid}: terminal lifecycle status but still has a live row"
-                    )
-                continue
             if row is None:
                 problems.append(f"{cid}: asserted but no live row")
                 continue
@@ -464,48 +434,10 @@ class Ledger:
                 problems.append(
                     f"{cid}: live score {row['score']} != log terminal {want}"
                 )
-        # Reverse direction: projection -> log. Every claim id the
-        # projection knows about must trace back to an assert event;
-        # anything else has no corresponding event in the log.
-        projection_claims = set()
-        for (cid,) in self.db.execute("SELECT DISTINCT claim_id FROM claims"):
-            projection_claims.add(cid)
-        claim_tables = (
-            "support_edges",
-            "outcomes",
-            "claim_intervals",
-            "claim_combos",
-            "claim_graphs",
-            "claim_topics",
-        )
-        referenced: dict = {}  # claim_id -> first table that references it
-        for table in claim_tables:
-            for (cid,) in self.db.execute(
-                f"SELECT DISTINCT claim_id FROM {table}"  # noqa: S608 — fixed table names above
-            ):
-                referenced.setdefault(cid, table)
-            if table == "support_edges":
-                for (cid,) in self.db.execute(
-                    "SELECT DISTINCT supports_id FROM support_edges"
-                ):
-                    referenced.setdefault(cid, table)
-        for cid in sorted(projection_claims - asserted):
-            problems.append(
-                f"{cid}: projection row in claims with no corresponding "
-                "log event (no assert event)"
-            )
-        for cid in sorted(set(referenced) - asserted):
-            if cid in projection_claims:
-                continue  # already reported against the claims table
-            problems.append(
-                f"{cid}: projection row in {referenced[cid]} with no "
-                "corresponding log event (no assert event)"
-            )
         return {
             "ok": not problems,
             "events": len(events),
             "claims_checked": checked,
-            "projection_checked": len(projection_claims | set(referenced)),
             "problems": problems[:20],
         }
 
@@ -805,27 +737,8 @@ class Ledger:
             "revisited": len(rep["updates"]),
         }
 
-    @staticmethod
-    def _require_reason_bundle(reason, source):
-        """The reason bundle every lifecycle change must carry: a
-        non-empty reason and a non-empty source, alongside the actor
-        recorded on the event itself. A status change without its
-        why and where-from is not auditable, so it is refused."""
-        if not isinstance(reason, str) or not reason.strip():
-            raise ValueError("a non-empty reason is required")
-        if not isinstance(source, str) or not source.strip():
-            raise ValueError("a non-empty source is required")
-
-    def supersede(
-        self, old_claim_id, statement, prior, *, reason, source, actor="system", t=None
-    ):
-        """Correction: close the old claim's transaction-time interval, open a new claim.
-
-        The reason bundle is required (keyword-only): `reason` says
-        why the old claim is being replaced and `source` says where
-        that judgment came from; `actor` (recorded on the event) says
-        who did it. The bundle is carried on the supersede event."""
-        self._require_reason_bundle(reason, source)
+    def supersede(self, old_claim_id, statement, prior, actor="system", t=None):
+        """Correction: close the old claim's transaction-time interval, open a new claim."""
         t = t or _now()
         old = self._live_claim(old_claim_id)
         if old is None:
@@ -847,58 +760,11 @@ class Ledger:
         self.db.commit()
         self._emit(
             "supersede",
-            {
-                "old_claim_id": old_claim_id,
-                "new_claim_id": new_id,
-                "reason": reason,
-                "source": source,
-            },
+            {"old_claim_id": old_claim_id, "new_claim_id": new_id},
             actor=actor,
             t=t,
         )
         return new_id
-
-    def set_claim_status(
-        self, claim_id, status, *, reason, source, actor="system", t=None
-    ):
-        """Move a live claim to a terminal lifecycle status without
-        deleting anything: 'entered-in-error' (the claim should never
-        have been entered) or 'dead' (the claim no longer applies).
-        'superseded' is not set here — use supersede(), which opens
-        the replacement claim.
-
-        Mirrors supersede(): the claim's live version closes, its
-        final version carries the new status, and the change is
-        itself an event in the log (claim_status_changed) carrying
-        the required reason bundle (reason + source, with the actor
-        recorded on the event)."""
-        if status not in ("entered-in-error", "dead"):
-            raise ValueError(
-                "status must be 'entered-in-error' or 'dead' "
-                f"(got {status!r}); use supersede() for 'superseded'"
-            )
-        self._require_reason_bundle(reason, source)
-        t = t or _now()
-        row = self._live_claim(claim_id)
-        if row is None:
-            raise KeyError(f"unknown claim {claim_id}")
-        self._close_claim_version(claim_id, t)
-        self.db.execute(
-            "UPDATE claims SET status = ? WHERE claim_id = ? AND txn_from = ?",
-            (status, claim_id, row["txn_from"]),
-        )
-        self.db.commit()
-        self._emit(
-            "claim_status_changed",
-            {
-                "claim_id": claim_id,
-                "status": status,
-                "reason": reason,
-                "source": source,
-            },
-            actor=actor,
-            t=t,
-        )
 
     # ------------------------------------------------------------------
     # support edges
@@ -1085,22 +951,6 @@ class Ledger:
         ).fetchone()
         return r["pubkey"] if r else None
 
-    def audit_writer_pubkey(self, writer_id, t):
-        """The ed25519 public key (hex) in force for a writer at time
-        T, or None. The writers table is bitemporal: a rotation closes
-        the old row and opens a new one, so the key that governed a
-        past moment stays answerable after the writer rotates."""
-        if writer_id is None:
-            return None
-        r = self.db.execute(
-            "SELECT pubkey FROM writers"
-            " WHERE writer_id = ? AND txn_from <= ?"
-            "   AND (txn_to IS NULL OR txn_to > ?)"
-            " ORDER BY txn_from DESC, rowid DESC LIMIT 1",
-            (writer_id, t, t),
-        ).fetchone()
-        return r["pubkey"] if r else None
-
     # ------------------------------------------------------------------
     # signed verdicts (v0.9, Design Memo 10)
     # ------------------------------------------------------------------
@@ -1139,12 +989,8 @@ class Ledger:
 
     def verify_verdict_signatures(self):
         """Audit: re-verify every signed verdict in the log against
-        the key in force for the signer at the verdict's signing
-        (event) time. The writers table is bitemporal, so a later
-        key rotation does not invalidate verdicts signed under the
-        key that governed when they were signed — and a verdict
-        signed with a key that was not in force at its signing time
-        (for example the signer's current key, backdated) fails."""
+        the signer's CURRENT registered key (rotation caveat: see
+        Design Memo 10)."""
         checked = valid = 0
         invalid = []
         for e in self._events():
@@ -1152,7 +998,7 @@ class Ledger:
             if "signature" not in p or "signed_message" not in p:
                 continue
             checked += 1
-            pub = self.audit_writer_pubkey(p.get("signer"), e.get("t"))
+            pub = self.get_writer_pubkey(p.get("signer"))
             ok = False
             if pub is not None:
                 try:
@@ -2065,6 +1911,325 @@ class Ledger:
                 }
             )
         return out
+
+    # ------------------------------------------------------------------
+    # decisions and impact analysis (v0.13, DESIGN-13 section 3)
+    # ------------------------------------------------------------------
+    # A decision is a node in the dependency graph: it records the
+    # claims it rested on (its basis set) at the moment it was taken.
+    # Governance acts already in the log (holds, dismissals,
+    # resolutions) surface as decision nodes too: their claim
+    # references become basis sets where the act names them, and
+    # acts that name no claims (policy denials) get an empty basis
+    # set, honestly, not a reconstructed one.
+    _GOVERNANCE_ACTS = (
+        "contradiction_held",
+        "contradiction_dismissed",
+        "contradiction_resolved",
+    )
+    _GOVERNANCE_BASIS_KEYS = ("claim_a", "claim_b", "loser", "winner")
+    _MAX_PATHS_PER_NODE = 100
+    _MAX_PATH_STEPS = 200_000
+
+    def record_decision(self, label, basis, actor="human", t=None, rationale=None):
+        """Record a decision resting on the claims in ``basis``.
+
+        The basis set is fixed at record time and never rewritten:
+        later score changes, supersessions, or new decisions do not
+        alter what this decision was standing on. Returns the
+        decision_id. Raises KeyError if a basis claim is unknown.
+        """
+        t = t or _now()
+        basis_list = []
+        for cid in basis:
+            if cid not in basis_list:
+                basis_list.append(cid)
+        for cid in basis_list:
+            if self._live_claim(cid) is None:
+                raise KeyError(f"unknown claim in basis: {cid}")
+        decision_id = _new_id("D")
+        self._emit(
+            "decision",
+            {
+                "decision_id": decision_id,
+                "label": label,
+                "basis": basis_list,
+                "rationale": rationale,
+            },
+            actor=actor,
+            t=t,
+        )
+        return decision_id
+
+    def _decision_index(self):
+        """Every decision node, derived from the log (the ground
+        truth): explicit ``decision`` events plus the governance
+        acts named in DESIGN-13 section 3.1. Cached per instance;
+        rebuilt whenever the log has grown since the last build."""
+        try:
+            size = os.path.getsize(self.log_path)
+        except OSError:
+            size = -1
+        cached = getattr(self, "_decision_cache", None)
+        if cached is not None and cached[0] == size:
+            return cached[1]
+        events = self._events()
+        known = {
+            e["payload"].get("claim_id")
+            for e in events
+            if e["type"] == "assert" and e["payload"].get("claim_id")
+        }
+        decisions = {}
+        for e in events:
+            p = e["payload"] or {}
+            if e["type"] == "decision":
+                decisions[p["decision_id"]] = {
+                    "decision_id": p["decision_id"],
+                    "label": p.get("label"),
+                    "basis": list(p.get("basis") or []),
+                    "rationale": p.get("rationale"),
+                    "t": e["t"],
+                    "actor": e["actor"],
+                    "kind": "decision",
+                }
+            elif e["type"] in self._GOVERNANCE_ACTS:
+                basis = []
+                for key in self._GOVERNANCE_BASIS_KEYS:
+                    v = p.get(key)
+                    if v in known and v not in basis:
+                        basis.append(v)
+                decisions[e["event_id"]] = {
+                    "decision_id": e["event_id"],
+                    "label": e["type"],
+                    "basis": basis,
+                    "rationale": None,
+                    "t": e["t"],
+                    "actor": e["actor"],
+                    "kind": "governance",
+                }
+        self._decision_cache = (size, decisions)
+        return decisions
+
+    def decisions(self):
+        """All decision nodes (recorded decisions and governance
+        acts), oldest first. Each carries its immutable basis set."""
+        idx = self._decision_index()
+        return [idx[k] for k in sorted(idx, key=lambda k: (idx[k]["t"], k))]
+
+    def _dependents_adjacency(self, root):
+        """Breadth-first closure of the claims depending on ``root``
+        over live support edges. Returns (order, distance, adjacency):
+        order is BFS order starting at root, distance maps claim_id
+        to its shortest-path distance from root, adjacency maps a
+        claim_id to the sorted claim ids that directly depend on it.
+        """
+        distance = {root: 0}
+        order = [root]
+        adjacency = {}
+        queue = deque([root])
+        while queue:
+            cur = queue.popleft()
+            deps = sorted({e["claim_id"] for e in self._reverse_edges(cur)})
+            adjacency[cur] = deps
+            for dep in deps:
+                if dep not in distance:
+                    distance[dep] = distance[cur] + 1
+                    order.append(dep)
+                    queue.append(dep)
+        return order, distance, adjacency
+
+    def _all_live_scores(self):
+        return {
+            r["claim_id"]: float(r["score"])
+            for r in self.db.execute(
+                "SELECT claim_id, score FROM claims WHERE txn_to IS NULL"
+            )
+        }
+
+    def _dry_run_revision(self, claim_id, target):
+        """Revise ``claim_id`` to ``target`` on a throwaway copy of
+        this store, using the ordinary revision machinery
+        (``manual_score``), and report every resulting score
+        movement. The live store is never written: the copy is
+        deleted afterwards, events and all."""
+        tmp = tempfile.mkdtemp(prefix="epistemic-ledger-impact-")
+        try:
+            copy_path = os.path.join(tmp, "store")
+            shutil.copytree(
+                self.path,
+                copy_path,
+                ignore=shutil.ignore_patterns("ledger.lock"),
+            )
+            before = self._all_live_scores()
+            clone = Ledger(copy_path)
+            try:
+                clone.manual_score(claim_id, target, actor="impact-dry-run")
+                after = clone._all_live_scores()
+            finally:
+                clone.close()
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
+        movements = []
+        for cid in sorted(set(before) | set(after)):
+            old, new = before.get(cid), after.get(cid)
+            if old is not None and new is not None and new != old:
+                movements.append(
+                    {"claim_id": cid, "old": old, "new": new, "delta": new - old}
+                )
+        return movements
+
+    def impact(
+        self,
+        claim_id,
+        mode="structural",
+        *,
+        revised_score=None,
+        max_depth=None,
+        max_results=1000,
+    ):
+        """What rests on this claim? (DESIGN-13 section 3.2)
+
+        Structural mode returns the transitive closure of dependents
+        — derived claims and decision nodes — each with its graph
+        distance from ``claim_id`` and the paths it was reached by.
+
+        Propagated mode additionally reports the score movement each
+        claim would see if ``claim_id`` were revised to
+        ``revised_score`` (default 0.0: the claim is challenged to
+        zero), computed by running a real revision on a throwaway
+        copy of the store. Nothing in this store changes. Decisions
+        whose basis set intersects the moved claims are listed under
+        ``decisions_affected``: they rested on ground that moved.
+        (That a decision is in the blast radius does not make it
+        wrong — only exposed. Judging it stays with people.)
+
+        Caps: ``max_depth`` bounds graph distance, ``max_results``
+        bounds the number of nodes returned, and at most
+        100 paths per node are listed. Whenever a cap binds,
+        ``truncated`` is True and ``truncation_reasons`` says which
+        cap — a capped answer is never silently partial.
+        """
+        if self._live_claim(claim_id) is None:
+            raise KeyError(f"unknown claim {claim_id}")
+        if mode not in ("structural", "propagated"):
+            raise ValueError("mode must be 'structural' or 'propagated'")
+        truncated = False
+        reasons = []
+
+        order, distance, adjacency = self._dependents_adjacency(claim_id)
+        if max_depth is not None:
+            if any(d > max_depth for d in distance.values()):
+                truncated = True
+                reasons.append("max_depth")
+            order = [c for c in order if distance[c] <= max_depth]
+            distance = {c: distance[c] for c in order}
+            adjacency = {c: adjacency.get(c, []) for c in order}
+
+        index = self._decision_index()
+        dec_distance = {}
+        dec_parents = {}
+        for did, d in index.items():
+            inside = [c for c in d["basis"] if c in distance]
+            if inside:
+                dec_parents[did] = inside
+                dec_distance[did] = min(distance[c] for c in inside) + 1
+        if max_depth is not None:
+            over = [k for k, v in dec_distance.items() if v > max_depth]
+            if over:
+                truncated = True
+                if "max_depth" not in reasons:
+                    reasons.append("max_depth")
+            for k in over:
+                del dec_distance[k]
+                del dec_parents[k]
+
+        candidates = [(distance[c], c, "claim") for c in order if c != claim_id]
+        candidates += [(dec_distance[k], k, "decision") for k in dec_distance]
+        candidates.sort()
+        if len(candidates) > max_results:
+            truncated = True
+            reasons.append("max_results")
+            candidates = candidates[:max_results]
+        kept = {claim_id} | {cid for _, cid, _ in candidates}
+        kept_claims = kept & set(distance)
+
+        full_adj = {}
+        for c in kept_claims:
+            full_adj[c] = sorted(d for d in adjacency.get(c, []) if d in kept)
+        for did, parents in dec_parents.items():
+            if did in kept:
+                for p in parents:
+                    if p in kept_claims:
+                        full_adj.setdefault(p, []).append(did)
+        for c in full_adj:
+            full_adj[c] = sorted(set(full_adj[c]))
+
+        # Enumerate simple paths from the root, iteratively (an
+        # explicit stack, so long chains cannot hit the interpreter
+        # recursion limit). Per-node and global budgets keep dense
+        # graphs bounded; hitting either is reported, never silent.
+        paths: dict[str, list] = {}
+        steps = 0
+        stack = [(claim_id, [claim_id], 0)]
+        on_path = {claim_id}
+        while stack:
+            node, path, idx = stack[-1]
+            children = full_adj.get(node, [])
+            if idx >= len(children):
+                stack.pop()
+                on_path.discard(node)
+                continue
+            stack[-1] = (node, path, idx + 1)
+            steps += 1
+            if steps > self._MAX_PATH_STEPS:
+                truncated = True
+                if "paths" not in reasons:
+                    reasons.append("paths")
+                break
+            nxt = children[idx]
+            if nxt in on_path:
+                continue
+            lst = paths.setdefault(nxt, [])
+            if len(lst) < self._MAX_PATHS_PER_NODE:
+                lst.append(path + [nxt])
+            else:
+                truncated = True
+                if "paths" not in reasons:
+                    reasons.append("paths")
+            stack.append((nxt, path + [nxt], 0))
+            on_path.add(nxt)
+
+        nodes = [
+            {
+                "id": cid,
+                "kind": kind,
+                "distance": dist,
+                "paths": paths.get(cid, []),
+            }
+            for dist, cid, kind in candidates
+        ]
+        result = {
+            "claim_id": claim_id,
+            "mode": mode,
+            "nodes": nodes,
+            "truncated": truncated,
+            "truncation_reasons": reasons,
+            "caps": {
+                "max_depth": max_depth,
+                "max_results": max_results,
+                "max_paths_per_node": self._MAX_PATHS_PER_NODE,
+            },
+        }
+        if mode == "propagated":
+            target = 0.0 if revised_score is None else float(revised_score)
+            movements = self._dry_run_revision(claim_id, target)
+            moved = {m["claim_id"] for m in movements}
+            result["revised_score"] = target
+            result["movements"] = movements
+            result["decisions_affected"] = [
+                d["decision_id"] for d in self.decisions() if moved & set(d["basis"])
+            ]
+        return result
 
     # ------------------------------------------------------------------
     # kill-criteria instrumentation
