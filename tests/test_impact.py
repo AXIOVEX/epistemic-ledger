@@ -3,10 +3,19 @@
 Claim I1: the structural closure returned by ``Ledger.impact``
 equals a brute-force closure computed independently from the raw
 edge set — exactly, on randomized graphs, including graphs with
-diamonds, cycles, and decision nodes.
+diamonds, cycles, and decision nodes. Distances are BFS distances
+and ``paths`` are the shortest paths (amended semantics,
+2026-10-28: the original all-simple-paths listing is unbounded
+on dense graphs; Tristen approved shortest-path semantics with
+an exact ``path_count``).
 
 Claim I2: propagated impact scores equal the scores a real
-revision to the same value produces, claim for claim.
+revision to the same value produces, claim for claim. The
+propagated answer comes from an in-memory simulation of the
+revision machinery (amended 2026-10-28; the original store-copy
+replay could not meet the section 8 budget at graph scale) —
+this test is the arbiter that the simulation is faithful,
+including claims carrying joint combination functions.
 
 Plus the section 3.1 contract: a decision records its basis set at
 the moment it is taken, immutably, and governance acts already in
@@ -221,7 +230,13 @@ def _brute_force(root, edges, decision_bases):
         inside = [c for c in basis if c in distance]
         if inside:
             nodes[did] = min(distance[c] for c in inside) + 1
-    # simple paths, enumerated independently
+    # shortest paths, enumerated independently: a path counts
+    # only if its length equals the BFS distance of its endpoint,
+    # and a prefix is only extended while it is itself a shortest
+    # path to its own endpoint (prefixes of shortest paths are
+    # shortest). Matches the amended DESIGN-13 semantics
+    # (2026-10-28): impact lists shortest paths, not all simple
+    # paths.
     adj = {c: sorted(rev.get(c, ())) for c in distance}
     for did, basis in decision_bases.items():
         if did in nodes:
@@ -235,8 +250,11 @@ def _brute_force(root, edges, decision_bases):
         for nxt in adj.get(node, []):
             if nxt in path:
                 continue
-            paths.setdefault(nxt, set()).add(tuple(path + [nxt]))
-            stack.append((nxt, path + [nxt]))
+            extended = path + [nxt]
+            if len(extended) - 1 != nodes.get(nxt):
+                continue
+            paths.setdefault(nxt, set()).add(tuple(extended))
+            stack.append((nxt, extended))
     return nodes, paths
 
 
@@ -291,6 +309,7 @@ def test_i1_structural_closure_matches_brute_force(spec):
     for nid, dist in want_dist.items():
         assert got[nid]["distance"] == dist
         assert {tuple(p) for p in got[nid]["paths"]} == want_paths.get(nid, set())
+        assert got[nid]["path_count"] == len(want_paths.get(nid, set()))
 
 
 # ------------------------------------------------------------------
@@ -320,6 +339,15 @@ def test_i2_propagated_equals_real_revision(n, edge_pairs, priors, root, target)
             led.add_support(
                 ids[dep], ids[sup], "evidential", p_given=0.9, p_given_not=0.15
             )
+        # Exercise the combination functions too: the simulation's
+        # combo branch must match the real machinery, not just its
+        # sequential-Jeffrey branch.
+        deps_with_edges = sorted({dep for dep, _ in edges})
+        for dep in deps_with_edges:
+            if dep % 3 == 0:
+                led.set_combo(ids[dep], "noisy-or", leak=0.05)
+            elif dep % 3 == 1:
+                led.set_combo(ids[dep], "noisy-and", leak=0.1)
         before = led._all_live_scores()
         n_events = len(led._events())
         res = led.impact(ids[root_i], mode="propagated", revised_score=target)

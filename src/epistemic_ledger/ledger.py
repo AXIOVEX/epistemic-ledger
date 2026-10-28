@@ -14,9 +14,7 @@ Stdlib only. No distributed anything.
 
 import json
 import os
-import shutil
 import sqlite3
-import tempfile
 import uuid
 
 try:
@@ -293,6 +291,250 @@ def _eval_pred(pred, ctx):
     return not _eval_pred(pred["not"], ctx)
 
 
+# ----------------------------------------------------------------------
+# projection rebuild (v0.13, DESIGN-13 section 7): the log is ground
+# truth and ledger.db is a fold of it. _fold_event applies one
+# event's projection effect — the same mutations its write method
+# performed, minus the emission. Event types whose state is derived
+# from the log at read time (decisions, contradictions, verdicts)
+# and pure record events fold as no-ops. An event type the fold
+# does not know stops the rebuild loudly: a partial or approximate
+# projection is worse than none.
+# ----------------------------------------------------------------------
+
+_FOLD_NOOP_TYPES = frozenset(
+    {
+        "revisit",
+        "policy_denied",
+        "interval_refused",
+        "interval_combined",  # its set_interval emitted interval_set
+        "contradiction",
+        "contradiction_held",
+        "contradiction_dismissed",
+        "contradiction_resolved",
+        "contradiction_unresolved",
+        "contract",  # the score change rides its score_revision
+        "decision",
+    }
+)
+
+
+def _fold_live_row(db, table, where, params):
+    return db.execute(
+        f"SELECT rowid, * FROM {table} WHERE {where} AND txn_to IS NULL", params
+    ).fetchone()
+
+
+def _fold_claim_version(db, claim_id, t, score=None, entrenchment=None, status=None):
+    row = _fold_live_row(db, "claims", "claim_id = ?", (claim_id,))
+    if row is None:
+        raise ValueError(f"rebuild: event for unknown claim {claim_id}")
+    db.execute("UPDATE claims SET txn_to = ? WHERE rowid = ?", (t, row["rowid"]))
+    if status is not None:
+        db.execute(
+            "UPDATE claims SET status = ? WHERE rowid = ?", (status, row["rowid"])
+        )
+        return
+    db.execute(
+        """INSERT INTO claims(claim_id, txn_from, statement, valid_from,
+                              valid_to, score, score_kind, status,
+                              materiality, critical, entrenchment, writer)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+        (
+            claim_id,
+            t,
+            row["statement"],
+            row["valid_from"],
+            row["valid_to"],
+            float(row["score"] if score is None else score),
+            row["score_kind"],
+            row["status"],
+            row["materiality"],
+            row["critical"],
+            float(row["entrenchment"] if entrenchment is None else entrenchment),
+            row["writer"],
+        ),
+    )
+
+
+def _fold_event(db, event):
+    etype = event["type"]
+    p = event["payload"]
+    t = event["t"]
+    if etype in _FOLD_NOOP_TYPES:
+        return
+    if etype == "assert":
+        if "entrenchment" in p:
+            entrenchment = float(p["entrenchment"])
+        elif p.get("writer") is None:
+            entrenchment = 0.5
+        else:
+            wrow = _fold_live_row(db, "writers", "writer_id = ?", (p["writer"],))
+            tier = wrow["tier"] if wrow is not None else None
+            entrenchment = (
+                TIER_ENTRENCHMENT.get(tier, 0.25) if tier is not None else 0.25
+            )
+        db.execute(
+            """INSERT INTO claims(claim_id, txn_from, statement, valid_from,
+                                  valid_to, score, score_kind, status,
+                                  materiality, critical, entrenchment, writer)
+               VALUES (?, ?, ?, ?, ?, ?, ?, 'active', ?, ?, ?, ?)""",
+            (
+                p["claim_id"],
+                t,
+                p["statement"],
+                p.get("valid_from"),
+                p.get("valid_to"),
+                float(p["prior"]),
+                p.get("score_kind", "credence"),
+                float(p.get("materiality", 0.05)),
+                int(bool(p.get("critical", False))),
+                entrenchment,
+                p.get("writer"),
+            ),
+        )
+        return
+    if etype == "score_revision":
+        _fold_claim_version(db, p["claim_id"], t, score=float(p["new_score"]))
+        return
+    if etype == "entrenchment_set":
+        _fold_claim_version(db, p["claim_id"], t, entrenchment=float(p["new"]))
+        return
+    if etype == "supersede":
+        _fold_claim_version(db, p["old_claim_id"], t, status="superseded")
+        return
+    if etype == "claim_status_changed":
+        _fold_claim_version(db, p["claim_id"], t, status=p["status"])
+        return
+    if etype == "support":
+        db.execute(
+            """INSERT INTO support_edges(claim_id, supports_id, kind,
+                                         p_given, p_given_not, strength, txn_from)
+               VALUES (?, ?, ?, ?, ?, ?, ?)""",
+            (
+                p["claim_id"],
+                p["supports_id"],
+                p["kind"],
+                float(p["p_given"]),
+                float(p["p_given_not"]),
+                float(p["strength"]),
+                t,
+            ),
+        )
+        return
+    if etype == "retract_support":
+        db.execute(
+            """UPDATE support_edges SET txn_to = ?
+               WHERE claim_id = ? AND supports_id = ? AND txn_to IS NULL""",
+            (t, p["claim_id"], p["supports_id"]),
+        )
+        return
+    if etype == "combo_set":
+        db.execute(
+            "UPDATE claim_combos SET txn_to = ? WHERE claim_id = ? AND txn_to IS NULL",
+            (t, p["claim_id"]),
+        )
+        db.execute(
+            "INSERT INTO claim_combos(claim_id, txn_from, combo, leak)"
+            " VALUES (?, ?, ?, ?)",
+            (p["claim_id"], t, p["combo"], float(p["leak"])),
+        )
+        for pid, s in (p.get("strengths") or {}).items():
+            db.execute(
+                """UPDATE support_edges SET strength = ?
+                   WHERE claim_id = ? AND supports_id = ? AND txn_to IS NULL""",
+                (float(s), p["claim_id"], pid),
+            )
+        return
+    if etype == "writer_registered":
+        db.execute(
+            "UPDATE writers SET txn_to = ? WHERE writer_id = ? AND txn_to IS NULL",
+            (t, p["writer_id"]),
+        )
+        db.execute(
+            "INSERT INTO writers(writer_id, txn_from, tier, pubkey)"
+            " VALUES (?, ?, ?, ?)",
+            (p["writer_id"], t, p["tier"], p.get("pubkey")),
+        )
+        return
+    if etype == "policy_registered":
+        db.execute(
+            "UPDATE policies SET txn_to = ? WHERE name = ? AND txn_to IS NULL",
+            (t, p["name"]),
+        )
+        description = p.get("description")
+        rule = p.get("rule")
+        if p["name"] == DEFAULT_POLICY[0]:
+            if description is None:
+                description = DEFAULT_POLICY[1]
+            if rule is None:
+                rule = DEFAULT_POLICY_RULE
+        db.execute(
+            "INSERT INTO policies(name, txn_from, description, version, rule)"
+            " VALUES (?, ?, ?, ?, ?)",
+            (
+                p["name"],
+                t,
+                description,
+                p["version"],
+                json.dumps(rule) if rule is not None else None,
+            ),
+        )
+        return
+    if etype == "graph_registered":
+        db.execute(
+            "UPDATE graphs SET txn_to = ? WHERE name = ? AND txn_to IS NULL",
+            (t, p["graph"]),
+        )
+        db.execute(
+            "INSERT INTO graphs(name, txn_from, ceiling) VALUES (?, ?, ?)",
+            (p["graph"], t, float(p["ceiling"])),
+        )
+        return
+    if etype == "graph_assigned":
+        db.execute(
+            "UPDATE claim_graphs SET txn_to = ? WHERE claim_id = ? AND txn_to IS NULL",
+            (t, p["claim_id"]),
+        )
+        db.execute(
+            "INSERT INTO claim_graphs(claim_id, txn_from, graph) VALUES (?, ?, ?)",
+            (p["claim_id"], t, p["graph"]),
+        )
+        return
+    if etype == "topic_assigned":
+        db.execute(
+            "UPDATE claim_topics SET txn_to = ? WHERE claim_id = ? AND txn_to IS NULL",
+            (t, p["claim_id"]),
+        )
+        db.execute(
+            "INSERT INTO claim_topics(claim_id, txn_from, topic) VALUES (?, ?, ?)",
+            (p["claim_id"], t, p["topic"]),
+        )
+        return
+    if etype == "interval_set":
+        db.execute(
+            "UPDATE claim_intervals SET txn_to = ?"
+            " WHERE claim_id = ? AND txn_to IS NULL",
+            (t, p["claim_id"]),
+        )
+        db.execute(
+            "INSERT INTO claim_intervals(claim_id, txn_from, belief, plausibility)"
+            " VALUES (?, ?, ?, ?)",
+            (p["claim_id"], t, float(p["belief"]), float(p["plausibility"])),
+        )
+        return
+    if etype == "outcome":
+        db.execute(
+            "INSERT INTO outcomes(claim_id, outcome, t) VALUES (?, ?, ?)",
+            (p["claim_id"], int(bool(p["outcome"])), t),
+        )
+        return
+    raise ValueError(
+        f"rebuild: unsupported event type {etype!r} "
+        f"(event {event.get('event_id')}); refusing to approximate"
+    )
+
+
 class Ledger:
     def __init__(self, path):
         """path: directory holding events.jsonl and ledger.db (created if missing).
@@ -320,24 +562,7 @@ class Ledger:
         self.db = sqlite3.connect(os.path.join(path, "ledger.db"))
         self.db.row_factory = sqlite3.Row
         self.db.executescript(SCHEMA)
-        # strength column on support_edges (added in v0.4; backfill old DBs)
-        cols = [r["name"] for r in self.db.execute("PRAGMA table_info(support_edges)")]
-        if "strength" not in cols:
-            self.db.execute(
-                "ALTER TABLE support_edges ADD COLUMN strength REAL NOT NULL DEFAULT 1.0"
-            )
-        # writer column on claims (added in v0.6; backfill old DBs)
-        cols = [r["name"] for r in self.db.execute("PRAGMA table_info(claims)")]
-        if "writer" not in cols:
-            self.db.execute("ALTER TABLE claims ADD COLUMN writer TEXT")
-        # pubkey column on writers (added in v0.9; backfill old DBs)
-        cols = [r["name"] for r in self.db.execute("PRAGMA table_info(writers)")]
-        if "pubkey" not in cols:
-            self.db.execute("ALTER TABLE writers ADD COLUMN pubkey TEXT")
-        # rule column on policies (added in v0.10; backfill old DBs)
-        cols = [r["name"] for r in self.db.execute("PRAGMA table_info(policies)")]
-        if "rule" not in cols:
-            self.db.execute("ALTER TABLE policies ADD COLUMN rule TEXT")
+        self._ensure_columns(self.db)
         self.db.commit()
         # default governance policy lives in the store (Design Memo 06);
         # v0.10 registers its rule as data at version 2 (Memo 11)
@@ -347,6 +572,106 @@ class Ledger:
             self.register_policy(
                 name, desc, version=2, actor="system", rule=DEFAULT_POLICY_RULE
             )
+
+    @staticmethod
+    def _ensure_columns(db):
+        """Backfill columns added after the first schema (strength
+        in v0.4, writer in v0.6, pubkey in v0.9, rule in v0.10) so
+        fresh and historical databases converge on one shape."""
+        cols = [r["name"] for r in db.execute("PRAGMA table_info(support_edges)")]
+        if "strength" not in cols:
+            db.execute(
+                "ALTER TABLE support_edges ADD COLUMN strength REAL NOT NULL DEFAULT 1.0"
+            )
+        cols = [r["name"] for r in db.execute("PRAGMA table_info(claims)")]
+        if "writer" not in cols:
+            db.execute("ALTER TABLE claims ADD COLUMN writer TEXT")
+        cols = [r["name"] for r in db.execute("PRAGMA table_info(writers)")]
+        if "pubkey" not in cols:
+            db.execute("ALTER TABLE writers ADD COLUMN pubkey TEXT")
+        cols = [r["name"] for r in db.execute("PRAGMA table_info(policies)")]
+        if "rule" not in cols:
+            db.execute("ALTER TABLE policies ADD COLUMN rule TEXT")
+        # Live-row indexes (0.13): the tables are bitemporal, so
+        # most rows are closed versions, and every hot query asks
+        # for the live slice (txn_to IS NULL) — unindexed, that is
+        # a full scan per call, which is what made filtered claim
+        # queries miss their budget on version-heavy stores.
+        db.execute(
+            "CREATE INDEX IF NOT EXISTS idx_claims_live"
+            " ON claims(claim_id) WHERE txn_to IS NULL"
+        )
+        db.execute(
+            "CREATE INDEX IF NOT EXISTS idx_edges_live_by_claim"
+            " ON support_edges(claim_id) WHERE txn_to IS NULL"
+        )
+        db.execute(
+            "CREATE INDEX IF NOT EXISTS idx_edges_live_by_support"
+            " ON support_edges(supports_id) WHERE txn_to IS NULL"
+        )
+
+    @classmethod
+    def rebuild_projection(cls, path):
+        """Rebuild ledger.db from events.jsonl — the recovery path
+        for a deleted or corrupted projection (DESIGN-13 section
+        7). The store must not be open elsewhere.
+
+        The log is folded event by event into a fresh database,
+        which then replaces ledger.db and is verified end to end
+        (verify_store). If verification fails and a previous
+        projection existed, the original file is restored and the
+        failure raised; a fold that meets an event type it does
+        not know refuses outright rather than approximating.
+
+        Exactness: events recorded since 0.13 carry every field
+        the projection holds, so the rebuild is exact. For older
+        logs, assert-time claim metadata the old events never
+        recorded (validity window, score kind, materiality,
+        critical flag, explicit entrenchment) falls back to the
+        documented defaults and tier derivation — scores, edges,
+        versions, and verification are exact for every era.
+        """
+        log_path = os.path.join(path, "events.jsonl")
+        with open(log_path, encoding="utf-8") as f:
+            events = [json.loads(line) for line in f if line.strip()]
+        scratch = os.path.join(path, "ledger.db.rebuild-tmp")
+        if os.path.exists(scratch):
+            os.remove(scratch)
+        db = sqlite3.connect(scratch)
+        db.row_factory = sqlite3.Row
+        try:
+            db.executescript(SCHEMA)
+            cls._ensure_columns(db)
+            for event in events:
+                _fold_event(db, event)
+            db.commit()
+        finally:
+            db.close()
+        db_path = os.path.join(path, "ledger.db")
+        backup = None
+        if os.path.exists(db_path):
+            backup = db_path + ".bak"
+            os.replace(db_path, backup)
+        os.replace(scratch, db_path)
+        led = cls(path)
+        try:
+            check = led.verify_store()
+        finally:
+            led.close()
+        if not check["ok"]:
+            if backup is not None:
+                os.replace(backup, db_path)
+            raise RuntimeError(
+                "rebuilt projection failed verification: "
+                + "; ".join(check["problems"][:3])
+            )
+        if backup is not None:
+            os.remove(backup)
+        return {
+            "events": len(events),
+            "claims_checked": check["claims_checked"],
+            "ok": True,
+        }
 
     # ------------------------------------------------------------------
     # events (write model)
@@ -581,6 +906,16 @@ class Ledger:
                 "statement": statement,
                 "prior": float(prior),
                 "writer": writer,
+                # The full row parameters, recorded since 0.13 so the
+                # log alone can rebuild the projection exactly
+                # (rebuild_projection). Older logs lack these keys;
+                # the fold falls back to documented defaults there.
+                "valid_from": valid_from,
+                "valid_to": valid_to,
+                "score_kind": score_kind,
+                "materiality": float(materiality),
+                "critical": bool(critical),
+                "entrenchment": float(entrenchment),
             },
             actor=actor,
             t=t,
@@ -1215,7 +1550,17 @@ class Ledger:
         )
         self.db.commit()
         self._emit(
-            "policy_registered", {"name": name, "version": version}, actor=actor, t=t
+            "policy_registered",
+            {
+                "name": name,
+                "version": version,
+                # Recorded since 0.13 so the log can rebuild the
+                # projection exactly (see the assert event).
+                "description": description,
+                "rule": rule,
+            },
+            actor=actor,
+            t=t,
         )
 
     def audit_policy(self, name, t=None):
@@ -2087,10 +2432,25 @@ class Ledger:
         return self._claim_dict(row) if row is not None else None
 
     def list_claims(self):
-        """Every live claim as a plain dict, ordered by claim_id."""
-        rows = self.db.execute(
-            "SELECT * FROM claims WHERE txn_to IS NULL ORDER BY claim_id"
-        ).fetchall()
+        """Every live claim as a plain dict, ordered by claim_id.
+
+        The live-row scan is cached per instance, keyed by log
+        size (every write grows the log, so a size match means
+        the projection is unchanged — the _decision_index
+        pattern); the dicts handed out are built fresh per call.
+        """
+        try:
+            size = os.path.getsize(self.log_path)
+        except OSError:
+            size = -1
+        cached = getattr(self, "_claims_cache", None)
+        if cached is None or cached[0] != size:
+            rows = self.db.execute(
+                "SELECT * FROM claims WHERE txn_to IS NULL ORDER BY claim_id"
+            ).fetchall()
+            self._claims_cache = (size, rows)
+        else:
+            rows = cached[1]
         return [self._claim_dict(r) for r in rows]
 
     def verify(self, deep=False):
@@ -2150,7 +2510,7 @@ class Ledger:
     )
     _GOVERNANCE_BASIS_KEYS = ("claim_a", "claim_b", "loser", "winner")
     _MAX_PATHS_PER_NODE = 100
-    _MAX_PATH_STEPS = 200_000
+    _MAX_PATH_ELEMENTS = 100_000
 
     def record_decision(self, label, basis, actor="human", t=None, rationale=None):
         """Record a decision resting on the claims in ``basis``.
@@ -2237,6 +2597,41 @@ class Ledger:
         idx = self._decision_index()
         return [idx[k] for k in sorted(idx, key=lambda k: (idx[k]["t"], k))]
 
+    def _live_reverse_edges(self):
+        """Every live support edge, inverted: {supports_id:
+        [claim_id, ...]} with each list in edge-rowid order.
+
+        Cached per instance, keyed by log size — every write grows
+        the log, so a size match means the edge set is unchanged
+        (the same pattern as _decision_index). Repeated impact
+        queries against an unchanged store — the shape of agent
+        and dashboard polling — reuse the load instead of paying
+        it per call. Callers must not mutate the returned lists.
+        """
+        try:
+            size = os.path.getsize(self.log_path)
+        except OSError:
+            size = -1
+        cached = getattr(self, "_edges_cache", None)
+        if cached is not None and cached[0] == size:
+            return cached[1]
+        # Load every live edge once and walk in memory: asking the
+        # database for each node's dependents in turn costs a query
+        # per node, which dominated this walk on large graphs.
+        # Plain tuples, not Row objects: at tens of thousands of
+        # edges the Row construction is measurable.
+        reverse: dict[str, list[str]] = {}
+        rev_add = reverse.setdefault
+        cur = self.db.cursor()
+        cur.row_factory = None
+        for e in cur.execute(
+            "SELECT claim_id, supports_id FROM support_edges "
+            "WHERE txn_to IS NULL ORDER BY rowid"
+        ):
+            rev_add(e[1], []).append(e[0])
+        self._edges_cache = (size, reverse)
+        return reverse
+
     def _dependents_adjacency(self, root):
         """Breadth-first closure of the claims depending on ``root``
         over live support edges. Returns (order, distance, adjacency):
@@ -2244,17 +2639,18 @@ class Ledger:
         to its shortest-path distance from root, adjacency maps a
         claim_id to the sorted claim ids that directly depend on it.
         """
+        reverse = self._live_reverse_edges()
         distance = {root: 0}
         order = [root]
         adjacency = {}
         queue = deque([root])
         while queue:
-            cur = queue.popleft()
-            deps = sorted({e["claim_id"] for e in self._reverse_edges(cur)})
-            adjacency[cur] = deps
+            node = queue.popleft()
+            deps = sorted(set(reverse.get(node, ())))
+            adjacency[node] = deps
             for dep in deps:
                 if dep not in distance:
-                    distance[dep] = distance[cur] + 1
+                    distance[dep] = distance[node] + 1
                     order.append(dep)
                     queue.append(dep)
         return order, distance, adjacency
@@ -2267,33 +2663,109 @@ class Ledger:
             )
         }
 
-    def _dry_run_revision(self, claim_id, target):
-        """Revise ``claim_id`` to ``target`` on a throwaway copy of
-        this store, using the ordinary revision machinery
-        (``manual_score``), and report every resulting score
-        movement. The live store is never written: the copy is
-        deleted afterwards, events and all."""
-        tmp = tempfile.mkdtemp(prefix="epistemic-ledger-impact-")
-        try:
-            copy_path = os.path.join(tmp, "store")
-            shutil.copytree(
-                self.path,
-                copy_path,
-                ignore=shutil.ignore_patterns("ledger.lock"),
+    def _simulated_revision(self, claim_id, target):
+        """The score movements a revision of ``claim_id`` to
+        ``target`` would produce, computed in memory. Nothing in
+        this store changes: no events, no writes, no copy.
+
+        The simulation mirrors the real revision machinery
+        (``manual_score`` -> ``_revisit``) step for step: the same
+        dependents BFS order, the same per-claim edge order
+        (attachment order), sequential Jeffrey updates for ordinary
+        claims, joint recomputation for combo claims, and the same
+        epsilon cutoff — a claim whose score moves less than the
+        cutoff counts as unchanged and does not propagate. Claim
+        I2's property tests hold this simulation to the real
+        machinery's outcomes claim for claim, exactly (floats
+        included), on randomized graphs with and without combos.
+
+        (DESIGN-13 amendment, 2026-10-28: the original
+        implementation replayed a real revision on a copied store.
+        Measured at the root of the section 8 reference graph,
+        that cost minutes — a store copy plus a durable write per
+        moved claim — against a 500 ms budget. Tristen approved
+        the simulation; the property tests are its arbiter.)
+        """
+        before = self._all_live_scores()
+        scores = dict(before)
+        rows = self.db.execute(
+            "SELECT claim_id, supports_id, p_given, p_given_not,"
+            " strength, txn_from, rowid FROM support_edges"
+            " WHERE txn_to IS NULL ORDER BY rowid"
+        ).fetchall()
+        edges_by_claim: dict[str, list] = {}
+        reverse: dict[str, list[str]] = {}
+        for e in rows:
+            edges_by_claim.setdefault(e["claim_id"], []).append(e)
+            reverse.setdefault(e["supports_id"], []).append(e["claim_id"])
+        for lst in edges_by_claim.values():
+            lst.sort(key=lambda e: (e["txn_from"], e["rowid"]))
+        combos = {
+            r["claim_id"]: (r["combo"], float(r["leak"]))
+            for r in self.db.execute(
+                "SELECT claim_id, combo, leak FROM claim_combos WHERE txn_to IS NULL"
             )
-            before = self._all_live_scores()
-            clone = Ledger(copy_path)
-            try:
-                clone.manual_score(claim_id, target, actor="impact-dry-run")
-                after = clone._all_live_scores()
-            finally:
-                clone.close()
-        finally:
-            shutil.rmtree(tmp, ignore_errors=True)
+        }
+        # Dependents in the real machinery's BFS order
+        # (_dependents_bfs: queue order, neighbours in edge-rowid
+        # order — the bulk query above is rowid-ordered, so the
+        # per-supporter lists already are too).
+        seen = {claim_id}
+        order = []
+        queue = deque([claim_id])
+        while queue:
+            cur = queue.popleft()
+            for dep in reverse.get(cur, ()):
+                if dep not in seen:
+                    seen.add(dep)
+                    order.append(dep)
+                    queue.append(dep)
+        target = float(target)
+        scores[claim_id] = target
+        updated = {claim_id: target}
+        epsilon = 0.005  # _revisit's default cutoff, as manual_score runs it
+        for cid in order:
+            if cid not in scores:
+                continue  # no live version; the real pass skips it too
+            edges = edges_by_claim.get(cid, [])
+            combo = combos.get(cid)
+            if combo is not None:
+                name, leak = combo
+                if not edges or not any(e["supports_id"] in updated for e in edges):
+                    continue
+                parent_scores = {}
+                for e in edges:
+                    pid = e["supports_id"]
+                    if pid in updated:
+                        p = updated[pid]
+                    elif pid in scores:
+                        p = scores[pid]
+                    else:
+                        continue
+                    parent_scores[pid] = (float(e["strength"]), p)
+                if not parent_scores:
+                    continue
+                score = self._combine_score(name, leak, parent_scores)
+                if score is None:
+                    continue
+            else:
+                score = scores[cid]
+                for e in edges:
+                    if e["supports_id"] in updated:
+                        score = jeffrey(
+                            score,
+                            float(e["p_given"]),
+                            float(e["p_given_not"]),
+                            updated[e["supports_id"]],
+                        )
+            if abs(score - scores[cid]) < epsilon:
+                continue  # early cutoff: unchanged, does not propagate
+            scores[cid] = score
+            updated[cid] = score
         movements = []
-        for cid in sorted(set(before) | set(after)):
-            old, new = before.get(cid), after.get(cid)
-            if old is not None and new is not None and new != old:
+        for cid in sorted(scores):
+            old, new = before[cid], scores[cid]
+            if new != old:
                 movements.append(
                     {"claim_id": cid, "old": old, "new": new, "delta": new - old}
                 )
@@ -2312,23 +2784,30 @@ class Ledger:
 
         Structural mode returns the transitive closure of dependents
         — derived claims and decision nodes — each with its graph
-        distance from ``claim_id`` and the paths it was reached by.
+        distance from ``claim_id`` and the shortest paths it was
+        reached by (at most 100 listed per node; ``path_count``
+        gives the exact number of shortest paths).
 
         Propagated mode additionally reports the score movement each
         claim would see if ``claim_id`` were revised to
         ``revised_score`` (default 0.0: the claim is challenged to
-        zero), computed by running a real revision on a throwaway
-        copy of the store. Nothing in this store changes. Decisions
-        whose basis set intersects the moved claims are listed under
-        ``decisions_affected``: they rested on ground that moved.
-        (That a decision is in the blast radius does not make it
-        wrong — only exposed. Judging it stays with people.)
+        zero), computed by an in-memory simulation of the revision
+        machinery (claim I2's property tests hold the simulation to
+        the real machinery's outcomes claim for claim). Nothing in
+        this store changes. Decisions whose basis set intersects
+        the moved claims are listed under ``decisions_affected``:
+        they rested on ground that moved. (That a decision is in
+        the blast radius does not make it wrong — only exposed.
+        Judging it stays with people.)
 
         Caps: ``max_depth`` bounds graph distance, ``max_results``
-        bounds the number of nodes returned, and at most
-        100 paths per node are listed. Whenever a cap binds,
-        ``truncated`` is True and ``truncation_reasons`` says which
-        cap — a capped answer is never silently partial.
+        bounds the number of nodes returned, at most 100 shortest
+        paths per node are listed, and listed paths across the
+        whole result are bounded to 100,000 path elements (the
+        counts in ``path_count`` stay exact regardless). Whenever
+        a cap binds, ``truncated`` is True and
+        ``truncation_reasons`` says which cap — a capped answer is
+        never silently partial.
         """
         if self._live_claim(claim_id) is None:
             raise KeyError(f"unknown claim {claim_id}")
@@ -2374,51 +2853,84 @@ class Ledger:
         kept = {claim_id} | {cid for _, cid, _ in candidates}
         kept_claims = kept & set(distance)
 
-        full_adj = {}
-        for c in kept_claims:
-            full_adj[c] = sorted(d for d in adjacency.get(c, []) if d in kept)
+        # Shortest paths, by dynamic programming over the BFS
+        # layers: a node's shortest paths are its closest parents'
+        # shortest paths extended by the node itself. (DESIGN-13
+        # amendment, 2026-10-28: the original semantics listed
+        # every simple path, whose volume is intrinsically
+        # unbounded on dense graphs — the whole-graph closure
+        # could not answer inside any reasonable budget. Tristen
+        # approved shortest-path semantics: ``paths`` lists up to
+        # _MAX_PATHS_PER_NODE shortest paths, and ``path_count``
+        # gives the exact number of shortest paths, saturated at
+        # 10**15. Listing fewer than the count flags truncation,
+        # never silently.)
+        node_distance = {c: distance[c] for c in kept_claims}
+        for did, dd in dec_distance.items():
+            if did in kept:
+                node_distance[did] = dd
+        layer_order = sorted(
+            (d, cid) for cid, d in node_distance.items() if cid != claim_id
+        )
+        # The layer-advancing parents of every kept node, built by
+        # walking sources in (distance, id) order so each parent
+        # list comes out sorted without a per-node sort. Decision
+        # children come from the inverted decision-parent map;
+        # claim children from the dependents adjacency.
+        dec_children: dict[str, list[str]] = {}
         for did, parents in dec_parents.items():
             if did in kept:
                 for p in parents:
                     if p in kept_claims:
-                        full_adj.setdefault(p, []).append(did)
-        for c in full_adj:
-            full_adj[c] = sorted(set(full_adj[c]))
-
-        # Enumerate simple paths from the root, iteratively (an
-        # explicit stack, so long chains cannot hit the interpreter
-        # recursion limit). Per-node and global budgets keep dense
-        # graphs bounded; hitting either is reported, never silent.
-        paths: dict[str, list] = {}
-        steps = 0
-        stack = [(claim_id, [claim_id], 0)]
-        on_path = {claim_id}
-        while stack:
-            node, path, idx = stack[-1]
-            children = full_adj.get(node, [])
-            if idx >= len(children):
-                stack.pop()
-                on_path.discard(node)
+                        dec_children.setdefault(p, []).append(did)
+        layer_parents: dict[str, list[str]] = {}
+        nd_get = node_distance.get
+        lp_add = layer_parents.setdefault
+        for u in [claim_id] + [cid for _, cid in layer_order]:
+            du = nd_get(u)
+            if du is None:
                 continue
-            stack[-1] = (node, path, idx + 1)
-            steps += 1
-            if steps > self._MAX_PATH_STEPS:
+            for v in adjacency.get(u, ()):
+                if v in kept and nd_get(v) == du + 1:
+                    lp_add(v, []).append(u)
+            for v in dec_children.get(u, ()):
+                if nd_get(v) == du + 1:
+                    lp_add(v, []).append(u)
+        paths: dict[str, list] = {claim_id: [[claim_id]]}
+        path_count: dict[str, int] = {claim_id: 1}
+        # Listing is bounded twice: per node (above) and across the
+        # whole result. On a deep, dense closure, 100 listed paths
+        # per node is gigabytes of result — the counts stay exact
+        # for every node, and the listing budget (in path elements,
+        # spent in BFS order) decides how much of it is spelled
+        # out. Running out flags truncation like any other cap.
+        elements_used = 0
+        listing_open = True
+        count_get = path_count.get
+        paths_get = paths.get
+        for _, v in layer_order:
+            total = 0
+            listed: list = []
+            for u in layer_parents.get(v, ()):  # built in sorted order
+                total += count_get(u, 0)
+                if not listing_open:
+                    continue
+                for p in paths_get(u, ()):
+                    if len(listed) >= self._MAX_PATHS_PER_NODE:
+                        break
+                    if elements_used + len(p) + 1 > self._MAX_PATH_ELEMENTS:
+                        listing_open = False
+                        break
+                    listed.append(p + [v])
+                    elements_used += len(p) + 1
+            if total >= 10**15:
+                total = 10**15
+            path_count[v] = total
+            paths[v] = listed
+            if total > len(listed):
                 truncated = True
                 if "paths" not in reasons:
                     reasons.append("paths")
-                break
-            nxt = children[idx]
-            if nxt in on_path:
-                continue
-            lst = paths.setdefault(nxt, [])
-            if len(lst) < self._MAX_PATHS_PER_NODE:
-                lst.append(path + [nxt])
-            else:
-                truncated = True
-                if "paths" not in reasons:
-                    reasons.append("paths")
-            stack.append((nxt, path + [nxt], 0))
-            on_path.add(nxt)
 
         nodes = [
             {
@@ -2426,6 +2938,7 @@ class Ledger:
                 "kind": kind,
                 "distance": dist,
                 "paths": paths.get(cid, []),
+                "path_count": path_count.get(cid, 0),
             }
             for dist, cid, kind in candidates
         ]
@@ -2443,7 +2956,7 @@ class Ledger:
         }
         if mode == "propagated":
             target = 0.0 if revised_score is None else float(revised_score)
-            movements = self._dry_run_revision(claim_id, target)
+            movements = self._simulated_revision(claim_id, target)
             moved = {m["claim_id"] for m in movements}
             result["revised_score"] = target
             result["movements"] = movements

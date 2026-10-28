@@ -253,11 +253,42 @@ an empty basis set, honestly, not a reconstructed one.
 
 - **Structural:** the transitive closure of dependents (derived
   claims and decisions), each with its graph distance and the
-  paths it was reached by.
+  shortest paths it was reached by.
 - **Propagated:** additionally, the score movement each dependent
   would see if the claim's score were revised to a stated value
   (or challenged to zero), computed by the same revisit machinery
   that performs real revisions — run dry, changing nothing.
+
+Amendment (2026-10-28, owner-approved): the original structural
+semantics listed *every* simple path per node. Measured on the
+section 8 reference graph, that output is intrinsically
+unbounded on dense graphs (whole-graph closure: 426 ms against
+the 100 ms budget, with the enumeration cap binding) — no
+implementation of those semantics meets the budget. Structural
+impact now lists the *shortest* paths (at most 100 per node) and
+reports `path_count`, the exact number of shortest paths
+(saturated at 10^15); listing fewer than the count flags
+truncation exactly as the old cap did. Claim I1's brute-force
+oracle is amended to match: distances and shortest-path sets,
+exactly. Listed paths are additionally bounded across the whole
+result (100,000 path elements, spent in BFS order): on the
+reference graph, saturating every node at 100 listed paths is
+~10^8 path elements — seconds of copying and gigabytes of
+result — while the closure, distances, and counts are the
+query's substance and stay complete and exact.
+
+Amendment (2026-10-28, owner-approved): propagated impact is
+computed by an in-memory simulation of the revision machinery
+instead of a real revision replayed on a copied store. Measured
+at the reference graph's root, the replay cost minutes (a store
+copy plus a durable write per moved claim) against the 500 ms
+budget. The simulation mirrors the machinery step for step —
+BFS order, edge order, sequential Jeffrey updates, combo
+recomputation, the epsilon cutoff — and claim I2's property
+tests, which compare its output against a real revision on an
+independent copy, claim for claim and float for float, are its
+arbiter. The spec's "run dry, changing nothing" contract is
+unchanged; only the mechanism changed.
 
 Claim I1: the structural closure returned by `impact` equals a
 brute-force closure computed independently from the raw edge set
@@ -427,6 +458,21 @@ exempt (it is the correctness oracle, not the performance
 surface). If a budget proves unmeetable on CI hardware, the
 budget is amended in this memo with the measurement attached —
 never silently relaxed in code.
+
+Implementation note (2026-10-28): the verify budget is met by
+batch Ed25519 verification in the Rust core. Per-record
+sequential verification measured 21,153 records/second on the CI
+runner (one signature check is ~47 µs; the budget allows
+20 µs/record for everything). Verification now proceeds in
+windows of 512 records: a structural pass per window, then one
+batch signature check (deterministic Fiat-Shamir coefficients,
+public-key terms grouped), and — if the batch check fails — a
+sequential re-run of that window, which reproduces the exact
+first error. The batch is an accelerator, never the arbiter:
+it accepts exactly the windows the sequential path accepts
+(any form problem hands the window to the sequential path),
+and claim H4 (verification is complete, not sampled) is
+unchanged.
 
 ## 9. Migration and compatibility
 

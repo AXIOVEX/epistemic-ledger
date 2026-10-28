@@ -8,6 +8,27 @@ this project follows [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- The adversarial battery and performance budgets (DESIGN-13
+  sections 7–8), enforced in CI by a dedicated job: history
+  attacks (rewrite with recomputed hashes fails on signatures;
+  copied signatures over altered payloads fail at the exact
+  sequence number), crash drills (kill mid-append; torn final
+  write at every byte offset), corruption drills with and without
+  a snapshot, concurrency (second writer refused; readers observe
+  only complete records), and impact on adversarial graph shapes —
+  plus tools/bench_budgets.py measuring append/verify/open/
+  impact/LQL against the section 8 budgets on the reference
+  workloads.
+- Projection rebuild (DESIGN-13 section 7): the Python store's
+  ledger.db is a fold of its log, and `Ledger.rebuild_projection`
+  rebuilds it from events.jsonl alone — the recovery path for a
+  deleted or corrupted projection. The fold refuses event types
+  it does not know rather than approximating. To make rebuilds
+  exact, `assert` and `policy_registered` events now record the
+  full row parameters; for older logs the fold falls back to
+  documented defaults for the fields those events never carried
+  (scores, edges, versions, and verification are exact for every
+  era).
 - The interface layer (DESIGN-13 sections 5–6): LQL, a small
   read-only query language over the core (`Ledger.query`, grammar
   in docs/lql.md — every construct returns exactly the
@@ -54,6 +75,56 @@ this project follows [Semantic Versioning](https://semver.org/).
   acts already in the log (contradiction holds, dismissals,
   resolutions), whose named claim references become their basis
   sets.
+
+### Changed
+
+- Structural impact lists shortest paths instead of every simple
+  path (DESIGN-13 amendment, 2026-10-28, owner-approved): on the
+  10,000-claim reference graph the old listing could not answer
+  inside the section 8 budget at any implementation quality
+  (426 ms measured against the 100 ms budget, enumeration cap
+  binding). Each node now carries up to 100 shortest paths plus
+  `path_count`, the exact number of shortest paths (saturated at
+  10^15); listing fewer than the count flags truncation exactly
+  as the old cap did. Listed paths are also bounded across the
+  whole result (100,000 path elements, spent in BFS order) —
+  saturating every node of the reference closure would be
+  ~10^8 elements of result. Distances, closures, and counts are
+  unchanged and exact, and claim I1's brute-force oracle now
+  checks shortest-path sets and counts.
+- Propagated impact is computed by an in-memory simulation of
+  the revision machinery instead of a real revision replayed on
+  a copied store (DESIGN-13 amendment, 2026-10-28,
+  owner-approved): the replay cost minutes at the reference
+  graph's root against the 500 ms budget. The simulation mirrors
+  the machinery step for step (BFS order, edge order, sequential
+  Jeffrey updates, combo recomputation, epsilon cutoff), and
+  claim I2's property tests — now including combination
+  functions — hold it to the real machinery's outcomes claim for
+  claim, float for float.
+- Chain verification in the Rust core batches Ed25519 signature
+  checks (windows of 1,024 records, verified in parallel chunks
+  across the available cores, one multiscalar multiplication
+  per chunk, public-key terms grouped): per-record sequential
+  verification measured 21,153 records/second against the
+  section 8 budget of 50,000. A window whose batch check fails
+  is re-run sequentially, reproducing the exact first error —
+  the batch is an accelerator, never the arbiter, and
+  verification remains complete, never sampled. A `Cargo.lock`
+  is now committed for the Rust workspace.
+- The projection carries partial indexes on its live slice
+  (claims and support edges, `WHERE txn_to IS NULL`): the tables
+  are bitemporal, so most rows are closed versions, and
+  unindexed live-row queries scanned every version — filtered
+  claim queries on a version-heavy store measured 173 ms
+  against the 50 ms budget before the indexes, 48 ms after.
+- Repeated read queries against an unchanged store reuse cached
+  derived state: the live edge set (for impact) and the live
+  claim rows (for claim listing) are cached per Ledger instance,
+  keyed by log size — every write grows the log, so a size match
+  proves the projection unchanged (the same pattern the
+  decision index already used). First calls on a changed store
+  pay the full load; results are identical either way.
 
 ## [0.12.0] - 2026-10-27
 

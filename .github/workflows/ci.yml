@@ -42,7 +42,14 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -e . "mypy>=1.11"
-      - run: mypy src/epistemic_ledger
+      - name: Type check (errors annotated)
+        run: |
+          set +e
+          mypy src/epistemic_ledger > /tmp/mypy.out 2>&1
+          rc=$?
+          grep -E "error:" /tmp/mypy.out | head -20 | while IFS= read -r line; do echo "::error::$line"; done
+          tail -2 /tmp/mypy.out | while IFS= read -r line; do echo "::error::mypy $line"; done
+          exit $rc
 
   test:
     name: Test (py${{ matrix.python }} · ${{ matrix.os }})
@@ -63,7 +70,16 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
       - run: pip install -e ".[dev]"
-      - run: python -m pytest
+      - name: Run tests (failures annotated)
+        shell: bash
+        run: |
+          set +e
+          python -m pytest > /tmp/test.out 2>&1
+          rc=$?
+          grep -E "^(FAILED|ERROR)" /tmp/test.out | head -20 | while IFS= read -r line; do echo "::error::$line"; done
+          grep -E "^E " /tmp/test.out | head -30 | while IFS= read -r line; do echo "::error::E $line"; done
+          tail -2 /tmp/test.out | while IFS= read -r line; do echo "::error::pytest $line"; done
+          exit $rc
 
   coverage:
     name: Coverage (floors enforced)
@@ -112,6 +128,52 @@ jobs:
           python-version: "3.12"
       - run: pip install -e ".[docs]"
       - run: mkdocs build --strict
+
+  battery:
+    name: Battery + budgets
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: dtolnay/rust-toolchain@stable
+      - run: python -m venv /tmp/battery-venv
+      - run: /tmp/battery-venv/bin/pip install -q maturin pytest cryptography hypothesis
+      - name: Build the bindings wheel
+        run: cd rust/crates/epistemic-ledger-py && /tmp/battery-venv/bin/maturin build --release --interpreter /tmp/battery-venv/bin/python -o /tmp/wheels
+      - run: /tmp/battery-venv/bin/pip install -q /tmp/wheels/*.whl
+      # The real package installs last so its __init__ replaces the
+      # bindings wheel's shim; the compiled _core stays beside it.
+      - run: /tmp/battery-venv/bin/pip install -q .
+      - name: Run the adversarial battery (failures annotated)
+        run: |
+          set +e
+          /tmp/battery-venv/bin/python -m pytest rust/crates/epistemic-ledger-py/tests/test_battery.py -q > /tmp/battery.out 2>&1
+          rc=$?
+          grep -E "^(FAILED|ERROR)" /tmp/battery.out | head -20 | while IFS= read -r line; do echo "::error::$line"; done
+          grep -E "^E " /tmp/battery.out | head -30 | while IFS= read -r line; do echo "::error::E $line"; done
+          exit $rc
+      # Diagnostics: the main suite also runs in the Test jobs, but
+      # those do not surface failures as annotations; this step
+      # annotates them here without failing this job. It runs
+      # before the bench so a bench failure cannot skip it.
+      - name: Main suite (diagnostic, annotated)
+        run: |
+          set +e
+          /tmp/battery-venv/bin/python -m pytest tests -q > /tmp/main.out 2>&1
+          grep -E "^(FAILED|ERROR)" /tmp/main.out | head -20 | while IFS= read -r line; do echo "::error::$line"; done
+          grep -E "^E " /tmp/main.out | head -30 | while IFS= read -r line; do echo "::error::E $line"; done
+          true
+      - name: Enforce the performance budgets (DESIGN-13 section 8)
+        run: |
+          set -o pipefail
+          /tmp/battery-venv/bin/python -u tools/bench_budgets.py 2>&1 | while IFS= read -r line; do
+            case "$line" in
+              "["*|*"budgets met") echo "::error::bench $line" ;;
+              *) echo "bench $line" ;;
+            esac
+          done
 
   build:
     name: Build + install smoke
@@ -189,7 +251,7 @@ jobs:
       - run: python -m venv /tmp/bindings-venv
       - run: /tmp/bindings-venv/bin/pip install -q maturin pytest cryptography
       - name: Build the bindings wheel
-        run: cd rust/crates/epistemic-ledger-py && /tmp/bindings-venv/bin/maturin build --interpreter /tmp/bindings-venv/bin/python -o /tmp/wheels
+        run: cd rust/crates/epistemic-ledger-py && /tmp/bindings-venv/bin/maturin build --release --interpreter /tmp/bindings-venv/bin/python -o /tmp/wheels
       - run: /tmp/bindings-venv/bin/pip install -q /tmp/wheels/*.whl
       # The real package installs last so its __init__ replaces the
       # bindings wheel's shim; the compiled _core stays beside it.
