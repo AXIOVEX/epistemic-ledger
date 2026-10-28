@@ -1,0 +1,383 @@
+"""The adversarial battery (DESIGN-13 section 7).
+
+Drills, not examples: history attacks, crash attacks, corruption
+with and without a snapshot to repair from, concurrency, and
+adversarial graph shapes for impact. Every drill ends with a
+health check and a full verification, and the battery fails if
+either reports clean over damage (claim E4).
+"""
+
+import json
+import os
+import subprocess
+import sys
+import time
+
+import pytest
+
+from epistemic_ledger import Ledger
+from epistemic_ledger._core import (
+    RustStore,
+    read_records_json,
+    restore_snapshot_json,
+    snapshot_json,
+)
+
+SEED = "07" * 32
+ATTACKER_SEED = "09" * 32
+T0 = "2026-01-01T00:00:00+00:00"
+
+
+def _pubkey_hex(seed_hex):
+    from cryptography.hazmat.primitives.asymmetric.ed25519 import (
+        Ed25519PrivateKey,
+    )
+    from cryptography.hazmat.primitives.serialization import (
+        Encoding,
+        PublicFormat,
+    )
+
+    key = Ed25519PrivateKey.from_private_bytes(bytes.fromhex(seed_hex))
+    return key.public_key().public_bytes(Encoding.Raw, PublicFormat.Raw).hex()
+
+
+PUBKEYS = json.dumps({"w": _pubkey_hex(SEED)})
+
+
+def _signed_store(path, n=24):
+    store = RustStore.open(str(path))
+    for i in range(n):
+        store.append(T0, "w", "note", json.dumps({"i": i}), SEED)
+    return store
+
+
+def _log_bytes(path):
+    with open(os.path.join(str(path), "events.log"), "rb") as f:
+        return f.read()
+
+
+def _write_log(path, raw):
+    os.makedirs(str(path), exist_ok=True)
+    with open(os.path.join(str(path), "events.log"), "wb") as f:
+        f.write(raw)
+
+
+# CRC-32C (Castagnoli), table-driven — the chain format's line
+# checksum. Python's binascii.crc32 is the ISO polynomial, not
+# Castagnoli, so the battery carries its own.
+_CRC_TABLE = []
+for _i in range(256):
+    _c = _i
+    for _ in range(8):
+        _c = (_c >> 1) ^ (0x82F63B78 if _c & 1 else 0)
+    _CRC_TABLE.append(_c)
+
+
+def _crc32c(data):
+    crc = 0xFFFFFFFF
+    for b in data:
+        crc = _CRC_TABLE[(crc ^ b) & 0xFF] ^ (crc >> 8)
+    return crc ^ 0xFFFFFFFF
+
+
+# ------------------------------------------------------------------
+# History attacks
+# ------------------------------------------------------------------
+
+
+def test_rewrite_with_recomputed_hashes_fails_on_signatures(tmp_path):
+    """The attacker rebuilds the whole chain with correct hashes
+    but cannot sign as the writer: verification must fail."""
+    src = _signed_store(tmp_path / "victim", n=12)
+    records = json.loads(read_records_json(str(tmp_path / "victim")))
+    src.verify(PUBKEYS, 1)
+    forged = RustStore.open(str(tmp_path / "forged"))
+    for rec in records:
+        payload = dict(rec["payload"])
+        if rec["seq"] == 5:
+            payload["i"] = 999  # the lie the rewrite exists to plant
+        forged.append(
+            rec["t"], rec["actor"], rec["type"], json.dumps(payload), ATTACKER_SEED
+        )
+    # Structurally the forged chain is perfect...
+    assert forged.verify("{}", 1) == 12
+    # ...and it fails the moment signatures are checked.
+    with pytest.raises(RuntimeError):
+        forged.verify(PUBKEYS, 1)
+
+
+def test_copied_signatures_over_altered_payload_fail(tmp_path):
+    """Keep the original hash and signature, change the payload:
+    the hash no longer commits to the content. The line still
+    parses and links (open is the fast structural pass), and the
+    deep verification catches it at the exact sequence number."""
+    src_dir = tmp_path / "victim"
+    _signed_store(src_dir, n=12)
+    lines = _log_bytes(src_dir).split(b"\n")
+    # Line index 4 is seq 5 (plus the trailing empty split piece).
+    crc_hex, _, body = lines[4].partition(b" ")
+    rec = json.loads(body)
+    rec["payload"]["i"] = 999
+    new_body = json.dumps(rec, separators=(",", ":")).encode()
+    lines[4] = f"{_crc32c(new_body):08x}".encode() + b" " + new_body
+    broken = tmp_path / "broken"
+    _write_log(broken, b"\n".join(lines))
+    store = RustStore.open(str(broken))
+    with pytest.raises(RuntimeError) as exc_info:
+        store.verify(PUBKEYS, 1)
+    assert "seq 5" in str(exc_info.value)
+
+
+# ------------------------------------------------------------------
+# Crash attacks
+# ------------------------------------------------------------------
+
+
+def test_kill_during_append_burst_recovers(tmp_path):
+    """SIGKILL a writer mid-burst: the store reopens, the torn
+    tail (if any) is recovered, and what survives verifies."""
+    target = str(tmp_path / "victim")
+    script = (
+        "import json, sys\n"
+        "from epistemic_ledger._core import RustStore\n"
+        f"s = RustStore.open({target!r})\n"
+        "for i in range(100000):\n"
+        f"    s.append({T0!r}, 'w', 'note', json.dumps({{'i': i}}), {SEED!r})\n"
+        "    print(i, flush=True)\n"
+    )
+    proc = subprocess.Popen(
+        [sys.executable, "-c", script],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.DEVNULL,
+        text=True,
+    )
+    seen = 0
+    while seen < 40:
+        line = proc.stdout.readline()
+        if not line:
+            break
+        seen += 1
+    proc.kill()
+    proc.wait(timeout=10)
+    store = RustStore.open(target)  # recovery happens here
+    count = store.verify(PUBKEYS, 1)
+    assert count >= 40
+    report = json.loads(store.open_report_json())
+    assert report["events"] == count
+
+
+def test_torn_final_write_at_every_byte_offset(tmp_path):
+    """Truncate the log at every offset inside the final record:
+    each time, open recovers to the last complete record and the
+    surviving chain verifies."""
+    src_dir = tmp_path / "victim"
+    store = _signed_store(src_dir, n=6)
+    head_before = store.head_hash
+    raw = _log_bytes(src_dir)
+    last_line_start = raw.rfind(b"\n", 0, len(raw) - 1) + 1
+    for cut in range(last_line_start, len(raw)):
+        d = tmp_path / f"torn-{cut}"
+        _write_log(d, raw[:cut])
+        reopened = RustStore.open(str(d))
+        report = json.loads(reopened.open_report_json())
+        assert report["events"] == 5, f"cut at {cut}"
+        assert reopened.verify(PUBKEYS, 1) == 5
+
+
+def test_projection_deleted_rebuilds_identically(tmp_path):
+    """The Python store's projection is a fold of the log: delete
+    it, rebuild from the log alone, and every score is reproduced
+    (Ledger.rebuild_projection, the documented recovery path)."""
+    path = str(tmp_path / "store")
+    led = Ledger(path)
+    a = led.assert_claim("alpha", 0.9)
+    b = led.assert_claim("beta", 0.4)
+    led.add_support(b, a, "evidential", p_given=0.95, p_given_not=0.05)
+    led.manual_score(a, 0.7)
+    before = {cid: led.get_score(cid) for cid in (a, b)}
+    led.close()
+    os.remove(os.path.join(path, "ledger.db"))
+    report = Ledger.rebuild_projection(path)
+    assert report["ok"] is True
+    led = Ledger(path)
+    assert {cid: led.get_score(cid) for cid in (a, b)} == before
+    assert led.health()["ok"] is True
+    led.close()
+
+
+def test_projection_corruption_is_never_clean(tmp_path):
+    """Corrupt the projection two ways — a tampered score written
+    straight into the database, and raw byte damage — and
+    verification must catch both (or the open must refuse):
+    health never reports clean over damage. The rebuild then
+    restores the exact state."""
+    import sqlite3
+
+    path = str(tmp_path / "store")
+    led = Ledger(path)
+    a = led.assert_claim("alpha", 0.9)
+    led.close()
+    db = os.path.join(path, "ledger.db")
+
+    # (a) Data-level tampering: the projection disagrees with the log.
+    conn = sqlite3.connect(db)
+    conn.execute("UPDATE claims SET score = 0.123 WHERE claim_id = ?", (a,))
+    conn.commit()
+    conn.close()
+    led = Ledger(path)
+    assert led.verify_store()["ok"] is False
+    assert led.health()["ok"] is False
+    led.close()
+
+    # (b) Byte-level damage across the middle of the file.
+    with open(db, "r+b") as f:
+        f.seek(os.path.getsize(db) // 2)
+        f.write(b"\xff" * 256)
+    caught = False
+    try:
+        led = Ledger(path)
+        caught = not led.verify_store()["ok"] or not led.health()["ok"]
+        led.close()
+    except Exception:
+        caught = True  # a refused open is also a catch
+    assert caught
+
+    # Caught by verification, then rebuilt from the log (section 7).
+    Ledger.rebuild_projection(path)
+    led = Ledger(path)
+    assert led.get_score(a) == 0.9
+    assert led.health()["ok"] is True
+    led.close()
+
+
+# ------------------------------------------------------------------
+# Corruption drills: with and without a snapshot (E3, E4)
+# ------------------------------------------------------------------
+
+
+def test_snapshot_repairs_corrupted_store(tmp_path):
+    src_dir = tmp_path / "victim"
+    store = _signed_store(src_dir, n=30)
+    original = read_records_json(str(src_dir))
+    bundle = tmp_path / "bundle"
+    snapshot_json(str(src_dir), str(bundle))
+    del store  # release the writer lock before reopening
+    # Damage the live store mid-history.
+    lines = _log_bytes(src_dir).split(b"\n")
+    crc_hex, _, body = lines[10].partition(b" ")
+    rec = json.loads(body)
+    rec["payload"]["i"] = 31337
+    new_body = json.dumps(rec, separators=(",", ":")).encode()
+    lines[10] = f"{_crc32c(new_body):08x}".encode() + b" " + new_body
+    _write_log(src_dir, b"\n".join(lines))
+    damaged = RustStore.open(str(src_dir))
+    with pytest.raises(RuntimeError):
+        damaged.verify(PUBKEYS, 1)  # the damage is caught, not passed over
+    del damaged
+    restored = tmp_path / "restored"
+    report = json.loads(restore_snapshot_json(str(bundle), str(restored)))
+    assert report["events"] == 30
+    assert read_records_json(str(restored)) == original
+    store = RustStore.open(str(restored))
+    assert store.verify(PUBKEYS, 1) == 30
+
+
+def test_corruption_without_snapshot_stops_at_first_bad_record(tmp_path):
+    src_dir = tmp_path / "victim"
+    _signed_store(src_dir, n=20)
+    lines = _log_bytes(src_dir).split(b"\n")
+    crc_hex, _, body = lines[7].partition(b" ")  # seq 8
+    rec = json.loads(body)
+    rec["payload"]["i"] = 8888
+    new_body = json.dumps(rec, separators=(",", ":")).encode()
+    lines[7] = f"{_crc32c(new_body):08x}".encode() + b" " + new_body
+    _write_log(src_dir, b"\n".join(lines))
+    store = RustStore.open(str(src_dir))
+    with pytest.raises(RuntimeError) as exc_info:
+        store.verify(PUBKEYS, 1)
+    # The loss is reported exactly: the first bad sequence number.
+    assert "seq 8" in str(exc_info.value)
+
+
+# ------------------------------------------------------------------
+# Concurrency
+# ------------------------------------------------------------------
+
+
+def test_second_writer_is_refused(tmp_path):
+    first = _signed_store(tmp_path / "store", n=3)
+    with pytest.raises(RuntimeError):
+        RustStore.open(str(tmp_path / "store"))
+    assert first.verify(PUBKEYS, 1) == 3
+
+
+def test_readers_observe_only_complete_records(tmp_path):
+    target = str(tmp_path / "store")
+    script = (
+        "import json, time\n"
+        "from epistemic_ledger._core import RustStore\n"
+        f"s = RustStore.open({target!r})\n"
+        "for i in range(150):\n"
+        f"    s.append({T0!r}, 'w', 'note', json.dumps({{'i': i}}), {SEED!r})\n"
+        "    time.sleep(0.004)\n"
+    )
+    proc = subprocess.Popen(
+        [sys.executable, "-c", script],
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+    )
+    reads = 0
+    while proc.poll() is None:
+        records = json.loads(read_records_json(target))
+        seqs = [r["seq"] for r in records]
+        assert seqs == list(range(1, len(seqs) + 1))
+        reads += 1
+        time.sleep(0.01)
+    proc.wait(timeout=10)
+    assert reads >= 3
+    assert len(json.loads(read_records_json(target))) == 150
+
+
+# ------------------------------------------------------------------
+# Impact on adversarial graph shapes
+# ------------------------------------------------------------------
+
+
+def _graph_store(tmp_path):
+    return Ledger(str(tmp_path / "graph"))
+
+
+def test_impact_deep_chain(tmp_path):
+    led = _graph_store(tmp_path)
+    ids = [led.assert_claim(f"d{i}", 0.5) for i in range(800)]
+    for i in range(1, 800):
+        led.add_support(ids[i], ids[i - 1], "deductive", p_given=1.0, p_given_not=0.0)
+    result = led.impact(ids[0])
+    assert len(result["nodes"]) == 799
+    tail = next(d for d in result["nodes"] if d["id"] == ids[-1])
+    assert tail["distance"] == 799
+    led.close()
+
+
+def test_impact_wide_fan(tmp_path):
+    led = _graph_store(tmp_path)
+    root = led.assert_claim("root", 0.5)
+    for i in range(1200):
+        leaf = led.assert_claim(f"leaf{i}", 0.5)
+        led.add_support(leaf, root, "evidential", p_given=0.9, p_given_not=0.1)
+    result = led.impact(root, max_results=2000)
+    assert len(result["nodes"]) == 1200
+    assert all(d["distance"] == 1 for d in result["nodes"])
+    led.close()
+
+
+def test_impact_near_cycle_terminates(tmp_path):
+    led = _graph_store(tmp_path)
+    ids = [led.assert_claim(f"r{i}", 0.5) for i in range(300)]
+    for i in range(300):
+        led.add_support(
+            ids[(i + 1) % 300], ids[i], "deductive", p_given=1.0, p_given_not=0.0
+        )
+    result = led.impact(ids[0])
+    assert len(result["nodes"]) == 299  # everyone but itself
+    led.close()

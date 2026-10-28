@@ -293,6 +293,249 @@ def _eval_pred(pred, ctx):
     return not _eval_pred(pred["not"], ctx)
 
 
+# ----------------------------------------------------------------------
+# projection rebuild (v0.13, DESIGN-13 section 7): the log is ground
+# truth and ledger.db is a fold of it. _fold_event applies one
+# event's projection effect — the same mutations its write method
+# performed, minus the emission. Event types whose state is derived
+# from the log at read time (decisions, contradictions, verdicts)
+# and pure record events fold as no-ops. An event type the fold
+# does not know stops the rebuild loudly: a partial or approximate
+# projection is worse than none.
+# ----------------------------------------------------------------------
+
+_FOLD_NOOP_TYPES = frozenset(
+    {
+        "revisit",
+        "policy_denied",
+        "interval_refused",
+        "interval_combined",  # its set_interval emitted interval_set
+        "contradiction",
+        "contradiction_held",
+        "contradiction_dismissed",
+        "contradiction_resolved",
+        "contradiction_unresolved",
+        "contract",  # the score change rides its score_revision
+        "decision",
+    }
+)
+
+
+def _fold_live_row(db, table, where, params):
+    return db.execute(
+        f"SELECT rowid, * FROM {table} WHERE {where} AND txn_to IS NULL", params
+    ).fetchone()
+
+
+def _fold_claim_version(db, claim_id, t, score=None, entrenchment=None, status=None):
+    row = _fold_live_row(db, "claims", "claim_id = ?", (claim_id,))
+    if row is None:
+        raise ValueError(f"rebuild: event for unknown claim {claim_id}")
+    db.execute("UPDATE claims SET txn_to = ? WHERE rowid = ?", (t, row["rowid"]))
+    if status is not None:
+        db.execute(
+            "UPDATE claims SET status = ? WHERE rowid = ?", (status, row["rowid"])
+        )
+        return
+    db.execute(
+        """INSERT INTO claims(claim_id, txn_from, statement, valid_from,
+                              valid_to, score, score_kind, status,
+                              materiality, critical, entrenchment, writer)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+        (
+            claim_id,
+            t,
+            row["statement"],
+            row["valid_from"],
+            row["valid_to"],
+            float(row["score"] if score is None else score),
+            row["score_kind"],
+            row["status"],
+            row["materiality"],
+            row["critical"],
+            float(row["entrenchment"] if entrenchment is None else entrenchment),
+            row["writer"],
+        ),
+    )
+
+
+def _fold_event(db, event):
+    etype = event["type"]
+    p = event["payload"]
+    t = event["t"]
+    if etype in _FOLD_NOOP_TYPES:
+        return
+    if etype == "assert":
+        if "entrenchment" in p:
+            entrenchment = float(p["entrenchment"])
+        elif p.get("writer") is None:
+            entrenchment = 0.5
+        else:
+            wrow = _fold_live_row(db, "writers", "writer_id = ?", (p["writer"],))
+            entrenchment = TIER_ENTRENCHMENT.get(wrow["tier"] if wrow else None, 0.25)
+        db.execute(
+            """INSERT INTO claims(claim_id, txn_from, statement, valid_from,
+                                  valid_to, score, score_kind, status,
+                                  materiality, critical, entrenchment, writer)
+               VALUES (?, ?, ?, ?, ?, ?, ?, 'active', ?, ?, ?, ?)""",
+            (
+                p["claim_id"],
+                t,
+                p["statement"],
+                p.get("valid_from"),
+                p.get("valid_to"),
+                float(p["prior"]),
+                p.get("score_kind", "credence"),
+                float(p.get("materiality", 0.05)),
+                int(bool(p.get("critical", False))),
+                entrenchment,
+                p.get("writer"),
+            ),
+        )
+        return
+    if etype == "score_revision":
+        _fold_claim_version(db, p["claim_id"], t, score=float(p["new_score"]))
+        return
+    if etype == "entrenchment_set":
+        _fold_claim_version(db, p["claim_id"], t, entrenchment=float(p["new"]))
+        return
+    if etype == "supersede":
+        _fold_claim_version(db, p["old_claim_id"], t, status="superseded")
+        return
+    if etype == "claim_status_changed":
+        _fold_claim_version(db, p["claim_id"], t, status=p["status"])
+        return
+    if etype == "support":
+        db.execute(
+            """INSERT INTO support_edges(claim_id, supports_id, kind,
+                                         p_given, p_given_not, strength, txn_from)
+               VALUES (?, ?, ?, ?, ?, ?, ?)""",
+            (
+                p["claim_id"],
+                p["supports_id"],
+                p["kind"],
+                float(p["p_given"]),
+                float(p["p_given_not"]),
+                float(p["strength"]),
+                t,
+            ),
+        )
+        return
+    if etype == "retract_support":
+        db.execute(
+            """UPDATE support_edges SET txn_to = ?
+               WHERE claim_id = ? AND supports_id = ? AND txn_to IS NULL""",
+            (t, p["claim_id"], p["supports_id"]),
+        )
+        return
+    if etype == "combo_set":
+        db.execute(
+            "UPDATE claim_combos SET txn_to = ? WHERE claim_id = ? AND txn_to IS NULL",
+            (t, p["claim_id"]),
+        )
+        db.execute(
+            "INSERT INTO claim_combos(claim_id, txn_from, combo, leak)"
+            " VALUES (?, ?, ?, ?)",
+            (p["claim_id"], t, p["combo"], float(p["leak"])),
+        )
+        for pid, s in (p.get("strengths") or {}).items():
+            db.execute(
+                """UPDATE support_edges SET strength = ?
+                   WHERE claim_id = ? AND supports_id = ? AND txn_to IS NULL""",
+                (float(s), p["claim_id"], pid),
+            )
+        return
+    if etype == "writer_registered":
+        db.execute(
+            "UPDATE writers SET txn_to = ? WHERE writer_id = ? AND txn_to IS NULL",
+            (t, p["writer_id"]),
+        )
+        db.execute(
+            "INSERT INTO writers(writer_id, txn_from, tier, pubkey)"
+            " VALUES (?, ?, ?, ?)",
+            (p["writer_id"], t, p["tier"], p.get("pubkey")),
+        )
+        return
+    if etype == "policy_registered":
+        db.execute(
+            "UPDATE policies SET txn_to = ? WHERE name = ? AND txn_to IS NULL",
+            (t, p["name"]),
+        )
+        description = p.get("description")
+        rule = p.get("rule")
+        if p["name"] == DEFAULT_POLICY[0]:
+            if description is None:
+                description = DEFAULT_POLICY[1]
+            if rule is None:
+                rule = DEFAULT_POLICY_RULE
+        db.execute(
+            "INSERT INTO policies(name, txn_from, description, version, rule)"
+            " VALUES (?, ?, ?, ?, ?)",
+            (
+                p["name"],
+                t,
+                description,
+                p["version"],
+                json.dumps(rule) if rule is not None else None,
+            ),
+        )
+        return
+    if etype == "graph_registered":
+        db.execute(
+            "UPDATE graphs SET txn_to = ? WHERE name = ? AND txn_to IS NULL",
+            (t, p["graph"]),
+        )
+        db.execute(
+            "INSERT INTO graphs(name, txn_from, ceiling) VALUES (?, ?, ?)",
+            (p["graph"], t, float(p["ceiling"])),
+        )
+        return
+    if etype == "graph_assigned":
+        db.execute(
+            "UPDATE claim_graphs SET txn_to = ?"
+            " WHERE claim_id = ? AND txn_to IS NULL",
+            (t, p["claim_id"]),
+        )
+        db.execute(
+            "INSERT INTO claim_graphs(claim_id, txn_from, graph) VALUES (?, ?, ?)",
+            (p["claim_id"], t, p["graph"]),
+        )
+        return
+    if etype == "topic_assigned":
+        db.execute(
+            "UPDATE claim_topics SET txn_to = ?"
+            " WHERE claim_id = ? AND txn_to IS NULL",
+            (t, p["claim_id"]),
+        )
+        db.execute(
+            "INSERT INTO claim_topics(claim_id, txn_from, topic) VALUES (?, ?, ?)",
+            (p["claim_id"], t, p["topic"]),
+        )
+        return
+    if etype == "interval_set":
+        db.execute(
+            "UPDATE claim_intervals SET txn_to = ?"
+            " WHERE claim_id = ? AND txn_to IS NULL",
+            (t, p["claim_id"]),
+        )
+        db.execute(
+            "INSERT INTO claim_intervals(claim_id, txn_from, belief, plausibility)"
+            " VALUES (?, ?, ?, ?)",
+            (p["claim_id"], t, float(p["belief"]), float(p["plausibility"])),
+        )
+        return
+    if etype == "outcome":
+        db.execute(
+            "INSERT INTO outcomes(claim_id, outcome, t) VALUES (?, ?, ?)",
+            (p["claim_id"], int(bool(p["outcome"])), t),
+        )
+        return
+    raise ValueError(
+        f"rebuild: unsupported event type {etype!r} "
+        f"(event {event.get('event_id')}); refusing to approximate"
+    )
+
+
 class Ledger:
     def __init__(self, path):
         """path: directory holding events.jsonl and ledger.db (created if missing).
@@ -320,24 +563,7 @@ class Ledger:
         self.db = sqlite3.connect(os.path.join(path, "ledger.db"))
         self.db.row_factory = sqlite3.Row
         self.db.executescript(SCHEMA)
-        # strength column on support_edges (added in v0.4; backfill old DBs)
-        cols = [r["name"] for r in self.db.execute("PRAGMA table_info(support_edges)")]
-        if "strength" not in cols:
-            self.db.execute(
-                "ALTER TABLE support_edges ADD COLUMN strength REAL NOT NULL DEFAULT 1.0"
-            )
-        # writer column on claims (added in v0.6; backfill old DBs)
-        cols = [r["name"] for r in self.db.execute("PRAGMA table_info(claims)")]
-        if "writer" not in cols:
-            self.db.execute("ALTER TABLE claims ADD COLUMN writer TEXT")
-        # pubkey column on writers (added in v0.9; backfill old DBs)
-        cols = [r["name"] for r in self.db.execute("PRAGMA table_info(writers)")]
-        if "pubkey" not in cols:
-            self.db.execute("ALTER TABLE writers ADD COLUMN pubkey TEXT")
-        # rule column on policies (added in v0.10; backfill old DBs)
-        cols = [r["name"] for r in self.db.execute("PRAGMA table_info(policies)")]
-        if "rule" not in cols:
-            self.db.execute("ALTER TABLE policies ADD COLUMN rule TEXT")
+        self._ensure_columns(self.db)
         self.db.commit()
         # default governance policy lives in the store (Design Memo 06);
         # v0.10 registers its rule as data at version 2 (Memo 11)
@@ -347,6 +573,89 @@ class Ledger:
             self.register_policy(
                 name, desc, version=2, actor="system", rule=DEFAULT_POLICY_RULE
             )
+
+    @staticmethod
+    def _ensure_columns(db):
+        """Backfill columns added after the first schema (strength
+        in v0.4, writer in v0.6, pubkey in v0.9, rule in v0.10) so
+        fresh and historical databases converge on one shape."""
+        cols = [r["name"] for r in db.execute("PRAGMA table_info(support_edges)")]
+        if "strength" not in cols:
+            db.execute(
+                "ALTER TABLE support_edges ADD COLUMN strength REAL NOT NULL DEFAULT 1.0"
+            )
+        cols = [r["name"] for r in db.execute("PRAGMA table_info(claims)")]
+        if "writer" not in cols:
+            db.execute("ALTER TABLE claims ADD COLUMN writer TEXT")
+        cols = [r["name"] for r in db.execute("PRAGMA table_info(writers)")]
+        if "pubkey" not in cols:
+            db.execute("ALTER TABLE writers ADD COLUMN pubkey TEXT")
+        cols = [r["name"] for r in db.execute("PRAGMA table_info(policies)")]
+        if "rule" not in cols:
+            db.execute("ALTER TABLE policies ADD COLUMN rule TEXT")
+
+    @classmethod
+    def rebuild_projection(cls, path):
+        """Rebuild ledger.db from events.jsonl — the recovery path
+        for a deleted or corrupted projection (DESIGN-13 section
+        7). The store must not be open elsewhere.
+
+        The log is folded event by event into a fresh database,
+        which then replaces ledger.db and is verified end to end
+        (verify_store). If verification fails and a previous
+        projection existed, the original file is restored and the
+        failure raised; a fold that meets an event type it does
+        not know refuses outright rather than approximating.
+
+        Exactness: events recorded since 0.13 carry every field
+        the projection holds, so the rebuild is exact. For older
+        logs, assert-time claim metadata the old events never
+        recorded (validity window, score kind, materiality,
+        critical flag, explicit entrenchment) falls back to the
+        documented defaults and tier derivation — scores, edges,
+        versions, and verification are exact for every era.
+        """
+        log_path = os.path.join(path, "events.jsonl")
+        with open(log_path, encoding="utf-8") as f:
+            events = [json.loads(line) for line in f if line.strip()]
+        scratch = os.path.join(path, "ledger.db.rebuild-tmp")
+        if os.path.exists(scratch):
+            os.remove(scratch)
+        db = sqlite3.connect(scratch)
+        db.row_factory = sqlite3.Row
+        try:
+            db.executescript(SCHEMA)
+            cls._ensure_columns(db)
+            for event in events:
+                _fold_event(db, event)
+            db.commit()
+        finally:
+            db.close()
+        db_path = os.path.join(path, "ledger.db")
+        backup = None
+        if os.path.exists(db_path):
+            backup = db_path + ".bak"
+            os.replace(db_path, backup)
+        os.replace(scratch, db_path)
+        led = cls(path)
+        try:
+            check = led.verify_store()
+        finally:
+            led.close()
+        if not check["ok"]:
+            if backup is not None:
+                os.replace(backup, db_path)
+            raise RuntimeError(
+                "rebuilt projection failed verification: "
+                + "; ".join(check["problems"][:3])
+            )
+        if backup is not None:
+            os.remove(backup)
+        return {
+            "events": len(events),
+            "claims_checked": check["claims_checked"],
+            "ok": True,
+        }
 
     # ------------------------------------------------------------------
     # events (write model)
@@ -581,6 +890,16 @@ class Ledger:
                 "statement": statement,
                 "prior": float(prior),
                 "writer": writer,
+                # The full row parameters, recorded since 0.13 so the
+                # log alone can rebuild the projection exactly
+                # (rebuild_projection). Older logs lack these keys;
+                # the fold falls back to documented defaults there.
+                "valid_from": valid_from,
+                "valid_to": valid_to,
+                "score_kind": score_kind,
+                "materiality": float(materiality),
+                "critical": bool(critical),
+                "entrenchment": float(entrenchment),
             },
             actor=actor,
             t=t,
@@ -1215,7 +1534,17 @@ class Ledger:
         )
         self.db.commit()
         self._emit(
-            "policy_registered", {"name": name, "version": version}, actor=actor, t=t
+            "policy_registered",
+            {
+                "name": name,
+                "version": version,
+                # Recorded since 0.13 so the log can rebuild the
+                # projection exactly (see the assert event).
+                "description": description,
+                "rule": rule,
+            },
+            actor=actor,
+            t=t,
         )
 
     def audit_policy(self, name, t=None):

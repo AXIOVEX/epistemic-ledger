@@ -351,15 +351,22 @@ def _matches(node, record):
     return _compare(record.get(field), op, value)
 
 
-def _filter_view(ledger, row_dict):
+def _filter_view(ledger, row_dict, tier_cache):
     """A claim dict plus its derived filter fields (kind, tier),
     used only for WHERE matching. Query results themselves are the
     core API dicts, unmodified — that is what makes Q1 an equality,
-    not a resemblance."""
+    not a resemblance. Writer tiers are memoized per query: a
+    filtered scan over many claims must not become a lookup per
+    row."""
     d = dict(row_dict)
     d["kind"] = d.get("score_kind")
     writer = d.get("writer")
-    d["tier"] = ledger.get_writer(writer) if writer else None
+    if writer:
+        if writer not in tier_cache:
+            tier_cache[writer] = ledger.get_writer(writer)
+        d["tier"] = tier_cache[writer]
+    else:
+        d["tier"] = None
     return d
 
 
@@ -385,7 +392,12 @@ def execute(ledger, text):
             rows = [ledger._claim_dict(r) for r in ledger.believed_at(as_of)]
         else:
             rows = ledger.list_claims()
-        return [r for r in rows if _matches(plan["filter"], _filter_view(ledger, r))]
+        tier_cache = {}
+        return [
+            r
+            for r in rows
+            if _matches(plan["filter"], _filter_view(ledger, r, tier_cache))
+        ]
     if kind == "why":
         return ledger.why(plan["id"])
     if kind == "depends":

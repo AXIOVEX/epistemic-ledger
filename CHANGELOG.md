@@ -8,6 +8,27 @@ this project follows [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- The adversarial battery and performance budgets (DESIGN-13
+  sections 7–8), enforced in CI by a dedicated job: history
+  attacks (rewrite with recomputed hashes fails on signatures;
+  copied signatures over altered payloads fail at the exact
+  sequence number), crash drills (kill mid-append; torn final
+  write at every byte offset), corruption drills with and without
+  a snapshot, concurrency (second writer refused; readers observe
+  only complete records), and impact on adversarial graph shapes —
+  plus tools/bench_budgets.py measuring append/verify/open/
+  impact/LQL against the section 8 budgets on the reference
+  workloads.
+- Projection rebuild (DESIGN-13 section 7): the Python store's
+  ledger.db is a fold of its log, and `Ledger.rebuild_projection`
+  rebuilds it from events.jsonl alone — the recovery path for a
+  deleted or corrupted projection. The fold refuses event types
+  it does not know rather than approximating. To make rebuilds
+  exact, `assert` and `policy_registered` events now record the
+  full row parameters; for older logs the fold falls back to
+  documented defaults for the fields those events never carried
+  (scores, edges, versions, and verification are exact for every
+  era).
 - The interface layer (DESIGN-13 sections 5–6): LQL, a small
   read-only query language over the core (`Ledger.query`, grammar
   in docs/lql.md — every construct returns exactly the
