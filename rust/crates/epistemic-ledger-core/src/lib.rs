@@ -3,3 +3,4 @@
 
 pub mod canon;
 pub mod chain;
+pub mod store;

@@ -152,5 +152,27 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
         with:
           components: clippy
-      - run: cargo clippy --manifest-path rust/Cargo.toml --all-targets -- -D warnings
+      - name: Clippy (problems annotated on the PR)
+        run: |
+          cargo clippy --manifest-path rust/Cargo.toml --all-targets --message-format json 2>/dev/null | python3 -c "
+          import json, sys
+          failed = False
+          for line in sys.stdin:
+              try: msg = json.loads(line)
+              except Exception: continue
+              if msg.get('reason') != 'compiler-message': continue
+              m = msg['message']
+              code = (m.get('code') or {}).get('code', '')
+              if m['level'] not in ('error', 'warning'): continue
+              if not code.startswith('clippy::') and m['level'] != 'error': continue
+              failed = True
+              spans = [s for s in m['spans'] if s['is_primary']] or m['spans']
+              text = m['message'].replace('%', '%25').replace(chr(13), '%0D').replace(chr(10), '%0A')
+              if spans:
+                  s = spans[0]
+                  print(f\"::error file={s['file_name']},line={s['line_start']},col={s['column_start']}::{code} {text}\")
+              else:
+                  print(f'::error::{code} {text}')
+          sys.exit(1 if failed else 0)
+          "
       - run: cargo test --manifest-path rust/Cargo.toml
