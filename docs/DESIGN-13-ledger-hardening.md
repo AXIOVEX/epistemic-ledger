@@ -272,6 +272,19 @@ truncation exactly as the old cap did. Claim I1's brute-force
 oracle is amended to match: distances and shortest-path sets,
 exactly.
 
+Amendment (2026-10-28, owner-approved): propagated impact is
+computed by an in-memory simulation of the revision machinery
+instead of a real revision replayed on a copied store. Measured
+at the reference graph's root, the replay cost minutes (a store
+copy plus a durable write per moved claim) against the 500 ms
+budget. The simulation mirrors the machinery step for step —
+BFS order, edge order, sequential Jeffrey updates, combo
+recomputation, the epsilon cutoff — and claim I2's property
+tests, which compare its output against a real revision on an
+independent copy, claim for claim and float for float, are its
+arbiter. The spec's "run dry, changing nothing" contract is
+unchanged; only the mechanism changed.
+
 Claim I1: the structural closure returned by `impact` equals a
 brute-force closure computed independently from the raw edge set
 — exactly, on randomized graphs, including graphs with diamonds,

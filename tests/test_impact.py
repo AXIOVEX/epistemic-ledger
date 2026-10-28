@@ -10,7 +10,12 @@ on dense graphs; Tristen approved shortest-path semantics with
 an exact ``path_count``).
 
 Claim I2: propagated impact scores equal the scores a real
-revision to the same value produces, claim for claim.
+revision to the same value produces, claim for claim. The
+propagated answer comes from an in-memory simulation of the
+revision machinery (amended 2026-10-28; the original store-copy
+replay could not meet the section 8 budget at graph scale) —
+this test is the arbiter that the simulation is faithful,
+including claims carrying joint combination functions.
 
 Plus the section 3.1 contract: a decision records its basis set at
 the moment it is taken, immutably, and governance acts already in
@@ -333,6 +338,15 @@ def test_i2_propagated_equals_real_revision(n, edge_pairs, priors, root, target)
             led.add_support(
                 ids[dep], ids[sup], "evidential", p_given=0.9, p_given_not=0.15
             )
+        # Exercise the combination functions too: the simulation's
+        # combo branch must match the real machinery, not just its
+        # sequential-Jeffrey branch.
+        deps_with_edges = sorted({dep for dep, _ in edges})
+        for dep in deps_with_edges:
+            if dep % 3 == 0:
+                led.set_combo(ids[dep], "noisy-or", leak=0.05)
+            elif dep % 3 == 1:
+                led.set_combo(ids[dep], "noisy-and", leak=0.1)
         before = led._all_live_scores()
         n_events = len(led._events())
         res = led.impact(ids[root_i], mode="propagated", revised_score=target)

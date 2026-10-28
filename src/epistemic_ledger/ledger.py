@@ -14,9 +14,7 @@ Stdlib only. No distributed anything.
 
 import json
 import os
-import shutil
 import sqlite3
-import tempfile
 import uuid
 
 try:
@@ -2605,33 +2603,109 @@ class Ledger:
             )
         }
 
-    def _dry_run_revision(self, claim_id, target):
-        """Revise ``claim_id`` to ``target`` on a throwaway copy of
-        this store, using the ordinary revision machinery
-        (``manual_score``), and report every resulting score
-        movement. The live store is never written: the copy is
-        deleted afterwards, events and all."""
-        tmp = tempfile.mkdtemp(prefix="epistemic-ledger-impact-")
-        try:
-            copy_path = os.path.join(tmp, "store")
-            shutil.copytree(
-                self.path,
-                copy_path,
-                ignore=shutil.ignore_patterns("ledger.lock"),
+    def _simulated_revision(self, claim_id, target):
+        """The score movements a revision of ``claim_id`` to
+        ``target`` would produce, computed in memory. Nothing in
+        this store changes: no events, no writes, no copy.
+
+        The simulation mirrors the real revision machinery
+        (``manual_score`` -> ``_revisit``) step for step: the same
+        dependents BFS order, the same per-claim edge order
+        (attachment order), sequential Jeffrey updates for ordinary
+        claims, joint recomputation for combo claims, and the same
+        epsilon cutoff — a claim whose score moves less than the
+        cutoff counts as unchanged and does not propagate. Claim
+        I2's property tests hold this simulation to the real
+        machinery's outcomes claim for claim, exactly (floats
+        included), on randomized graphs with and without combos.
+
+        (DESIGN-13 amendment, 2026-10-28: the original
+        implementation replayed a real revision on a copied store.
+        Measured at the root of the section 8 reference graph,
+        that cost minutes — a store copy plus a durable write per
+        moved claim — against a 500 ms budget. Tristen approved
+        the simulation; the property tests are its arbiter.)
+        """
+        before = self._all_live_scores()
+        scores = dict(before)
+        rows = self.db.execute(
+            "SELECT claim_id, supports_id, p_given, p_given_not,"
+            " strength, txn_from, rowid FROM support_edges"
+            " WHERE txn_to IS NULL ORDER BY rowid"
+        ).fetchall()
+        edges_by_claim: dict[str, list] = {}
+        reverse: dict[str, list[str]] = {}
+        for e in rows:
+            edges_by_claim.setdefault(e["claim_id"], []).append(e)
+            reverse.setdefault(e["supports_id"], []).append(e["claim_id"])
+        for lst in edges_by_claim.values():
+            lst.sort(key=lambda e: (e["txn_from"], e["rowid"]))
+        combos = {
+            r["claim_id"]: (r["combo"], float(r["leak"]))
+            for r in self.db.execute(
+                "SELECT claim_id, combo, leak FROM claim_combos WHERE txn_to IS NULL"
             )
-            before = self._all_live_scores()
-            clone = Ledger(copy_path)
-            try:
-                clone.manual_score(claim_id, target, actor="impact-dry-run")
-                after = clone._all_live_scores()
-            finally:
-                clone.close()
-        finally:
-            shutil.rmtree(tmp, ignore_errors=True)
+        }
+        # Dependents in the real machinery's BFS order
+        # (_dependents_bfs: queue order, neighbours in edge-rowid
+        # order — the bulk query above is rowid-ordered, so the
+        # per-supporter lists already are too).
+        seen = {claim_id}
+        order = []
+        queue = deque([claim_id])
+        while queue:
+            cur = queue.popleft()
+            for dep in reverse.get(cur, ()):
+                if dep not in seen:
+                    seen.add(dep)
+                    order.append(dep)
+                    queue.append(dep)
+        target = float(target)
+        scores[claim_id] = target
+        updated = {claim_id: target}
+        epsilon = 0.005  # _revisit's default cutoff, as manual_score runs it
+        for cid in order:
+            if cid not in scores:
+                continue  # no live version; the real pass skips it too
+            edges = edges_by_claim.get(cid, [])
+            combo = combos.get(cid)
+            if combo is not None:
+                name, leak = combo
+                if not edges or not any(e["supports_id"] in updated for e in edges):
+                    continue
+                parent_scores = {}
+                for e in edges:
+                    pid = e["supports_id"]
+                    if pid in updated:
+                        p = updated[pid]
+                    elif pid in scores:
+                        p = scores[pid]
+                    else:
+                        continue
+                    parent_scores[pid] = (float(e["strength"]), p)
+                if not parent_scores:
+                    continue
+                score = self._combine_score(name, leak, parent_scores)
+                if score is None:
+                    continue
+            else:
+                score = scores[cid]
+                for e in edges:
+                    if e["supports_id"] in updated:
+                        score = jeffrey(
+                            score,
+                            float(e["p_given"]),
+                            float(e["p_given_not"]),
+                            updated[e["supports_id"]],
+                        )
+            if abs(score - scores[cid]) < epsilon:
+                continue  # early cutoff: unchanged, does not propagate
+            scores[cid] = score
+            updated[cid] = score
         movements = []
-        for cid in sorted(set(before) | set(after)):
-            old, new = before.get(cid), after.get(cid)
-            if old is not None and new is not None and new != old:
+        for cid in sorted(scores):
+            old, new = before[cid], scores[cid]
+            if new != old:
                 movements.append(
                     {"claim_id": cid, "old": old, "new": new, "delta": new - old}
                 )
@@ -2657,12 +2731,14 @@ class Ledger:
         Propagated mode additionally reports the score movement each
         claim would see if ``claim_id`` were revised to
         ``revised_score`` (default 0.0: the claim is challenged to
-        zero), computed by running a real revision on a throwaway
-        copy of the store. Nothing in this store changes. Decisions
-        whose basis set intersects the moved claims are listed under
-        ``decisions_affected``: they rested on ground that moved.
-        (That a decision is in the blast radius does not make it
-        wrong — only exposed. Judging it stays with people.)
+        zero), computed by an in-memory simulation of the revision
+        machinery (claim I2's property tests hold the simulation to
+        the real machinery's outcomes claim for claim). Nothing in
+        this store changes. Decisions whose basis set intersects
+        the moved claims are listed under ``decisions_affected``:
+        they rested on ground that moved. (That a decision is in
+        the blast radius does not make it wrong — only exposed.
+        Judging it stays with people.)
 
         Caps: ``max_depth`` bounds graph distance, ``max_results``
         bounds the number of nodes returned, and at most
@@ -2796,7 +2872,7 @@ class Ledger:
         }
         if mode == "propagated":
             target = 0.0 if revised_score is None else float(revised_score)
-            movements = self._dry_run_revision(claim_id, target)
+            movements = self._simulated_revision(claim_id, target)
             moved = {m["claim_id"] for m in movements}
             result["revised_score"] = target
             result["movements"] = movements

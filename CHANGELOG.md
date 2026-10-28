@@ -88,6 +88,16 @@ this project follows [Semantic Versioning](https://semver.org/).
   10^15); listing fewer than the count flags truncation exactly
   as the old cap did. Distances and closures are unchanged, and
   claim I1's brute-force oracle now checks shortest-path sets.
+- Propagated impact is computed by an in-memory simulation of
+  the revision machinery instead of a real revision replayed on
+  a copied store (DESIGN-13 amendment, 2026-10-28,
+  owner-approved): the replay cost minutes at the reference
+  graph's root against the 500 ms budget. The simulation mirrors
+  the machinery step for step (BFS order, edge order, sequential
+  Jeffrey updates, combo recomputation, epsilon cutoff), and
+  claim I2's property tests — now including combination
+  functions — hold it to the real machinery's outcomes claim for
+  claim, float for float.
 
 ## [0.12.0] - 2026-10-27
 
