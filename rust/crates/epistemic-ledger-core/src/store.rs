@@ -60,6 +60,7 @@ pub struct OpenReport {
     pub recovered_torn_bytes: u64,
 }
 
+#[derive(Debug)]
 pub struct Store {
     dir: PathBuf,
     log: File,
@@ -86,6 +87,7 @@ impl Store {
         let lock = OpenOptions::new()
             .create(true)
             .write(true)
+            .truncate(false)
             .open(dir.join("ledger.lock"))?;
         lock.try_lock_exclusive().map_err(|_| StoreError::Locked)?;
         let log_path = Self::log_path(dir);
@@ -93,6 +95,7 @@ impl Store {
             .create(true)
             .read(true)
             .append(true)
+            .truncate(false)
             .open(&log_path)?;
         let mut raw = Vec::new();
         log.rewind()?;
