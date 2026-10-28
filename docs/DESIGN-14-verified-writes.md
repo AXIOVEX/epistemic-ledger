@@ -143,7 +143,10 @@ require the defect to be reproducible on demand:
 - Python: the unverified append primitive and the whole-file
   write primitive are separate seams; tests replace them with
   doubles that land half the bytes, zero bytes, or garbage —
-  transiently (first attempt only) and persistently.
+  transiently (first attempt only) and persistently — plus two
+  rollback-honesty shapes: the log shrinks, or vanishes,
+  mid-append, where the append must fail immediately and say
+  the tail is to be treated as torn.
 - Rust: two `#[cfg(test)]`-only hooks (compiled out of release
   builds) make the append write land truncated or zeroed, and
   make snapshot file writes land zeroed. The hooks alter the

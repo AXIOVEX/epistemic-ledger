@@ -192,6 +192,49 @@ def test_ledger_open_survives_transient_append_fault(tmp_path, monkeypatch):
         json.loads(line)
 
 
+def test_append_verified_log_shrinks_mid_append(tmp_path, monkeypatch):
+    """Rollback honesty, shape one: if the log ends up SHORTER
+    than before the append, there is nothing safe to truncate
+    back to. The append must fail immediately and loudly, saying
+    the tail must be treated as torn — never retry over a log
+    whose prior contents are gone."""
+
+    def shrink(path, data):
+        with open(path, "wb") as f:
+            f.write(b"")
+            f.flush()
+            os.fsync(f.fileno())
+
+    monkeypatch.setattr(ledger_mod, "_raw_append", shrink)
+    log = tmp_path / "events.jsonl"
+    log.write_bytes(b'{"seed": 0}\n')
+    with pytest.raises(OSError, match="treated as torn"):
+        ledger_mod._append_verified(str(log), b'{"a": 1}\n')
+
+
+def test_append_verified_log_vanishes_mid_append(tmp_path, monkeypatch):
+    """Rollback honesty, shape two: the read-back itself hits an
+    OSError (here the file is simply gone). That is a failed
+    verification, the rollback fails with it, and the error says
+    so — never a silent pass."""
+
+    def vanish(path, data):
+        _raw_land(path, data)
+        os.unlink(path)
+
+    monkeypatch.setattr(ledger_mod, "_raw_append", vanish)
+    log = tmp_path / "events.jsonl"
+    log.write_bytes(b'{"seed": 0}\n')
+    with pytest.raises(OSError, match="treated as torn"):
+        ledger_mod._append_verified(str(log), b'{"a": 1}\n')
+
+
+def test_verified_write_accepts_str_content(tmp_path):
+    target = tmp_path / "s.json"
+    _verified.write_file_verified(str(target), "text content")
+    assert target.read_bytes() == b"text content"
+
+
 def test_ledger_open_fails_closed_under_persistent_append_fault(tmp_path, monkeypatch):
     monkeypatch.setattr(
         ledger_mod,
