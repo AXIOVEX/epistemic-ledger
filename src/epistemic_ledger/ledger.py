@@ -383,13 +383,19 @@ class Ledger:
     def verify_store(self):
         """Read-only integrity check (v0.11, DESIGN-12): the JSONL
         event log is the ground truth and the SQLite tables are its
-        projection — verify they agree. Checks: every log line
-        parses with the required fields; event ids are unique;
-        every asserted claim has a live projection row; every live
-        row's score equals the claim's last score_revision
-        new_score (or its assert prior if never revised). Returns
-        {ok, events, claims_checked, problems[:20]}; never raises
-        on bad data — bad data is the finding."""
+        projection — verify they agree, in both directions. Checks:
+        every log line parses with the required fields; event ids
+        are unique; every asserted claim has a live projection row;
+        every live row's score equals the claim's last score_revision
+        new_score (or its assert prior if never revised); and every
+        projection claim row — and every claim id referenced by the
+        other claim-scoped projection tables — has a corresponding
+        assert event in the log (the reverse direction: a projection
+        row with no log event is how a crash between the SQLite
+        commit and the log append, or a planted row, shows up).
+        Returns {ok, events, claims_checked, projection_checked,
+        problems[:20]}; never raises on bad data — bad data is the
+        finding."""
         problems = []
         events = []
         try:
@@ -399,6 +405,7 @@ class Ledger:
             lines = []
         seen_ids = set()
         expected = {}  # claim_id -> expected live score
+        asserted = set()  # claim_ids with an assert event in the log
         for n, line in enumerate(lines, 1):
             if not line.strip():
                 continue
@@ -419,6 +426,7 @@ class Ledger:
             cid = p.get("claim_id")
             if e.get("type") == "assert" and cid:
                 expected[cid] = p.get("prior")
+                asserted.add(cid)
             elif e.get("type") == "score_revision" and cid:
                 expected[cid] = p.get("new_score")
         checked = 0
@@ -432,10 +440,48 @@ class Ledger:
                 problems.append(
                     f"{cid}: live score {row['score']} != log terminal {want}"
                 )
+        # Reverse direction: projection -> log. Every claim id the
+        # projection knows about must trace back to an assert event;
+        # anything else has no corresponding event in the log.
+        projection_claims = set()
+        for (cid,) in self.db.execute("SELECT DISTINCT claim_id FROM claims"):
+            projection_claims.add(cid)
+        claim_tables = (
+            "support_edges",
+            "outcomes",
+            "claim_intervals",
+            "claim_combos",
+            "claim_graphs",
+            "claim_topics",
+        )
+        referenced: dict = {}  # claim_id -> first table that references it
+        for table in claim_tables:
+            for (cid,) in self.db.execute(
+                f"SELECT DISTINCT claim_id FROM {table}"  # noqa: S608 — fixed table names above
+            ):
+                referenced.setdefault(cid, table)
+            if table == "support_edges":
+                for (cid,) in self.db.execute(
+                    "SELECT DISTINCT supports_id FROM support_edges"
+                ):
+                    referenced.setdefault(cid, table)
+        for cid in sorted(projection_claims - asserted):
+            problems.append(
+                f"{cid}: projection row in claims with no corresponding "
+                "log event (no assert event)"
+            )
+        for cid in sorted(set(referenced) - asserted):
+            if cid in projection_claims:
+                continue  # already reported against the claims table
+            problems.append(
+                f"{cid}: projection row in {referenced[cid]} with no "
+                "corresponding log event (no assert event)"
+            )
         return {
             "ok": not problems,
             "events": len(events),
             "claims_checked": checked,
+            "projection_checked": len(projection_claims | set(referenced)),
             "problems": problems[:20],
         }
 
