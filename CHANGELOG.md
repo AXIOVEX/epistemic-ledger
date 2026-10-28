@@ -6,6 +6,8 @@ this project follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.13.0] - 2026-10-28
+
 ### Added
 
 - The adversarial battery and performance budgets (DESIGN-13
