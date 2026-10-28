@@ -175,13 +175,21 @@ def test_torn_final_write_at_every_byte_offset(tmp_path):
     head_before = store.head_hash
     raw = _log_bytes(src_dir)
     last_line_start = raw.rfind(b"\n", 0, len(raw) - 1) + 1
+    last_line = raw[last_line_start:]
+    body_len = len(last_line) - (1 if last_line.endswith(b"\n") else 0)
     for cut in range(last_line_start, len(raw)):
         d = tmp_path / f"torn-{cut}"
         _write_log(d, raw[:cut])
         reopened = RustStore.open(str(d))
         report = json.loads(reopened.open_report_json())
-        assert report["events"] == 5, f"cut at {cut}"
-        assert reopened.verify(PUBKEYS, 1) == 5
+        if cut - last_line_start >= body_len:
+            # Only the terminating newline was lost: the record's
+            # bytes are all present, so it stands (6 events).
+            assert report["events"] == 6, f"cut at {cut}"
+            assert reopened.verify(PUBKEYS, 1) == 6
+        else:
+            assert report["events"] == 5, f"cut at {cut}"
+            assert reopened.verify(PUBKEYS, 1) == 5
 
 
 def test_projection_deleted_rebuilds_identically(tmp_path):

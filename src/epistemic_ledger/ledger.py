@@ -492,8 +492,7 @@ def _fold_event(db, event):
         return
     if etype == "graph_assigned":
         db.execute(
-            "UPDATE claim_graphs SET txn_to = ?"
-            " WHERE claim_id = ? AND txn_to IS NULL",
+            "UPDATE claim_graphs SET txn_to = ? WHERE claim_id = ? AND txn_to IS NULL",
             (t, p["claim_id"]),
         )
         db.execute(
@@ -503,8 +502,7 @@ def _fold_event(db, event):
         return
     if etype == "topic_assigned":
         db.execute(
-            "UPDATE claim_topics SET txn_to = ?"
-            " WHERE claim_id = ? AND txn_to IS NULL",
+            "UPDATE claim_topics SET txn_to = ? WHERE claim_id = ? AND txn_to IS NULL",
             (t, p["claim_id"]),
         )
         db.execute(

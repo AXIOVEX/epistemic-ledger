@@ -124,7 +124,13 @@ def bench_graph(tmp):
         times.append((time.perf_counter() - start) * 1000)
     assert len(result["nodes"]) > 9000  # the closure is the graph
     median_ms = statistics.median(times)
-    report("impact structural (10k-claim graph)", median_ms, "<= 100", "ms", median_ms <= 100)
+    report(
+        "impact structural (10k-claim graph)",
+        median_ms,
+        "<= 100",
+        "ms",
+        median_ms <= 100,
+    )
 
     times = []
     for _ in range(3):

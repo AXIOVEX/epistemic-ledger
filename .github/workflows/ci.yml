@@ -42,7 +42,14 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -e . "mypy>=1.11"
-      - run: mypy src/epistemic_ledger
+      - name: Type check (errors annotated)
+        run: |
+          set +e
+          mypy src/epistemic_ledger > /tmp/mypy.out 2>&1
+          rc=$?
+          grep -E "error:" /tmp/mypy.out | head -20 | while IFS= read -r line; do echo "::error::$line"; done
+          tail -2 /tmp/mypy.out | while IFS= read -r line; do echo "::error::mypy $line"; done
+          exit $rc
 
   test:
     name: Test (py${{ matrix.python }} · ${{ matrix.os }})
@@ -123,7 +130,7 @@ jobs:
           python-version: "3.12"
       - uses: dtolnay/rust-toolchain@stable
       - run: python -m venv /tmp/battery-venv
-      - run: /tmp/battery-venv/bin/pip install -q maturin pytest cryptography
+      - run: /tmp/battery-venv/bin/pip install -q maturin pytest cryptography hypothesis
       - name: Build the bindings wheel
         run: cd rust/crates/epistemic-ledger-py && /tmp/battery-venv/bin/maturin build --interpreter /tmp/battery-venv/bin/python -o /tmp/wheels
       - run: /tmp/battery-venv/bin/pip install -q /tmp/wheels/*.whl
@@ -140,6 +147,16 @@ jobs:
           exit $rc
       - name: Enforce the performance budgets (DESIGN-13 section 8)
         run: /tmp/battery-venv/bin/python tools/bench_budgets.py
+      # Diagnostics: the main suite also runs in the Test jobs, but
+      # those do not surface failures as annotations; this step
+      # annotates them here without failing this job.
+      - name: Main suite (diagnostic, annotated)
+        run: |
+          set +e
+          /tmp/battery-venv/bin/python -m pytest tests -q > /tmp/main.out 2>&1
+          grep -E "^(FAILED|ERROR)" /tmp/main.out | head -20 | while IFS= read -r line; do echo "::error::$line"; done
+          grep -E "^E " /tmp/main.out | head -30 | while IFS= read -r line; do echo "::error::E $line"; done
+          true
 
   build:
     name: Build + install smoke
