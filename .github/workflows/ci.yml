@@ -70,7 +70,15 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
       - run: pip install -e ".[dev]"
-      - run: python -m pytest
+      - name: Run tests (failures annotated)
+        run: |
+          set +e
+          python -m pytest > /tmp/test.out 2>&1
+          rc=$?
+          grep -E "^(FAILED|ERROR)" /tmp/test.out | head -20 | while IFS= read -r line; do echo "::error::$line"; done
+          grep -E "^E " /tmp/test.out | head -30 | while IFS= read -r line; do echo "::error::E $line"; done
+          tail -2 /tmp/test.out | while IFS= read -r line; do echo "::error::pytest $line"; done
+          exit $rc
 
   coverage:
     name: Coverage (floors enforced)
