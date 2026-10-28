@@ -25,14 +25,11 @@ import json
 import os
 import shutil
 import statistics
-import sys
 import tempfile
 import time
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
-
-from epistemic_ledger import Ledger  # noqa: E402
-from epistemic_ledger._core import RustStore  # noqa: E402
+from epistemic_ledger import Ledger
+from epistemic_ledger._core import RustStore
 
 SEED = "07" * 32
 T0 = "2026-01-01T00:00:00+00:00"
