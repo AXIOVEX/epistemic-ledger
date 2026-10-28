@@ -52,7 +52,7 @@ impl From<ChainError> for StoreError {
 use std::fmt;
 
 /// Outcome of opening a store, including any recovery performed.
-#[derive(Debug, Default, Clone, PartialEq, Eq)]
+#[derive(Debug, Default, Clone, PartialEq, Eq, serde::Serialize)]
 pub struct OpenReport {
     pub events: u64,
     pub head_hash: String,
