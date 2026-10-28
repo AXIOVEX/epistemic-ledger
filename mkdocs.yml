@@ -53,6 +53,7 @@ nav:
       - "11 · Partitions and predicate policies": DESIGN-11-partitions-and-predicate-policies.md
       - "12 · Hardening": DESIGN-12-hardening.md
       - "13 · Ledger hardening": DESIGN-13-ledger-hardening.md
+      - "14 · Verified writes": DESIGN-14-verified-writes.md
   - Result reports:
       - CALIBRATION-01.md
       - CHURN-01.md

@@ -535,6 +535,77 @@ def _fold_event(db, event):
     )
 
 
+def _raw_append(path, data):
+    """One unverified append of ``data`` (bytes) to the file at
+    ``path``, flushed and fsynced. ``_append_verified`` is the
+    only caller; the fault-injection tests replace this seam with
+    doubles that land half the bytes, zero bytes, or garbage
+    (DESIGN-14 section 3.5) — the silent-short-write defect,
+    reproduced exactly where the verified append must catch it."""
+    with open(path, "ab") as f:
+        f.write(data)
+        f.flush()
+        os.fsync(f.fileno())
+
+
+def _append_verified(path, data, attempts=3):
+    """Append ``data`` to the log at ``path`` and return only when
+    the append is proven: the file's length is exactly the
+    pre-append length plus ``len(data)``, and the bytes read back
+    at the append offset are byte-identical to ``data``
+    (DESIGN-14 W1 — the log is ground truth, so an event is
+    committed only once its record has been read back).
+
+    A landing that verifies short, empty, or corrupted is rolled
+    back — the log is truncated to its pre-append length and
+    fsynced, so a partial record never stands — and the append is
+    retried, up to ``attempts`` attempts in total. Total failure
+    raises OSError with the log byte-identical to before the
+    call; a rollback that itself fails raises immediately and
+    says so, because the tail must then be treated as torn.
+    """
+    for _ in range(attempts):
+        try:
+            size0 = os.path.getsize(path)
+        except FileNotFoundError:
+            size0 = 0
+        _raw_append(path, data)
+        verified = False
+        try:
+            if os.path.getsize(path) == size0 + len(data):
+                with open(path, "rb") as f:
+                    f.seek(size0)
+                    verified = f.read(len(data)) == data
+        except OSError:
+            verified = False
+        if verified:
+            return
+        # Roll back so the partial record never stands.
+        try:
+            current = os.path.getsize(path)
+            if current < size0:
+                raise OSError(
+                    f"log at {path} shrank from {size0} to {current} "
+                    "bytes during an append; cannot roll back"
+                )
+            with open(path, "r+b") as f:
+                f.truncate(size0)
+                f.flush()
+                os.fsync(f.fileno())
+        except OSError as e:
+            raise OSError(
+                f"append to {path} failed verification AND the "
+                f"rollback failed ({e}); the log tail must be "
+                "treated as torn — do not build on this store"
+            ) from None
+    raise OSError(
+        f"append to {path} could not be verified after {attempts} "
+        "attempts (the filesystem is landing writes short, empty, "
+        "or corrupted); the event was NOT committed and the log "
+        "is unchanged"
+    )
+
+
 class Ledger:
     def __init__(self, path):
         """path: directory holding events.jsonl and ledger.db (created if missing).
@@ -685,10 +756,9 @@ class Ledger:
             "type": etype,
             "payload": payload,
         }
-        with open(self.log_path, "a", encoding="utf-8") as f:
-            f.write(json.dumps(event) + "\n")
-            f.flush()
-            os.fsync(f.fileno())  # the log is ground truth: durable
+        # The log is ground truth: the append is read back and
+        # verified before anything builds on it (DESIGN-14 W1).
+        _append_verified(self.log_path, (json.dumps(event) + "\n").encode("utf-8"))
         return event
 
     def _events(self):

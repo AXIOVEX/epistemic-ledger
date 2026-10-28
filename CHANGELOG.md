@@ -6,6 +6,23 @@ this project follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+
+- Verified writes (DESIGN-14): every write the ledger calls
+  committed is now read back and verified first. The Python
+  engine's event appends and the Rust core's chained appends
+  verify the exact bytes at the append offset and roll back —
+  truncate and fsync — any landing that verifies short, empty,
+  or corrupted, retrying before failing loudly; a record is
+  never reported committed on an unverified write. The
+  migration map is written through a verified whole-file write
+  (temp file, fsync, hash-verified before and after an atomic
+  rename). The Rust torn-tail repair confirms its post-repair
+  length, and a failed snapshot or restore no longer leaves
+  its files behind. Fault-injection tests cover the short,
+  empty, and corrupted landings for both engines. No formats
+  or APIs changed.
+
 ## [0.13.0] - 2026-10-28
 
 ### Added
