@@ -50,6 +50,7 @@ nav:
       - "10 · Governance hardening": DESIGN-10-governance-hardening.md
       - "11 · Partitions and predicate policies": DESIGN-11-partitions-and-predicate-policies.md
       - "12 · Hardening": DESIGN-12-hardening.md
+      - "13 · Ledger hardening": DESIGN-13-ledger-hardening.md
   - Result reports:
       - CALIBRATION-01.md
       - CHURN-01.md
