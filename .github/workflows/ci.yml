@@ -200,4 +200,5 @@ jobs:
           rc=$?
           grep -E "^(FAILED|ERROR)" /tmp/pytest.out | head -20 | while IFS= read -r line; do echo "::error::$line"; done
           sed -n '/FAILURES/,/short test summary/p' /tmp/pytest.out | head -45 | while IFS= read -r line; do echo "::error::$line"; done
+          sed -n '/ERRORS/,/short test summary/p' /tmp/pytest.out | head -45 | while IFS= read -r line; do echo "::error::$line"; done
           exit $rc
