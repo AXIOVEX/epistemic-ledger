@@ -118,6 +118,13 @@ this project follows [Semantic Versioning](https://semver.org/).
   unindexed live-row queries scanned every version — filtered
   claim queries on a version-heavy store measured 173 ms
   against the 50 ms budget before the indexes, 48 ms after.
+- Repeated read queries against an unchanged store reuse cached
+  derived state: the live edge set (for impact) and the live
+  claim rows (for claim listing) are cached per Ledger instance,
+  keyed by log size — every write grows the log, so a size match
+  proves the projection unchanged (the same pattern the
+  decision index already used). First calls on a changed store
+  pay the full load; results are identical either way.
 
 ## [0.12.0] - 2026-10-27
 

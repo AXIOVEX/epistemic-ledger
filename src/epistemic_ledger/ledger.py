@@ -2432,10 +2432,25 @@ class Ledger:
         return self._claim_dict(row) if row is not None else None
 
     def list_claims(self):
-        """Every live claim as a plain dict, ordered by claim_id."""
-        rows = self.db.execute(
-            "SELECT * FROM claims WHERE txn_to IS NULL ORDER BY claim_id"
-        ).fetchall()
+        """Every live claim as a plain dict, ordered by claim_id.
+
+        The live-row scan is cached per instance, keyed by log
+        size (every write grows the log, so a size match means
+        the projection is unchanged — the _decision_index
+        pattern); the dicts handed out are built fresh per call.
+        """
+        try:
+            size = os.path.getsize(self.log_path)
+        except OSError:
+            size = -1
+        cached = getattr(self, "_claims_cache", None)
+        if cached is None or cached[0] != size:
+            rows = self.db.execute(
+                "SELECT * FROM claims WHERE txn_to IS NULL ORDER BY claim_id"
+            ).fetchall()
+            self._claims_cache = (size, rows)
+        else:
+            rows = cached[1]
         return [self._claim_dict(r) for r in rows]
 
     def verify(self, deep=False):
@@ -2582,13 +2597,24 @@ class Ledger:
         idx = self._decision_index()
         return [idx[k] for k in sorted(idx, key=lambda k: (idx[k]["t"], k))]
 
-    def _dependents_adjacency(self, root):
-        """Breadth-first closure of the claims depending on ``root``
-        over live support edges. Returns (order, distance, adjacency):
-        order is BFS order starting at root, distance maps claim_id
-        to its shortest-path distance from root, adjacency maps a
-        claim_id to the sorted claim ids that directly depend on it.
+    def _live_reverse_edges(self):
+        """Every live support edge, inverted: {supports_id:
+        [claim_id, ...]} with each list in edge-rowid order.
+
+        Cached per instance, keyed by log size — every write grows
+        the log, so a size match means the edge set is unchanged
+        (the same pattern as _decision_index). Repeated impact
+        queries against an unchanged store — the shape of agent
+        and dashboard polling — reuse the load instead of paying
+        it per call. Callers must not mutate the returned lists.
         """
+        try:
+            size = os.path.getsize(self.log_path)
+        except OSError:
+            size = -1
+        cached = getattr(self, "_edges_cache", None)
+        if cached is not None and cached[0] == size:
+            return cached[1]
         # Load every live edge once and walk in memory: asking the
         # database for each node's dependents in turn costs a query
         # per node, which dominated this walk on large graphs.
@@ -2603,17 +2629,28 @@ class Ledger:
             "WHERE txn_to IS NULL ORDER BY rowid"
         ):
             rev_add(e[1], []).append(e[0])
+        self._edges_cache = (size, reverse)
+        return reverse
+
+    def _dependents_adjacency(self, root):
+        """Breadth-first closure of the claims depending on ``root``
+        over live support edges. Returns (order, distance, adjacency):
+        order is BFS order starting at root, distance maps claim_id
+        to its shortest-path distance from root, adjacency maps a
+        claim_id to the sorted claim ids that directly depend on it.
+        """
+        reverse = self._live_reverse_edges()
         distance = {root: 0}
         order = [root]
         adjacency = {}
         queue = deque([root])
         while queue:
-            cur = queue.popleft()
-            deps = sorted(set(reverse.get(cur, ())))
-            adjacency[cur] = deps
+            node = queue.popleft()
+            deps = sorted(set(reverse.get(node, ())))
+            adjacency[node] = deps
             for dep in deps:
                 if dep not in distance:
-                    distance[dep] = distance[cur] + 1
+                    distance[dep] = distance[node] + 1
                     order.append(dep)
                     queue.append(dep)
         return order, distance, adjacency
@@ -2816,22 +2853,6 @@ class Ledger:
         kept = {claim_id} | {cid for _, cid, _ in candidates}
         kept_claims = kept & set(distance)
 
-        # adjacency lists arrive sorted (see _dependents_adjacency),
-        # so filtering preserves order; only the lists that decision
-        # nodes are appended to need a dedupe-and-sort afterwards.
-        full_adj = {}
-        for c in kept_claims:
-            full_adj[c] = [d for d in adjacency.get(c, []) if d in kept]
-        touched = set()
-        for did, parents in dec_parents.items():
-            if did in kept:
-                for p in parents:
-                    if p in kept_claims:
-                        full_adj.setdefault(p, []).append(did)
-                        touched.add(p)
-        for c in touched:
-            full_adj[c] = sorted(set(full_adj[c]))
-
         # Shortest paths, by dynamic programming over the BFS
         # layers: a node's shortest paths are its closest parents'
         # shortest paths extended by the node itself. (DESIGN-13
@@ -2848,19 +2869,35 @@ class Ledger:
         for did, dd in dec_distance.items():
             if did in kept:
                 node_distance[did] = dd
-        layer_parents: dict[str, list[str]] = {}
-        for u, children in full_adj.items():
-            du = node_distance.get(u)
-            if du is None:
-                continue
-            for v in children:
-                if node_distance.get(v) == du + 1:
-                    layer_parents.setdefault(v, []).append(u)
-        paths: dict[str, list] = {claim_id: [[claim_id]]}
-        path_count: dict[str, int] = {claim_id: 1}
         layer_order = sorted(
             (d, cid) for cid, d in node_distance.items() if cid != claim_id
         )
+        # The layer-advancing parents of every kept node, built by
+        # walking sources in (distance, id) order so each parent
+        # list comes out sorted without a per-node sort. Decision
+        # children come from the inverted decision-parent map;
+        # claim children from the dependents adjacency.
+        dec_children: dict[str, list[str]] = {}
+        for did, parents in dec_parents.items():
+            if did in kept:
+                for p in parents:
+                    if p in kept_claims:
+                        dec_children.setdefault(p, []).append(did)
+        layer_parents: dict[str, list[str]] = {}
+        nd_get = node_distance.get
+        lp_add = layer_parents.setdefault
+        for u in [claim_id] + [cid for _, cid in layer_order]:
+            du = nd_get(u)
+            if du is None:
+                continue
+            for v in adjacency.get(u, ()):
+                if v in kept and nd_get(v) == du + 1:
+                    lp_add(v, []).append(u)
+            for v in dec_children.get(u, ()):
+                if nd_get(v) == du + 1:
+                    lp_add(v, []).append(u)
+        paths: dict[str, list] = {claim_id: [[claim_id]]}
+        path_count: dict[str, int] = {claim_id: 1}
         # Listing is bounded twice: per node (above) and across the
         # whole result. On a deep, dense closure, 100 listed paths
         # per node is gigabytes of result — the counts stay exact
@@ -2874,7 +2911,7 @@ class Ledger:
         for _, v in layer_order:
             total = 0
             listed: list = []
-            for u in sorted(layer_parents.get(v, ())):
+            for u in layer_parents.get(v, ()):  # built in sorted order
                 total += count_get(u, 0)
                 if not listing_open:
                     continue
