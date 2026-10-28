@@ -592,6 +592,23 @@ class Ledger:
         cols = [r["name"] for r in db.execute("PRAGMA table_info(policies)")]
         if "rule" not in cols:
             db.execute("ALTER TABLE policies ADD COLUMN rule TEXT")
+        # Live-row indexes (0.13): the tables are bitemporal, so
+        # most rows are closed versions, and every hot query asks
+        # for the live slice (txn_to IS NULL) — unindexed, that is
+        # a full scan per call, which is what made filtered claim
+        # queries miss their budget on version-heavy stores.
+        db.execute(
+            "CREATE INDEX IF NOT EXISTS idx_claims_live"
+            " ON claims(claim_id) WHERE txn_to IS NULL"
+        )
+        db.execute(
+            "CREATE INDEX IF NOT EXISTS idx_edges_live_by_claim"
+            " ON support_edges(claim_id) WHERE txn_to IS NULL"
+        )
+        db.execute(
+            "CREATE INDEX IF NOT EXISTS idx_edges_live_by_support"
+            " ON support_edges(supports_id) WHERE txn_to IS NULL"
+        )
 
     @classmethod
     def rebuild_projection(cls, path):
