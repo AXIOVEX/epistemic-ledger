@@ -2478,6 +2478,7 @@ class Ledger:
     )
     _GOVERNANCE_BASIS_KEYS = ("claim_a", "claim_b", "loser", "winner")
     _MAX_PATHS_PER_NODE = 100
+    _MAX_PATH_ELEMENTS = 200_000
 
     def record_decision(self, label, basis, actor="human", t=None, rationale=None):
         """Record a decision resting on the claims in ``basis``.
@@ -2741,10 +2742,13 @@ class Ledger:
         Judging it stays with people.)
 
         Caps: ``max_depth`` bounds graph distance, ``max_results``
-        bounds the number of nodes returned, and at most
-        100 shortest paths per node are listed. Whenever a cap
-        binds, ``truncated`` is True and ``truncation_reasons``
-        says which cap — a capped answer is never silently partial.
+        bounds the number of nodes returned, at most 100 shortest
+        paths per node are listed, and listed paths across the
+        whole result are bounded to 200,000 path elements (the
+        counts in ``path_count`` stay exact regardless). Whenever
+        a cap binds, ``truncated`` is True and
+        ``truncation_reasons`` says which cap — a capped answer is
+        never silently partial.
         """
         if self._live_claim(claim_id) is None:
             raise KeyError(f"unknown claim {claim_id}")
@@ -2830,6 +2834,14 @@ class Ledger:
         layer_order = sorted(
             (d, cid) for cid, d in node_distance.items() if cid != claim_id
         )
+        # Listing is bounded twice: per node (above) and across the
+        # whole result. On a deep, dense closure, 100 listed paths
+        # per node is gigabytes of result — the counts stay exact
+        # for every node, and the listing budget (in path elements,
+        # spent in BFS order) decides how much of it is spelled
+        # out. Running out flags truncation like any other cap.
+        elements_used = 0
+        listing_open = True
         for _, v in layer_order:
             total = 0
             listed: list = []
@@ -2837,10 +2849,16 @@ class Ledger:
                 total += path_count.get(u, 0)
                 if total >= 10**15:
                     total = 10**15
+                if not listing_open:
+                    continue
                 for p in paths.get(u, ()):
                     if len(listed) >= self._MAX_PATHS_PER_NODE:
                         break
+                    if elements_used + len(p) + 1 > self._MAX_PATH_ELEMENTS:
+                        listing_open = False
+                        break
                     listed.append(p + [v])
+                    elements_used += len(p) + 1
             path_count[v] = total
             paths[v] = listed
             if total > len(listed):

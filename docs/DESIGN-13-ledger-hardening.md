@@ -270,7 +270,12 @@ reports `path_count`, the exact number of shortest paths
 (saturated at 10^15); listing fewer than the count flags
 truncation exactly as the old cap did. Claim I1's brute-force
 oracle is amended to match: distances and shortest-path sets,
-exactly.
+exactly. Listed paths are additionally bounded across the whole
+result (200,000 path elements, spent in BFS order): on the
+reference graph, saturating every node at 100 listed paths is
+~10^8 path elements — seconds of copying and gigabytes of
+result — while the closure, distances, and counts are the
+query's substance and stay complete and exact.
 
 Amendment (2026-10-28, owner-approved): propagated impact is
 computed by an in-memory simulation of the revision machinery

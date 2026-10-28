@@ -188,7 +188,7 @@ pub fn verify_chain_from(
     pubkeys: &HashMap<String, [u8; 32]>,
     signed_from_seq: u64,
 ) -> Result<(), ChainError> {
-    const BATCH_WINDOW: usize = 512;
+    const BATCH_WINDOW: usize = 1024;
     let mut prev = GENESIS_PREV.to_string();
     let mut key_points: HashMap<[u8; 32], Option<EdwardsPoint>> = HashMap::new();
     let mut base = 0usize;
@@ -354,6 +354,46 @@ fn batch_verify(
     if items.is_empty() {
         return true;
     }
+    // Resolve every public key to its curve point first (cached
+    // across windows). A key encoding that does not decompress
+    // refuses the batch — the sequential path rejects it in
+    // VerifyingKey::from_bytes and arbitrates the window.
+    let mut points_map: HashMap<[u8; 32], EdwardsPoint> = HashMap::new();
+    for it in items {
+        match key_points
+            .entry(it.pk)
+            .or_insert_with(|| CompressedEdwardsY(it.pk).decompress())
+        {
+            Some(p) => {
+                points_map.insert(it.pk, *p);
+            }
+            None => return false,
+        }
+    }
+    // Large windows are split across the available cores; each
+    // chunk is an independent batch with its own transcript.
+    let threads = std::thread::available_parallelism()
+        .map(|n| n.get())
+        .unwrap_or(1)
+        .min(4);
+    if items.len() < 256 || threads == 1 {
+        return batch_chunk(items, &points_map);
+    }
+    let chunk_len = items.len().div_ceil(threads);
+    std::thread::scope(|scope| {
+        let handles: Vec<_> = items
+            .chunks(chunk_len)
+            .map(|chunk| scope.spawn(|| batch_chunk(chunk, &points_map)))
+            .collect();
+        handles
+            .into_iter()
+            .all(|h| h.join().unwrap_or(false))
+    })
+}
+
+/// One batch: the summed Ed25519 equation over `items`, with
+/// public-key points taken from `points_map`.
+fn batch_chunk(items: &[SignedItem], points_map: &HashMap<[u8; 32], EdwardsPoint>) -> bool {
     let mut th = Sha512::new();
     th.update(b"ELBATCH1");
     for it in items {
@@ -379,16 +419,6 @@ fn batch_verify(
             Some(p) => p,
             None => return false,
         };
-        // Populate the key-point cache and refuse the batch if a
-        // key encoding does not decompress (the sequential path
-        // rejects it in VerifyingKey::from_bytes).
-        match key_points
-            .entry(it.pk)
-            .or_insert_with(|| CompressedEdwardsY(it.pk).decompress())
-        {
-            Some(_) => {}
-            None => return false,
-        }
         let mut hh = Sha512::new();
         hh.update(&it.sig[..32]);
         hh.update(it.pk);
@@ -416,13 +446,7 @@ fn batch_verify(
     }
     for (pk, acc) in key_terms.iter() {
         scalars.push(-(*acc));
-        points.push(
-            key_points
-                .get(pk)
-                .copied()
-                .flatten()
-                .expect("key point checked above"),
-        );
+        points.push(points_map[pk]);
     }
     EdwardsPoint::vartime_multiscalar_mul(scalars.iter(), points.iter()) == EdwardsPoint::identity()
 }

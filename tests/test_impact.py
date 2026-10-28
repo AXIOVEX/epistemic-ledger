@@ -309,6 +309,7 @@ def test_i1_structural_closure_matches_brute_force(spec):
     for nid, dist in want_dist.items():
         assert got[nid]["distance"] == dist
         assert {tuple(p) for p in got[nid]["paths"]} == want_paths.get(nid, set())
+        assert got[nid]["path_count"] == len(want_paths.get(nid, set()))
 
 
 # ------------------------------------------------------------------

@@ -86,8 +86,12 @@ this project follows [Semantic Versioning](https://semver.org/).
   binding). Each node now carries up to 100 shortest paths plus
   `path_count`, the exact number of shortest paths (saturated at
   10^15); listing fewer than the count flags truncation exactly
-  as the old cap did. Distances and closures are unchanged, and
-  claim I1's brute-force oracle now checks shortest-path sets.
+  as the old cap did. Listed paths are also bounded across the
+  whole result (200,000 path elements, spent in BFS order) —
+  saturating every node of the reference closure would be
+  ~10^8 elements of result. Distances, closures, and counts are
+  unchanged and exact, and claim I1's brute-force oracle now
+  checks shortest-path sets and counts.
 - Propagated impact is computed by an in-memory simulation of
   the revision machinery instead of a real revision replayed on
   a copied store (DESIGN-13 amendment, 2026-10-28,
