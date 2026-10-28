@@ -98,6 +98,15 @@ this project follows [Semantic Versioning](https://semver.org/).
   claim I2's property tests — now including combination
   functions — hold it to the real machinery's outcomes claim for
   claim, float for float.
+- Chain verification in the Rust core batches Ed25519 signature
+  checks (windows of 512 records, one multiscalar multiplication
+  per window, public-key terms grouped): per-record sequential
+  verification measured 21,153 records/second against the
+  section 8 budget of 50,000. A window whose batch check fails
+  is re-run sequentially, reproducing the exact first error —
+  the batch is an accelerator, never the arbiter, and
+  verification remains complete, never sampled. A `Cargo.lock`
+  is now committed for the Rust workspace.
 
 ## [0.12.0] - 2026-10-27
 

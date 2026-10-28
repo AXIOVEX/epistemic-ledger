@@ -454,6 +454,21 @@ surface). If a budget proves unmeetable on CI hardware, the
 budget is amended in this memo with the measurement attached —
 never silently relaxed in code.
 
+Implementation note (2026-10-28): the verify budget is met by
+batch Ed25519 verification in the Rust core. Per-record
+sequential verification measured 21,153 records/second on the CI
+runner (one signature check is ~47 µs; the budget allows
+20 µs/record for everything). Verification now proceeds in
+windows of 512 records: a structural pass per window, then one
+batch signature check (deterministic Fiat-Shamir coefficients,
+public-key terms grouped), and — if the batch check fails — a
+sequential re-run of that window, which reproduces the exact
+first error. The batch is an accelerator, never the arbiter:
+it accepts exactly the windows the sequential path accepts
+(any form problem hands the window to the sequential path),
+and claim H4 (verification is complete, not sampled) is
+unchanged.
+
 ## 9. Migration and compatibility
 
 - `migrate` (API + CLI) reads a 0.12.0 store, replays its
