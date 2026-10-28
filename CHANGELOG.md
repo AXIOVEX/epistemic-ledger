@@ -4,6 +4,37 @@ All notable changes to this project are documented here. The format is
 based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 this project follows [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+Hardening items 1-3 from the Ledger Standard v1 gap assessment.
+
+### Added
+
+- `verify_store()` now also checks the projection-to-log direction:
+  a projection claim row (or a claim id referenced by the other
+  claim-scoped tables) with no corresponding assert event in the log
+  is reported. Its result gains a `projection_checked` count, and a
+  claim the log moves to a terminal lifecycle status is expected to
+  have no live row rather than reported as missing one.
+- `Ledger.audit_writer_pubkey(writer_id, t)`: the writer key in
+  force at a past time, from the bitemporal writers table.
+- Claim lifecycle statuses `entered-in-error` and `dead`, set with
+  the new `Ledger.set_claim_status()`; the status change is an event
+  in the log. `CLAIM_STATUSES` and `TERMINAL_STATUSES` are exported
+  from the package root.
+
+### Changed
+
+- `verify_verdict_signatures()` now verifies each signed verdict
+  against the key in force at its signing time instead of the
+  signer's current key. Key rotation no longer invalidates verdicts
+  signed before the rotation, and a verdict signed with a key that
+  was not in force at its signing time fails the audit.
+- Breaking: `Ledger.supersede()` now requires the reason bundle —
+  `reason` and `source` as required keyword arguments, alongside the
+  existing `actor`. The bundle is recorded on the supersede event,
+  and `set_claim_status()` requires the same bundle.
+
 ## [0.12.0] - 2026-10-27
 
 First release on PyPI.
