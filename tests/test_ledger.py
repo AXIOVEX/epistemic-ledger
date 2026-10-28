@@ -952,7 +952,12 @@ def test_keyed_writer_must_sign_resolution(ledger):
     assert ledger.resolve_contradiction(cid2, writer="contrib-x")["resolved"]
 
 
-def test_signature_audit_detects_key_rotation(ledger):
+def test_signature_audit_survives_key_rotation(ledger):
+    # Was test_signature_audit_detects_key_rotation: it asserted the
+    # old behavior, in which the audit checked the signer's CURRENT
+    # key and a rotation invalidated history. The audit now checks
+    # the key in force at signing time (gap-assessment queue item 2),
+    # so a verdict signed before a rotation stays valid.
     held_id, _, _ = _governed(ledger, keyed=True)
     msg = ledger.verdict_message("escalate", held_id, "owner-1", "dismiss")
     ledger.escalate_contradiction(
@@ -962,7 +967,7 @@ def test_signature_audit_detects_key_rotation(ledger):
     other = _ed.publickey(bytes(range(32, 64))).hex()
     ledger.register_writer("owner-1", "owner", public_key=other)
     audit = ledger.verify_verdict_signatures()
-    assert audit["valid"] == 0 and len(audit["invalid"]) == 1
+    assert audit["valid"] == 1 and audit["invalid"] == []
     # re-registering without a key preserves it (no silent strip)
     ledger.register_writer("owner-1", "owner")
     assert ledger.get_writer_pubkey("owner-1") == other

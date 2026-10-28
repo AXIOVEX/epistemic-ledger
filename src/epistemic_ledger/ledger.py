@@ -995,6 +995,22 @@ class Ledger:
         ).fetchone()
         return r["pubkey"] if r else None
 
+    def audit_writer_pubkey(self, writer_id, t):
+        """The ed25519 public key (hex) in force for a writer at time
+        T, or None. The writers table is bitemporal: a rotation closes
+        the old row and opens a new one, so the key that governed a
+        past moment stays answerable after the writer rotates."""
+        if writer_id is None:
+            return None
+        r = self.db.execute(
+            "SELECT pubkey FROM writers"
+            " WHERE writer_id = ? AND txn_from <= ?"
+            "   AND (txn_to IS NULL OR txn_to > ?)"
+            " ORDER BY txn_from DESC, rowid DESC LIMIT 1",
+            (writer_id, t, t),
+        ).fetchone()
+        return r["pubkey"] if r else None
+
     # ------------------------------------------------------------------
     # signed verdicts (v0.9, Design Memo 10)
     # ------------------------------------------------------------------
@@ -1033,8 +1049,12 @@ class Ledger:
 
     def verify_verdict_signatures(self):
         """Audit: re-verify every signed verdict in the log against
-        the signer's CURRENT registered key (rotation caveat: see
-        Design Memo 10)."""
+        the key in force for the signer at the verdict's signing
+        (event) time. The writers table is bitemporal, so a later
+        key rotation does not invalidate verdicts signed under the
+        key that governed when they were signed — and a verdict
+        signed with a key that was not in force at its signing time
+        (for example the signer's current key, backdated) fails."""
         checked = valid = 0
         invalid = []
         for e in self._events():
@@ -1042,7 +1062,7 @@ class Ledger:
             if "signature" not in p or "signed_message" not in p:
                 continue
             checked += 1
-            pub = self.get_writer_pubkey(p.get("signer"))
+            pub = self.audit_writer_pubkey(p.get("signer"), e.get("t"))
             ok = False
             if pub is not None:
                 try:
