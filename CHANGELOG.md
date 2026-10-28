@@ -8,6 +8,18 @@ this project follows [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- Snapshots and restore (DESIGN-13 section 4): a chained store
+  can be written as a self-contained bundle (the log plus a
+  manifest whose hash covers the bundle, format in
+  `rust/SNAPSHOT-FORMAT.md`), verified from the bundle alone, and
+  restored into a new store — the restore verifies the bundle
+  completely before writing anything, then re-validates the
+  restored chain against the manifest. Rust core
+  (`snapshot` module), Python bindings (`snapshot_json`,
+  `verify_snapshot_json`, `restore_snapshot_json`), and the
+  `epistemic_ledger.snapshots` wrapper. The restore drill runs in
+  CI with the bindings tests, including on a migrated store with
+  the original deleted.
 - Impact analysis (DESIGN-13 section 3): `Ledger.impact(claim_id,
   mode)` answers "if this claim falls, what else moves, and which
   decisions were made on top of it?" Structural mode returns the

@@ -6,6 +6,8 @@
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
+use crate::chain::Record;
+
 pub const DEFAULT_SEGMENT: u64 = 1024;
 
 fn leaf_hash(data: &[u8; 32]) -> [u8; 32] {
@@ -132,6 +134,41 @@ pub fn checkpoint_for(
         root: hex::encode(merkle_root(record_hashes)),
         prev_root: prev_root.to_string(),
     }
+}
+
+/// The checkpoint set over a full record list: one checkpoint per
+/// complete segment of `segment` records, roots chained exactly as
+/// the health report computes them (the genesis prev_root is the
+/// hex of the empty tree hash). A trailing partial segment has no
+/// checkpoint yet, as in the health report.
+pub fn checkpoints_for_records(records: &[Record], segment: u64) -> Vec<Checkpoint> {
+    let mut out = Vec::new();
+    let mut prev_root = hex::encode(merkle_root(&[]));
+    let seg = segment.max(1) as usize;
+    for chunk in records.chunks(seg) {
+        if chunk.len() < seg {
+            break;
+        }
+        let hashes: Vec<[u8; 32]> = chunk
+            .iter()
+            .map(|r| {
+                // Callers verify the chain before computing
+                // checkpoints, so hashes are always 64 hex chars;
+                // the zero fallback only fires on unverified input,
+                // where the resulting root simply will not match.
+                let decoded = hex::decode(&r.hash).unwrap_or_default();
+                let mut b = [0u8; 32];
+                if decoded.len() == 32 {
+                    b.copy_from_slice(&decoded);
+                }
+                b
+            })
+            .collect();
+        let cp = checkpoint_for(chunk[0].seq, &hashes, &prev_root);
+        prev_root = cp.root.clone();
+        out.push(cp);
+    }
+    out
 }
 
 /// Recompute a segment's root from its record hashes and compare
