@@ -168,7 +168,12 @@ jobs:
       - name: Enforce the performance budgets (DESIGN-13 section 8)
         run: |
           set -o pipefail
-          /tmp/battery-venv/bin/python -u tools/bench_budgets.py 2>&1 | while IFS= read -r line; do echo "::error::bench $line"; done
+          /tmp/battery-venv/bin/python -u tools/bench_budgets.py 2>&1 | while IFS= read -r line; do
+            case "$line" in
+              "["*|*"budgets met") echo "::error::bench $line" ;;
+              *) echo "bench $line" ;;
+            esac
+          done
 
   build:
     name: Build + install smoke

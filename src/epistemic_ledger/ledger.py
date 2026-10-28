@@ -2575,12 +2575,14 @@ class Ledger:
         # Load every live edge once and walk in memory: asking the
         # database for each node's dependents in turn costs a query
         # per node, which dominated this walk on large graphs.
+        # Index access works whether rows are tuples or Row objects.
         reverse: dict[str, list[str]] = {}
+        rev_add = reverse.setdefault
         for e in self.db.execute(
             "SELECT claim_id, supports_id FROM support_edges "
             "WHERE txn_to IS NULL ORDER BY rowid"
         ):
-            reverse.setdefault(e["supports_id"], []).append(e["claim_id"])
+            rev_add(e[1], []).append(e[0])
         distance = {root: 0}
         order = [root]
         adjacency = {}
@@ -2794,15 +2796,20 @@ class Ledger:
         kept = {claim_id} | {cid for _, cid, _ in candidates}
         kept_claims = kept & set(distance)
 
+        # adjacency lists arrive sorted (see _dependents_adjacency),
+        # so filtering preserves order; only the lists that decision
+        # nodes are appended to need a dedupe-and-sort afterwards.
         full_adj = {}
         for c in kept_claims:
-            full_adj[c] = sorted(d for d in adjacency.get(c, []) if d in kept)
+            full_adj[c] = [d for d in adjacency.get(c, []) if d in kept]
+        touched = set()
         for did, parents in dec_parents.items():
             if did in kept:
                 for p in parents:
                     if p in kept_claims:
                         full_adj.setdefault(p, []).append(did)
-        for c in full_adj:
+                        touched.add(p)
+        for c in touched:
             full_adj[c] = sorted(set(full_adj[c]))
 
         # Shortest paths, by dynamic programming over the BFS
@@ -2821,14 +2828,14 @@ class Ledger:
         for did, dd in dec_distance.items():
             if did in kept:
                 node_distance[did] = dd
-        parents: dict[str, list[str]] = {}
+        layer_parents: dict[str, list[str]] = {}
         for u, children in full_adj.items():
             du = node_distance.get(u)
             if du is None:
                 continue
             for v in children:
                 if node_distance.get(v) == du + 1:
-                    parents.setdefault(v, []).append(u)
+                    layer_parents.setdefault(v, []).append(u)
         paths: dict[str, list] = {claim_id: [[claim_id]]}
         path_count: dict[str, int] = {claim_id: 1}
         layer_order = sorted(
@@ -2842,16 +2849,16 @@ class Ledger:
         # out. Running out flags truncation like any other cap.
         elements_used = 0
         listing_open = True
+        count_get = path_count.get
+        paths_get = paths.get
         for _, v in layer_order:
             total = 0
             listed: list = []
-            for u in sorted(parents.get(v, ())):
-                total += path_count.get(u, 0)
-                if total >= 10**15:
-                    total = 10**15
+            for u in sorted(layer_parents.get(v, ())):
+                total += count_get(u, 0)
                 if not listing_open:
                     continue
-                for p in paths.get(u, ()):
+                for p in paths_get(u, ()):
                     if len(listed) >= self._MAX_PATHS_PER_NODE:
                         break
                     if elements_used + len(p) + 1 > self._MAX_PATH_ELEMENTS:
@@ -2859,6 +2866,8 @@ class Ledger:
                         break
                     listed.append(p + [v])
                     elements_used += len(p) + 1
+            if total >= 10**15:
+                total = 10**15
             path_count[v] = total
             paths[v] = listed
             if total > len(listed):
