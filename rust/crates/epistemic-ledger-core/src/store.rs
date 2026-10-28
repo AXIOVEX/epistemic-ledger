@@ -6,7 +6,7 @@
 
 use std::collections::HashMap;
 use std::fs::{File, OpenOptions};
-use std::io::{Read, Seek, SeekFrom, Write};
+use std::io::{Read, Seek, Write};
 use std::path::{Path, PathBuf};
 
 use ed25519_dalek::SigningKey;
@@ -132,10 +132,11 @@ impl Store {
             .last()
             .map(|r| r.hash.clone())
             .unwrap_or_else(|| GENESIS_PREV.to_string());
+        let events = records.len() as u64;
         Ok((
-            records.clone(),
+            records,
             OpenReport {
-                events: records.len() as u64,
+                events,
                 head_hash,
                 recovered_torn_bytes: torn_bytes,
             },
