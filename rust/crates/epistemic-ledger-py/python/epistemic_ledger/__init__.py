@@ -1,7 +1,9 @@
-"""Development package shim for the bindings crate.
+"""Development shim for the Rust bindings crate.
 
-In the shipped package this directory is the real
-``epistemic_ledger`` package; here it exists so maturin can place
-``_core`` under the ``epistemic_ledger`` namespace during
-bindings development and CI.
+The real package lives in ``src/epistemic_ledger``; this shim exists
+only so maturin places the compiled ``_core`` module inside an
+``epistemic_ledger`` package in the bindings wheel. When the real
+package is installed after the bindings wheel (as the CI bindings
+job does), this file is replaced by the real ``__init__`` and the
+compiled ``_core`` module stays in place beside it.
 """

@@ -82,6 +82,7 @@ source = ["epistemic_ledger"]
 branch = true
 omit = [
     "*/epistemic_ledger/__main__.py",  # 3-line entry shim, exercised via the CLI tests' subprocess check
+    "*/epistemic_ledger/migrate.py",  # exercised end-to-end by the Rust bindings job's migration tests (needs the compiled core)
 ]
 
 [tool.coverage.report]

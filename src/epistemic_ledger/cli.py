@@ -89,10 +89,25 @@ def main(argv=None):
     p_verify.add_argument("ledger_dir")
     p_km = sub.add_parser("kill-metrics", help="print a ledger's kill metrics as JSON")
     p_km.add_argument("ledger_dir")
+    p_mig = sub.add_parser(
+        "migrate", help="migrate a 0.12 store into the chained Rust format"
+    )
+    p_mig.add_argument("src_dir")
+    p_mig.add_argument("dst_dir")
     args = parser.parse_args(argv)
 
     if args.command == "demo":
         return run_demo()
+    if args.command == "migrate":
+        from .migrate import migrate_store
+
+        try:
+            report = migrate_store(args.src_dir, args.dst_dir)
+        except Exception as exc:
+            print(f"error: migration failed: {exc}", file=sys.stderr)
+            return 2
+        print(json.dumps(report, indent=2, default=str))
+        return 0
     try:
         L = Ledger(args.ledger_dir)
     except Exception as exc:  # an unopenable store is a usage error

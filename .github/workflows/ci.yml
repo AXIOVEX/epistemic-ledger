@@ -188,8 +188,20 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
       - run: python -m venv /tmp/bindings-venv
       - run: /tmp/bindings-venv/bin/pip install -q maturin pytest cryptography
-      - name: Build and install the bindings into the venv
-        env:
-          VIRTUAL_ENV: /tmp/bindings-venv
-        run: cd rust/crates/epistemic-ledger-py && /tmp/bindings-venv/bin/maturin develop
-      - run: /tmp/bindings-venv/bin/python -m pytest rust/crates/epistemic-ledger-py/tests -q
+      - name: Build the bindings wheel
+        run: cd rust/crates/epistemic-ledger-py && /tmp/bindings-venv/bin/maturin build --interpreter /tmp/bindings-venv/bin/python -o /tmp/wheels
+      - run: /tmp/bindings-venv/bin/pip install -q /tmp/wheels/*.whl
+      # The real package installs last so its __init__ replaces the
+      # bindings wheel's shim; the compiled _core stays beside it.
+      - run: /tmp/bindings-venv/bin/pip install -q .
+      - name: Run bindings tests (failures annotated)
+        run: |
+          set +e
+          /tmp/bindings-venv/bin/python -c "import epistemic_ledger._core as c; print('core file:', c.__file__)" > /tmp/probe.out 2>&1
+          if [ $? -ne 0 ]; then tail -5 /tmp/probe.out | while IFS= read -r line; do echo "::error::probe $line"; done; fi
+          /tmp/bindings-venv/bin/python -m pytest rust/crates/epistemic-ledger-py/tests -q > /tmp/pytest.out 2>&1
+          rc=$?
+          grep -E "^(FAILED|ERROR)" /tmp/pytest.out | head -20 | while IFS= read -r line; do echo "::error::$line"; done
+          grep -E "^[A-Za-z_.]+(Error|Exception)" /tmp/pytest.out | head -20 | while IFS= read -r line; do echo "::error::exc $line"; done
+          grep -E "^(E |E  )" /tmp/pytest.out | head -20 | while IFS= read -r line; do echo "::error::E $line"; done
+          exit $rc
