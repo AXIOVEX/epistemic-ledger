@@ -36,6 +36,8 @@ nav:
   - Home: index.md
   - Getting started: getting-started.md
   - Concepts: concepts.md
+  - LQL query language: lql.md
+  - MCP server: mcp.md
   - Framing paper: PAPER.md
   - Design memos:
       - "01 · Record schema and scoring calculus": DESIGN-01-record-schema-scoring.md
@@ -50,6 +52,7 @@ nav:
       - "10 · Governance hardening": DESIGN-10-governance-hardening.md
       - "11 · Partitions and predicate policies": DESIGN-11-partitions-and-predicate-policies.md
       - "12 · Hardening": DESIGN-12-hardening.md
+      - "13 · Ledger hardening": DESIGN-13-ledger-hardening.md
   - Result reports:
       - CALIBRATION-01.md
       - CHURN-01.md
