@@ -188,6 +188,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
       - run: python -m venv /tmp/bindings-venv
       - run: /tmp/bindings-venv/bin/pip install -q maturin pytest cryptography
+      - run: /tmp/bindings-venv/bin/pip install -q .
       - name: Build and install the bindings into the venv
         env:
           VIRTUAL_ENV: /tmp/bindings-venv

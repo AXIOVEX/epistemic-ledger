@@ -68,8 +68,11 @@ impl RustStore {
 
     /// Full chain verification. `pubkeys_json` maps actor -> public
     /// key hex for writers whose signatures must verify. Returns
-    /// the number of events verified.
-    fn verify(&self, pubkeys_json: String) -> PyResult<u64> {
+    /// the number of events verified. `signed_from_seq` (default 1)
+    /// is the first sequence number at which signatures are
+    /// required — migrated stores pass their migration boundary.
+    #[pyo3(signature = (pubkeys_json, signed_from_seq=1))]
+    fn verify(&self, pubkeys_json: String, signed_from_seq: u64) -> PyResult<u64> {
         let raw: HashMap<String, String> = serde_json::from_str(&pubkeys_json).map_err(err)?;
         let mut pubkeys: HashMap<String, [u8; 32]> = HashMap::new();
         for (actor, hexkey) in raw {
@@ -79,7 +82,7 @@ impl RustStore {
                 .map_err(|_| PyRuntimeError::new_err("pubkey must be 32 bytes"))?;
             pubkeys.insert(actor, arr);
         }
-        self.inner.verify(&pubkeys).map_err(err)
+        self.inner.verify_from(&pubkeys, signed_from_seq).map_err(err)
     }
 
     #[getter]
@@ -98,6 +101,15 @@ impl RustStore {
     }
 }
 
+/// All records of the store at `path`, read-only, as a JSON
+/// string (an array of record objects in chain order).
+#[pyfunction]
+fn read_records_json(path: String) -> PyResult<String> {
+    let (records, _report) =
+        epistemic_ledger_core::store::Store::open_readonly(&PathBuf::from(path)).map_err(err)?;
+    serde_json::to_string(&records).map_err(err)
+}
+
 /// The health report for the store at `path`, as a JSON string.
 #[pyfunction]
 #[pyo3(signature = (path, segment=None))]
@@ -114,5 +126,6 @@ fn health_json(path: String, segment: Option<u64>) -> PyResult<String> {
 fn _core(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<RustStore>()?;
     m.add_function(wrap_pyfunction!(health_json, m)?)?;
+    m.add_function(wrap_pyfunction!(read_records_json, m)?)?;
     Ok(())
 }

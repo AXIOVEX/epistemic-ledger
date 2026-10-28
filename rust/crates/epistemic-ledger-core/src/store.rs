@@ -14,7 +14,7 @@ use fs2::FileExt;
 use serde_json::Value;
 
 use crate::chain::{
-    build_record, chain_line, parse_line, verify_chain, ChainError, Record, GENESIS_PREV,
+    build_record, chain_line, parse_line, verify_chain_from, ChainError, Record, GENESIS_PREV,
 };
 
 #[derive(Debug)]
@@ -181,12 +181,23 @@ impl Store {
     /// sequence, linkage, hashes, CRCs, and (for actors present in
     /// `pubkeys`) signatures. Complete, not sampled (claim H4).
     pub fn verify(&self, pubkeys: &HashMap<String, [u8; 32]>) -> Result<u64, StoreError> {
+        self.verify_from(pubkeys, 1)
+    }
+
+    /// Full verification where signatures are required only for
+    /// records at or after `signed_from_seq` (migrated stores,
+    /// DESIGN-13 section 9).
+    pub fn verify_from(
+        &self,
+        pubkeys: &HashMap<String, [u8; 32]>,
+        signed_from_seq: u64,
+    ) -> Result<u64, StoreError> {
         let raw = std::fs::read(Self::log_path(&self.dir))?;
         let (records, torn) = scan_log(&raw)?;
         if torn > 0 {
             return Err(StoreError::TornMiddle { line: records.len() + 1 });
         }
-        verify_chain(&records, pubkeys)?;
+        verify_chain_from(&records, pubkeys, signed_from_seq)?;
         Ok(records.len() as u64)
     }
 

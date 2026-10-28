@@ -162,6 +162,19 @@ pub fn verify_chain(
     records: &[Record],
     pubkeys: &HashMap<String, [u8; 32]>,
 ) -> Result<(), ChainError> {
+    verify_chain_from(records, pubkeys, 1)
+}
+
+/// Like `verify_chain`, but signatures are required only for
+/// records with `seq >= signed_from_seq`. Migrated legacy history
+/// (DESIGN-13 section 9) predates signing: it is attested by the
+/// chain, and authorship signatures apply from the migration
+/// point forward.
+pub fn verify_chain_from(
+    records: &[Record],
+    pubkeys: &HashMap<String, [u8; 32]>,
+    signed_from_seq: u64,
+) -> Result<(), ChainError> {
     let mut prev = GENESIS_PREV.to_string();
     for (i, r) in records.iter().enumerate() {
         let expected_seq = i as u64 + 1;
@@ -186,7 +199,8 @@ pub fn verify_chain(
                 kind: ChainErrorKind::BadHash,
             });
         }
-        if let Some(pk_bytes) = pubkeys.get(&r.actor) {
+        if r.seq >= signed_from_seq {
+            if let Some(pk_bytes) = pubkeys.get(&r.actor) {
             let sig_hex = r.sig.as_ref().ok_or(ChainError {
                 seq: r.seq,
                 kind: ChainErrorKind::MissingSignature,
@@ -209,6 +223,7 @@ pub fn verify_chain(
                     seq: r.seq,
                     kind: ChainErrorKind::BadSignature,
                 });
+            }
             }
         }
         prev = r.hash.clone();
