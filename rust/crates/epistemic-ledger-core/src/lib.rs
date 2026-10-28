@@ -3,4 +3,5 @@
 
 pub mod canon;
 pub mod chain;
+pub mod checkpoint;
 pub mod store;
