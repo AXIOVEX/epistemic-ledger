@@ -6,7 +6,7 @@
 
 use std::collections::HashMap;
 use std::fs::{File, OpenOptions};
-use std::io::{Read, Seek, Write};
+use std::io::{Read, Seek, SeekFrom, Write};
 use std::path::{Path, PathBuf};
 
 use ed25519_dalek::SigningKey;
@@ -67,7 +67,56 @@ pub struct Store {
     lock: File,
     next_seq: u64,
     head_hash: String,
+    /// Byte length of the log as last verified (open scan, or a
+    /// read-back-verified append). Appends verify against it.
+    log_len: u64,
     pub report: OpenReport,
+}
+
+/// Confirm a file's length is exactly `want`. The torn-tail
+/// repair in `Store::open` is a write, and a write is not done
+/// until it is verified (DESIGN-14 W4).
+fn verify_file_len(file: &File, want: u64) -> Result<(), StoreError> {
+    let got = file.metadata()?.len();
+    if got != want {
+        return Err(StoreError::Io(std::io::Error::new(
+            std::io::ErrorKind::InvalidData,
+            format!("log length is {got} after repair, expected {want}; repair unverified"),
+        )));
+    }
+    Ok(())
+}
+
+/// Fault injection for tests (DESIGN-14 section 3.5): simulates
+/// the silent-short-write defect by mangling the bytes an append
+/// actually lands, so the production read-back and rollback run
+/// against a genuinely wrong file. Compiled only under
+/// `cfg(test)`; the mode is thread-local so parallel tests do
+/// not leak modes into each other, and a test must run its store
+/// operations on the thread that set the mode.
+#[cfg(test)]
+pub(crate) mod fault {
+    use std::cell::Cell;
+
+    thread_local! {
+        pub static APPEND_MODE: Cell<u8> = const { Cell::new(0) };
+    }
+
+    pub const OFF: u8 = 0;
+    pub const TRUNCATE: u8 = 1;
+    pub const ZERO: u8 = 2;
+
+    pub fn set_append_mode(mode: u8) {
+        APPEND_MODE.with(|m| m.set(mode));
+    }
+
+    pub fn mangle_append(bytes: Vec<u8>) -> Vec<u8> {
+        match APPEND_MODE.with(|m| m.get()) {
+            TRUNCATE => bytes[..bytes.len() / 2].to_vec(),
+            ZERO => vec![0u8; bytes.len()],
+            _ => bytes,
+        }
+    }
 }
 
 impl Store {
@@ -105,6 +154,7 @@ impl Store {
             let keep = raw.len() as u64 - torn_bytes;
             log.set_len(keep)?;
             log.sync_all()?;
+            verify_file_len(&log, keep)?;
         }
         let head_hash = records
             .last()
@@ -121,6 +171,7 @@ impl Store {
             lock,
             next_seq: records.len() as u64 + 1,
             head_hash,
+            log_len: raw.len() as u64 - torn_bytes,
             report,
         })
     }
@@ -147,8 +198,17 @@ impl Store {
     }
 
     /// Append one event: build the chained (and optionally signed)
-    /// record, write its line, fsync. The log is ground truth, so
-    /// the append is durable before this returns.
+    /// record, write its line, fsync — then read the appended
+    /// bytes back and compare them before the record counts as
+    /// committed (DESIGN-14 W2). The log is ground truth, and a
+    /// write is not done until it is verified: the platform this
+    /// engine runs on can land a write short or empty while
+    /// reporting success, which fsync cannot see. A landing that
+    /// verifies short, empty, or corrupted is rolled back — the
+    /// log is truncated to its pre-append length and fsynced, so
+    /// a partial record never stands — and the append returns an
+    /// error. Sequence and head advance only for a verified
+    /// record.
     pub fn append(
         &mut self,
         t: &str,
@@ -166,15 +226,65 @@ impl Store {
             &self.head_hash,
             signing_key,
         );
-        let line = chain_line(&record);
-        self.log.write_all(line.as_bytes())?;
-        self.log.write_all(b"\n")?;
+        let mut expected = chain_line(&record).into_bytes();
+        expected.push(b'\n');
+        #[cfg(test)]
+        let to_write = fault::mangle_append(expected.clone());
+        #[cfg(not(test))]
+        let to_write = expected.clone();
+        self.log.write_all(&to_write)?;
         self.log.sync_all()?;
+        if !self.verify_tail(&expected)? {
+            // Roll back so the unverified record never stands.
+            let rolled_back = self
+                .log
+                .set_len(self.log_len)
+                .and_then(|_| self.log.sync_all())
+                .is_ok();
+            let _ = self.log.seek(SeekFrom::End(0));
+            return Err(StoreError::Io(std::io::Error::new(
+                std::io::ErrorKind::InvalidData,
+                if rolled_back {
+                    format!(
+                        "append of seq {} failed read-back verification; \
+                         the record was rolled back and is NOT committed",
+                        record.seq
+                    )
+                } else {
+                    format!(
+                        "append of seq {} failed read-back verification AND \
+                         the rollback truncation failed; the log tail must \
+                         be treated as torn",
+                        record.seq
+                    )
+                },
+            )));
+        }
+        self.log_len += expected.len() as u64;
         self.head_hash = record.hash.clone();
         self.next_seq += 1;
         self.report.events += 1;
         self.report.head_hash = self.head_hash.clone();
         Ok(record)
+    }
+
+    /// Read back the record just appended — the bytes starting at
+    /// the tracked log length — and compare them with what was
+    /// written; also confirm the file's total length. Restores
+    /// the file position to end-of-log either way.
+    fn verify_tail(&mut self, expected: &[u8]) -> Result<bool, StoreError> {
+        let mut back = vec![0u8; expected.len()];
+        let read_ok = self
+            .log
+            .seek(SeekFrom::Start(self.log_len))
+            .and_then(|_| self.log.read_exact(&mut back))
+            .is_ok();
+        let len_ok = matches!(
+            self.log.metadata(),
+            Ok(m) if m.len() == self.log_len + expected.len() as u64
+        );
+        let _ = self.log.seek(SeekFrom::End(0));
+        Ok(read_ok && len_ok && back == expected)
     }
 
     /// Full verification: parse the whole log from disk and check
@@ -251,4 +361,87 @@ fn scan_log(raw: &[u8]) -> Result<(Vec<Record>, u64), StoreError> {
         }
     }
     Ok((records, torn))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use serde_json::json;
+    use std::sync::atomic::{AtomicU64, Ordering};
+
+    fn temp_store_dir(tag: &str) -> PathBuf {
+        static COUNTER: AtomicU64 = AtomicU64::new(0);
+        let n = COUNTER.fetch_add(1, Ordering::SeqCst);
+        let dir = std::env::temp_dir().join(format!(
+            "el-store-test-{}-{tag}-{n}",
+            std::process::id()
+        ));
+        let _ = std::fs::remove_dir_all(&dir);
+        dir
+    }
+
+    /// DESIGN-14 W2 falsifier, driven for each fault mode: an
+    /// append whose bytes land truncated or zeroed must error,
+    /// must not advance sequence or head, and — the rollback
+    /// having truncated the partial record — must leave a log
+    /// that reopens with zero torn bytes and the pre-append
+    /// record count. A later healthy append then takes the
+    /// sequence number the failed one would have taken.
+    fn fault_mode_rolls_back(mode: u8) {
+        let dir = temp_store_dir("fault");
+        let mut store = Store::open(&dir).unwrap();
+        let first = store
+            .append("2026-01-01T00:00:00Z", "alice", "assert", json!({"n": 1}), None)
+            .unwrap();
+        assert_eq!(store.next_seq(), 2);
+        fault::set_append_mode(mode);
+        let err = store
+            .append("2026-01-01T00:01:00Z", "alice", "assert", json!({"n": 2}), None)
+            .expect_err("a mangled landing must not return Ok");
+        fault::set_append_mode(fault::OFF);
+        assert!(
+            err.to_string().contains("NOT committed"),
+            "error must say the record is not committed: {err}"
+        );
+        assert_eq!(store.next_seq(), 2, "sequence must not advance");
+        assert_eq!(store.head_hash(), first.hash, "head must not advance");
+        drop(store);
+        let mut store = Store::open(&dir).unwrap();
+        assert_eq!(store.report.events, 1);
+        assert_eq!(
+            store.report.recovered_torn_bytes, 0,
+            "rollback leaves no torn tail"
+        );
+        let second = store
+            .append("2026-01-01T00:01:00Z", "alice", "assert", json!({"n": 2}), None)
+            .unwrap();
+        assert_eq!(second.seq, 2);
+        assert_eq!(second.prev_hash, first.hash);
+        drop(store);
+        let _ = std::fs::remove_dir_all(&dir);
+    }
+
+    #[test]
+    fn append_truncated_landing_rolls_back() {
+        fault_mode_rolls_back(fault::TRUNCATE);
+    }
+
+    #[test]
+    fn append_zeroed_landing_rolls_back() {
+        fault_mode_rolls_back(fault::ZERO);
+    }
+
+    #[test]
+    fn verify_file_len_accepts_exact_and_rejects_other() {
+        let dir = temp_store_dir("len");
+        std::fs::create_dir_all(&dir).unwrap();
+        let path = dir.join("f.bin");
+        std::fs::write(&path, b"12345").unwrap();
+        let f = File::open(&path).unwrap();
+        assert!(verify_file_len(&f, 5).is_ok());
+        assert!(verify_file_len(&f, 6).is_err());
+        assert!(verify_file_len(&f, 4).is_err());
+        drop(f);
+        let _ = std::fs::remove_dir_all(&dir);
+    }
 }

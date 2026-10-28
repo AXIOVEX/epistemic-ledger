@@ -123,7 +123,38 @@ fn sha256_hex(bytes: &[u8]) -> String {
     hex::encode(h.finalize())
 }
 
+/// Fault injection for tests (DESIGN-14 section 3.5): when on,
+/// snapshot file writes land zeroed, so the post-write
+/// verification and the no-residue cleanup run against a
+/// genuinely wrong file. Compiled only under `cfg(test)`;
+/// thread-local so parallel tests do not leak the mode.
+#[cfg(test)]
+pub(crate) mod fault {
+    use std::cell::Cell;
+
+    thread_local! {
+        pub static ZERO_WRITES: Cell<bool> = const { Cell::new(false) };
+    }
+
+    pub fn set_zero_writes(on: bool) {
+        ZERO_WRITES.with(|f| f.set(on));
+    }
+
+    pub fn zero_writes() -> bool {
+        ZERO_WRITES.with(|f| f.get())
+    }
+}
+
 fn write_durable(path: &Path, bytes: &[u8]) -> Result<(), SnapshotError> {
+    #[cfg(test)]
+    let zeroed;
+    #[cfg(test)]
+    let bytes = if fault::zero_writes() {
+        zeroed = vec![0u8; bytes.len()];
+        &zeroed[..]
+    } else {
+        bytes
+    };
     let mut f = OpenOptions::new()
         .create(true)
         .write(true)
@@ -193,13 +224,25 @@ pub fn write_snapshot(store_dir: &Path, bundle_dir: &Path) -> Result<SnapshotRep
     };
     manifest.bundle_hash = manifest.bundle_hash_for();
     std::fs::create_dir_all(bundle_dir)?;
-    write_durable(&bundle_dir.join("events.log"), &raw)?;
-    let manifest_json = serde_json::to_string_pretty(&manifest).expect("manifest serializes");
-    write_durable(
-        &bundle_dir.join("manifest.json"),
-        manifest_json.as_bytes(),
-    )?;
-    verify_snapshot(bundle_dir)
+    let result = (|| -> Result<SnapshotReport, SnapshotError> {
+        write_durable(&bundle_dir.join("events.log"), &raw)?;
+        let manifest_json =
+            serde_json::to_string_pretty(&manifest).expect("manifest serializes");
+        write_durable(
+            &bundle_dir.join("manifest.json"),
+            manifest_json.as_bytes(),
+        )?;
+        verify_snapshot(bundle_dir)
+    })();
+    if result.is_err() {
+        // A failed snapshot leaves no bundle behind (DESIGN-14
+        // W5): neither file existed when this call began (the
+        // Exists check above), so both are this call's to remove,
+        // and a retry is never blocked by this attempt's remains.
+        let _ = std::fs::remove_file(bundle_dir.join("events.log"));
+        let _ = std::fs::remove_file(bundle_dir.join("manifest.json"));
+    }
+    result
 }
 
 /// Verify the bundle at `bundle_dir` from the bundle alone — no
@@ -267,13 +310,108 @@ pub fn restore_snapshot(bundle_dir: &Path, dst_dir: &Path) -> Result<SnapshotRep
     }
     let raw = std::fs::read(bundle_dir.join("events.log"))?;
     std::fs::create_dir_all(dst_dir)?;
-    write_durable(&dst_log, &raw)?;
-    let store = Store::open(dst_dir)?;
-    let opened = &store.report;
-    if opened.events != report.events || opened.head_hash != report.head_hash {
-        return Err(SnapshotError::Invalid(
-            "restored store does not match the bundle manifest".into(),
-        ));
+    let written = write_durable(&dst_log, &raw).and_then(|_| {
+        let store = Store::open(dst_dir)?;
+        let opened = &store.report;
+        if opened.events != report.events || opened.head_hash != report.head_hash {
+            return Err(SnapshotError::Invalid(
+                "restored store does not match the bundle manifest".into(),
+            ));
+        }
+        Ok(())
+    });
+    if let Err(e) = written {
+        // A failed restore leaves no partial store behind
+        // (DESIGN-14 W5): the destination log did not exist when
+        // this call began (the Exists check above), so it — and
+        // the lock file the failed open created — are this
+        // call's to remove, and a retry can proceed.
+        let _ = std::fs::remove_file(&dst_log);
+        let _ = std::fs::remove_file(dst_dir.join("ledger.lock"));
+        return Err(e);
     }
     Ok(report)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use serde_json::json;
+    use std::path::PathBuf;
+    use std::sync::atomic::{AtomicU64, Ordering};
+
+    fn temp_dir(tag: &str) -> PathBuf {
+        static COUNTER: AtomicU64 = AtomicU64::new(0);
+        let n = COUNTER.fetch_add(1, Ordering::SeqCst);
+        let dir = std::env::temp_dir().join(format!(
+            "el-snapshot-test-{}-{tag}-{n}",
+            std::process::id()
+        ));
+        let _ = std::fs::remove_dir_all(&dir);
+        dir
+    }
+
+    fn make_store(dir: &Path) {
+        let mut store = Store::open(dir).unwrap();
+        store
+            .append("2026-01-01T00:00:00Z", "alice", "assert", json!({"n": 1}), None)
+            .unwrap();
+        store
+            .append("2026-01-01T00:01:00Z", "alice", "assert", json!({"n": 2}), None)
+            .unwrap();
+    }
+
+    /// DESIGN-14 W5 falsifier (snapshot leg): with file writes
+    /// landing zeroed, the finished bundle cannot verify — and
+    /// the failed call must leave neither bundle file behind, so
+    /// the directory is exactly as the call found it and a retry
+    /// succeeds.
+    #[test]
+    fn failed_snapshot_leaves_no_bundle() {
+        let store_dir = temp_dir("src");
+        let bundle_dir = temp_dir("bundle");
+        make_store(&store_dir);
+        fault::set_zero_writes(true);
+        let err = write_snapshot(&store_dir, &bundle_dir)
+            .expect_err("a zeroed bundle must not verify");
+        fault::set_zero_writes(false);
+        assert!(
+            !bundle_dir.join("events.log").exists(),
+            "failed snapshot left its log behind: {err}"
+        );
+        assert!(
+            !bundle_dir.join("manifest.json").exists(),
+            "failed snapshot left its manifest behind: {err}"
+        );
+        let report = write_snapshot(&store_dir, &bundle_dir).unwrap();
+        assert_eq!(report.events, 2);
+        let _ = std::fs::remove_dir_all(&store_dir);
+        let _ = std::fs::remove_dir_all(&bundle_dir);
+    }
+
+    /// DESIGN-14 W5 falsifier (restore leg): with the restored
+    /// log landing zeroed, the restored store cannot open and
+    /// check out — and the failed call must remove the partial
+    /// store it wrote, so a retry succeeds.
+    #[test]
+    fn failed_restore_leaves_no_store() {
+        let store_dir = temp_dir("src");
+        let bundle_dir = temp_dir("bundle");
+        let dst_dir = temp_dir("dst");
+        make_store(&store_dir);
+        write_snapshot(&store_dir, &bundle_dir).unwrap();
+        fault::set_zero_writes(true);
+        let err = restore_snapshot(&bundle_dir, &dst_dir)
+            .expect_err("a zeroed restore must not open as a store");
+        fault::set_zero_writes(false);
+        assert!(
+            !dst_dir.join("events.log").exists(),
+            "failed restore left a partial store behind: {err}"
+        );
+        let report = restore_snapshot(&bundle_dir, &dst_dir).unwrap();
+        assert_eq!(report.events, 2);
+        let _ = std::fs::remove_dir_all(&store_dir);
+        let _ = std::fs::remove_dir_all(&bundle_dir);
+        let _ = std::fs::remove_dir_all(&dst_dir);
+    }
 }
