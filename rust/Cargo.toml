@@ -1,6 +1,7 @@
 [workspace]
 resolver = "2"
-members = ["crates/epistemic-ledger-core"]
+members = ["crates/epistemic-ledger-core", "crates/epistemic-ledger-py"]
+default-members = ["crates/epistemic-ledger-core"]
 
 [workspace.package]
 edition = "2021"

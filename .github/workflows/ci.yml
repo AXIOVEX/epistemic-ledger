@@ -176,3 +176,20 @@ jobs:
           sys.exit(1 if failed else 0)
           "
       - run: cargo test --manifest-path rust/Cargo.toml
+
+  bindings:
+    name: Rust bindings (PyO3)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: dtolnay/rust-toolchain@stable
+      - run: python -m venv /tmp/bindings-venv
+      - run: /tmp/bindings-venv/bin/pip install -q maturin pytest cryptography
+      - name: Build and install the bindings into the venv
+        env:
+          VIRTUAL_ENV: /tmp/bindings-venv
+        run: cd rust/crates/epistemic-ledger-py && /tmp/bindings-venv/bin/maturin develop
+      - run: /tmp/bindings-venv/bin/python -m pytest rust/crates/epistemic-ledger-py/tests -q

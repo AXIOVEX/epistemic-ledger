@@ -1,0 +1,17 @@
+[package]
+name = "epistemic-ledger-py"
+version = "0.13.0"
+edition.workspace = true
+license.workspace = true
+description = "PyO3 bindings for epistemic-ledger-core (DESIGN-13 stage 2)."
+
+[lib]
+name = "_core"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.22", features = ["abi3-py310", "extension-module"] }
+epistemic-ledger-core = { path = "../epistemic-ledger-core" }
+serde_json = "1"
+hex = "0.4"
+ed25519-dalek = "2"
