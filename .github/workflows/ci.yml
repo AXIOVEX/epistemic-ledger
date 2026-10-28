@@ -188,11 +188,12 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
       - run: python -m venv /tmp/bindings-venv
       - run: /tmp/bindings-venv/bin/pip install -q maturin pytest cryptography
+      - name: Build the bindings wheel
+        run: cd rust/crates/epistemic-ledger-py && /tmp/bindings-venv/bin/maturin build --interpreter /tmp/bindings-venv/bin/python -o /tmp/wheels
+      - run: /tmp/bindings-venv/bin/pip install -q /tmp/wheels/*.whl
+      # The real package installs last so its __init__ replaces the
+      # bindings wheel's shim; the compiled _core stays beside it.
       - run: /tmp/bindings-venv/bin/pip install -q .
-      - name: Build and install the bindings into the venv
-        env:
-          VIRTUAL_ENV: /tmp/bindings-venv
-        run: cd rust/crates/epistemic-ledger-py && /tmp/bindings-venv/bin/maturin develop
       - name: Run bindings tests (failures annotated)
         run: |
           set +e
