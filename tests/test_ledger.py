@@ -37,7 +37,14 @@ def test_assert_and_live_claim(ledger):
 
 def test_bitemporal_supersede(ledger):
     c1 = ledger.assert_claim("old claim", 0.6, t="2026-01-01T00:00:00+00:00")
-    c2 = ledger.supersede(c1, "corrected claim", 0.8, t="2026-02-01T00:00:00+00:00")
+    c2 = ledger.supersede(
+        c1,
+        "corrected claim",
+        0.8,
+        reason="the original statement was wrong",
+        source="test fixture",
+        t="2026-02-01T00:00:00+00:00",
+    )
     assert c1 != c2
     # Old claim has no live row (correct bitemporal behavior); its closed
     # version is marked superseded, and the new claim is live.

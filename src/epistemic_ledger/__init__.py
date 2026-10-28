@@ -23,10 +23,12 @@ Submodules:
 from importlib.metadata import PackageNotFoundError, version
 
 from .ledger import (
+    CLAIM_STATUSES,
     COMBO_KINDS,
     ENTRENCHMENT_TIERS,
     GATED_ACTIONS,
     SUPPORT_KINDS,
+    TERMINAL_STATUSES,
     TIER_ENTRENCHMENT,
     WRITER_TIERS,
     Ledger,
@@ -41,10 +43,12 @@ except PackageNotFoundError:  # source checkout without an install
     __version__ = "0+unknown"
 
 __all__ = [
+    "CLAIM_STATUSES",
     "COMBO_KINDS",
     "ENTRENCHMENT_TIERS",
     "GATED_ACTIONS",
     "SUPPORT_KINDS",
+    "TERMINAL_STATUSES",
     "TIER_ENTRENCHMENT",
     "WRITER_TIERS",
     "Ledger",
