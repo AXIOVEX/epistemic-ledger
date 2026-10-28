@@ -196,9 +196,11 @@ jobs:
       - name: Run bindings tests (failures annotated)
         run: |
           set +e
+          /tmp/bindings-venv/bin/python -c "import epistemic_ledger._core as c; print('core file:', c.__file__)" > /tmp/probe.out 2>&1
+          if [ $? -ne 0 ]; then tail -5 /tmp/probe.out | while IFS= read -r line; do echo "::error::probe $line"; done; fi
           /tmp/bindings-venv/bin/python -m pytest rust/crates/epistemic-ledger-py/tests -q > /tmp/pytest.out 2>&1
           rc=$?
           grep -E "^(FAILED|ERROR)" /tmp/pytest.out | head -20 | while IFS= read -r line; do echo "::error::$line"; done
-          sed -n '/FAILURES/,/short test summary/p' /tmp/pytest.out | head -45 | while IFS= read -r line; do echo "::error::$line"; done
-          sed -n '/ERRORS/,/short test summary/p' /tmp/pytest.out | head -45 | while IFS= read -r line; do echo "::error::$line"; done
+          grep -E "^[A-Za-z_.]+(Error|Exception)" /tmp/pytest.out | head -20 | while IFS= read -r line; do echo "::error::exc $line"; done
+          grep -E "^(E |E  )" /tmp/pytest.out | head -20 | while IFS= read -r line; do echo "::error::E $line"; done
           exit $rc
