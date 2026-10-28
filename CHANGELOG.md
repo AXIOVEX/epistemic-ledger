@@ -6,6 +6,8 @@ this project follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.13.1] - 2026-10-28
+
 ### Fixed
 
 - Verified writes (DESIGN-14): every write the ledger calls
