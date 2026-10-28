@@ -372,7 +372,10 @@ def _fold_event(db, event):
             entrenchment = 0.5
         else:
             wrow = _fold_live_row(db, "writers", "writer_id = ?", (p["writer"],))
-            entrenchment = TIER_ENTRENCHMENT.get(wrow["tier"] if wrow else None, 0.25)
+            tier = wrow["tier"] if wrow is not None else None
+            entrenchment = (
+                TIER_ENTRENCHMENT.get(tier, 0.25) if tier is not None else 0.25
+            )
         db.execute(
             """INSERT INTO claims(claim_id, txn_from, statement, valid_from,
                                   valid_to, score, score_kind, status,

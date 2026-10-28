@@ -392,7 +392,7 @@ def execute(ledger, text):
             rows = [ledger._claim_dict(r) for r in ledger.believed_at(as_of)]
         else:
             rows = ledger.list_claims()
-        tier_cache = {}
+        tier_cache: dict[str, str | None] = {}
         return [
             r
             for r in rows

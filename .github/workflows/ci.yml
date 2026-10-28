@@ -145,11 +145,10 @@ jobs:
           grep -E "^(FAILED|ERROR)" /tmp/battery.out | head -20 | while IFS= read -r line; do echo "::error::$line"; done
           grep -E "^E " /tmp/battery.out | head -30 | while IFS= read -r line; do echo "::error::E $line"; done
           exit $rc
-      - name: Enforce the performance budgets (DESIGN-13 section 8)
-        run: /tmp/battery-venv/bin/python tools/bench_budgets.py
       # Diagnostics: the main suite also runs in the Test jobs, but
       # those do not surface failures as annotations; this step
-      # annotates them here without failing this job.
+      # annotates them here without failing this job. It runs
+      # before the bench so a bench failure cannot skip it.
       - name: Main suite (diagnostic, annotated)
         run: |
           set +e
@@ -157,6 +156,13 @@ jobs:
           grep -E "^(FAILED|ERROR)" /tmp/main.out | head -20 | while IFS= read -r line; do echo "::error::$line"; done
           grep -E "^E " /tmp/main.out | head -30 | while IFS= read -r line; do echo "::error::E $line"; done
           true
+      - name: Enforce the performance budgets (DESIGN-13 section 8)
+        run: |
+          set +e
+          /tmp/battery-venv/bin/python tools/bench_budgets.py > /tmp/bench.out 2>&1
+          rc=$?
+          cat /tmp/bench.out | head -30 | while IFS= read -r line; do echo "::error::bench $line"; done
+          exit $rc
 
   build:
     name: Build + install smoke
