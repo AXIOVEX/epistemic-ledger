@@ -193,6 +193,15 @@ jobs:
         env:
           VIRTUAL_ENV: /tmp/bindings-venv
         run: cd rust/crates/epistemic-ledger-py && /tmp/bindings-venv/bin/maturin develop
+      - name: Diagnose bindings environment
+        run: |
+          SP=$(/tmp/bindings-venv/bin/python -c "import site; print(site.getsitepackages()[0])")
+          echo "::error::site-packages $SP"
+          find "$SP" -maxdepth 3 -name "*_core*" | head -5 | while IFS= read -r line; do echo "::error::found $line"; done
+          ls "$SP/epistemic_ledger" 2>/dev/null | head -20 | while IFS= read -r line; do echo "::error::pkg $line"; done
+          /tmp/bindings-venv/bin/python -c "import epistemic_ledger; print('pkg ok')" 2>&1 | tail -2 | while IFS= read -r line; do echo "::error::pkgimport $line"; done
+          /tmp/bindings-venv/bin/python -c "import epistemic_ledger._core; print('core ok')" 2>&1 | tail -2 | while IFS= read -r line; do echo "::error::coreimport $line"; done
+          true
       - name: Run bindings tests (failures annotated)
         run: |
           set +e
