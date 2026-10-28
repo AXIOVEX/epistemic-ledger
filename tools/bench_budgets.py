@@ -61,10 +61,12 @@ def bench_chained(tmp):
     path = os.path.join(tmp, "chained")
     store = RustStore.open(path)
     n = 100_000
+    print("phase: chained appends (100,000, fsync per record)", flush=True)
     start = time.perf_counter()
     for i in range(n):
         store.append(T0, "w", "note", json.dumps({"i": i}), SEED)
     elapsed = time.perf_counter() - start
+    print(f"phase: chained appends done in {elapsed:.1f}s", flush=True)
     rate = n / elapsed
     report("append (sustained, fsync/record)", rate, ">= 2000", "rec/s", rate >= 2000)
 
@@ -90,7 +92,9 @@ def bench_chained(tmp):
 def build_graph_store(tmp):
     path = os.path.join(tmp, "graph")
     led = Ledger(path)
+    print("phase: graph asserts (10,000 claims)", flush=True)
     ids = [led.assert_claim(f"claim {i}", 0.5) for i in range(10_000)]
+    print("phase: graph edges (~40,000 supports)", flush=True)
     for i in range(1, 10_000):
         for back in (1, 7, 31, 101):
             j = i - back
@@ -101,12 +105,26 @@ def build_graph_store(tmp):
     for k in range(200):
         basis = [ids[(k * 37 + d * 11) % 1000] for d in range(5)]
         led.record_decision(f"decision {k}", list(dict.fromkeys(basis)))
-    # Top the store up to ~100,000 events with revisions of
-    # late claims (small dependent sets, so this stays cheap).
-    for r in range(50_000):
-        led.manual_score(ids[9900 + (r % 100)], 0.4 + (r % 10) * 0.01)
-    events = len(led._events())
-    print(f"graph store: {events} events, 10,000 claims, ~40,000 edges")
+    # Top the store up to ~100,000 events with revisions of late
+    # claims. The back-1 edges form chains, so a revision cascades
+    # into further revision events until the movement attenuates
+    # below the revisit epsilon; the loop therefore counts events
+    # as it goes and stops at the target instead of running a
+    # fixed 50,000 iterations (which emitted several times the
+    # intended events and made this build take tens of minutes).
+    print("phase: graph top-up revisions (to ~100,000 events)", flush=True)
+    base_events = len(led._events())
+    r = 0
+    while base_events < 100_000:
+        for _ in range(1_000):
+            led.manual_score(ids[9900 + (r % 100)], 0.4 + (r % 10) * 0.01)
+            r += 1
+        base_events = len(led._events())
+    events = base_events
+    print(
+        f"graph store: {events} events, 10,000 claims, ~40,000 edges",
+        flush=True,
+    )
     return led, ids
 
 
