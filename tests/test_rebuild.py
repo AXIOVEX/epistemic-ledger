@@ -92,11 +92,11 @@ def _build_store(path):
     led.set_claim_status(ids[8], "dead", reason="moot", source="review")
     led.record_decision("ship it", [ids[3], new_id])
     led.declare_contradiction(ids[9], ids[10], writer="amy")
-    # ids[7] was superseded above: it has no live version, so
-    # get_score rightly refuses it. The full-table dump comparison
-    # still covers its rows exactly; the score snapshot covers the
-    # claims that remain live.
-    live_ids = [c for c in ids if c != ids[7]] + [new_id]
+    # ids[7] was superseded and ids[8] was marked dead above:
+    # neither has a live version, so get_score rightly refuses
+    # them. The full-table dump comparison still covers their rows
+    # exactly; the score snapshot covers the claims that stay live.
+    live_ids = [c for c in ids if c not in (ids[7], ids[8])] + [new_id]
     scores = {cid: led.get_score(cid) for cid in live_ids}
     led.close()
     return scores
