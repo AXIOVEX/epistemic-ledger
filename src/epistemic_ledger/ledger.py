@@ -2480,7 +2480,6 @@ class Ledger:
     )
     _GOVERNANCE_BASIS_KEYS = ("claim_a", "claim_b", "loser", "winner")
     _MAX_PATHS_PER_NODE = 100
-    _MAX_PATH_STEPS = 200_000
 
     def record_decision(self, label, basis, actor="human", t=None, rationale=None):
         """Record a decision resting on the claims in ``basis``.
@@ -2651,7 +2650,9 @@ class Ledger:
 
         Structural mode returns the transitive closure of dependents
         — derived claims and decision nodes — each with its graph
-        distance from ``claim_id`` and the paths it was reached by.
+        distance from ``claim_id`` and the shortest paths it was
+        reached by (at most 100 listed per node; ``path_count``
+        gives the exact number of shortest paths).
 
         Propagated mode additionally reports the score movement each
         claim would see if ``claim_id`` were revised to
@@ -2665,9 +2666,9 @@ class Ledger:
 
         Caps: ``max_depth`` bounds graph distance, ``max_results``
         bounds the number of nodes returned, and at most
-        100 paths per node are listed. Whenever a cap binds,
-        ``truncated`` is True and ``truncation_reasons`` says which
-        cap — a capped answer is never silently partial.
+        100 shortest paths per node are listed. Whenever a cap
+        binds, ``truncated`` is True and ``truncation_reasons``
+        says which cap — a capped answer is never silently partial.
         """
         if self._live_claim(claim_id) is None:
             raise KeyError(f"unknown claim {claim_id}")
@@ -2724,40 +2725,52 @@ class Ledger:
         for c in full_adj:
             full_adj[c] = sorted(set(full_adj[c]))
 
-        # Enumerate simple paths from the root, iteratively (an
-        # explicit stack, so long chains cannot hit the interpreter
-        # recursion limit). Per-node and global budgets keep dense
-        # graphs bounded; hitting either is reported, never silent.
-        paths: dict[str, list] = {}
-        steps = 0
-        stack = [(claim_id, [claim_id], 0)]
-        on_path = {claim_id}
-        while stack:
-            node, path, idx = stack[-1]
-            children = full_adj.get(node, [])
-            if idx >= len(children):
-                stack.pop()
-                on_path.discard(node)
+        # Shortest paths, by dynamic programming over the BFS
+        # layers: a node's shortest paths are its closest parents'
+        # shortest paths extended by the node itself. (DESIGN-13
+        # amendment, 2026-10-28: the original semantics listed
+        # every simple path, whose volume is intrinsically
+        # unbounded on dense graphs — the whole-graph closure
+        # could not answer inside any reasonable budget. Tristen
+        # approved shortest-path semantics: ``paths`` lists up to
+        # _MAX_PATHS_PER_NODE shortest paths, and ``path_count``
+        # gives the exact number of shortest paths, saturated at
+        # 10**15. Listing fewer than the count flags truncation,
+        # never silently.)
+        node_distance = {c: distance[c] for c in kept_claims}
+        for did, dd in dec_distance.items():
+            if did in kept:
+                node_distance[did] = dd
+        parents: dict[str, list[str]] = {}
+        for u, children in full_adj.items():
+            du = node_distance.get(u)
+            if du is None:
                 continue
-            stack[-1] = (node, path, idx + 1)
-            steps += 1
-            if steps > self._MAX_PATH_STEPS:
+            for v in children:
+                if node_distance.get(v) == du + 1:
+                    parents.setdefault(v, []).append(u)
+        paths: dict[str, list] = {claim_id: [[claim_id]]}
+        path_count: dict[str, int] = {claim_id: 1}
+        layer_order = sorted(
+            (d, cid) for cid, d in node_distance.items() if cid != claim_id
+        )
+        for _, v in layer_order:
+            total = 0
+            listed: list = []
+            for u in sorted(parents.get(v, ())):
+                total += path_count.get(u, 0)
+                if total >= 10**15:
+                    total = 10**15
+                for p in paths.get(u, ()):
+                    if len(listed) >= self._MAX_PATHS_PER_NODE:
+                        break
+                    listed.append(p + [v])
+            path_count[v] = total
+            paths[v] = listed
+            if total > len(listed):
                 truncated = True
                 if "paths" not in reasons:
                     reasons.append("paths")
-                break
-            nxt = children[idx]
-            if nxt in on_path:
-                continue
-            lst = paths.setdefault(nxt, [])
-            if len(lst) < self._MAX_PATHS_PER_NODE:
-                lst.append(path + [nxt])
-            else:
-                truncated = True
-                if "paths" not in reasons:
-                    reasons.append("paths")
-            stack.append((nxt, path + [nxt], 0))
-            on_path.add(nxt)
 
         nodes = [
             {
@@ -2765,6 +2778,7 @@ class Ledger:
                 "kind": kind,
                 "distance": dist,
                 "paths": paths.get(cid, []),
+                "path_count": path_count.get(cid, 0),
             }
             for dist, cid, kind in candidates
         ]

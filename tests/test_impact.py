@@ -3,7 +3,11 @@
 Claim I1: the structural closure returned by ``Ledger.impact``
 equals a brute-force closure computed independently from the raw
 edge set — exactly, on randomized graphs, including graphs with
-diamonds, cycles, and decision nodes.
+diamonds, cycles, and decision nodes. Distances are BFS distances
+and ``paths`` are the shortest paths (amended semantics,
+2026-10-28: the original all-simple-paths listing is unbounded
+on dense graphs; Tristen approved shortest-path semantics with
+an exact ``path_count``).
 
 Claim I2: propagated impact scores equal the scores a real
 revision to the same value produces, claim for claim.
@@ -221,7 +225,13 @@ def _brute_force(root, edges, decision_bases):
         inside = [c for c in basis if c in distance]
         if inside:
             nodes[did] = min(distance[c] for c in inside) + 1
-    # simple paths, enumerated independently
+    # shortest paths, enumerated independently: a path counts
+    # only if its length equals the BFS distance of its endpoint,
+    # and a prefix is only extended while it is itself a shortest
+    # path to its own endpoint (prefixes of shortest paths are
+    # shortest). Matches the amended DESIGN-13 semantics
+    # (2026-10-28): impact lists shortest paths, not all simple
+    # paths.
     adj = {c: sorted(rev.get(c, ())) for c in distance}
     for did, basis in decision_bases.items():
         if did in nodes:
@@ -235,8 +245,11 @@ def _brute_force(root, edges, decision_bases):
         for nxt in adj.get(node, []):
             if nxt in path:
                 continue
-            paths.setdefault(nxt, set()).add(tuple(path + [nxt]))
-            stack.append((nxt, path + [nxt]))
+            extended = path + [nxt]
+            if len(extended) - 1 != nodes.get(nxt):
+                continue
+            paths.setdefault(nxt, set()).add(tuple(extended))
+            stack.append((nxt, extended))
     return nodes, paths
 
 

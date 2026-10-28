@@ -253,11 +253,24 @@ an empty basis set, honestly, not a reconstructed one.
 
 - **Structural:** the transitive closure of dependents (derived
   claims and decisions), each with its graph distance and the
-  paths it was reached by.
+  shortest paths it was reached by.
 - **Propagated:** additionally, the score movement each dependent
   would see if the claim's score were revised to a stated value
   (or challenged to zero), computed by the same revisit machinery
   that performs real revisions — run dry, changing nothing.
+
+Amendment (2026-10-28, owner-approved): the original structural
+semantics listed *every* simple path per node. Measured on the
+section 8 reference graph, that output is intrinsically
+unbounded on dense graphs (whole-graph closure: 426 ms against
+the 100 ms budget, with the enumeration cap binding) — no
+implementation of those semantics meets the budget. Structural
+impact now lists the *shortest* paths (at most 100 per node) and
+reports `path_count`, the exact number of shortest paths
+(saturated at 10^15); listing fewer than the count flags
+truncation exactly as the old cap did. Claim I1's brute-force
+oracle is amended to match: distances and shortest-path sets,
+exactly.
 
 Claim I1: the structural closure returned by `impact` equals a
 brute-force closure computed independently from the raw edge set

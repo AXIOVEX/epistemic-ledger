@@ -76,6 +76,19 @@ this project follows [Semantic Versioning](https://semver.org/).
   resolutions), whose named claim references become their basis
   sets.
 
+### Changed
+
+- Structural impact lists shortest paths instead of every simple
+  path (DESIGN-13 amendment, 2026-10-28, owner-approved): on the
+  10,000-claim reference graph the old listing could not answer
+  inside the section 8 budget at any implementation quality
+  (426 ms measured against the 100 ms budget, enumeration cap
+  binding). Each node now carries up to 100 shortest paths plus
+  `path_count`, the exact number of shortest paths (saturated at
+  10^15); listing fewer than the count flags truncation exactly
+  as the old cap did. Distances and closures are unchanged, and
+  claim I1's brute-force oracle now checks shortest-path sets.
+
 ## [0.12.0] - 2026-10-27
 
 First release on PyPI.
