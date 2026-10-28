@@ -8,6 +8,23 @@ this project follows [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- The interface layer (DESIGN-13 sections 5–6): LQL, a small
+  read-only query language over the core (`Ledger.query`, grammar
+  in docs/lql.md — every construct returns exactly the
+  corresponding core API result; malformed input is a parse error
+  naming the position and executes nothing); an MCP server
+  (`epistemic-ledger-mcp`, stdio JSON-RPC, standard library only)
+  with twelve typed tools whose write tools pass through the same
+  governed paths as the API; and the CLI commands `impact`,
+  `query`, `health`, `snapshot`, and `restore` joining `demo`,
+  `verify`, `kill-metrics`, and `migrate`. A three-face scenario
+  in CI diffs the API, CLI, and MCP results (claim M1). Also:
+  `Ledger.get_claim`, `Ledger.list_claims`, `Ledger.health()`,
+  and `Ledger.verify(deep=True)` (base store verification plus a
+  signed-verdict audit). Note: AS_OF is defined for CLAIM, CLAIMS,
+  EVENTS, and DECISIONS; graph traversals stay current-state, and
+  AS_OF before them is a parse error rather than a silent
+  substitution.
 - Snapshots and restore (DESIGN-13 section 4): a chained store
   can be written as a self-contained bundle (the log plus a
   manifest whose hash covers the bundle, format in

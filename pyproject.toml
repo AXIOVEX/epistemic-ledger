@@ -56,6 +56,7 @@ docs = [
 
 [project.scripts]
 epistemic-ledger = "epistemic_ledger.cli:main"
+epistemic-ledger-mcp = "epistemic_ledger.mcp_server:main"
 
 [project.urls]
 Homepage = "https://github.com/AXIOVEX/epistemic-ledger"

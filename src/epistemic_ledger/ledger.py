@@ -2069,6 +2069,71 @@ class Ledger:
         return out
 
     # ------------------------------------------------------------------
+    # read views, health, and the query face (v0.13, DESIGN-13 5-6)
+    # ------------------------------------------------------------------
+    @staticmethod
+    def _claim_dict(row):
+        d = dict(row)
+        for key in ("score", "materiality", "entrenchment"):
+            if d.get(key) is not None:
+                d[key] = float(d[key])
+        if d.get("critical") is not None:
+            d["critical"] = bool(d["critical"])
+        return d
+
+    def get_claim(self, claim_id):
+        """The live record of one claim as a plain dict, or None."""
+        row = self._live_claim(claim_id)
+        return self._claim_dict(row) if row is not None else None
+
+    def list_claims(self):
+        """Every live claim as a plain dict, ordered by claim_id."""
+        rows = self.db.execute(
+            "SELECT * FROM claims WHERE txn_to IS NULL ORDER BY claim_id"
+        ).fetchall()
+        return [self._claim_dict(r) for r in rows]
+
+    def verify(self, deep=False):
+        """Integrity verification. The base check is verify_store()
+        (log and projection agree, both directions). deep=True also
+        re-verifies every signed verdict in the log against the key
+        in force at signing time and reports both results."""
+        result = self.verify_store()
+        if deep:
+            sig = self.verify_verdict_signatures()
+            result = dict(result)
+            result["verdict_signatures"] = sig
+            result["ok"] = bool(result["ok"]) and not sig["invalid"]
+        return result
+
+    def health(self):
+        """Health report for this store (DESIGN-13 section 2.4,
+        legacy-format surface): format, event and claim counts, and
+        the verification state. Never claims clean over damage —
+        ``ok`` is exactly verify_store()'s verdict and the problems
+        list travels with it."""
+        check = self.verify_store()
+        claims = self.db.execute(
+            "SELECT COUNT(*) AS n FROM claims WHERE txn_to IS NULL"
+        ).fetchone()["n"]
+        return {
+            "format": "0.12-jsonl",
+            "events": check["events"],
+            "claims": claims,
+            "ok": check["ok"],
+            "problems": check["problems"],
+        }
+
+    def query(self, text):
+        """Run an LQL query (DESIGN-13 section 5; grammar in
+        docs/lql.md). Read-only: LQL has no writes. Raises
+        LQLParseError (with the offending position) on malformed
+        input, before anything executes."""
+        from .lql import execute
+
+        return execute(self, text)
+
+    # ------------------------------------------------------------------
     # decisions and impact analysis (v0.13, DESIGN-13 section 3)
     # ------------------------------------------------------------------
     # A decision is a node in the dependency graph: it records the

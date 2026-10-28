@@ -36,6 +36,8 @@ nav:
   - Home: index.md
   - Getting started: getting-started.md
   - Concepts: concepts.md
+  - LQL query language: lql.md
+  - MCP server: mcp.md
   - Framing paper: PAPER.md
   - Design memos:
       - "01 · Record schema and scoring calculus": DESIGN-01-record-schema-scoring.md
