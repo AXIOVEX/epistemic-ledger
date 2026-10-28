@@ -31,6 +31,13 @@ from . import ed25519
 
 SUPPORT_KINDS = ("deductive", "evidential", "llm-generated", "human-asserted")
 
+# Claim lifecycle statuses. History is never deleted: a claim leaves
+# 'active' by a status change that is itself an event in the log.
+# 'superseded' is set by supersede(); 'entered-in-error' and 'dead'
+# are set by set_claim_status(). Both paths require a reason bundle.
+CLAIM_STATUSES = ("active", "superseded", "entered-in-error", "dead")
+TERMINAL_STATUSES = ("superseded", "entered-in-error", "dead")
+
 # Entrenchment tiers (manual in v0.2; learned tiers deferred to v0.3).
 ENTRENCHMENT_TIERS = {
     "axiomatic": 1.0,  # definitional; loses only to another 1.0 (-> human)
@@ -385,13 +392,21 @@ class Ledger:
     def verify_store(self):
         """Read-only integrity check (v0.11, DESIGN-12): the JSONL
         event log is the ground truth and the SQLite tables are its
-        projection — verify they agree. Checks: every log line
-        parses with the required fields; event ids are unique;
-        every asserted claim has a live projection row; every live
-        row's score equals the claim's last score_revision
-        new_score (or its assert prior if never revised). Returns
-        {ok, events, claims_checked, problems[:20]}; never raises
-        on bad data — bad data is the finding."""
+        projection — verify they agree, in both directions. Checks:
+        every log line parses with the required fields; event ids
+        are unique; every asserted claim has a live projection row
+        (unless the log moves it to a terminal lifecycle status, in
+        which case it must have none); every live row's score equals
+        the claim's last score_revision
+        new_score (or its assert prior if never revised); and every
+        projection claim row — and every claim id referenced by the
+        other claim-scoped projection tables — has a corresponding
+        assert event in the log (the reverse direction: a projection
+        row with no log event is how a crash between the SQLite
+        commit and the log append, or a planted row, shows up).
+        Returns {ok, events, claims_checked, projection_checked,
+        problems[:20]}; never raises on bad data — bad data is the
+        finding."""
         problems = []
         events = []
         try:
@@ -401,6 +416,8 @@ class Ledger:
             lines = []
         seen_ids = set()
         expected = {}  # claim_id -> expected live score
+        asserted = set()  # claim_ids with an assert event in the log
+        terminal = set()  # claim_ids the log moves to a terminal status
         for n, line in enumerate(lines, 1):
             if not line.strip():
                 continue
@@ -421,11 +438,26 @@ class Ledger:
             cid = p.get("claim_id")
             if e.get("type") == "assert" and cid:
                 expected[cid] = p.get("prior")
+                asserted.add(cid)
             elif e.get("type") == "score_revision" and cid:
                 expected[cid] = p.get("new_score")
+            elif e.get("type") == "supersede" and p.get("old_claim_id"):
+                terminal.add(p["old_claim_id"])
+            elif e.get("type") == "claim_status_changed" and cid:
+                terminal.add(cid)
         checked = 0
         for cid, want in expected.items():
             row = self._live_claim(cid)
+            if cid in terminal:
+                # A claim that reached a terminal lifecycle status
+                # (superseded / entered-in-error / dead) is supposed
+                # to have no live row; that is its legitimate end,
+                # not a missing projection.
+                if row is not None:
+                    problems.append(
+                        f"{cid}: terminal lifecycle status but still has a live row"
+                    )
+                continue
             if row is None:
                 problems.append(f"{cid}: asserted but no live row")
                 continue
@@ -434,10 +466,48 @@ class Ledger:
                 problems.append(
                     f"{cid}: live score {row['score']} != log terminal {want}"
                 )
+        # Reverse direction: projection -> log. Every claim id the
+        # projection knows about must trace back to an assert event;
+        # anything else has no corresponding event in the log.
+        projection_claims = set()
+        for (cid,) in self.db.execute("SELECT DISTINCT claim_id FROM claims"):
+            projection_claims.add(cid)
+        claim_tables = (
+            "support_edges",
+            "outcomes",
+            "claim_intervals",
+            "claim_combos",
+            "claim_graphs",
+            "claim_topics",
+        )
+        referenced: dict = {}  # claim_id -> first table that references it
+        for table in claim_tables:
+            for (cid,) in self.db.execute(
+                f"SELECT DISTINCT claim_id FROM {table}"  # noqa: S608 — fixed table names above
+            ):
+                referenced.setdefault(cid, table)
+            if table == "support_edges":
+                for (cid,) in self.db.execute(
+                    "SELECT DISTINCT supports_id FROM support_edges"
+                ):
+                    referenced.setdefault(cid, table)
+        for cid in sorted(projection_claims - asserted):
+            problems.append(
+                f"{cid}: projection row in claims with no corresponding "
+                "log event (no assert event)"
+            )
+        for cid in sorted(set(referenced) - asserted):
+            if cid in projection_claims:
+                continue  # already reported against the claims table
+            problems.append(
+                f"{cid}: projection row in {referenced[cid]} with no "
+                "corresponding log event (no assert event)"
+            )
         return {
             "ok": not problems,
             "events": len(events),
             "claims_checked": checked,
+            "projection_checked": len(projection_claims | set(referenced)),
             "problems": problems[:20],
         }
 
@@ -737,8 +807,27 @@ class Ledger:
             "revisited": len(rep["updates"]),
         }
 
-    def supersede(self, old_claim_id, statement, prior, actor="system", t=None):
-        """Correction: close the old claim's transaction-time interval, open a new claim."""
+    @staticmethod
+    def _require_reason_bundle(reason, source):
+        """The reason bundle every lifecycle change must carry: a
+        non-empty reason and a non-empty source, alongside the actor
+        recorded on the event itself. A status change without its
+        why and where-from is not auditable, so it is refused."""
+        if not isinstance(reason, str) or not reason.strip():
+            raise ValueError("a non-empty reason is required")
+        if not isinstance(source, str) or not source.strip():
+            raise ValueError("a non-empty source is required")
+
+    def supersede(
+        self, old_claim_id, statement, prior, *, reason, source, actor="system", t=None
+    ):
+        """Correction: close the old claim's transaction-time interval, open a new claim.
+
+        The reason bundle is required (keyword-only): `reason` says
+        why the old claim is being replaced and `source` says where
+        that judgment came from; `actor` (recorded on the event) says
+        who did it. The bundle is carried on the supersede event."""
+        self._require_reason_bundle(reason, source)
         t = t or _now()
         old = self._live_claim(old_claim_id)
         if old is None:
@@ -760,11 +849,58 @@ class Ledger:
         self.db.commit()
         self._emit(
             "supersede",
-            {"old_claim_id": old_claim_id, "new_claim_id": new_id},
+            {
+                "old_claim_id": old_claim_id,
+                "new_claim_id": new_id,
+                "reason": reason,
+                "source": source,
+            },
             actor=actor,
             t=t,
         )
         return new_id
+
+    def set_claim_status(
+        self, claim_id, status, *, reason, source, actor="system", t=None
+    ):
+        """Move a live claim to a terminal lifecycle status without
+        deleting anything: 'entered-in-error' (the claim should never
+        have been entered) or 'dead' (the claim no longer applies).
+        'superseded' is not set here — use supersede(), which opens
+        the replacement claim.
+
+        Mirrors supersede(): the claim's live version closes, its
+        final version carries the new status, and the change is
+        itself an event in the log (claim_status_changed) carrying
+        the required reason bundle (reason + source, with the actor
+        recorded on the event)."""
+        if status not in ("entered-in-error", "dead"):
+            raise ValueError(
+                "status must be 'entered-in-error' or 'dead' "
+                f"(got {status!r}); use supersede() for 'superseded'"
+            )
+        self._require_reason_bundle(reason, source)
+        t = t or _now()
+        row = self._live_claim(claim_id)
+        if row is None:
+            raise KeyError(f"unknown claim {claim_id}")
+        self._close_claim_version(claim_id, t)
+        self.db.execute(
+            "UPDATE claims SET status = ? WHERE claim_id = ? AND txn_from = ?",
+            (status, claim_id, row["txn_from"]),
+        )
+        self.db.commit()
+        self._emit(
+            "claim_status_changed",
+            {
+                "claim_id": claim_id,
+                "status": status,
+                "reason": reason,
+                "source": source,
+            },
+            actor=actor,
+            t=t,
+        )
 
     # ------------------------------------------------------------------
     # support edges
@@ -951,6 +1087,22 @@ class Ledger:
         ).fetchone()
         return r["pubkey"] if r else None
 
+    def audit_writer_pubkey(self, writer_id, t):
+        """The ed25519 public key (hex) in force for a writer at time
+        T, or None. The writers table is bitemporal: a rotation closes
+        the old row and opens a new one, so the key that governed a
+        past moment stays answerable after the writer rotates."""
+        if writer_id is None:
+            return None
+        r = self.db.execute(
+            "SELECT pubkey FROM writers"
+            " WHERE writer_id = ? AND txn_from <= ?"
+            "   AND (txn_to IS NULL OR txn_to > ?)"
+            " ORDER BY txn_from DESC, rowid DESC LIMIT 1",
+            (writer_id, t, t),
+        ).fetchone()
+        return r["pubkey"] if r else None
+
     # ------------------------------------------------------------------
     # signed verdicts (v0.9, Design Memo 10)
     # ------------------------------------------------------------------
@@ -989,8 +1141,12 @@ class Ledger:
 
     def verify_verdict_signatures(self):
         """Audit: re-verify every signed verdict in the log against
-        the signer's CURRENT registered key (rotation caveat: see
-        Design Memo 10)."""
+        the key in force for the signer at the verdict's signing
+        (event) time. The writers table is bitemporal, so a later
+        key rotation does not invalidate verdicts signed under the
+        key that governed when they were signed — and a verdict
+        signed with a key that was not in force at its signing time
+        (for example the signer's current key, backdated) fails."""
         checked = valid = 0
         invalid = []
         for e in self._events():
@@ -998,7 +1154,7 @@ class Ledger:
             if "signature" not in p or "signed_message" not in p:
                 continue
             checked += 1
-            pub = self.get_writer_pubkey(p.get("signer"))
+            pub = self.audit_writer_pubkey(p.get("signer"), e.get("t"))
             ok = False
             if pub is not None:
                 try:
