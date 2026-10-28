@@ -26,6 +26,8 @@ import json
 import os
 from typing import Any
 
+from ._verified import write_file_verified
+
 _core: Any = None
 try:
     from . import _core as _imported_core  # type: ignore[attr-defined]
@@ -92,8 +94,14 @@ def migrate_store(src_dir, dst_dir):
         "signed_from_seq": signed_from_seq,
         "seq_to_legacy_event_id": seq_to_legacy,
     }
-    with open(os.path.join(dst_dir, "migration-map.json"), "w", encoding="utf-8") as f:
-        json.dump(migration_map, f, indent=2)
+    # The map is the migration's audit trail — the only record of
+    # which legacy event each new sequence number came from — so
+    # it is written verified (DESIGN-14 W3): a bare write that
+    # landed short or empty would break it silently.
+    write_file_verified(
+        os.path.join(dst_dir, "migration-map.json"),
+        json.dumps(migration_map, indent=2).encode("utf-8"),
+    )
     return {
         "legacy_events": len(legacy),
         "total_records": verified,

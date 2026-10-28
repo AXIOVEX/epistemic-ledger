@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "epistemic-ledger"
-version = "0.12.0"
+version = "0.13.1"
 description = "A living epistemic ledger: append-only conclusions with fluid certainty scores, revised as new facts arrive."
 readme = "README-PyPI.md"
 requires-python = ">=3.10"
