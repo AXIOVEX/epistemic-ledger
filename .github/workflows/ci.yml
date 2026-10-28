@@ -141,7 +141,7 @@ jobs:
       - run: python -m venv /tmp/battery-venv
       - run: /tmp/battery-venv/bin/pip install -q maturin pytest cryptography hypothesis
       - name: Build the bindings wheel
-        run: cd rust/crates/epistemic-ledger-py && /tmp/battery-venv/bin/maturin build --interpreter /tmp/battery-venv/bin/python -o /tmp/wheels
+        run: cd rust/crates/epistemic-ledger-py && /tmp/battery-venv/bin/maturin build --release --interpreter /tmp/battery-venv/bin/python -o /tmp/wheels
       - run: /tmp/battery-venv/bin/pip install -q /tmp/wheels/*.whl
       # The real package installs last so its __init__ replaces the
       # bindings wheel's shim; the compiled _core stays beside it.
@@ -246,7 +246,7 @@ jobs:
       - run: python -m venv /tmp/bindings-venv
       - run: /tmp/bindings-venv/bin/pip install -q maturin pytest cryptography
       - name: Build the bindings wheel
-        run: cd rust/crates/epistemic-ledger-py && /tmp/bindings-venv/bin/maturin build --interpreter /tmp/bindings-venv/bin/python -o /tmp/wheels
+        run: cd rust/crates/epistemic-ledger-py && /tmp/bindings-venv/bin/maturin build --release --interpreter /tmp/bindings-venv/bin/python -o /tmp/wheels
       - run: /tmp/bindings-venv/bin/pip install -q /tmp/wheels/*.whl
       # The real package installs last so its __init__ replaces the
       # bindings wheel's shim; the compiled _core stays beside it.

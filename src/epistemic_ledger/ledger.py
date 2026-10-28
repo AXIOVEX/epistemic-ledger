@@ -2574,13 +2574,22 @@ class Ledger:
         to its shortest-path distance from root, adjacency maps a
         claim_id to the sorted claim ids that directly depend on it.
         """
+        # Load every live edge once and walk in memory: asking the
+        # database for each node's dependents in turn costs a query
+        # per node, which dominated this walk on large graphs.
+        reverse: dict[str, list[str]] = {}
+        for e in self.db.execute(
+            "SELECT claim_id, supports_id FROM support_edges "
+            "WHERE txn_to IS NULL ORDER BY rowid"
+        ):
+            reverse.setdefault(e["supports_id"], []).append(e["claim_id"])
         distance = {root: 0}
         order = [root]
         adjacency = {}
         queue = deque([root])
         while queue:
             cur = queue.popleft()
-            deps = sorted({e["claim_id"] for e in self._reverse_edges(cur)})
+            deps = sorted(set(reverse.get(cur, ())))
             adjacency[cur] = deps
             for dep in deps:
                 if dep not in distance:
