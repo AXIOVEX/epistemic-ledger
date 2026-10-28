@@ -2495,7 +2495,7 @@ class Ledger:
     )
     _GOVERNANCE_BASIS_KEYS = ("claim_a", "claim_b", "loser", "winner")
     _MAX_PATHS_PER_NODE = 100
-    _MAX_PATH_ELEMENTS = 200_000
+    _MAX_PATH_ELEMENTS = 100_000
 
     def record_decision(self, label, basis, actor="human", t=None, rationale=None):
         """Record a decision resting on the claims in ``basis``.
@@ -2592,10 +2592,13 @@ class Ledger:
         # Load every live edge once and walk in memory: asking the
         # database for each node's dependents in turn costs a query
         # per node, which dominated this walk on large graphs.
-        # Index access works whether rows are tuples or Row objects.
+        # Plain tuples, not Row objects: at tens of thousands of
+        # edges the Row construction is measurable.
         reverse: dict[str, list[str]] = {}
         rev_add = reverse.setdefault
-        for e in self.db.execute(
+        cur = self.db.cursor()
+        cur.row_factory = None
+        for e in cur.execute(
             "SELECT claim_id, supports_id FROM support_edges "
             "WHERE txn_to IS NULL ORDER BY rowid"
         ):
@@ -2763,7 +2766,7 @@ class Ledger:
         Caps: ``max_depth`` bounds graph distance, ``max_results``
         bounds the number of nodes returned, at most 100 shortest
         paths per node are listed, and listed paths across the
-        whole result are bounded to 200,000 path elements (the
+        whole result are bounded to 100,000 path elements (the
         counts in ``path_count`` stay exact regardless). Whenever
         a cap binds, ``truncated`` is True and
         ``truncation_reasons`` says which cap — a capped answer is
