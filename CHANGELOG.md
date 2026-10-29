@@ -6,6 +6,15 @@ this project follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- DESIGN-15 design memo (`docs/DESIGN-15-arcturus-substrate.md`): the
+  ledger as Axiovex Arcturus's substrate — external anchoring and
+  proofs, per-tenant partitions and key custody, payload commitments
+  and erasure, a governed record-type registry with an Arcturus pack,
+  a W3C PROV export, and platform wheels. Spec first; no behavior
+  changes.
+
 ## [0.13.1] - 2026-10-28
 
 ### Fixed
