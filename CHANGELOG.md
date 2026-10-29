@@ -15,6 +15,15 @@ this project follows [Semantic Versioning](https://semver.org/).
   a W3C PROV export, and platform wheels. Spec first; no behavior
   changes.
 
+- DESIGN-16 design memo (`docs/DESIGN-16-stress-robustness.md`): a
+  standing stress, performance, and robustness program — a
+  repo-native subprocess harness (soak, kill-point and bit-rot
+  sweeps, disk-full and memory ceilings), cargo-fuzz targets,
+  Hypothesis stateful testing, and SQLite integrity checks, in
+  per-PR, nightly, and release tiers. Tooling verdicts recorded,
+  including why no connector or hosted service is used. Spec first;
+  no behavior changes.
+
 ## [0.13.1] - 2026-10-28
 
 ### Fixed

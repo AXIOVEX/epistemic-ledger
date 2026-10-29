@@ -55,6 +55,7 @@ nav:
       - "13 · Ledger hardening": DESIGN-13-ledger-hardening.md
       - "14 · Verified writes": DESIGN-14-verified-writes.md
       - "15 · Arcturus substrate": DESIGN-15-arcturus-substrate.md
+      - "16 · Stress and robustness": DESIGN-16-stress-robustness.md
   - Result reports:
       - CALIBRATION-01.md
       - CHURN-01.md
