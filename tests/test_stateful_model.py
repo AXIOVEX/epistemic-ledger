@@ -20,10 +20,11 @@ import shutil
 import sqlite3
 import tempfile
 
-from epistemic_ledger import Ledger
 from hypothesis import settings
 from hypothesis.stateful import RuleBasedStateMachine, invariant, rule
 from hypothesis.strategies import data, lists, sampled_from
+
+from epistemic_ledger import Ledger
 
 
 class LedgerModelMachine(RuleBasedStateMachine):
