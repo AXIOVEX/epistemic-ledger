@@ -132,10 +132,8 @@ def check_python(store_dir: str, acked: list[int], partial: int | None) -> dict:
     loud = None
     try:
         led = Ledger(store_dir)
-        findings = led.verify_store()
-        if findings:
-            loud = f"verify_store findings: {len(findings)}"
-        else:
+        report = led.verify_store()  # {ok, problems, ...}; never raises on bad data
+        if report["ok"]:
             recovered = claims_of(led)
             led.close()
             return {
@@ -143,8 +141,9 @@ def check_python(store_dir: str, acked: list[int], partial: int | None) -> dict:
                 "detail": "verify_store clean",
                 "recovered": len(recovered),
             }
+        loud = "verify_store problems: " + "; ".join(report["problems"][:3])
         led.close()
-    except Exception as exc:  # open or verify refused — loud, maybe recoverable
+    except Exception as exc:  # open itself refused — loud, maybe recoverable
         loud = f"{type(exc).__name__}: {exc}"
 
     # Recovery path: damage must be confined to the log's tail. Truncate
@@ -156,10 +155,13 @@ def check_python(store_dir: str, acked: list[int], partial: int | None) -> dict:
             log.write_bytes(raw[: raw.rfind(b"\n") + 1])
         Ledger.rebuild_projection(store_dir)
         led = Ledger(store_dir)
-        findings = led.verify_store()
-        if findings:
+        report = led.verify_store()
+        if not report["ok"]:
             led.close()
-            return {"outcome": "silent_wrong", "detail": f"after recovery: {findings[:2]}"}
+            return {
+                "outcome": "silent_wrong",
+                "detail": "after recovery: " + "; ".join(report["problems"][:3]),
+            }
         recovered = claims_of(led)
         led.close()
         verdict = _prefix_verdict(recovered, acked, partial)
