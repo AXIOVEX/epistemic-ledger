@@ -17,7 +17,7 @@ import time
 
 import pytest
 
-from epistemic_ledger import Ledger, anchors, commitments
+from epistemic_ledger import Ledger, anchors, commitments, prov
 from epistemic_ledger._core import (
     RustStore,
     read_records_json,
@@ -641,4 +641,63 @@ def test_erasure_leaves_payload_unrecoverable_and_chain_verifiable(tmp_path):
     assert on_chain == value
     assert records[1031]["type"] == commitments.ERASURE_TYPE
     assert not _dictionary_attack(on_chain, _PAYLOAD_SPACE)
+    del store
+
+
+# ------------------------------------------------------------------
+# PROV export accounting (DESIGN-15 stage 4, claim V1)
+# ------------------------------------------------------------------
+
+
+def test_prov_export_accounts_for_the_store_exactly(tmp_path):
+    """V1: the PROV export accounts for the store exactly — one
+    entity and one activity per record, every entity generated
+    by its activity, the header's head hash equal to the
+    store's, and a re-derived export of the unchanged store
+    identical; one more append moves both the export and the
+    head."""
+    store = _signed_store(tmp_path / "v1", n=24)
+    store.append(
+        T0,
+        "w",
+        "decision",
+        json.dumps({"label": "proceed", "basis": [1, 2]}),
+        SEED,
+    )
+    store.append(
+        T0,
+        "w",
+        "note",
+        json.dumps({"text": "follows", "derived_from": [25]}),
+        SEED,
+    )
+    records = json.loads(read_records_json(str(tmp_path / "v1")))
+    sth = json.loads(store.sth_json(T0, "ck-1", SEED))
+    out = prov.export_prov(records, store.head_hash(), sth)
+    doc = out["document"]
+    assert out["header"]["records"] == 26
+    assert out["header"]["head_hash"] == store.head_hash()
+    assert out["header"]["sth"]["root"] == sth["root"]
+    assert store.verify(PUBKEYS, 1) == 26
+    assert len(doc["entity"]) == 26
+    assert len(doc["activity"]) == 26
+    assert len(doc["wasGeneratedBy"]) == 26
+    assert len(doc["wasAssociatedWith"]) == 26
+    pairs = {
+        (v["prov:generatedEntity"], v["prov:usedEntity"])
+        for v in doc["wasDerivedFrom"].values()
+    }
+    assert pairs == {
+        ("el:record-25", "el:record-1"),
+        ("el:record-25", "el:record-2"),
+        ("el:record-26", "el:record-25"),
+    }
+    again = prov.export_prov(records, store.head_hash(), sth)
+    assert json.dumps(out, sort_keys=True) == json.dumps(again, sort_keys=True)
+    store.append(T0, "w", "note", json.dumps({"text": "one more"}), SEED)
+    records2 = json.loads(read_records_json(str(tmp_path / "v1")))
+    out2 = prov.export_prov(records2, store.head_hash(), sth)
+    assert out2["header"]["records"] == 27
+    assert out2["header"]["head_hash"] == store.head_hash() != out["header"]["head_hash"]
+    assert json.dumps(out2, sort_keys=True) != json.dumps(out, sort_keys=True)
     del store

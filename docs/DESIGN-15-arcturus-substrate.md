@@ -292,6 +292,24 @@ was recorded, not that it occurred.
   extended per stage with that stage's drills — stay green at every
   release. A stage that cannot keep G1 does not ship.
 
+**Stage 4 notes (2026-10-30).** `epistemic_ledger.prov`
+exports a chained store (or slice) as a PROV-JSON document
+under a small header: the record count, the store's head hash,
+and the signed tree head the export was made under, so the
+export can be checked against the anchored chain by anyone
+holding that STH. The mapping is deliberately plain — one
+entity per record, one activity per append, one agent per
+actor (the exact actor string carried as an attribute; the
+identifier is a slug, disambiguated in first-seen order) — and
+derivation relations appear only where a record declares them:
+a `derived_from` payload list, or a `basis` list on a
+`decision` record. The export invents no other links. The V1
+drill checks the accounting exactly and the determinism leg
+byte-for-byte. What this does not establish: that the PROV
+document proves the records' contents true — it renders the
+chain's provenance in a standard vocabulary; the chain's own
+verification is what binds it.
+
 ## 8. Coupling gates for Arcturus
 
 - Single-tenant use of the ledger as it stands (0.13.1): **ungated** —
