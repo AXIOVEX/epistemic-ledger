@@ -25,5 +25,5 @@ pytestmark = pytest.mark.skipif(
 def test_bitrot_sample_detects_everything():
     pytest.importorskip("epistemic_ledger._core")
     report = run_sweep(flips=60, records=200, seed=20261030)
-    assert report["outcomes"]["MISSED"] == 0, report["missed"]
+    assert report["outcomes"]["missed"] == 0, report["missed"]
     assert report["outcomes"]["detected"] > 0
