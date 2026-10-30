@@ -6,4 +6,5 @@ pub mod chain;
 pub mod checkpoint;
 pub mod health;
 pub mod snapshot;
+pub mod sth;
 pub mod store;

@@ -180,6 +180,32 @@ index does not ship.
   Proof generation and proof verification each complete within 50 ms on
   the reference store class (100k records).
 
+**Stage 1 implementation notes (2026-10-30).** The STH is a JSON
+object `{tree_size, root, checkpoint_seq, timestamp, key_id,
+signature}`. `tree_size` is the checkpoint's last covered sequence
+number; `root` is the checkpoint's Merkle root exactly as DESIGN-13
+computes it — the segment format does not change, and existing
+snapshots and health reports stay valid. The signature is Ed25519
+over SHA-256 of the domain separator `ELSTH1` followed by the
+RFC 8785 canonical JSON of the unsigned head — the sign-the-hash
+shape the chain uses for records. STHs are issued per checkpoint at
+the canonical 1024-record segment, whatever segment a health report
+used. The checkpoint key's seed is passed per issuance and never
+stored, the same custody as writer seeds. Consistency between two
+heads is proven by *chain linkage*: the intervening checkpoints in
+order, each carrying its predecessor's root in `prev_root`, checked
+for contiguity of sequence ranges and exact endpoint equality.
+DESIGN-13 does not bind `prev_root` into the segment root, so a
+single-tree RFC 9162 consistency proof does not apply to this
+structure; the linkage proof is the consistency proof for a
+checkpoint chain, its cost is one hash comparison per checkpoint,
+and any rewrite below an anchored head changes some checkpoint's
+root and breaks a link or an endpoint. External witnessing stays
+configuration, not package code (D2): the package issues and
+verifies heads and proofs; submitting a head to a witness and
+recording the receipt as an `anchor` record belongs to the record
+pack in Stage 3.
+
 ## 5. Stage 2 — Tenancy, keys, commitments, erasure
 
 - **T1.** No package API path reads from or appends to a partition other

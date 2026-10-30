@@ -47,6 +47,14 @@ this project follows [Semantic Versioning](https://semver.org/).
   holds the Python engine to the same clean-after-kill bar as the
   Rust store.
 
+- Signed tree heads (DESIGN-15 Stage 1): the Rust engine issues an
+  Ed25519-signed tree head per checkpoint (an `ELSTH1` digest over
+  the canonical head), with RFC 9162 inclusion proofs per record
+  and checkpoint-chain consistency proofs between heads, all
+  verifiable standalone through the bindings with no store
+  access. The DESIGN-15 memo records the format as Stage 1
+  implementation notes.
+
 ## [0.13.1] - 2026-10-28
 
 ### Fixed
