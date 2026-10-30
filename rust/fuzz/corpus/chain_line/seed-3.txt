@@ -1,0 +1,1 @@
+9d63f583 {"seq":3,"t":"2026-10-27T00:02:00Z","actor":"wire-desk","type":"score_revision","payload":{"claim_id":"C-0001","new_score":0.75},"prev_hash":"edafe481b757bf4e14d0ec989f5c87340297d17cb0096c8439256b5ba9c08d27","hash":"beeb6e18cf746a75f01a9285c4cfcaac126fc5486cb2305ac9a7d130d62c074a"}

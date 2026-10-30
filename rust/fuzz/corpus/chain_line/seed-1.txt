@@ -1,0 +1,1 @@
+25731c9a {"seq":1,"t":"2026-10-27T00:00:00Z","actor":"system","type":"assert","payload":{"claim_id":"C-0001","prior":0.5,"statement":"genesis claim"},"prev_hash":"0000000000000000000000000000000000000000000000000000000000000000","hash":"262712d48bb21be664b8a2d3b0e8dfa6d99a2f53ca36f7f8a09500729daaa057"}

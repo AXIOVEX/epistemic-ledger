@@ -66,6 +66,16 @@ this project follows [Semantic Versioning](https://semver.org/).
   the 50 ms proof budgets on the 100k reference store with the
   warm-up measured in the open.
 
+- Fuzz targets and corpus regression (DESIGN-16 Stage 2): five
+  cargo-fuzz targets over the core's parser and verifier entry
+  points (chain lines, canonical JSON, signed tree heads,
+  consistency proofs, snapshot manifests), with the entry
+  functions shared in `epistemic_ledger_core::fuzzing` so the
+  committed corpora replay as ordinary tests in every PR build
+  — no fuzz toolchain needed for the regression tier. Campaigns
+  run at the release tier; any crash found becomes a corpus
+  drill (claim S6).
+
 ## [0.13.1] - 2026-10-28
 
 ### Fixed
