@@ -426,7 +426,9 @@ def test_anchored_history_rewrite_is_detected(tmp_path):
     sth3 = store.sth_json(T0, "ck-1", SEED, 3)
     proof = store.consistency_proof_json(1, 3)
     assert verify_consistency_json(sth1, sth3, proof) is True
-    assert anchors.verify_consistency(json.loads(sth1), json.loads(sth3), json.loads(proof))
+    assert anchors.verify_consistency(
+        json.loads(sth1), json.loads(sth3), json.loads(proof)
+    )
 
     rewritten = RustStore.open(str(tmp_path / "rewritten"))
     for i in range(3072):
@@ -435,7 +437,9 @@ def test_anchored_history_rewrite_is_detected(tmp_path):
     bad3 = rewritten.sth_json(T0, "ck-1", SEED, 3)
     bad_proof = rewritten.consistency_proof_json(1, 3)
     # The rewritten history is internally consistent...
-    assert verify_consistency_json(rewritten.sth_json(T0, "ck-1", SEED, 1), bad3, bad_proof)
+    assert verify_consistency_json(
+        rewritten.sth_json(T0, "ck-1", SEED, 1), bad3, bad_proof
+    )
     # ...and detected the moment it is checked against the anchor.
     assert verify_consistency_json(sth1, bad3, bad_proof) is False
     assert not anchors.verify_consistency(
@@ -444,7 +448,9 @@ def test_anchored_history_rewrite_is_detected(tmp_path):
     del rewritten
 
     raw = bytearray(_log_bytes(tmp_path / "anchored"))
-    line5_end = raw.find(b"\n", raw.find(b"\n", raw.find(b"\n", raw.find(b"\n")) + 1) + 1)
+    line5_end = raw.find(
+        b"\n", raw.find(b"\n", raw.find(b"\n", raw.find(b"\n")) + 1) + 1
+    )
     raw[line5_end - 5] ^= 0xFF
     del store
     _write_log(tmp_path / "anchored", bytes(raw))
@@ -465,14 +471,20 @@ def test_inclusion_proof_verifies_standalone(tmp_path):
     leaf = records[1499]["hash"]
     assert proof["leaf_hash"] == leaf
     assert verify_inclusion_json(
-        leaf, proof["index"], proof["segment_len"], json.dumps(proof["proof"]), proof["root"]
+        leaf,
+        proof["index"],
+        proof["segment_len"],
+        json.dumps(proof["proof"]),
+        proof["root"],
     )
     assert anchors.verify_anchored_record(leaf, proof, sth2, CK_PUB)
     # Mutated record.
     mutated = ("0" if leaf[0] != "0" else "1") + leaf[1:]
     assert not anchors.verify_anchored_record(mutated, proof, sth2, CK_PUB)
     # Wrong record: the next record's hash against this proof.
-    assert not anchors.verify_anchored_record(records[1500]["hash"], proof, sth2, CK_PUB)
+    assert not anchors.verify_anchored_record(
+        records[1500]["hash"], proof, sth2, CK_PUB
+    )
     # Wrong checkpoint: checkpoint 1's head over a checkpoint 2 proof.
     assert not anchors.verify_anchored_record(leaf, proof, sth1, CK_PUB)
     del store

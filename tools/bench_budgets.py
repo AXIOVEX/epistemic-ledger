@@ -109,7 +109,9 @@ def bench_proofs(path):
     start = time.perf_counter()
     sth_last = store.sth_json(T0, "bench-ck", SEED)
     warm_s = time.perf_counter() - start
-    print(f"phase: proof-cache warm-up at 100,000 events took {warm_s:.1f}s", flush=True)
+    print(
+        f"phase: proof-cache warm-up at 100,000 events took {warm_s:.1f}s", flush=True
+    )
     pubkey = json.loads(_pubkeys())["w"]
     assert verify_sth_json(sth_last, pubkey)
 
@@ -119,7 +121,13 @@ def bench_proofs(path):
         proof = json.loads(store.inclusion_proof_json(50_000))
         times.append((time.perf_counter() - start) * 1000)
     median_ms = statistics.median(times)
-    report("inclusion proof generation (warm, 100k)", median_ms, "<= 50", "ms", median_ms <= 50)
+    report(
+        "inclusion proof generation (warm, 100k)",
+        median_ms,
+        "<= 50",
+        "ms",
+        median_ms <= 50,
+    )
 
     times = []
     for _ in range(5):
@@ -134,7 +142,13 @@ def bench_proofs(path):
         times.append((time.perf_counter() - start) * 1000)
     assert ok
     median_ms = statistics.median(times)
-    report("inclusion proof verification (standalone)", median_ms, "<= 50", "ms", median_ms <= 50)
+    report(
+        "inclusion proof verification (standalone)",
+        median_ms,
+        "<= 50",
+        "ms",
+        median_ms <= 50,
+    )
 
     sth_first = store.sth_json(T0, "bench-ck", SEED, 1)
     consistency = store.consistency_proof_json(1, 97)
@@ -145,7 +159,13 @@ def bench_proofs(path):
         times.append((time.perf_counter() - start) * 1000)
     assert ok
     median_ms = statistics.median(times)
-    report("consistency verification (97 checkpoints)", median_ms, "<= 50", "ms", median_ms <= 50)
+    report(
+        "consistency verification (97 checkpoints)",
+        median_ms,
+        "<= 50",
+        "ms",
+        median_ms <= 50,
+    )
 
     # The pure-Python standalone verifier reaches the same verdicts
     # on the same artifacts (no budget: it is the audit path, not
@@ -157,7 +177,10 @@ def bench_proofs(path):
     )
     py_ms = (time.perf_counter() - start) * 1000
     assert ok_py
-    print(f"phase: pure-Python anchored-record verification took {py_ms:.1f} ms", flush=True)
+    print(
+        f"phase: pure-Python anchored-record verification took {py_ms:.1f} ms",
+        flush=True,
+    )
     del store
 
 

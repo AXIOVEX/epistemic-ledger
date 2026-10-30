@@ -28,7 +28,9 @@ _DOMAIN = b"ELSTH1"
 
 
 def _canonical(obj: dict) -> bytes:
-    return json.dumps(obj, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()
+    return json.dumps(
+        obj, sort_keys=True, separators=(",", ":"), ensure_ascii=False
+    ).encode()
 
 
 def _sth_digest(sth: dict) -> bytes:
@@ -159,9 +161,16 @@ def verify_anchored_record(
     returns."""
     if not verify_sth(sth, pubkey_hex):
         return False
-    if inclusion.get("root") != sth["root"] or inclusion.get("checkpoint_seq") != sth["checkpoint_seq"]:
+    if (
+        inclusion.get("root") != sth["root"]
+        or inclusion.get("checkpoint_seq") != sth["checkpoint_seq"]
+    ):
         return False
-    if not (inclusion["segment_first_seq"] <= inclusion["seq"] <= inclusion["segment_last_seq"]):
+    if not (
+        inclusion["segment_first_seq"]
+        <= inclusion["seq"]
+        <= inclusion["segment_last_seq"]
+    ):
         return False
     return verify_inclusion(
         record_hash_hex,
