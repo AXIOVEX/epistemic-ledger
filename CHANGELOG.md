@@ -76,6 +76,17 @@ this project follows [Semantic Versioning](https://semver.org/).
   run at the release tier; any crash found becomes a corpus
   drill (claim S6).
 
+- Hypothesis stateful model test (DESIGN-16 Stage 2): random
+  interleavings of asserts, score revisions, supports,
+  supersessions, lifecycle transitions, decisions, and
+  close/reopen cycles, checked after every step against an
+  independent model (live-set membership, lifecycle status,
+  set-score exactness, immutable decision bases) plus the
+  standing invariants — the store verifies and the projection
+  passes SQLite's integrity check. Its first runs pinned the
+  lifecycle semantics exactly: every terminal transition
+  closes the claim's live row.
+
 ## [0.13.1] - 2026-10-28
 
 ### Fixed
