@@ -8,7 +8,7 @@ use std::path::PathBuf;
 
 use ed25519_dalek::SigningKey;
 use epistemic_ledger_core::checkpoint::{
-    inclusion_proof, verify_inclusion, DEFAULT_SEGMENT,
+    checkpoints_for_records, inclusion_proof, verify_inclusion, Checkpoint, DEFAULT_SEGMENT,
 };
 use epistemic_ledger_core::health::health_with_segment;
 use epistemic_ledger_core::sth::{
@@ -33,6 +33,29 @@ fn key_from_hex(seed_hex: &str) -> PyResult<SigningKey> {
 #[pyclass]
 struct RustStore {
     inner: Store,
+    /// Lazily computed (checkpoints, record hashes) for proof
+    /// issuance; invalidated by every append. See proof_data.
+    proof_cache: std::sync::Mutex<Option<(Vec<Checkpoint>, Vec<String>)>>,
+}
+
+impl RustStore {
+    /// The checkpoint set and the record hashes, computed once and
+    /// cached. Proof issuance on a warm store must not re-scan the
+    /// log per call: DESIGN-15's 50 ms proof budget on the 100k
+    /// reference store is a warm-store budget (a serving process
+    /// holds the store open), and the one full computation is the
+    /// warm-up, measured as its own line in the bench.
+    fn proof_data(&self) -> PyResult<(Vec<Checkpoint>, Vec<String>)> {
+        if let Some(data) = self.proof_cache.lock().unwrap().as_ref() {
+            return Ok(data.clone());
+        }
+        let records = self.inner.records().map_err(err)?;
+        let checkpoints = checkpoints_for_records(&records, DEFAULT_SEGMENT);
+        let hashes: Vec<String> = records.iter().map(|r| r.hash.clone()).collect();
+        let data = (checkpoints, hashes);
+        *self.proof_cache.lock().unwrap() = Some(data.clone());
+        Ok(data)
+    }
 }
 
 #[pymethods]
@@ -42,7 +65,10 @@ impl RustStore {
     #[staticmethod]
     fn open(path: String) -> PyResult<RustStore> {
         Store::open(&PathBuf::from(path))
-            .map(|inner| RustStore { inner })
+            .map(|inner| RustStore {
+                inner,
+                proof_cache: std::sync::Mutex::new(None),
+            })
             .map_err(err)
     }
 
@@ -68,6 +94,7 @@ impl RustStore {
             .inner
             .append(&t, &actor, &etype, payload, key.as_ref())
             .map_err(err)?;
+        *self.proof_cache.get_mut().unwrap() = None;
         serde_json::to_string(&record).map_err(err)
     }
 
@@ -118,7 +145,7 @@ impl RustStore {
         seed_hex: String,
         checkpoint_seq: Option<u64>,
     ) -> PyResult<String> {
-        let checkpoints = self.inner.checkpoints().map_err(err)?;
+        let (checkpoints, _) = self.proof_data()?;
         if checkpoints.is_empty() {
             return Err(PyRuntimeError::new_err("store has no complete checkpoint yet"));
         }
@@ -136,17 +163,16 @@ impl RustStore {
     /// inside a complete checkpoint. Everything a standalone
     /// verifier needs is in the returned object plus the record.
     fn inclusion_proof_json(&self, seq: u64) -> PyResult<String> {
-        let records = self.inner.records().map_err(err)?;
-        let checkpoints = self.inner.checkpoints().map_err(err)?;
+        let (checkpoints, hashes) = self.proof_data()?;
         let idx = checkpoints
             .iter()
             .position(|cp| seq >= cp.first_seq && seq <= cp.last_seq)
             .ok_or_else(|| PyRuntimeError::new_err("record is not in a complete checkpoint"))?;
         let cp = &checkpoints[idx];
-        let leaves: Vec<[u8; 32]> = records[(cp.first_seq - 1) as usize..(cp.last_seq as usize)]
+        let leaves: Vec<[u8; 32]> = hashes[(cp.first_seq - 1) as usize..(cp.last_seq as usize)]
             .iter()
-            .map(|r| {
-                let decoded = hex::decode(&r.hash).unwrap_or_default();
+            .map(|h| {
+                let decoded = hex::decode(h).unwrap_or_default();
                 let mut b = [0u8; 32];
                 if decoded.len() == 32 {
                     b.copy_from_slice(&decoded);
@@ -156,7 +182,6 @@ impl RustStore {
             .collect();
         let index = (seq - cp.first_seq) as usize;
         let proof = inclusion_proof(&leaves, index);
-        let record = &records[(seq - 1) as usize];
         serde_json::to_string(&serde_json::json!({
             "seq": seq,
             "checkpoint_seq": idx as u64 + 1,
@@ -164,7 +189,7 @@ impl RustStore {
             "segment_last_seq": cp.last_seq,
             "segment_len": leaves.len(),
             "index": index,
-            "leaf_hash": record.hash,
+            "leaf_hash": hashes[(seq - 1) as usize],
             "proof": proof.iter().map(hex::encode).collect::<Vec<_>>(),
             "root": cp.root,
         }))
@@ -174,7 +199,7 @@ impl RustStore {
     /// The consistency proof (DESIGN-15 D2) between two 1-based
     /// checkpoint sequences of this store, as a JSON string.
     fn consistency_proof_json(&self, from_seq: u64, to_seq: u64) -> PyResult<String> {
-        let checkpoints = self.inner.checkpoints().map_err(err)?;
+        let (checkpoints, _) = self.proof_data()?;
         let proof = consistency_proof(&checkpoints, from_seq, to_seq)
             .ok_or_else(|| PyRuntimeError::new_err("invalid checkpoint range"))?;
         serde_json::to_string(&proof).map_err(err)
