@@ -24,6 +24,13 @@ this project follows [Semantic Versioning](https://semver.org/).
   including why no connector or hosted service is used. Spec first;
   no behavior changes.
 
+- Stress harness, first piece (DESIGN-16 stage 1): the `tools/stress/`
+  kill-point sweep. Append workers for both engines are SIGKILLed at
+  random moments; the surviving store is classified clean,
+  loud-but-recoverable, or silently wrong (claim S1's prefix
+  property). Sample trials run in the test suite; the full sweeps
+  are the nightly tier.
+
 ## [0.13.1] - 2026-10-28
 
 ### Fixed
