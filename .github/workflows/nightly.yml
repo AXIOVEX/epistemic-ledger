@@ -107,6 +107,7 @@ jobs:
       - name: Exhaustive per-byte sweep, 100-record store
         run: /tmp/nightly-venv/bin/python -m tools.stress.bitrot --exhaustive --records 100 --out bitrot-exhaustive.json
       - name: Batched sweep, 10,000 flips on the 100k-record store
+        if: always()
         run: /tmp/nightly-venv/bin/python -m tools.stress.bitrot --flips 10000 --records 100000 --batch-size 100 --out bitrot-batched.json
       - uses: actions/upload-artifact@v4
         if: always()
@@ -135,6 +136,7 @@ jobs:
       - name: Chained-store surface
         run: /tmp/nightly-venv/bin/python -m tools.stress.readers --surface rust --duration-seconds 120 --readers 8 --out readers-rust.json
       - name: Projection surface
+        if: always()
         run: /tmp/nightly-venv/bin/python -m tools.stress.readers --surface sqlite --duration-seconds 120 --readers 8 --out readers-sqlite.json
       - uses: actions/upload-artifact@v4
         if: always()

@@ -132,6 +132,14 @@ this project follows [Semantic Versioning](https://semver.org/).
   was made under. The battery drill checks the accounting
   exactly and the re-export determinism byte-for-byte.
 
+- Nightly tier repairs from the first run (2026-10-30): the
+  bit-rot batched step and the readers projection step now run
+  even when the step before them failed (`if: always()`), so a
+  red leg can no longer hide the next leg's verdict; the scale
+  run's impact figure is the median of five timed runs after a
+  warm-up (the bench's methodology), after the first nightly's
+  single cold measurement proved incomparable.
+
 ## [0.13.1] - 2026-10-28
 
 ### Fixed
