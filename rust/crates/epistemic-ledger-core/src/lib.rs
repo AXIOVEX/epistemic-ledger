@@ -4,6 +4,7 @@
 pub mod canon;
 pub mod chain;
 pub mod checkpoint;
+pub mod fuzzing;
 pub mod health;
 pub mod snapshot;
 pub mod sth;

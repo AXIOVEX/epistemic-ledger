@@ -1,0 +1,36 @@
+[package]
+name = "epistemic-ledger-fuzz"
+version = "0.0.0"
+edition = "2021"
+publish = false
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4"
+epistemic-ledger-core = { path = "../crates/epistemic-ledger-core" }
+
+# This crate is its own workspace: cargo-fuzz convention, and it
+# keeps the fuzz toolchain out of the main workspace's builds.
+[workspace]
+
+[[bin]]
+name = "chain_line"
+path = "fuzz_targets/chain_line.rs"
+
+[[bin]]
+name = "canon_json"
+path = "fuzz_targets/canon_json.rs"
+
+[[bin]]
+name = "sth_decode"
+path = "fuzz_targets/sth_decode.rs"
+
+[[bin]]
+name = "consistency_decode"
+path = "fuzz_targets/consistency_decode.rs"
+
+[[bin]]
+name = "manifest_decode"
+path = "fuzz_targets/manifest_decode.rs"

@@ -1,0 +1,1 @@
+bdb7c253 {"seq":2,"t":"2026-10-27T00:01:00Z","actor":"wire-desk","type":"support","payload":{"claim_id":"C-0002","parent":"C-0001","strength":1},"prev_hash":"262712d48bb21be664b8a2d3b0e8dfa6d99a2f53ca36f7f8a09500729daaa057","hash":"edafe481b757bf4e14d0ec989f5c87340297d17cb0096c8439256b5ba9c08d27"}
