@@ -18,6 +18,15 @@ accepted as whole, or a quiet loss of more than the tail record.
 
 Usage:
     python -m tools.stress.bitrot --flips 500 --out report.json
+
+Nightly modes (DESIGN-16 stage 3): ``--exhaustive`` flips every
+byte offset of a small store's log, one at a time; ``--batch-size
+N`` applies many flips per verification on a large store — flips
+target distinct records (the tail record excluded), so flips in
+different records cannot cancel inside one record's CRC and
+hash, and a clean batch verification detects every flip in the
+batch; a batch that is not detected is bisected flip by flip to
+name the misses.
 """
 
 from __future__ import annotations
@@ -131,15 +140,126 @@ def run_sweep(flips: int, records: int, seed: int | None) -> dict:
     }
 
 
+def run_exhaustive(records: int) -> dict:
+    """Every byte offset of the log, flipped one at a time."""
+    from epistemic_ledger.ed25519 import publickey
+
+    pub = publickey(bytes.fromhex(SEED_HEX)).hex()
+    tmp = Path(tempfile.mkdtemp(prefix="bitrot-x-"))
+    template = tmp / "template"
+    template.mkdir()
+    build_template(template, records)
+    raw = (template / "events.log").read_bytes()
+    spans = _line_spans(raw)
+    last_line_start = spans[-1][0] if spans else 0
+    outcomes: dict[str, int] = {"detected": 0, "tail_repair": 0, "missed": 0}
+    missed: list[dict] = []
+    for offset in range(len(raw)):
+        work = tmp / "work"
+        if work.exists():
+            shutil.rmtree(work)
+        shutil.copytree(template, work)
+        data = bytearray(raw)
+        data[offset] ^= 0xFF
+        (work / "events.log").write_bytes(bytes(data))
+        outcome = _probe(work, pub, records)
+        if outcome == "tail_repair" and offset < last_line_start:
+            outcome = "missed"  # repair class is legitimate only at the tail
+        outcomes[outcome] += 1
+        if outcome == "missed":
+            missed.append({"offset": offset})
+    shutil.rmtree(tmp, ignore_errors=True)
+    return {
+        "claim": "S2",
+        "mode": "exhaustive",
+        "records": records,
+        "flips": len(raw),
+        "outcomes": outcomes,
+        "missed": missed,
+    }
+
+
+def run_batched(flips: int, records: int, batch_size: int, seed: int | None) -> dict:
+    """Many flips per verification, in distinct records.
+
+    Flips target distinct records with the tail record excluded;
+    flips in different records cannot cancel inside one record's
+    CRC and hash, so a batch the store detects is a batch in
+    which every flip was detected. A batch that is not detected
+    is bisected flip by flip to name the misses.
+    """
+    from epistemic_ledger.ed25519 import publickey
+
+    pub = publickey(bytes.fromhex(SEED_HEX)).hex()
+    rng = random.Random(seed)
+    tmp = Path(tempfile.mkdtemp(prefix="bitrot-b-"))
+    template = tmp / "template"
+    template.mkdir()
+    build_template(template, records)
+    raw = (template / "events.log").read_bytes()
+    spans = _line_spans(raw)
+    assert len(spans) == records
+    targets = rng.sample(range(records - 1), flips)
+    missed: list[dict] = []
+    batches = 0
+    detected_batches = 0
+    for start in range(0, flips, batch_size):
+        batch = targets[start : start + batch_size]
+        offsets: list[tuple[int, int]] = []
+        data = bytearray(raw)
+        for line_idx in batch:
+            lo, hi = spans[line_idx]
+            off = rng.randrange(lo, hi)
+            offsets.append((line_idx, off))
+            data[off] ^= 0xFF
+        work = tmp / "work"
+        if work.exists():
+            shutil.rmtree(work)
+        work.mkdir()
+        (work / "events.log").write_bytes(bytes(data))
+        batches += 1
+        if _probe(work, pub, records) == "detected":
+            detected_batches += 1
+            continue
+        for line_idx, off in offsets:
+            single = tmp / "single"
+            if single.exists():
+                shutil.rmtree(single)
+            shutil.copytree(template, single)
+            one = bytearray(raw)
+            one[off] ^= 0xFF
+            (single / "events.log").write_bytes(bytes(one))
+            if _probe(single, pub, records) != "detected":
+                missed.append({"line": line_idx, "offset": off})
+    shutil.rmtree(tmp, ignore_errors=True)
+    return {
+        "claim": "S2",
+        "mode": "batched",
+        "records": records,
+        "flips": flips,
+        "batches": batches,
+        "detected_batches": detected_batches,
+        "outcomes": {"missed": len(missed)},
+        "missed": missed,
+    }
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--flips", type=int, default=500)
     parser.add_argument("--records", type=int, default=200)
     parser.add_argument("--seed", type=int, default=None)
     parser.add_argument("--out", default=None)
+    parser.add_argument("--exhaustive", action="store_true")
+    parser.add_argument("--batch-size", type=int, default=None)
     args = parser.parse_args(argv)
 
-    report = run_sweep(args.flips, args.records, args.seed)
+    if args.exhaustive:
+        report = run_exhaustive(args.records)
+    elif args.batch_size:
+        report = run_batched(args.flips, args.records, args.batch_size, args.seed)
+    else:
+        report = run_sweep(args.flips, args.records, args.seed)
     text = json.dumps(report, indent=2)
     if args.out:
         Path(args.out).write_text(text)

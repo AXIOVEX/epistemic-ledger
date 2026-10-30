@@ -1,0 +1,235 @@
+name: Nightly stress tier
+
+# DESIGN-16 T-Nightly: the long stress legs that cannot run per
+# pull request — a 2-hour mixed soak, 500 kill-point trials, the
+# full bit-rot program, reader concurrency, and the 1M-record
+# scale run. Every leg emits a machine-readable report; the
+# report job files an issue when any leg fails, so a red nightly
+# is a tracked defect, never weather.
+
+on:
+  schedule:
+    - cron: "17 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  soak:
+    name: Soak (2h, S3)
+    runs-on: ubuntu-latest
+    timeout-minutes: 170
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: dtolnay/rust-toolchain@stable
+      - run: python -m venv /tmp/nightly-venv
+      - run: /tmp/nightly-venv/bin/pip install -q maturin pytest cryptography hypothesis
+      - name: Build the bindings wheel
+        run: cd rust/crates/epistemic-ledger-py && /tmp/nightly-venv/bin/maturin build --release --interpreter /tmp/nightly-venv/bin/python -o /tmp/wheels
+      - run: /tmp/nightly-venv/bin/pip install -q /tmp/wheels/*.whl
+      - run: /tmp/nightly-venv/bin/pip install -q .
+      - name: Run the soak
+        run: /tmp/nightly-venv/bin/python -m tools.stress.soak --duration-seconds 7200 --out soak.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: report-soak
+          path: soak.json
+
+  killpoint-rust:
+    name: Kill-point sweep, Rust (250 kills, S1)
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: dtolnay/rust-toolchain@stable
+      - run: python -m venv /tmp/nightly-venv
+      - run: /tmp/nightly-venv/bin/pip install -q maturin pytest cryptography hypothesis
+      - name: Build the bindings wheel
+        run: cd rust/crates/epistemic-ledger-py && /tmp/nightly-venv/bin/maturin build --release --interpreter /tmp/nightly-venv/bin/python -o /tmp/wheels
+      - run: /tmp/nightly-venv/bin/pip install -q /tmp/wheels/*.whl
+      - run: /tmp/nightly-venv/bin/pip install -q .
+      - name: Run the sweep
+        run: /tmp/nightly-venv/bin/python -m tools.stress.killpoint --engine rust --trials 250 --out killpoint-rust.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: report-killpoint-rust
+          path: killpoint-rust.json
+
+  killpoint-python:
+    name: Kill-point sweep, Python (250 kills, S1)
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: dtolnay/rust-toolchain@stable
+      - run: python -m venv /tmp/nightly-venv
+      - run: /tmp/nightly-venv/bin/pip install -q maturin pytest cryptography hypothesis
+      - name: Build the bindings wheel
+        run: cd rust/crates/epistemic-ledger-py && /tmp/nightly-venv/bin/maturin build --release --interpreter /tmp/nightly-venv/bin/python -o /tmp/wheels
+      - run: /tmp/nightly-venv/bin/pip install -q /tmp/wheels/*.whl
+      - run: /tmp/nightly-venv/bin/pip install -q .
+      - name: Run the sweep
+        run: /tmp/nightly-venv/bin/python -m tools.stress.killpoint --engine python --trials 250 --out killpoint-python.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: report-killpoint-python
+          path: killpoint-python.json
+
+  bitrot:
+    name: Bit-rot, full program (S2)
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: dtolnay/rust-toolchain@stable
+      - run: python -m venv /tmp/nightly-venv
+      - run: /tmp/nightly-venv/bin/pip install -q maturin pytest cryptography hypothesis
+      - name: Build the bindings wheel
+        run: cd rust/crates/epistemic-ledger-py && /tmp/nightly-venv/bin/maturin build --release --interpreter /tmp/nightly-venv/bin/python -o /tmp/wheels
+      - run: /tmp/nightly-venv/bin/pip install -q /tmp/wheels/*.whl
+      - run: /tmp/nightly-venv/bin/pip install -q .
+      - name: Exhaustive per-byte sweep, 100-record store
+        run: /tmp/nightly-venv/bin/python -m tools.stress.bitrot --exhaustive --records 100 --out bitrot-exhaustive.json
+      - name: Batched sweep, 10,000 flips on the 100k-record store
+        run: /tmp/nightly-venv/bin/python -m tools.stress.bitrot --flips 10000 --records 100000 --batch-size 100 --out bitrot-batched.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: report-bitrot
+          path: |
+            bitrot-exhaustive.json
+            bitrot-batched.json
+
+  readers:
+    name: Reader concurrency (S4)
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: dtolnay/rust-toolchain@stable
+      - run: python -m venv /tmp/nightly-venv
+      - run: /tmp/nightly-venv/bin/pip install -q maturin pytest cryptography hypothesis
+      - name: Build the bindings wheel
+        run: cd rust/crates/epistemic-ledger-py && /tmp/nightly-venv/bin/maturin build --release --interpreter /tmp/nightly-venv/bin/python -o /tmp/wheels
+      - run: /tmp/nightly-venv/bin/pip install -q /tmp/wheels/*.whl
+      - run: /tmp/nightly-venv/bin/pip install -q .
+      - name: Chained-store surface
+        run: /tmp/nightly-venv/bin/python -m tools.stress.readers --surface rust --duration-seconds 120 --readers 8 --out readers-rust.json
+      - name: Projection surface
+        run: /tmp/nightly-venv/bin/python -m tools.stress.readers --surface sqlite --duration-seconds 120 --readers 8 --out readers-sqlite.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: report-readers
+          path: |
+            readers-rust.json
+            readers-sqlite.json
+
+  scale:
+    name: Scale run, 1M records (S7)
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: dtolnay/rust-toolchain@stable
+      - run: python -m venv /tmp/nightly-venv
+      - run: /tmp/nightly-venv/bin/pip install -q maturin pytest cryptography hypothesis
+      - name: Build the bindings wheel
+        run: cd rust/crates/epistemic-ledger-py && /tmp/nightly-venv/bin/maturin build --release --interpreter /tmp/nightly-venv/bin/python -o /tmp/wheels
+      - run: /tmp/nightly-venv/bin/pip install -q /tmp/wheels/*.whl
+      - run: /tmp/nightly-venv/bin/pip install -q .
+      - name: Run the scale point
+        run: /tmp/nightly-venv/bin/python -m tools.stress.scale --records 1000000 --out scale.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: report-scale
+          path: scale.json
+
+  report:
+    name: Report (files an issue on failure)
+    needs: [soak, killpoint-rust, killpoint-python, bitrot, readers, scale]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: reports
+          pattern: report-*
+          merge-multiple: true
+      - name: Summarize and file an issue on failure
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RESULTS: ${{ toJSON(needs) }}
+        run: |
+          python3 - <<'EOF'
+          import json, os, subprocess, datetime, glob
+          needs = json.loads(os.environ["RESULTS"])
+          failed_legs = [k for k, v in needs.items() if v["result"] != "success"]
+          lines = []
+          reports = {}
+          for path in sorted(glob.glob("reports/*.json")):
+              try:
+                  with open(path) as f:
+                      reports[os.path.basename(path)] = json.load(f)
+              except Exception as exc:
+                  failed_legs.append(f"unreadable report {path}: {exc}")
+          for name, rep in reports.items():
+              verdict = rep.get("passed")
+              if verdict is None and "outcomes" in rep:
+                  verdict = rep["outcomes"].get("missed", 0) == 0
+              if verdict is None and "summary" in rep:
+                  bad = sum(
+                      n for per in rep["summary"].values()
+                      for outcome, n in per.items() if outcome in ("silent_wrong", "error")
+                  )
+                  verdict = bad == 0
+              lines.append(f"- {name}: passed={verdict}")
+              if verdict is False:
+                  failed_legs.append(name)
+          date = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d")
+          summary = "\n".join(lines) if lines else "- no reports found"
+          print(summary)
+          if failed_legs:
+              body = (
+                  "The nightly stress tier failed.\n\n"
+                  f"Failed legs: {', '.join(sorted(set(failed_legs)))}\n\n"
+                  f"Leg reports:\n{summary}\n\n"
+                  "Full JSON reports are artifacts on the workflow run. "
+                  "A red nightly is a tracked defect (DESIGN-16): triage "
+                  "from the failing leg's report."
+              )
+              subprocess.run(
+                  ["gh", "issue", "create",
+                   "--repo", os.environ["GITHUB_REPOSITORY"],
+                   "--title", f"Nightly stress tier — {date}",
+                   "--body", body],
+                  check=True,
+              )
+          EOF
