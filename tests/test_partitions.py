@@ -47,10 +47,9 @@ def test_escape_spellings_refused(tenant_id):
 
 
 def test_partition_dir_stays_inside_root():
-    assert partitions.partition_dir("/srv/partitions", "acme") == os.path.join(
-        "/srv/partitions", "acme"
-    )
+    # The root is normalized first (on Windows that also means
+    # native separators); the expectation is built the same way.
+    expected = os.path.join(os.path.normpath("/srv/partitions"), "acme")
+    assert partitions.partition_dir("/srv/partitions", "acme") == expected
     # A trailing slash on the root changes nothing.
-    assert partitions.partition_dir("/srv/partitions/", "acme") == os.path.join(
-        "/srv/partitions", "acme"
-    )
+    assert partitions.partition_dir("/srv/partitions/", "acme") == expected
