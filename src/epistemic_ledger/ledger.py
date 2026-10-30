@@ -646,7 +646,7 @@ class Ledger:
         self.db.executescript(SCHEMA)
         self._ensure_columns(self.db)
         self.db.commit()
-        self.open_report = {
+        self.open_report: dict = {
             "torn_bytes": 0,
             "rebuilt": False,
             "events": None,
@@ -702,9 +702,7 @@ class Ledger:
             with open(self.log_path, "rb") as f:
                 back = f.read()
             if len(back) != cut or (cut and not back.endswith(b"\n")):
-                raise RuntimeError(
-                    "torn-tail truncation failed read-back verification"
-                )
+                raise RuntimeError("torn-tail truncation failed read-back verification")
             report["torn_bytes"] = len(raw) - cut
         check = self.verify_store()
         report["events"] = check["events"]
@@ -716,8 +714,7 @@ class Ledger:
             Ledger.rebuild_projection(self.path)
         except Exception as exc:
             raise RuntimeError(
-                "store cannot be recovered at open: "
-                f"{type(exc).__name__}: {exc}"
+                f"store cannot be recovered at open: {type(exc).__name__}: {exc}"
             ) from exc
         self.db = sqlite3.connect(os.path.join(self.path, "ledger.db"))
         self.db.row_factory = sqlite3.Row

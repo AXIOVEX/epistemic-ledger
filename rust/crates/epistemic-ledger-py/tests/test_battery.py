@@ -217,8 +217,10 @@ def test_projection_corruption_is_never_clean(tmp_path):
     """Corrupt the projection two ways — a tampered score written
     straight into the database, and raw byte damage — and
     verification must catch both (or the open must refuse):
-    health never reports clean over damage. The rebuild then
-    restores the exact state."""
+    health never reports clean over damage. Since DESIGN-16 S1c a
+    recovering open also repairs drift from the log and reports it
+    on open_report — caught and repaired, never silently clean.
+    The rebuild then restores the exact state."""
     import sqlite3
 
     path = str(tmp_path / "store")
@@ -232,9 +234,15 @@ def test_projection_corruption_is_never_clean(tmp_path):
     conn.execute("UPDATE claims SET score = 0.123 WHERE claim_id = ?", (a,))
     conn.commit()
     conn.close()
-    led = Ledger(path)
+    led = Ledger(path, recover=False)
     assert led.verify_store()["ok"] is False
     assert led.health()["ok"] is False
+    led.close()
+    # A recovering open catches the same drift and repairs it from
+    # the log, reporting the repair — never silently clean (S1c).
+    led = Ledger(path)
+    assert led.open_report["rebuilt"] is True
+    assert led.verify_store()["ok"] is True
     led.close()
 
     # (b) Byte-level damage across the middle of the file.
