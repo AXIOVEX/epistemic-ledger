@@ -110,6 +110,19 @@ this project follows [Semantic Versioning](https://semver.org/).
   pre-erasure snapshot, and the chain's exports, while
   verification and inclusion proofs over the region still pass.
 
+- Nightly stress tier (DESIGN-16 stage 3): a scheduled workflow
+  runs the long legs per pull request cannot — a 2-hour mixed
+  soak (S3), 500 kill-point trials (S1), the full bit-rot
+  program (exhaustive per-byte on a 100-record store; 10,000
+  flips on the 100k store, applied in distinct-record batches
+  with per-batch verification, S2), reader concurrency on the
+  chained store's read-only surface and the projection's point
+  read (S4), and the 1M-record scale run (S7) — each leg
+  emitting a machine-readable report, with an issue filed
+  automatically when any leg fails. New runners under
+  `tools/stress/` (`soak`, `readers`, `worker_read`, `scale`)
+  are smoke-tested at small bounds in the ordinary suite.
+
 ## [0.13.1] - 2026-10-28
 
 ### Fixed
