@@ -20,7 +20,7 @@ jobs:
       - run: pip install "ruff>=0.6"
       # Scope: the package and its tests. The research harnesses under
       # prototype/ are the measured-results record, not shipped code.
-      - run: ruff check src tests
+      - run: ruff check src tests --output-format=github
 
   format:
     name: Format (ruff format)
