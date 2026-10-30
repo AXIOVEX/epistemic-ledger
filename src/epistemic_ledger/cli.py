@@ -186,7 +186,10 @@ def main(argv=None):
         print(json.dumps(report, indent=2, default=str))
         return 0
     try:
-        L = Ledger(args.ledger_dir)
+        # verify is the inspection route: it must report a damaged
+        # store, not repair it or refuse it (DESIGN-16 S1c). Every
+        # other command is a working open and recovers at open.
+        L = Ledger(args.ledger_dir, recover=args.command != "verify")
     except Exception as exc:  # an unopenable store is a usage error
         print(f"error: cannot open ledger at {args.ledger_dir}: {exc}", file=sys.stderr)
         return 2

@@ -1,14 +1,14 @@
 """T-PR sample of the kill-point sweep (DESIGN-16, claim S1).
 
 Three kills per engine at small scale — the full sweeps (500 kills)
-run at the nightly tier. Expectations are per engine and honest:
-
-- Rust chained store: every trial must be ``clean`` — torn-tail repair
-  at open is its specified behavior (DESIGN-13).
-- Python engine: no trial may ever be ``silent_wrong``. ``clean`` and
-  ``loud_recoverable`` are both acceptable at this tier; the strict
-  clean-only property for the Python engine is tracked in DESIGN-16
-  as the S1c follow-up (crash recovery at open).
+run at the nightly tier. Both engines must come back ``clean``:
+opens, verifies, and holds exactly a prefix of the attempted appends
+including every acknowledged one. For the Rust store that is its
+specified torn-tail repair (DESIGN-13); for the Python engine it is
+crash recovery at open (DESIGN-16 S1c: torn tail truncated, drifted
+projection rebuilt from the log, anything else a loud refusal — and
+a refusal classifies as ``loud_recoverable`` or ``error`` here,
+never ``clean``).
 
 Windows is skipped: its kill and lock semantics differ by design
 (DESIGN-12), and the sweep's claims are stated for POSIX.
@@ -42,8 +42,8 @@ def test_killpoint_rust_trials_are_clean():
         assert result["outcome"] == "clean", result
 
 
-def test_killpoint_python_never_silently_wrong():
+def test_killpoint_python_trials_are_clean():
     rng = random.Random(20261030)
     for _ in range(TRIALS):
         result = run_trial("python", rng, COUNT)
-        assert result["outcome"] in ("clean", "loud_recoverable"), result
+        assert result["outcome"] == "clean", result

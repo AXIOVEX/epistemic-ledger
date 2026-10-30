@@ -38,6 +38,15 @@ this project follows [Semantic Versioning](https://semver.org/).
   and reported in the open report (claim S2). Sample flips run in
   the test suite; exhaustive sweeps are the nightly tier.
 
+- Crash recovery at open for the Python engine (DESIGN-16 S1c):
+  opening a store truncates a torn final log line and rebuilds a
+  projection that disagrees with the log, and refuses to open if
+  the store still does not verify; the outcome is reported on
+  `Ledger.open_report`. `Ledger(path, recover=False)` is the
+  inspection route (used by CLI verify). The kill-point sweep now
+  holds the Python engine to the same clean-after-kill bar as the
+  Rust store.
+
 ## [0.13.1] - 2026-10-28
 
 ### Fixed
