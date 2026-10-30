@@ -245,9 +245,14 @@ def test_projection_corruption_is_never_clean(tmp_path):
     assert led.verify_store()["ok"] is True
     led.close()
 
-    # (b) Byte-level damage across the middle of the file.
+    # (b) Byte-level damage across the header page. (Offset zero,
+    # not the middle: mid-file damage can land in a free page that
+    # no logical read ever touches — undetectable by construction,
+    # and this drill used to pass there only because part (a)'s
+    # drift was still present. Header damage is deterministic:
+    # the file stops being a database at all.)
     with open(db, "r+b") as f:
-        f.seek(os.path.getsize(db) // 2)
+        f.seek(0)
         f.write(b"\xff" * 256)
     caught = False
     try:
