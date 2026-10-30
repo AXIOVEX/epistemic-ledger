@@ -656,7 +656,7 @@ def test_prov_export_accounts_for_the_store_exactly(tmp_path):
     store's, and a re-derived export of the unchanged store
     identical; one more append moves both the export and the
     head."""
-    store = _signed_store(tmp_path / "v1", n=24)
+    store = _signed_store(tmp_path / "v1", n=1024)
     store.append(
         T0,
         "w",
@@ -668,36 +668,36 @@ def test_prov_export_accounts_for_the_store_exactly(tmp_path):
         T0,
         "w",
         "note",
-        json.dumps({"text": "follows", "derived_from": [25]}),
+        json.dumps({"text": "follows", "derived_from": [1025]}),
         SEED,
     )
     records = json.loads(read_records_json(str(tmp_path / "v1")))
     sth = json.loads(store.sth_json(T0, "ck-1", SEED))
     out = prov.export_prov(records, store.head_hash(), sth)
     doc = out["document"]
-    assert out["header"]["records"] == 26
+    assert out["header"]["records"] == 1026
     assert out["header"]["head_hash"] == store.head_hash()
     assert out["header"]["sth"]["root"] == sth["root"]
-    assert store.verify(PUBKEYS, 1) == 26
-    assert len(doc["entity"]) == 26
-    assert len(doc["activity"]) == 26
-    assert len(doc["wasGeneratedBy"]) == 26
-    assert len(doc["wasAssociatedWith"]) == 26
+    assert store.verify(PUBKEYS, 1) == 1026
+    assert len(doc["entity"]) == 1026
+    assert len(doc["activity"]) == 1026
+    assert len(doc["wasGeneratedBy"]) == 1026
+    assert len(doc["wasAssociatedWith"]) == 1026
     pairs = {
         (v["prov:generatedEntity"], v["prov:usedEntity"])
         for v in doc["wasDerivedFrom"].values()
     }
     assert pairs == {
-        ("el:record-25", "el:record-1"),
-        ("el:record-25", "el:record-2"),
-        ("el:record-26", "el:record-25"),
+        ("el:record-1025", "el:record-1"),
+        ("el:record-1025", "el:record-2"),
+        ("el:record-1026", "el:record-1025"),
     }
     again = prov.export_prov(records, store.head_hash(), sth)
     assert json.dumps(out, sort_keys=True) == json.dumps(again, sort_keys=True)
     store.append(T0, "w", "note", json.dumps({"text": "one more"}), SEED)
     records2 = json.loads(read_records_json(str(tmp_path / "v1")))
     out2 = prov.export_prov(records2, store.head_hash(), sth)
-    assert out2["header"]["records"] == 27
+    assert out2["header"]["records"] == 1027
     assert out2["header"]["head_hash"] == store.head_hash() != out["header"]["head_hash"]
     assert json.dumps(out2, sort_keys=True) != json.dumps(out, sort_keys=True)
     del store
