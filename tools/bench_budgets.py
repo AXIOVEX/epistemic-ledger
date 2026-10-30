@@ -29,7 +29,12 @@ import tempfile
 import time
 
 from epistemic_ledger import Ledger
-from epistemic_ledger._core import RustStore
+from epistemic_ledger._core import (
+    RustStore,
+    verify_consistency_json,
+    verify_inclusion_json,
+    verify_sth_json,
+)
 
 SEED = "07" * 32
 T0 = "2026-01-01T00:00:00+00:00"
@@ -87,6 +92,96 @@ def bench_chained(tmp):
         del again
     median_open = statistics.median(opens)
     report("open at 100,000 events", median_open, "<= 250", "ms", median_open <= 250)
+
+    bench_proofs(path)
+
+
+def bench_proofs(path):
+    """DESIGN-15 stage 1 proof budgets (50 ms) on the 100k chained
+    store: 97 complete checkpoints. Generation is measured on a
+    warm store (the proof cache computed once, as a serving process
+    holding the store open would); the warm-up itself is printed as
+    a phase line, not hidden. Verification is the standalone path —
+    JSON artifacts and the public key only."""
+    from epistemic_ledger import anchors
+
+    store = RustStore.open(path)
+    start = time.perf_counter()
+    sth_last = store.sth_json(T0, "bench-ck", SEED)
+    warm_s = time.perf_counter() - start
+    print(
+        f"phase: proof-cache warm-up at 100,000 events took {warm_s:.1f}s", flush=True
+    )
+    pubkey = json.loads(_pubkeys())["w"]
+    assert verify_sth_json(sth_last, pubkey)
+
+    times = []
+    for _ in range(5):
+        start = time.perf_counter()
+        proof = json.loads(store.inclusion_proof_json(50_000))
+        times.append((time.perf_counter() - start) * 1000)
+    median_ms = statistics.median(times)
+    report(
+        "inclusion proof generation (warm, 100k)",
+        median_ms,
+        "<= 50",
+        "ms",
+        median_ms <= 50,
+    )
+
+    times = []
+    for _ in range(5):
+        start = time.perf_counter()
+        ok = verify_inclusion_json(
+            proof["leaf_hash"],
+            proof["index"],
+            proof["segment_len"],
+            json.dumps(proof["proof"]),
+            proof["root"],
+        )
+        times.append((time.perf_counter() - start) * 1000)
+    assert ok
+    median_ms = statistics.median(times)
+    report(
+        "inclusion proof verification (standalone)",
+        median_ms,
+        "<= 50",
+        "ms",
+        median_ms <= 50,
+    )
+
+    sth_first = store.sth_json(T0, "bench-ck", SEED, 1)
+    consistency = store.consistency_proof_json(1, 97)
+    times = []
+    for _ in range(5):
+        start = time.perf_counter()
+        ok = verify_consistency_json(sth_first, sth_last, consistency)
+        times.append((time.perf_counter() - start) * 1000)
+    assert ok
+    median_ms = statistics.median(times)
+    report(
+        "consistency verification (97 checkpoints)",
+        median_ms,
+        "<= 50",
+        "ms",
+        median_ms <= 50,
+    )
+
+    # The pure-Python standalone verifier reaches the same verdicts
+    # on the same artifacts (no budget: it is the audit path, not
+    # the serving path).
+    sth_proof = store.sth_json(T0, "bench-ck", SEED, proof["checkpoint_seq"])
+    start = time.perf_counter()
+    ok_py = anchors.verify_anchored_record(
+        proof["leaf_hash"], proof, json.loads(sth_proof), pubkey
+    )
+    py_ms = (time.perf_counter() - start) * 1000
+    assert ok_py
+    print(
+        f"phase: pure-Python anchored-record verification took {py_ms:.1f} ms",
+        flush=True,
+    )
+    del store
 
 
 def build_graph_store(tmp):

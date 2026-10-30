@@ -15,12 +15,16 @@ import time
 
 import pytest
 
-from epistemic_ledger import Ledger
+from epistemic_ledger import Ledger, anchors
 from epistemic_ledger._core import (
     RustStore,
     read_records_json,
     restore_snapshot_json,
     snapshot_json,
+    sth_fork_json,
+    verify_consistency_json,
+    verify_inclusion_json,
+    verify_sth_json,
 )
 
 SEED = "07" * 32
@@ -402,3 +406,107 @@ def test_impact_near_cycle_terminates(tmp_path):
     result = led.impact(ids[0])
     assert len(result["nodes"]) == 299  # everyone but itself
     led.close()
+
+
+# ------------------------------------------------------------------
+# Anchoring attacks (DESIGN-15 stage 1, claims A1-A3)
+# ------------------------------------------------------------------
+
+CK_PUB = _pubkey_hex(SEED)
+
+
+def test_anchored_history_rewrite_is_detected(tmp_path):
+    """A1: pin STHs over three checkpoints; a rewritten history
+    below the anchor — same shape, one payload changed in the
+    first segment, its own later STH signed with the same
+    checkpoint key — fails consistency against the pinned head.
+    A byte-level rewrite of the original log is refused at open."""
+    store = _signed_store(tmp_path / "anchored", n=3072)
+    sth1 = store.sth_json(T0, "ck-1", SEED, 1)
+    sth3 = store.sth_json(T0, "ck-1", SEED, 3)
+    proof = store.consistency_proof_json(1, 3)
+    assert verify_consistency_json(sth1, sth3, proof) is True
+    assert anchors.verify_consistency(
+        json.loads(sth1), json.loads(sth3), json.loads(proof)
+    )
+
+    rewritten = RustStore.open(str(tmp_path / "rewritten"))
+    for i in range(3072):
+        payload = {"i": 999 if i == 4 else i}
+        rewritten.append(T0, "w", "note", json.dumps(payload), SEED)
+    bad3 = rewritten.sth_json(T0, "ck-1", SEED, 3)
+    bad_proof = rewritten.consistency_proof_json(1, 3)
+    # The rewritten history is internally consistent...
+    assert verify_consistency_json(
+        rewritten.sth_json(T0, "ck-1", SEED, 1), bad3, bad_proof
+    )
+    # ...and detected the moment it is checked against the anchor.
+    assert verify_consistency_json(sth1, bad3, bad_proof) is False
+    assert not anchors.verify_consistency(
+        json.loads(sth1), json.loads(bad3), json.loads(bad_proof)
+    )
+    del rewritten
+
+    raw = bytearray(_log_bytes(tmp_path / "anchored"))
+    line5_end = raw.find(
+        b"\n", raw.find(b"\n", raw.find(b"\n", raw.find(b"\n")) + 1) + 1
+    )
+    raw[line5_end - 5] ^= 0xFF
+    del store
+    _write_log(tmp_path / "anchored", bytes(raw))
+    with pytest.raises(RuntimeError):
+        RustStore.open(str(tmp_path / "anchored"))
+
+
+def test_inclusion_proof_verifies_standalone(tmp_path):
+    """A2: the pure-Python verifier, given only a record's hash,
+    its inclusion proof, the STH, and the checkpoint public key,
+    accepts the real record and rejects a mutated record, the
+    wrong record, and the wrong checkpoint."""
+    store = _signed_store(tmp_path / "incl", n=2048)
+    sth2 = json.loads(store.sth_json(T0, "ck-1", SEED, 2))
+    sth1 = json.loads(store.sth_json(T0, "ck-1", SEED, 1))
+    proof = json.loads(store.inclusion_proof_json(1500))
+    records = json.loads(read_records_json(str(tmp_path / "incl")))
+    leaf = records[1499]["hash"]
+    assert proof["leaf_hash"] == leaf
+    assert verify_inclusion_json(
+        leaf,
+        proof["index"],
+        proof["segment_len"],
+        json.dumps(proof["proof"]),
+        proof["root"],
+    )
+    assert anchors.verify_anchored_record(leaf, proof, sth2, CK_PUB)
+    # Mutated record.
+    mutated = ("0" if leaf[0] != "0" else "1") + leaf[1:]
+    assert not anchors.verify_anchored_record(mutated, proof, sth2, CK_PUB)
+    # Wrong record: the next record's hash against this proof.
+    assert not anchors.verify_anchored_record(
+        records[1500]["hash"], proof, sth2, CK_PUB
+    )
+    # Wrong checkpoint: checkpoint 1's head over a checkpoint 2 proof.
+    assert not anchors.verify_anchored_record(leaf, proof, sth1, CK_PUB)
+    del store
+
+
+def test_two_signed_heads_same_size_is_a_fork(tmp_path):
+    """A3: two stores of identical shape with different histories
+    produce two validly signed STHs for checkpoint 1 at the same
+    tree size with different roots. Both signatures verify — that
+    is what makes it equivocation, and the fork test must fire."""
+    a = _signed_store(tmp_path / "fa", n=1024)
+    b = RustStore.open(str(tmp_path / "fb"))
+    for i in range(1024):
+        b.append(T0, "w", "note", json.dumps({"i": i, "side": "b"}), SEED)
+    sth_a = a.sth_json(T0, "ck-1", SEED, 1)
+    sth_b = b.sth_json(T0, "ck-1", SEED, 1)
+    assert verify_sth_json(sth_a, CK_PUB) and verify_sth_json(sth_b, CK_PUB)
+    assert anchors.verify_sth(json.loads(sth_a), CK_PUB)
+    assert anchors.verify_sth(json.loads(sth_b), CK_PUB)
+    assert json.loads(sth_a)["tree_size"] == json.loads(sth_b)["tree_size"]
+    assert sth_fork_json(sth_a, sth_b) is True
+    assert anchors.is_fork(json.loads(sth_a), json.loads(sth_b))
+    assert sth_fork_json(sth_a, sth_a) is False
+    assert not anchors.is_fork(json.loads(sth_a), json.loads(sth_a))
+    del a, b

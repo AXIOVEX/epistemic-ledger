@@ -51,3 +51,9 @@ below.
 ::: epistemic_ledger.ed25519
     options:
       show_root_heading: false
+
+## Anchoring: `epistemic_ledger.anchors`
+
+::: epistemic_ledger.anchors
+    options:
+      show_root_heading: false

@@ -55,6 +55,17 @@ this project follows [Semantic Versioning](https://semver.org/).
   access. The DESIGN-15 memo records the format as Stage 1
   implementation notes.
 
+- Standalone anchor verification (DESIGN-15 Stage 1): a pure-Python
+  verifier (`epistemic_ledger.anchors`) checks signed tree heads,
+  inclusion proofs, and consistency proofs from JSON artifacts
+  and the checkpoint public key alone — no store, no Rust
+  extension. The battery gains the A1-A3 drills (anchored rewrite
+  detected, standalone inclusion accept/reject, two-signed-heads
+  fork); proof issuance on the bindings reuses a cached
+  checkpoint set, invalidated on append; and the bench enforces
+  the 50 ms proof budgets on the 100k reference store with the
+  warm-up measured in the open.
+
 ## [0.13.1] - 2026-10-28
 
 ### Fixed
