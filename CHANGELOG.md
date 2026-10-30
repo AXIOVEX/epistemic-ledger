@@ -99,6 +99,17 @@ this project follows [Semantic Versioning](https://semver.org/).
   is exposed as JSON, with `anchors.key_effective_at` for
   checking a checkpoint key at a tree head's tree size.
 
+- Payload commitments and erasure (DESIGN-15 stage 2, claims
+  T2-T3): `epistemic_ledger.commitments` — HMAC-SHA-256 under
+  the tenant's key over a per-record salt and the payload; the
+  payload, key, and salt never enter the chain. Battery drills
+  run the falsifiers both directions: a dictionary attack over
+  a known payload space fails without the tenant key while the
+  key holder's recomputation verifies, and after an `erasure`
+  record the payload is unrecoverable from the store, a
+  pre-erasure snapshot, and the chain's exports, while
+  verification and inclusion proofs over the region still pass.
+
 ## [0.13.1] - 2026-10-28
 
 ### Fixed

@@ -63,3 +63,9 @@ below.
 ::: epistemic_ledger.partitions
     options:
       show_root_heading: false
+
+## Payload commitments: `epistemic_ledger.commitments`
+
+::: epistemic_ledger.commitments
+    options:
+      show_root_heading: false

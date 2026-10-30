@@ -7,6 +7,8 @@ health check and a full verification, and the battery fails if
 either reports clean over damage (claim E4).
 """
 
+import hashlib
+import hmac
 import json
 import os
 import subprocess
@@ -15,7 +17,7 @@ import time
 
 import pytest
 
-from epistemic_ledger import Ledger, anchors
+from epistemic_ledger import Ledger, anchors, commitments
 from epistemic_ledger._core import (
     RustStore,
     read_records_json,
@@ -24,6 +26,7 @@ from epistemic_ledger._core import (
     sth_fork_json,
     verify_consistency_json,
     verify_inclusion_json,
+    verify_snapshot_json,
     verify_sth_json,
 )
 
@@ -510,3 +513,132 @@ def test_two_signed_heads_same_size_is_a_fork(tmp_path):
     assert sth_fork_json(sth_a, sth_a) is False
     assert not anchors.is_fork(json.loads(sth_a), json.loads(sth_a))
     del a, b
+
+
+# ------------------------------------------------------------------
+# Commitments and erasure (DESIGN-15 stage 2, claims T2-T3)
+# ------------------------------------------------------------------
+
+_TENANT_KEY = bytes.fromhex("aa" * 32)
+_WRONG_KEY = bytes.fromhex("bb" * 32)
+_CONTROLLER_SEED = "05" * 32
+_PAYLOAD_SPACE = [
+    b"case-1: reading support, twice weekly",
+    b"case-2: math tutoring, once weekly",
+    b"case-3: speech therapy, twice weekly",
+]
+
+
+def _commitment_store(path, payload):
+    store = RustStore.open(str(path))
+    salt = commitments.new_salt()
+    value = commitments.commitment_for(_TENANT_KEY, salt, payload)
+    store.append(
+        T0,
+        "w",
+        commitments.COMMITMENT_TYPE,
+        json.dumps({"commitment": value, "ref": "case-1"}),
+        SEED,
+    )
+    return store, value, salt
+
+
+def _dictionary_attack(value, payload_space):
+    """Everything an artifact holder can try without the tenant
+    key or the salt: every payload in the known space, hashed
+    bare, HMACed with an empty key, and HMACed under a wrong key
+    with salts derivable from the store (zeros, the commitment
+    itself). Returns True if any guess verifies."""
+    for payload in payload_space:
+        if hashlib.sha256(payload).hexdigest() == value:
+            return True
+        if hmac.new(b"", payload, hashlib.sha256).hexdigest() == value:
+            return True
+        for key in (_WRONG_KEY, payload):
+            for salt in (b"\x00" * 16, bytes.fromhex(value)):
+                if commitments.verify_commitment(key, salt, payload, value):
+                    return True
+    return False
+
+
+def test_commitment_dictionary_attack_fails_without_the_key(tmp_path):
+    """T2: without the tenant's HMAC key, the store's bytes do
+    not yield payload content — a dictionary attack over a known
+    payload space fails against the commitment, while the key
+    holder's recomputation verifies."""
+    payload = _PAYLOAD_SPACE[0]
+    store, value, salt = _commitment_store(tmp_path / "c2", payload)
+    # The key holder's recomputation verifies — and only theirs.
+    assert commitments.verify_commitment(_TENANT_KEY, salt, payload, value)
+    assert not commitments.verify_commitment(_WRONG_KEY, salt, payload, value)
+    assert not commitments.verify_commitment(
+        _TENANT_KEY, salt, _PAYLOAD_SPACE[1], value
+    )
+    assert not commitments.verify_commitment(
+        _TENANT_KEY, commitments.new_salt(), payload, value
+    )
+    # The dictionary attack over the known payload space fails.
+    assert not _dictionary_attack(value, _PAYLOAD_SPACE)
+    # Neither the payload, the salt, nor the key is in the bytes.
+    raw = _log_bytes(tmp_path / "c2")
+    assert payload not in raw
+    assert salt not in raw
+    assert _TENANT_KEY not in raw
+    del store
+
+
+def test_erasure_leaves_payload_unrecoverable_and_chain_verifiable(tmp_path):
+    """T3: after an erasure record and destruction of the payload
+    key and salt, the payload is unrecoverable from the store,
+    its snapshots, and its exports — while chain verification,
+    checkpoints, and proofs over the affected region still pass.
+    The snapshot here predates the erasure, which is the hard
+    case: yesterday's backup must not resurrect the payload."""
+    payload = _PAYLOAD_SPACE[0]
+    store_dir = tmp_path / "c3"
+    store, value, salt = _commitment_store(store_dir, payload)
+    for i in range(1030):
+        store.append(T0, "w", "note", json.dumps({"i": i}), SEED)
+    bundle = tmp_path / "bundle3"
+    snapshot_json(str(store_dir), str(bundle))
+    # The erasure act, signed by the tenant's data-controller key.
+    store.append(
+        T0,
+        "controller",
+        commitments.ERASURE_TYPE,
+        json.dumps({"commitment": value, "ref": "case-1"}),
+        _CONTROLLER_SEED,
+    )
+    # Destruction of the payload key and salt is the operator's
+    # act; from here the drill works with only what an artifact
+    # holder has (the salt is kept solely to prove its absence).
+    pubkeys = json.dumps(
+        {"w": _pubkey_hex(SEED), "controller": _pubkey_hex(_CONTROLLER_SEED)}
+    )
+    assert store.verify(pubkeys, 1) == 1032
+    proof = json.loads(store.inclusion_proof_json(1))
+    assert verify_inclusion_json(
+        proof["leaf_hash"],
+        proof["index"],
+        proof["segment_len"],
+        json.dumps(proof["proof"]),
+        proof["root"],
+    )
+    manifest = json.loads(verify_snapshot_json(str(bundle)))
+    assert manifest["events"] == 1031
+    # Recovery attempts from every artifact fail.
+    artifacts = [_log_bytes(store_dir)]
+    for root, _dirs, names in os.walk(bundle):
+        for name in names:
+            with open(os.path.join(root, name), "rb") as f:
+                artifacts.append(f.read())
+    for blob in artifacts:
+        assert payload not in blob
+        assert salt not in blob
+        assert _TENANT_KEY not in blob
+    records = json.loads(read_records_json(str(store_dir)))
+    on_chain = records[0]["payload"]["commitment"]
+    assert on_chain == value
+    assert records[1031]["type"] == commitments.ERASURE_TYPE
+    assert not _dictionary_attack(on_chain, _PAYLOAD_SPACE)
+    del store
