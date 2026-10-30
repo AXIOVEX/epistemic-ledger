@@ -31,6 +31,13 @@ this project follows [Semantic Versioning](https://semver.org/).
   property). Sample trials run in the test suite; the full sweeps
   are the nightly tier.
 
+- Stress harness, second piece (DESIGN-16 stage 1b): the
+  `tools/stress/` bit-rot sweep. Single bytes of the chained
+  store's log are corrupted one at a time; each must be detected,
+  or — at the tail only — repaired by the documented truncation
+  and reported in the open report (claim S2). Sample flips run in
+  the test suite; exhaustive sweeps are the nightly tier.
+
 ## [0.13.1] - 2026-10-28
 
 ### Fixed
