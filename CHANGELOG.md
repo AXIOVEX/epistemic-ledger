@@ -123,6 +123,15 @@ this project follows [Semantic Versioning](https://semver.org/).
   `tools/stress/` (`soak`, `readers`, `worker_read`, `scale`)
   are smoke-tested at small bounds in the ordinary suite.
 
+- W3C PROV provenance export (DESIGN-15 stage 4, claim V1):
+  `epistemic_ledger.prov` renders chained-store records as a
+  PROV-JSON document — one entity per record, one activity per
+  append, one agent per actor, derivation relations only where
+  a record declares them — under a header carrying the record
+  count, the head hash, and the signed tree head the export
+  was made under. The battery drill checks the accounting
+  exactly and the re-export determinism byte-for-byte.
+
 ## [0.13.1] - 2026-10-28
 
 ### Fixed

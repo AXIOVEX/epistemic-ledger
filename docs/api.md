@@ -69,3 +69,9 @@ below.
 ::: epistemic_ledger.commitments
     options:
       show_root_heading: false
+
+## Provenance export: `epistemic_ledger.prov`
+
+::: epistemic_ledger.prov
+    options:
+      show_root_heading: false
