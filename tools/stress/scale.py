@@ -16,7 +16,10 @@ a property of the claims graph, not of the log's length.
 Building a million-claim Python store to re-measure a graph
 property would spend the nightly's budget without changing
 what is proven; the report says exactly which store each
-number came from.
+number came from. The impact figure is the median of five
+timed runs after one warm-up — the bench's own methodology,
+adopted after the first nightly's single cold run (406.9 ms)
+proved incomparable to the bench's warm medians.
 
 Usage:
     python -m tools.stress.scale --records 1000000 --out report.json
@@ -26,6 +29,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import statistics
 import sys
 import tempfile
 import time
@@ -84,9 +88,13 @@ def run_scale(records: int) -> dict:
                     led.add_support(
                         ids[i], ids[j], "evidential", p_given=0.9, p_given_not=0.2
                     )
-        t0 = time.perf_counter()
-        led.impact(ids[0], max_results=20000)
-        impact_ms = (time.perf_counter() - t0) * 1000.0
+        led.impact(ids[0], max_results=20000)  # warm-up, untimed
+        times = []
+        for _ in range(5):
+            t0 = time.perf_counter()
+            led.impact(ids[0], max_results=20000)
+            times.append((time.perf_counter() - t0) * 1000.0)
+        impact_ms = statistics.median(times)
         led.close()
 
     return {
@@ -99,6 +107,7 @@ def run_scale(records: int) -> dict:
         "verify_budget_rps": VERIFY_BUDGET_RPS,
         "verify_pass": verify_rps >= VERIFY_BUDGET_RPS,
         "impact_ms": round(impact_ms, 1) if impact_ms is not None else None,
+        "impact_runs": 5 if impact_ms is not None else None,
         "impact_claims": IMPACT_CLAIMS if impact_ms is not None else None,
         "impact_budget_ms": IMPACT_BUDGET_MS,
         "impact_pass": (impact_ms <= IMPACT_BUDGET_MS)
