@@ -607,14 +607,25 @@ def _append_verified(path, data, attempts=3):
 
 
 class Ledger:
-    def __init__(self, path):
+    def __init__(self, path, recover=True):
         """path: directory holding events.jsonl and ledger.db (created if missing).
 
         Single-writer (v0.11, DESIGN-12): opening a ledger takes an
         exclusive advisory lock on <path>/ledger.lock, held for the
         object's lifetime; a second opener fails loudly instead of
         interleaving appends. close() releases it; process exit
-        releases it automatically. Unix-only (fcntl)."""
+        releases it automatically. Unix-only (fcntl).
+
+        Crash recovery (DESIGN-16 S1c): with recover=True (the
+        default), opening first repairs the states a killed writer
+        can leave — a torn final log line is truncated, and a
+        projection that disagrees with the log is rebuilt from it —
+        and refuses to open if the store still does not verify (that
+        damage is not a crash shape). The outcome is on
+        self.open_report: {torn_bytes, rebuilt, events, problems},
+        where problems lists what verification found at open, before
+        any repair. recover=False opens without touching or checking
+        anything (the inspection route: CLI verify, diagnostics)."""
         os.makedirs(path, exist_ok=True)
         self.path = path
         self.log_path = os.path.join(path, "events.jsonl")
@@ -635,6 +646,23 @@ class Ledger:
         self.db.executescript(SCHEMA)
         self._ensure_columns(self.db)
         self.db.commit()
+        self.open_report: dict = {
+            "torn_bytes": 0,
+            "rebuilt": False,
+            "events": None,
+            "problems": [],
+        }
+        if recover:
+            try:
+                self._recover_at_open()
+            except Exception:
+                try:
+                    self.db.close()
+                finally:
+                    if self._lock_file is not None:
+                        self._lock_file.close()
+                        self._lock_file = None
+                raise
         # default governance policy lives in the store (Design Memo 06);
         # v0.10 registers its rule as data at version 2 (Memo 11)
         name, desc = DEFAULT_POLICY
@@ -643,6 +671,61 @@ class Ledger:
             self.register_policy(
                 name, desc, version=2, actor="system", rule=DEFAULT_POLICY_RULE
             )
+
+    def _recover_at_open(self):
+        """Repair the crash shapes a killed writer can leave, at open.
+
+        1. Torn tail: if the log does not end in a newline, its last
+           append never completed (a real event line's only raw
+           newline is its terminator), so the partial tail is
+           truncated and the truncation read back and verified. A
+           complete-but-unparseable line is never truncated — that
+           is corruption, not a torn write, and it stays loud.
+        2. Reconcile: if the projection disagrees with the log, the
+           log is ground truth and the projection is rebuilt from
+           it. If the rebuilt store still does not verify, the
+           damage is not a crash shape: refuse (the caller closes
+           the lock and re-raises) rather than serve it.
+        """
+        report = self.open_report
+        try:
+            with open(self.log_path, "rb") as f:
+                raw = f.read()
+        except FileNotFoundError:
+            raw = b""
+        if raw and not raw.endswith(b"\n"):
+            cut = raw.rfind(b"\n") + 1
+            with open(self.log_path, "r+b") as f:
+                f.truncate(cut)
+                f.flush()
+                os.fsync(f.fileno())
+            with open(self.log_path, "rb") as f:
+                back = f.read()
+            if len(back) != cut or (cut and not back.endswith(b"\n")):
+                raise RuntimeError("torn-tail truncation failed read-back verification")
+            report["torn_bytes"] = len(raw) - cut
+        check = self.verify_store()
+        report["events"] = check["events"]
+        report["problems"] = check["problems"]
+        if check["ok"]:
+            return
+        self.db.close()
+        try:
+            Ledger.rebuild_projection(self.path)
+        except Exception as exc:
+            raise RuntimeError(
+                f"store cannot be recovered at open: {type(exc).__name__}: {exc}"
+            ) from exc
+        self.db = sqlite3.connect(os.path.join(self.path, "ledger.db"))
+        self.db.row_factory = sqlite3.Row
+        check = self.verify_store()
+        report["events"] = check["events"]
+        if not check["ok"]:
+            raise RuntimeError(
+                "store does not verify after crash recovery: "
+                + "; ".join(check["problems"][:3])
+            )
+        report["rebuilt"] = True
 
     @staticmethod
     def _ensure_columns(db):
@@ -724,11 +807,12 @@ class Ledger:
             backup = db_path + ".bak"
             os.replace(db_path, backup)
         os.replace(scratch, db_path)
-        led = cls(path)
+        db2 = sqlite3.connect(db_path)
+        db2.row_factory = sqlite3.Row
         try:
-            check = led.verify_store()
+            check = cls._verify_store(db2, log_path)
         finally:
-            led.close()
+            db2.close()
         if not check["ok"]:
             if backup is not None:
                 os.replace(backup, db_path)
@@ -802,10 +886,14 @@ class Ledger:
         Returns {ok, events, claims_checked, projection_checked,
         problems[:20]}; never raises on bad data — bad data is the
         finding."""
+        return self._verify_store(self.db, self.log_path)
+
+    @staticmethod
+    def _verify_store(db, log_path):
         problems = []
         events = []
         try:
-            with open(self.log_path, encoding="utf-8") as f:
+            with open(log_path, encoding="utf-8") as f:
                 lines = f.readlines()
         except FileNotFoundError:
             lines = []
@@ -842,7 +930,10 @@ class Ledger:
                 terminal.add(cid)
         checked = 0
         for cid, want in expected.items():
-            row = self._live_claim(cid)
+            row = db.execute(
+                "SELECT * FROM claims WHERE claim_id = ? AND txn_to IS NULL",
+                (cid,),
+            ).fetchone()
             if cid in terminal:
                 # A claim that reached a terminal lifecycle status
                 # (superseded / entered-in-error / dead) is supposed
@@ -865,7 +956,7 @@ class Ledger:
         # projection knows about must trace back to an assert event;
         # anything else has no corresponding event in the log.
         projection_claims = set()
-        for (cid,) in self.db.execute("SELECT DISTINCT claim_id FROM claims"):
+        for (cid,) in db.execute("SELECT DISTINCT claim_id FROM claims"):
             projection_claims.add(cid)
         claim_tables = (
             "support_edges",
@@ -877,12 +968,12 @@ class Ledger:
         )
         referenced: dict = {}  # claim_id -> first table that references it
         for table in claim_tables:
-            for (cid,) in self.db.execute(
+            for (cid,) in db.execute(
                 f"SELECT DISTINCT claim_id FROM {table}"  # noqa: S608 — fixed table names above
             ):
                 referenced.setdefault(cid, table)
             if table == "support_edges":
-                for (cid,) in self.db.execute(
+                for (cid,) in db.execute(
                     "SELECT DISTINCT supports_id FROM support_edges"
                 ):
                     referenced.setdefault(cid, table)
