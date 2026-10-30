@@ -7,8 +7,13 @@ use std::collections::HashMap;
 use std::path::PathBuf;
 
 use ed25519_dalek::SigningKey;
-use epistemic_ledger_core::checkpoint::DEFAULT_SEGMENT;
+use epistemic_ledger_core::checkpoint::{
+    inclusion_proof, verify_inclusion, DEFAULT_SEGMENT,
+};
 use epistemic_ledger_core::health::health_with_segment;
+use epistemic_ledger_core::sth::{
+    consistency_proof, is_fork, sign_sth, verify_consistency, verify_sth, ConsistencyProof, Sth,
+};
 use epistemic_ledger_core::store::Store;
 use pyo3::exceptions::PyRuntimeError;
 use pyo3::prelude::*;
@@ -99,6 +104,81 @@ impl RustStore {
     fn open_report_json(&self) -> String {
         serde_json::to_string(&self.inner.report).unwrap_or_default()
     }
+
+    /// Sign a tree head (DESIGN-15 D2) for one checkpoint of this
+    /// store: `checkpoint_seq` is 1-based, defaulting to the latest
+    /// complete checkpoint. The checkpoint key's seed is passed per
+    /// call and never stored — the same custody as writer seeds.
+    /// Returns the STH as a JSON string.
+    #[pyo3(signature = (timestamp, key_id, seed_hex, checkpoint_seq=None))]
+    fn sth_json(
+        &self,
+        timestamp: String,
+        key_id: String,
+        seed_hex: String,
+        checkpoint_seq: Option<u64>,
+    ) -> PyResult<String> {
+        let checkpoints = self.inner.checkpoints().map_err(err)?;
+        if checkpoints.is_empty() {
+            return Err(PyRuntimeError::new_err("store has no complete checkpoint yet"));
+        }
+        let seq = checkpoint_seq.unwrap_or(checkpoints.len() as u64);
+        if seq == 0 || seq as usize > checkpoints.len() {
+            return Err(PyRuntimeError::new_err("checkpoint_seq out of range"));
+        }
+        let key = key_from_hex(&seed_hex)?;
+        let sth = sign_sth(&checkpoints[(seq - 1) as usize], seq, &timestamp, &key_id, &key);
+        serde_json::to_string(&sth).map_err(err)
+    }
+
+    /// An RFC 9162 inclusion proof for the record at `seq`, against
+    /// its checkpoint's root, as a JSON string. The record must be
+    /// inside a complete checkpoint. Everything a standalone
+    /// verifier needs is in the returned object plus the record.
+    fn inclusion_proof_json(&self, seq: u64) -> PyResult<String> {
+        let records = self.inner.records().map_err(err)?;
+        let checkpoints = self.inner.checkpoints().map_err(err)?;
+        let idx = checkpoints
+            .iter()
+            .position(|cp| seq >= cp.first_seq && seq <= cp.last_seq)
+            .ok_or_else(|| PyRuntimeError::new_err("record is not in a complete checkpoint"))?;
+        let cp = &checkpoints[idx];
+        let leaves: Vec<[u8; 32]> = records[(cp.first_seq - 1) as usize..(cp.last_seq as usize)]
+            .iter()
+            .map(|r| {
+                let decoded = hex::decode(&r.hash).unwrap_or_default();
+                let mut b = [0u8; 32];
+                if decoded.len() == 32 {
+                    b.copy_from_slice(&decoded);
+                }
+                b
+            })
+            .collect();
+        let index = (seq - cp.first_seq) as usize;
+        let proof = inclusion_proof(&leaves, index);
+        let record = &records[(seq - 1) as usize];
+        serde_json::to_string(&serde_json::json!({
+            "seq": seq,
+            "checkpoint_seq": idx as u64 + 1,
+            "segment_first_seq": cp.first_seq,
+            "segment_last_seq": cp.last_seq,
+            "segment_len": leaves.len(),
+            "index": index,
+            "leaf_hash": record.hash,
+            "proof": proof.iter().map(hex::encode).collect::<Vec<_>>(),
+            "root": cp.root,
+        }))
+        .map_err(err)
+    }
+
+    /// The consistency proof (DESIGN-15 D2) between two 1-based
+    /// checkpoint sequences of this store, as a JSON string.
+    fn consistency_proof_json(&self, from_seq: u64, to_seq: u64) -> PyResult<String> {
+        let checkpoints = self.inner.checkpoints().map_err(err)?;
+        let proof = consistency_proof(&checkpoints, from_seq, to_seq)
+            .ok_or_else(|| PyRuntimeError::new_err("invalid checkpoint range"))?;
+        serde_json::to_string(&proof).map_err(err)
+    }
 }
 
 /// All records of the store at `path`, read-only, as a JSON
@@ -158,6 +238,76 @@ fn restore_snapshot_json(bundle_path: String, dst_path: String) -> PyResult<Stri
     serde_json::to_string(&report).map_err(err)
 }
 
+fn pubkey_from_hex(pubkey_hex: &str) -> PyResult<[u8; 32]> {
+    let bytes = hex::decode(pubkey_hex).map_err(err)?;
+    bytes
+        .try_into()
+        .map_err(|_| PyRuntimeError::new_err("pubkey must be 32 bytes (64 hex chars)"))
+}
+
+fn hash_from_hex(hash_hex: &str) -> PyResult<[u8; 32]> {
+    let bytes = hex::decode(hash_hex).map_err(err)?;
+    bytes
+        .try_into()
+        .map_err(|_| PyRuntimeError::new_err("hash must be 32 bytes (64 hex chars)"))
+}
+
+/// Verify a signed tree head (DESIGN-15 D2) against the checkpoint
+/// key's public key hex. Standalone: JSON strings in, bool out, no
+/// store access.
+#[pyfunction]
+fn verify_sth_json(sth_json: String, pubkey_hex: String) -> PyResult<bool> {
+    let sth: Sth = serde_json::from_str(&sth_json).map_err(err)?;
+    let pubkey = pubkey_from_hex(&pubkey_hex)?;
+    Ok(verify_sth(&sth, &pubkey))
+}
+
+/// Verify an inclusion proof standalone (DESIGN-15 claim A2):
+/// the record's hash, its index and segment length, the audit path
+/// (JSON array of hex hashes), and the checkpoint root.
+#[pyfunction]
+fn verify_inclusion_json(
+    leaf_hash_hex: String,
+    index: usize,
+    segment_len: usize,
+    proof_json: String,
+    root_hex: String,
+) -> PyResult<bool> {
+    let leaf = hash_from_hex(&leaf_hash_hex)?;
+    let root = hash_from_hex(&root_hex)?;
+    let raw: Vec<String> = serde_json::from_str(&proof_json).map_err(err)?;
+    let mut proof: Vec<[u8; 32]> = Vec::new();
+    for h in &raw {
+        proof.push(hash_from_hex(h)?);
+    }
+    Ok(verify_inclusion(&leaf, index, segment_len, &proof, &root))
+}
+
+/// Verify that one STH extends another (DESIGN-15 claim A1) from
+/// the two heads and a consistency proof, all as JSON strings.
+#[pyfunction]
+fn verify_consistency_json(
+    from_json: String,
+    to_json: String,
+    proof_json: String,
+) -> PyResult<bool> {
+    let from: Sth = serde_json::from_str(&from_json).map_err(err)?;
+    let to: Sth = serde_json::from_str(&to_json).map_err(err)?;
+    let proof: ConsistencyProof = serde_json::from_str(&proof_json).map_err(err)?;
+    Ok(verify_consistency(&from, &to, &proof))
+}
+
+/// Equivocation test (DESIGN-15 claim A3): two STHs for the same
+/// checkpoint with different roots. Callers verify both signatures
+/// first (verify_sth_json); a true result on two validly signed
+/// heads is proof the operator equivocated.
+#[pyfunction]
+fn sth_fork_json(a_json: String, b_json: String) -> PyResult<bool> {
+    let a: Sth = serde_json::from_str(&a_json).map_err(err)?;
+    let b: Sth = serde_json::from_str(&b_json).map_err(err)?;
+    Ok(is_fork(&a, &b))
+}
+
 #[pymodule]
 fn _core(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<RustStore>()?;
@@ -166,5 +316,9 @@ fn _core(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(snapshot_json, m)?)?;
     m.add_function(wrap_pyfunction!(verify_snapshot_json, m)?)?;
     m.add_function(wrap_pyfunction!(restore_snapshot_json, m)?)?;
+    m.add_function(wrap_pyfunction!(verify_sth_json, m)?)?;
+    m.add_function(wrap_pyfunction!(verify_inclusion_json, m)?)?;
+    m.add_function(wrap_pyfunction!(verify_consistency_json, m)?)?;
+    m.add_function(wrap_pyfunction!(sth_fork_json, m)?)?;
     Ok(())
 }

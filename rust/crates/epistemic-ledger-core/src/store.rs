@@ -16,6 +16,7 @@ use serde_json::Value;
 use crate::chain::{
     build_record, chain_line, parse_line, verify_chain_from, ChainError, Record, GENESIS_PREV,
 };
+use crate::checkpoint::{checkpoints_for_records, Checkpoint, DEFAULT_SEGMENT};
 
 #[derive(Debug)]
 pub enum StoreError {
@@ -309,6 +310,28 @@ impl Store {
         }
         verify_chain_from(&records, pubkeys, signed_from_seq)?;
         Ok(records.len() as u64)
+    }
+
+    /// All records currently in the log, in chain order. A torn
+    /// tail at this point means another writer damaged the log
+    /// after open — reported as TornMiddle rather than silently
+    /// truncating history the open scan had accepted.
+    pub fn records(&self) -> Result<Vec<Record>, StoreError> {
+        let raw = std::fs::read(Self::log_path(&self.dir))?;
+        let (records, torn) = scan_log(&raw)?;
+        if torn > 0 {
+            return Err(StoreError::TornMiddle {
+                line: records.len() + 1,
+            });
+        }
+        Ok(records)
+    }
+
+    /// The checkpoint set over the log at the canonical segment
+    /// (DESIGN-15 D2: signed tree heads are issued per checkpoint,
+    /// at this segment, whatever segment a health report used).
+    pub fn checkpoints(&self) -> Result<Vec<Checkpoint>, StoreError> {
+        Ok(checkpoints_for_records(&self.records()?, DEFAULT_SEGMENT))
     }
 
     pub fn next_seq(&self) -> u64 {
