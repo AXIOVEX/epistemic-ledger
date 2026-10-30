@@ -250,6 +250,21 @@ read from the governance report (`key_effective_at` at the
 head's tree size) by the verifier side. Commitments and erasure
 (T2-T3) are the stage's second half and land separately.
 
+**Stage 2b notes (2026-10-30).** Commitments are a Python-side
+construction over ordinary appends: `commitment_for` computes
+HMAC-SHA-256 under the tenant's key over salt || payload, the
+`commitment` record carries only the hex value and a caller
+reference, and the `erasure` record names the commitment it
+retires. Nothing in the chain format changes. The drills are
+the claims: the dictionary attack runs over a known payload
+space with every keyless construction an artifact holder can
+compute, and the erasure drill scans the live store, a snapshot
+taken before the erasure, and the record export for the
+payload, the salt, and the key. What this does not establish:
+that an operator actually destroyed a key — destruction happens
+outside the ledger, and the erasure record attests that the act
+was recorded, not that it occurred.
+
 ## 6. Stage 3 — Schema registry and the Arcturus pack
 
 - **R1.** Appends that violate a registered schema version are refused
