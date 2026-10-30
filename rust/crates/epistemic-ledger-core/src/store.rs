@@ -17,6 +17,7 @@ use crate::chain::{
     build_record, chain_line, parse_line, verify_chain_from, ChainError, Record, GENESIS_PREV,
 };
 use crate::checkpoint::{checkpoints_for_records, Checkpoint, DEFAULT_SEGMENT};
+use crate::governance::{self, GovernanceReport};
 
 #[derive(Debug)]
 pub enum StoreError {
@@ -24,6 +25,10 @@ pub enum StoreError {
     Locked,
     Chain(ChainError),
     TornMiddle { line: usize },
+    /// Governed verification found enrollment-window violations
+    /// (DESIGN-15 D3); the strings are the report's violations, in
+    /// sequence order.
+    Governance(Vec<String>),
 }
 
 impl fmt::Display for StoreError {
@@ -34,6 +39,9 @@ impl fmt::Display for StoreError {
             StoreError::Chain(e) => write!(f, "{e}"),
             StoreError::TornMiddle { line } => {
                 write!(f, "log line {line} is damaged and is not the tail")
+            }
+            StoreError::Governance(violations) => {
+                write!(f, "governance violations: {}", violations.join("; "))
             }
         }
     }
@@ -332,6 +340,41 @@ impl Store {
     /// at this segment, whatever segment a health report used).
     pub fn checkpoints(&self) -> Result<Vec<Checkpoint>, StoreError> {
         Ok(checkpoints_for_records(&self.records()?, DEFAULT_SEGMENT))
+    }
+
+    /// The governance report over the current log (DESIGN-15 D3):
+    /// every key's enrollment windows and every violation, folded
+    /// in sequence order against the genesis key the caller holds
+    /// out of band.
+    pub fn governance_report(
+        &self,
+        genesis_key_id: &str,
+        genesis_pubkey: &[u8; 32],
+    ) -> Result<GovernanceReport, StoreError> {
+        Ok(governance::evaluate(
+            &self.records()?,
+            genesis_key_id,
+            genesis_pubkey,
+        ))
+    }
+
+    /// Governed verification (DESIGN-15 D3, claim T1): the full
+    /// chain plus enrollment windows — every record signed inside
+    /// its key's window, every governance record authorized. Plain
+    /// `verify` keeps its semantics; governance is additive.
+    /// Returns the record count on success.
+    pub fn verify_governed(
+        &self,
+        genesis_key_id: &str,
+        genesis_pubkey: &[u8; 32],
+    ) -> Result<u64, StoreError> {
+        let records = self.records()?;
+        let report = governance::evaluate(&records, genesis_key_id, genesis_pubkey);
+        if report.violations.is_empty() {
+            Ok(records.len() as u64)
+        } else {
+            Err(StoreError::Governance(report.violations))
+        }
     }
 
     pub fn next_seq(&self) -> u64 {
