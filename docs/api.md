@@ -57,3 +57,9 @@ below.
 ::: epistemic_ledger.anchors
     options:
       show_root_heading: false
+
+## Tenant partitions: `epistemic_ledger.partitions`
+
+::: epistemic_ledger.partitions
+    options:
+      show_root_heading: false

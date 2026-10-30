@@ -87,6 +87,18 @@ this project follows [Semantic Versioning](https://semver.org/).
   lifecycle semantics exactly: every terminal transition
   closes the claim's live row.
 
+- Tenant partitions and key governance (DESIGN-15 stage 2,
+  claim T1): tenant ids are slugs resolved strictly inside a
+  partitions root (`RustStore.open_partition`,
+  `epistemic_ledger.partitions`); `key_enrollment` and
+  `key_revocation` records make each partition self-describing,
+  and governed verification (`verify_governed`) enforces
+  enrollment windows — records signed before enrollment, after
+  revocation, or by unenrolled keys fail, while plain `verify`
+  is unchanged. The governance report (windows and violations)
+  is exposed as JSON, with `anchors.key_effective_at` for
+  checking a checkpoint key at a tree head's tree size.
+
 ## [0.13.1] - 2026-10-28
 
 ### Fixed

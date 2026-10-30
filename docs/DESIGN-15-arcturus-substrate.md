@@ -224,6 +224,32 @@ pack in Stage 3.
   region still pass. *Falsifier:* an erasure drill that attempts
   recovery from the store, its snapshots, and its exports.
 
+**Stage 2 implementation notes (2026-10-30).** Tenancy lands as a
+guarded convention over the store's existing physical shape: a
+tenant id is a slug (1-64 chars of [a-z0-9-], starting
+alphanumeric), a partition directory is root + slug with a
+containment check behind it, and the probe suite aims every API
+path at a second partition (reads, appends, escape spellings, a
+second live writer) — all refused or answered from the opened
+partition alone. Key governance folds the chain in sequence
+order: a `key_enrollment` record (payload key_id, pubkey, role)
+opens a window at its own sequence, a `key_revocation` closes it
+at its sequence, and governed verification checks every record's
+signature against the window in force at that record's sequence.
+Governance records are effective only when signed by the genesis
+key — whose public key the verifier holds out of band, the same
+trust shape as the existing pubkeys map — or by a key holding
+the admin role in an open window; the genesis key cannot be
+revoked in-band. Roles are writer, checkpoint, and admin; an
+ordinary record signed by a key holding any other role is a
+violation. Governed verification is additive (`verify_governed`
+beside `verify`, whose semantics do not change) and sequential
+rather than batch, so it is the audit path, not the hot path;
+no DESIGN-13 budget applies to it. Checkpoint-key windows are
+read from the governance report (`key_effective_at` at the
+head's tree size) by the verifier side. Commitments and erasure
+(T2-T3) are the stage's second half and land separately.
+
 ## 6. Stage 3 — Schema registry and the Arcturus pack
 
 - **R1.** Appends that violate a registered schema version are refused

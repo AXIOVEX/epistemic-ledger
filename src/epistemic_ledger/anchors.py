@@ -179,3 +179,23 @@ def verify_anchored_record(
         inclusion["proof"],
         inclusion["root"],
     )
+
+
+def key_effective_at(report: dict, key_id: str, seq: int) -> bool:
+    """Was ``key_id`` inside an enrollment window at ``seq``?
+
+    ``report`` is the governance report the bindings return (the
+    partition's enrollment windows and violations, folded from its
+    own chain). A checkpoint-key holder checks a signed tree head
+    this way: the head's key must have been effective at the
+    head's tree size. The report's violations are the caller's to
+    inspect — a window read from a report that carries violations
+    describes a store that does not govern cleanly.
+    """
+    for window in report.get("windows", []):
+        if window.get("key_id") != key_id:
+            continue
+        revoked = window.get("revoked_seq")
+        if window["enrolled_seq"] < seq and (revoked is None or seq < revoked):
+            return True
+    return False

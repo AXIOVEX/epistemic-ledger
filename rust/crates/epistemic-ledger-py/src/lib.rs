@@ -117,6 +117,55 @@ impl RustStore {
         self.inner.verify_from(&pubkeys, signed_from_seq).map_err(err)
     }
 
+    /// Governed verification (DESIGN-15 D3, claim T1): every
+    /// record signed inside its key's enrollment window, every
+    /// governance record authorized by the genesis key or an
+    /// admin. Returns the record count; raises with the
+    /// violations listed on failure.
+    fn verify_governed(
+        &self,
+        genesis_key_id: String,
+        genesis_pubkey_hex: String,
+    ) -> PyResult<u64> {
+        let pk = pubkey_from_hex(&genesis_pubkey_hex)?;
+        self.inner
+            .verify_governed(&genesis_key_id, &pk)
+            .map_err(err)
+    }
+
+    /// The governance report (every key's enrollment windows and
+    /// every violation, in sequence order) as a JSON string.
+    fn governance_json(
+        &self,
+        genesis_key_id: String,
+        genesis_pubkey_hex: String,
+    ) -> PyResult<String> {
+        let pk = pubkey_from_hex(&genesis_pubkey_hex)?;
+        let report = self
+            .inner
+            .governance_report(&genesis_key_id, &pk)
+            .map_err(err)?;
+        serde_json::to_string(&report).map_err(err)
+    }
+
+    /// Open the store of one tenant partition under a partitions
+    /// root (DESIGN-15 D1, claim T1). The tenant id is a slug and
+    /// the partition directory always stays inside the root.
+    #[staticmethod]
+    fn open_partition(root: String, tenant_id: String) -> PyResult<RustStore> {
+        let dir = epistemic_ledger_core::partitions::partition_dir(
+            &PathBuf::from(root),
+            &tenant_id,
+        )
+        .map_err(err)?;
+        Store::open(&dir)
+            .map(|inner| RustStore {
+                inner,
+                proof_cache: std::sync::Mutex::new(None),
+            })
+            .map_err(err)
+    }
+
     #[getter]
     fn next_seq(&self) -> u64 {
         self.inner.next_seq()
@@ -333,9 +382,23 @@ fn sth_fork_json(a_json: String, b_json: String) -> PyResult<bool> {
     Ok(is_fork(&a, &b))
 }
 
+/// The directory of one tenant's partition under a partitions
+/// root (DESIGN-15 D1), as a string. Raises on an invalid tenant
+/// id — the same slug rule the store opener enforces.
+#[pyfunction]
+fn tenant_partition_dir(root: String, tenant_id: String) -> PyResult<String> {
+    let dir = epistemic_ledger_core::partitions::partition_dir(
+        &PathBuf::from(root),
+        &tenant_id,
+    )
+    .map_err(err)?;
+    Ok(dir.to_string_lossy().into_owned())
+}
+
 #[pymodule]
 fn _core(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<RustStore>()?;
+    m.add_function(wrap_pyfunction!(tenant_partition_dir, m)?)?;
     m.add_function(wrap_pyfunction!(health_json, m)?)?;
     m.add_function(wrap_pyfunction!(read_records_json, m)?)?;
     m.add_function(wrap_pyfunction!(snapshot_json, m)?)?;
