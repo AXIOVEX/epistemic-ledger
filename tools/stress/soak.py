@@ -4,16 +4,26 @@ Two legs run side by side for the soak's duration:
 
 - an append leg — the chained store under a full-rate append
   worker (the DESIGN-13 append budget applies to this engine,
-  and the leg must sustain it);
+  and the leg must sustain it). The append store ROTATES every
+  30 minutes: the worker is stopped, its segment verified, and
+  a fresh store started. Rotation is what the first nightly
+  taught: an unbounded 2-hour append leg heads toward ~18M
+  records with a full verification of that store still owed at
+  the end, and the platform cancelled the step before the
+  report was written. Segments bound every verification, and
+  the leg keeps its headroom.
 - a mixed leg — one Python Ledger under interleaved asserts,
   score revisions, supports, impact analyses, LQL queries, and
-  periodic full verifications.
+  periodic full verifications (on a time cadence: a
+  cycle-count cadence makes each verification's cost grow with
+  the store it is checking).
 
 The soak passes with zero errors on either leg, resident memory
 of the mixed process within 10% of its post-warm-up level at the
-end, a clean full verification of both stores at the end, and
-the append leg at or above budget. The mixed leg's own operation
-rates are reported as measured; no budget is invented for them.
+end, a clean full verification of the mixed store and of every
+append segment at the end, and the append leg at or above
+budget. The mixed leg's own operation rates are reported as
+measured; no budget is invented for them.
 
 Usage:
     python -m tools.stress.soak --duration-seconds 7200 \
@@ -35,6 +45,8 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[2]
 APPEND_BUDGET_RPS = 2000.0
 WARMUP_CLAIMS = 300
+ROTATE_SECONDS = 1800.0
+VERIFY_EVERY_SECONDS = 600.0
 
 
 def _rss_kb() -> int | None:
@@ -48,6 +60,95 @@ def _rss_kb() -> int | None:
     return None
 
 
+class _AppendLeg:
+    """The full-rate append worker, rotated on a clock.
+
+    Each segment is a fresh store directory. Stopping a segment
+    verifies it: the verified record count must sit within the
+    S1 prefix tolerance of the segment's ack count (the acked
+    appends, plus at most the one in flight when the worker was
+    stopped).
+    """
+
+    def __init__(self, tmp: Path, env: dict) -> None:
+        self._tmp = tmp
+        self._env = env
+        self.segments = 0
+        self.appends = 0
+        self.all_verified = True
+        self._proc: subprocess.Popen | None = None
+        self._ack: Path | None = None
+        self._store: Path | None = None
+        self._segment_started = 0.0
+
+    def _start_segment(self) -> None:
+        self.segments += 1
+        self._store = self._tmp / f"append-store-{self.segments}"
+        self._ack = self._tmp / f"acks-{self.segments}.txt"
+        ready = self._tmp / f"ready-{self.segments}.txt"
+        self._proc = subprocess.Popen(
+            [
+                sys.executable,
+                "-m",
+                "tools.stress.worker_append",
+                "--store",
+                str(self._store),
+                "--engine",
+                "rust",
+                "--count",
+                "100000000",
+                "--ack",
+                str(self._ack),
+                "--ready",
+                str(ready),
+                "--delay-ms",
+                "0",
+            ],
+            env=self._env,
+        )
+        self._segment_started = time.monotonic()
+
+    def _stop_segment(self) -> None:
+        assert (
+            self._proc is not None and self._ack is not None and self._store is not None
+        )
+        self._proc.terminate()
+        try:
+            self._proc.wait(timeout=10)
+        except subprocess.TimeoutExpired:
+            self._proc.kill()
+        acked = 0
+        if self._ack.exists():
+            with open(self._ack, "rb") as f:
+                acked = f.read().count(b"\n")
+        self.appends += acked
+        try:
+            from epistemic_ledger._core import RustStore
+            from epistemic_ledger.ed25519 import publickey
+
+            store = RustStore.open(str(self._store))
+            pub = publickey(bytes.fromhex("07" * 32)).hex()
+            verified = store.verify(json.dumps({"stress-writer": pub}), 1)
+            del store
+            if not (acked <= verified <= acked + 1):
+                self.all_verified = False
+        except Exception:
+            self.all_verified = False
+        self._proc = None
+
+    def start(self) -> None:
+        self._start_segment()
+
+    def maybe_rotate(self) -> None:
+        if time.monotonic() - self._segment_started >= ROTATE_SECONDS:
+            self._stop_segment()
+            self._start_segment()
+
+    def finish(self) -> None:
+        if self._proc is not None:
+            self._stop_segment()
+
+
 def run_soak(duration: float, seed: int | None = None) -> dict:
     from epistemic_ledger import Ledger
 
@@ -56,35 +157,12 @@ def run_soak(duration: float, seed: int | None = None) -> dict:
     env = dict(os.environ)
     env["PYTHONPATH"] = str(REPO_ROOT) + os.pathsep + env.get("PYTHONPATH", "")
 
-    ack = tmp / "acks.txt"
-    ready = tmp / "ready.txt"
-    append_store = tmp / "append-store"
-    writer = subprocess.Popen(
-        [
-            sys.executable,
-            "-m",
-            "tools.stress.worker_append",
-            "--store",
-            str(append_store),
-            "--engine",
-            "rust",
-            "--count",
-            "100000000",
-            "--ack",
-            str(ack),
-            "--ready",
-            str(ready),
-            "--delay-ms",
-            "0",
-        ],
-        env=env,
-    )
+    leg = _AppendLeg(tmp, env)
+    leg.start()
 
     errors: list[dict] = []
     ops = {"assert": 0, "score": 0, "support": 0, "impact": 0, "query": 0, "verify": 0}
-    appends = 0
     final_verify_ok = False
-    append_rps = 0.0
     rss_start = None
     rss_end = None
     started = time.monotonic()
@@ -98,9 +176,11 @@ def run_soak(duration: float, seed: int | None = None) -> dict:
             ids.append(cid)
         rss_start = _rss_kb()
         deadline = started + duration
+        last_verify = time.monotonic()
         cycle = 0
         while time.monotonic() < deadline:
             cycle += 1
+            leg.maybe_rotate()
             try:
                 cid = led.assert_claim(f"soak-{cycle}", rng.uniform(0.2, 0.8))
                 ids.append(cid)
@@ -118,9 +198,10 @@ def run_soak(duration: float, seed: int | None = None) -> dict:
                 if cycle % 20 == 0:
                     led.impact(ids[0], max_results=500)
                     ops["impact"] += 1
-                if cycle % 200 == 0:
+                if time.monotonic() - last_verify >= VERIFY_EVERY_SECONDS:
                     report = led.verify_store()
                     ops["verify"] += 1
+                    last_verify = time.monotonic()
                     if not report["ok"]:
                         errors.append(
                             {
@@ -136,32 +217,10 @@ def run_soak(duration: float, seed: int | None = None) -> dict:
         led.close()
     finally:
         elapsed = max(time.monotonic() - started, 0.001)
-        writer.terminate()
-        try:
-            writer.wait(timeout=10)
-        except subprocess.TimeoutExpired:
-            writer.kill()
-        if ack.exists():
-            with open(ack, "rb") as f:
-                appends = f.read().count(b"\n")
-        append_rps = appends / elapsed
+        leg.finish()
 
-    # The append leg's store must verify clean after the kill.
-    append_verify_ok = False
-    try:
-        from epistemic_ledger._core import RustStore
-        from epistemic_ledger.ed25519 import publickey
-
-        store = RustStore.open(str(append_store))
-        pub = publickey(bytes.fromhex("07" * 32)).hex()
-        verified = store.verify(json.dumps({"stress-writer": pub}), 1)
-        # The terminated worker may leave one in-flight append
-        # beyond the ack frontier — the S1 prefix property.
-        append_verify_ok = appends <= verified <= appends + 1
-        del store
-    except Exception as exc:
-        errors.append({"cycle": -1, "error": f"append-leg verify: {exc}"})
-
+    append_rps = leg.appends / elapsed
+    append_verify_ok = leg.all_verified and leg.segments >= 1
     drift = None
     if rss_start and rss_end:
         drift = round(100.0 * (rss_end - rss_start) / rss_start, 2)
@@ -182,6 +241,7 @@ def run_soak(duration: float, seed: int | None = None) -> dict:
         "rss_drift_pct": drift,
         "append_rps": round(append_rps, 1),
         "append_budget_rps": APPEND_BUDGET_RPS,
+        "append_segments": leg.segments,
         "final_verify_ok": final_verify_ok,
         "append_verify_ok": append_verify_ok,
         "passed": passed,

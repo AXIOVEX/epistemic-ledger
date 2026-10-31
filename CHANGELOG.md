@@ -140,6 +140,17 @@ this project follows [Semantic Versioning](https://semver.org/).
   warm-up (the bench's methodology), after the first nightly's
   single cold measurement proved incomparable.
 
+- Soak leg rework (from the first nightly's triage): the
+  append store rotates every 30 minutes — worker stopped,
+  segment verified, fresh store started — so no verification
+  is ever owed on an unbounded store and the leg keeps
+  headroom inside its job; the mixed leg's full verifications
+  run on a 600-second cadence instead of a cycle count whose
+  cost grew with the store. The report gains `append_segments`.
+  The first nightly's soak was cancelled by the platform at
+  2h01m before writing any report (S3 not measured, not
+  failed); this rework is the response.
+
 ## [0.13.1] - 2026-10-28
 
 ### Fixed
