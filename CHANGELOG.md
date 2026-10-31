@@ -151,6 +151,18 @@ this project follows [Semantic Versioning](https://semver.org/).
   2h01m before writing any report (S3 not measured, not
   failed); this rework is the response.
 
+- Release stress tier (DESIGN-16 stage 4): a manually
+  dispatched workflow for the pre-tag gate — resource floors
+  (`tools/stress/floors.py`: a genuine disk-full on a loopback
+  filesystem, where the failing append must be loud and the
+  store must verify at exactly its successful-append count,
+  and a 256 MB memory-ceiling verification of the 100k-record
+  store, S5), the fuzz campaigns at 30 minutes per target
+  (S6), and a 4-hour soak — with a report job that assembles
+  the proven / not-proven summary (including the latest
+  nightly's conclusion) for the release notes and files an
+  issue on any red leg.
+
 ## [0.13.1] - 2026-10-28
 
 ### Fixed

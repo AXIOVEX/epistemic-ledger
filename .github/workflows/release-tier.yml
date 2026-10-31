@@ -1,0 +1,157 @@
+name: Release stress tier
+
+# DESIGN-16 T-Release: run manually before tagging a release.
+# The fuzz campaigns (30 minutes per target, S6), the resource
+# floors (genuine disk-full and a 256 MB memory ceiling, S5),
+# and a 4-hour soak (S3 at release scale). The report job
+# assembles the proven / not-proven summary — including the
+# latest nightly run's conclusion — and files an issue on any
+# red leg. The release does not tag on a red release tier; the
+# summary is what the release notes carry.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  floors:
+    name: Resource floors (S5)
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: dtolnay/rust-toolchain@stable
+      - run: python -m venv /tmp/tier-venv
+      - run: /tmp/tier-venv/bin/pip install -q maturin pytest cryptography hypothesis
+      - name: Build the bindings wheel
+        run: cd rust/crates/epistemic-ledger-py && /tmp/tier-venv/bin/maturin build --release --interpreter /tmp/tier-venv/bin/python -o /tmp/wheels
+      - run: /tmp/tier-venv/bin/pip install -q /tmp/wheels/*.whl
+      - run: /tmp/tier-venv/bin/pip install -q .
+      - name: Run the floors
+        run: /tmp/tier-venv/bin/python -m tools.stress.floors --out floors.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: report-floors
+          path: floors.json
+
+  fuzz:
+    name: Fuzz campaign, ${{ matrix.target }} (S6)
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [chain_line, canon_json, sth_decode, consistency_decode, manifest_decode]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@nightly
+      - name: Install cargo-fuzz
+        run: cargo install cargo-fuzz --locked
+      - name: Run the campaign (30 minutes)
+        working-directory: rust/fuzz
+        run: cargo fuzz run ${{ matrix.target }} -- -max_total_time=1800
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: fuzz-artifacts-${{ matrix.target }}
+          path: rust/fuzz/artifacts/**
+
+  soak4h:
+    name: Soak, 4 hours (S3)
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: dtolnay/rust-toolchain@stable
+      - run: python -m venv /tmp/tier-venv
+      - run: /tmp/tier-venv/bin/pip install -q maturin pytest cryptography hypothesis
+      - name: Build the bindings wheel
+        run: cd rust/crates/epistemic-ledger-py && /tmp/tier-venv/bin/maturin build --release --interpreter /tmp/tier-venv/bin/python -o /tmp/wheels
+      - run: /tmp/tier-venv/bin/pip install -q /tmp/wheels/*.whl
+      - run: /tmp/tier-venv/bin/pip install -q .
+      - name: Run the 4-hour soak
+        run: /tmp/tier-venv/bin/python -m tools.stress.soak --duration-seconds 14400 --out soak.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: report-soak4h
+          path: soak.json
+
+  report:
+    name: Report (proven / not-proven summary)
+    needs: [floors, fuzz, soak4h]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      issues: write
+      actions: read
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: reports
+          pattern: report-*
+          merge-multiple: true
+      - name: Summarize and file an issue on failure
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RESULTS: ${{ toJSON(needs) }}
+        run: |
+          python3 - <<'EOF'
+          import json, os, subprocess, datetime, glob
+          needs = json.loads(os.environ["RESULTS"])
+          failed = [k for k, v in needs.items() if v["result"] != "success"]
+          lines = []
+          for path in sorted(glob.glob("reports/*.json")):
+              try:
+                  with open(path) as f:
+                      rep = json.load(f)
+              except Exception as exc:
+                  failed.append(f"unreadable report {path}: {exc}")
+                  continue
+              lines.append(f"- {os.path.basename(path)}: passed={rep.get('passed')}")
+              if rep.get("passed") is False:
+                  failed.append(os.path.basename(path))
+          nightly = subprocess.run(
+              ["gh", "api",
+               "repos/" + os.environ["GITHUB_REPOSITORY"] + "/actions/workflows/nightly.yml/runs?per_page=1",
+               "--jq", ".workflow_runs[0] | {conclusion, created_at}"],
+              capture_output=True, text=True,
+          )
+          lines.append(f"- latest nightly run: {nightly.stdout.strip() or 'unavailable'}")
+          summary = "\n".join(lines) if lines else "- no reports found"
+          print(summary)
+          with open("release-tier-summary.md", "w") as f:
+              f.write("# Release stress tier — proven / not-proven\n\n" + summary + "\n")
+          if failed:
+              date = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d")
+              body = (
+                  "The release stress tier failed.\n\n"
+                  f"Failed legs: {', '.join(sorted(set(failed)))}\n\n"
+                  f"Leg reports:\n{summary}\n\n"
+                  "Full JSON reports are artifacts on the workflow run. "
+                  "The release does not tag on a red release tier (DESIGN-16)."
+              )
+              subprocess.run(
+                  ["gh", "issue", "create",
+                   "--repo", os.environ["GITHUB_REPOSITORY"],
+                   "--title", f"Release stress tier — {date}",
+                   "--body", body],
+                  check=True,
+              )
+          EOF
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: release-tier-summary
+          path: release-tier-summary.md
