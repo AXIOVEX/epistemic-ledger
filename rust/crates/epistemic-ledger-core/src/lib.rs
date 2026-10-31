@@ -8,6 +8,7 @@ pub mod fuzzing;
 pub mod governance;
 pub mod health;
 pub mod partitions;
+pub mod reader;
 pub mod snapshot;
 pub mod sth;
 pub mod store;

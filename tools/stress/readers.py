@@ -11,12 +11,17 @@ Why two surfaces: the Python Ledger is single-writer by design
 through a Ledger object, so N processes cannot each run
 led.query against the live store. The run measures the two read
 surfaces the architecture actually offers concurrent readers:
-the chained store's read-only open (surface ``rust``), and the
+the chained store's verified point reads (surface ``rust``), and the
 Python projection read through read-only SQLite connections
 running the point query LQL's CLAIM compiles to (surface
 ``sqlite``). The literal LQL-through-Ledger reading of S4 is not
 measurable on the single-writer architecture; the nightly notes
 record that rather than quietly redefining the claim.
+The first nightly ran the rust surface as whole-log reads and
+its latency leg failed (p99 760 ms at ~300k records); the
+owner chose building the point-read surface over revising the
+claim, so the rust surface is now `RustReader` point reads
+and S4 stands as written.
 
 Usage:
     python -m tools.stress.readers --surface rust \

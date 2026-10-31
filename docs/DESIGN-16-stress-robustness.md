@@ -227,6 +227,23 @@ verdict (`enforced`). Release-notes reporting: the tier's
 summary is written for the release notes verbatim — the claims
 with their latest measured values, misses stated as misses.
 
+**S4 resolution (2026-10-30, owner's decision).** The first
+nightly's readers leg failed the latency half of S4 because
+the chained store had no point-read surface — the leg read
+the whole log per query (p99 760 ms at ~300k records) while
+the integrity half held. Presented with revising the claim
+to the projection surface only or building the surface, the
+owner chose to build it. The core gains `StoreReader`
+(`reader.rs`): a read-only byte-offset index built under the
+chain's own rules (middle damage is a loud `TornMiddle`; a
+writer's in-flight tail is simply not yet a record), a
+`refresh()` that scans only newly appended bytes, and
+`record_at(seq)`, which recomputes the record's hash in the
+core before returning it — a point read is a verified point
+read. The bindings expose it as `RustReader`, and the
+readers leg's rust surface now measures point reads, so S4's
+latency leg is measured as written from the next nightly on.
+
 ## 5. Honest scope — what this does not establish
 
 - Killing a process is not cutting power. Behavior under real power

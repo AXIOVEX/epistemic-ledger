@@ -2,14 +2,18 @@
 
 One reader process. It queries its surface in a loop for the
 requested duration and records, per query: latency, and whether
-the observation was torn — a record set whose sequences are not
-contiguous, a record missing a field, a row with a score outside
-[0, 1] or a missing status. Partial results are written every 25
-queries (write-then-rename) so a killed reader still leaves its
+the observation was torn — for the chained store, a point read
+that returns nothing for an in-range sequence, a record whose
+sequence is not the one asked for, or a record missing a field;
+for the projection, a row with a score outside [0, 1] or a
+missing status. Partial results are written every 25 queries
+(write-then-rename) so a killed reader still leaves its
 observations behind; the final write lands at duration end.
 
 Surfaces (see tools/stress/readers.py for why there are two):
-``rust`` reads the chained store through its read-only open;
+``rust`` reads the chained store through verified point reads
+(a `RustReader`: an offset index over the log, one record per
+query, its hash recomputed in the core before it is returned);
 ``sqlite`` holds a read-only connection to the Python store's
 projection and runs the point query LQL's CLAIM compiles to.
 
@@ -37,31 +41,42 @@ def _write_out(path: Path, data: dict) -> None:
 
 
 def _run_rust(store: str, duration: float, out: Path) -> dict:
-    from epistemic_ledger._core import read_records_json
+    import random
 
+    from epistemic_ledger._core import RustReader
+
+    rng = random.Random()
+    reader = RustReader.open(store)
     latencies: list[float] = []
     torn = 0
     errors = 0
-    last_count = 0
     deadline = time.monotonic() + duration
     n = 0
     while time.monotonic() < deadline:
-        t0 = time.perf_counter()
         try:
-            records = json.loads(read_records_json(store))
+            # Untimed: keeping the index current is bookkeeping,
+            # not the read S4 prices. When the writer has
+            # appended, this scans only the new lines.
+            reader.refresh()
+            count = reader.count
+            if count == 0:
+                time.sleep(0.01)
+                continue
+            seq = rng.randint(1, count)
+            t0 = time.perf_counter()
+            raw = reader.record_json(seq)
+            latencies.append((time.perf_counter() - t0) * 1000.0)
+            n += 1
+            if raw is None:
+                torn += 1
+            else:
+                rec = json.loads(raw)
+                if rec.get("seq") != seq or not _RECORD_FIELDS <= set(rec):
+                    torn += 1
         except Exception:
             errors += 1
-            continue
-        latencies.append((time.perf_counter() - t0) * 1000.0)
-        n += 1
-        seqs_ok = all(
-            rec.get("seq") == i + 1 and _RECORD_FIELDS <= set(rec)
-            for i, rec in enumerate(records)
-        )
-        if not seqs_ok or len(records) < last_count:
-            torn += 1
-        last_count = max(last_count, len(records))
-        if n % 25 == 0:
+            time.sleep(0.01)
+        if n and n % 25 == 0:
             _write_out(
                 out,
                 {

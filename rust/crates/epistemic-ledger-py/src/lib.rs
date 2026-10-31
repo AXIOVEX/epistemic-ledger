@@ -14,6 +14,7 @@ use epistemic_ledger_core::health::health_with_segment;
 use epistemic_ledger_core::sth::{
     consistency_proof, is_fork, sign_sth, verify_consistency, verify_sth, ConsistencyProof, Sth,
 };
+use epistemic_ledger_core::reader::StoreReader;
 use epistemic_ledger_core::store::Store;
 use pyo3::exceptions::PyRuntimeError;
 use pyo3::prelude::*;
@@ -395,9 +396,51 @@ fn tenant_partition_dir(root: String, tenant_id: String) -> PyResult<String> {
     Ok(dir.to_string_lossy().into_owned())
 }
 
+/// Verified point reads over a chained store (DESIGN-16,
+/// claim S4): a read-only offset index plus one verified
+/// record per call. See `epistemic_ledger_core::reader`.
+#[pyclass]
+struct RustReader {
+    inner: std::sync::Mutex<StoreReader>,
+}
+
+#[pymethods]
+impl RustReader {
+    #[staticmethod]
+    fn open(dir: String) -> PyResult<RustReader> {
+        let inner = StoreReader::open(&PathBuf::from(dir)).map_err(err)?;
+        Ok(RustReader {
+            inner: std::sync::Mutex::new(inner),
+        })
+    }
+
+    #[getter]
+    fn count(&self) -> u64 {
+        self.inner.lock().unwrap().count()
+    }
+
+    #[getter]
+    fn head_hash(&self) -> String {
+        self.inner.lock().unwrap().head_hash().to_string()
+    }
+
+    fn refresh(&self) -> PyResult<u64> {
+        self.inner.lock().unwrap().refresh().map_err(err)
+    }
+
+    fn record_json(&self, seq: u64) -> PyResult<Option<String>> {
+        let reader = self.inner.lock().unwrap();
+        match reader.record_at(seq).map_err(err)? {
+            Some(record) => Ok(Some(serde_json::to_string(&record).map_err(err)?)),
+            None => Ok(None),
+        }
+    }
+}
+
 #[pymodule]
 fn _core(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<RustStore>()?;
+    m.add_class::<RustReader>()?;
     m.add_function(wrap_pyfunction!(tenant_partition_dir, m)?)?;
     m.add_function(wrap_pyfunction!(health_json, m)?)?;
     m.add_function(wrap_pyfunction!(read_records_json, m)?)?;

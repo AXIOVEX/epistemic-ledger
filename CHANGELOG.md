@@ -173,6 +173,16 @@ this project follows [Semantic Versioning](https://semver.org/).
   chained-store path on it (claim W1); the PyPI readme is
   refreshed to the current feature set.
 
+- Verified point reads for the chained store (the DESIGN-16
+  S4 resolution, owner's decision): a read-only offset index
+  (`StoreReader` in the core, `RustReader` in the bindings)
+  serves one record per call with its hash recomputed in the
+  core before it is returned, refreshing over newly appended
+  bytes only — replacing whole-log reads, whose p99 of 760 ms
+  on a ~300k-record store failed the reader-concurrency
+  latency budget in the first nightly. The nightly readers
+  leg now measures the chained store through point reads.
+
 ## [0.13.1] - 2026-10-28
 
 ### Fixed
