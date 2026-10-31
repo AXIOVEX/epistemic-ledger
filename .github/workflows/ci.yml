@@ -141,12 +141,14 @@ jobs:
       - run: python -m venv /tmp/battery-venv
       - run: /tmp/battery-venv/bin/pip install -q maturin pytest cryptography hypothesis
       - name: Build the bindings wheel
-        run: cd rust/crates/epistemic-ledger-py && /tmp/battery-venv/bin/maturin build --release --interpreter /tmp/battery-venv/bin/python -o /tmp/wheels
-      - run: /tmp/battery-venv/bin/pip install -q /tmp/wheels/*.whl
-      # The checkout's sources install last so they stay authoritative
-      # over the wheel's identical copy of the package; the compiled
-      # _core from the wheel stays beside it.
+        run: /tmp/battery-venv/bin/maturin build --release --interpreter /tmp/battery-venv/bin/python -o /tmp/wheels
       - run: /tmp/battery-venv/bin/pip install -q .
+      # The wheel installs last: it is the same distribution at
+      # the same version, carrying the same package sources plus
+      # the compiled _core — installing the pure package after
+      # it would uninstall the wheel's files and take _core
+      # with them (PR #49's CI proved exactly that).
+      - run: /tmp/battery-venv/bin/pip install -q /tmp/wheels/*.whl
       - name: Run the adversarial battery (failures annotated)
         run: |
           set +e
@@ -264,14 +266,14 @@ jobs:
       - run: python -m venv /tmp/bindings-venv
       - run: /tmp/bindings-venv/bin/pip install -q maturin pytest cryptography
       - name: Build the bindings wheel
-        run: cd rust/crates/epistemic-ledger-py && /tmp/bindings-venv/bin/maturin build --release --interpreter /tmp/bindings-venv/bin/python -o /tmp/wheels
-      - run: /tmp/bindings-venv/bin/pip install -q /tmp/wheels/*.whl
-          /tmp/bindings-venv/bin/python -c "import epistemic_ledger._core; print('::error::DIAG bindings after_wheel ok')" || echo "::error::DIAG bindings after_wheel FAILED"
-      # The checkout's sources install last so they stay authoritative
-      # over the wheel's identical copy of the package; the compiled
-      # _core from the wheel stays beside it.
+        run: /tmp/bindings-venv/bin/maturin build --release --interpreter /tmp/bindings-venv/bin/python -o /tmp/wheels
       - run: /tmp/bindings-venv/bin/pip install -q .
-          /tmp/bindings-venv/bin/python -c "import epistemic_ledger._core; print('::error::DIAG bindings after_pkg ok')" || echo "::error::DIAG bindings after_pkg FAILED"
+      # The wheel installs last: it is the same distribution at
+      # the same version, carrying the same package sources plus
+      # the compiled _core — installing the pure package after
+      # it would uninstall the wheel's files and take _core
+      # with them (PR #49's CI proved exactly that).
+      - run: /tmp/bindings-venv/bin/pip install -q /tmp/wheels/*.whl
       - name: Run bindings tests (failures annotated)
         run: |
           set +e
@@ -296,39 +298,11 @@ jobs:
       - run: python -m venv /tmp/w1-build
       - run: /tmp/w1-build/bin/pip install -q maturin cryptography
       - name: Build the platform wheel
-        run: cd rust/crates/epistemic-ledger-py && /tmp/w1-build/bin/maturin build --release --interpreter /tmp/w1-build/bin/python -o /tmp/w1-wheels
-      - name: DIAGNOSTIC wheel facts
-        run: |
-          /tmp/w1-build/bin/python - <<'EOF'
-          import glob, zipfile
-          w = glob.glob("/tmp/w1-wheels/*.whl")[0]
-          names = zipfile.ZipFile(w).namelist()
-          print("::error::DIAG wheel_entries", len(names))
-          print("::error::DIAG has_init", "epistemic_ledger/__init__.py" in names)
-          print("::error::DIAG has_core", any(n.endswith("_core.abi3.so") for n in names))
-          print("::error::DIAG has_ledger", "epistemic_ledger/ledger.py" in names)
-          print("::error::DIAG py_files", sum(1 for n in names if n.endswith(".py")))
-          EOF
+        run: /tmp/w1-build/bin/maturin build --release --interpreter /tmp/w1-build/bin/python -o /tmp/w1-wheels
       - name: Install with no Rust toolchain; smoke the chained store
         run: |
           python -m venv /tmp/w1-run
           /tmp/w1-run/bin/pip install -q /tmp/w1-wheels/*.whl cryptography
-          /tmp/w1-run/bin/python - <<'EOF' || true
-          import os
-          try:
-              import epistemic_ledger
-              p = os.path.dirname(epistemic_ledger.__file__)
-              print("::error::DIAG pkg_entries", len(os.listdir(p)))
-              from epistemic_ledger import Ledger
-              print("::error::DIAG ledger_import ok")
-          except Exception as e:
-              print("::error::DIAG import_failed", type(e).__name__, str(e)[:120])
-          try:
-              import epistemic_ledger._core
-              print("::error::DIAG core_import ok")
-          except Exception as e:
-              print("::error::DIAG core_failed", type(e).__name__, str(e)[:120])
-          EOF
           cd /tmp && PATH=/tmp/w1-run/bin:/usr/bin:/bin /tmp/w1-run/bin/python - <<'EOF'
           import shutil
           assert shutil.which("cargo") is None, "toolchain leaked into the run env"

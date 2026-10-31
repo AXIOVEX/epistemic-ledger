@@ -118,3 +118,17 @@ ignore_missing_imports = true
 # under these settings; new modules (cli, __init__) are fully annotated
 # in practice and checked the same way.
 check_untyped_defs = true
+
+# The platform wheel (DESIGN-15 stage 5): maturin builds the
+# distribution from the repository root — this [project] table
+# is the wheel's metadata, python-source is the real package,
+# and the manifest is the bindings crate. Building from the
+# root is load-bearing: maturin drops a python-source that
+# points outside the crate's own tree (PR #49's CI proved the
+# crate-local build ships the compiled module with no package
+# files at all).
+[tool.maturin]
+bindings = "pyo3"
+module-name = "epistemic_ledger._core"
+python-source = "src"
+manifest-path = "rust/crates/epistemic-ledger-py/Cargo.toml"

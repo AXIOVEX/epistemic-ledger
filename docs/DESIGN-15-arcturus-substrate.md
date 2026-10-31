@@ -346,6 +346,20 @@ workflow's tag check asserts they match. The remaining train
 release-tier run, and the 0.14.0 release itself — follows as
 its own steps.
 
+Correction (same day, from this PR's CI): the platform wheel
+is built by maturin from the REPOSITORY ROOT, not from the
+bindings crate. The crate-local configuration above was
+proved wrong by measurement — with `python-source` pointing
+outside the crate's tree, maturin shipped the compiled module
+with no package files at all (a 5-entry wheel), and where a
+venv then installed the pure package after the wheel, pip's
+same-name uninstall removed the wheel's files, `_core`
+included. The root `pyproject.toml` now carries
+`[tool.maturin]` (its own `[project]` table is the wheel
+metadata; `manifest-path` points at the bindings crate), the
+crate's own pyproject is deleted, and every CI recipe
+installs the pure package first and the wheel last.
+
 ## 9. Honest scope — what this does not establish
 
 - Anchoring proves a history existed by the anchor time and has not
