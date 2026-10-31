@@ -204,6 +204,29 @@ flips in distinct records cannot cancel inside one record's
 CRC and hash, so a detected batch detects every flip in it,
 and an undetected batch is bisected to name its misses.
 
+**Stage 4 implementation notes (2026-10-30).** The release
+tier is a manually dispatched workflow (the release process
+runs it before tagging): the resource floors, a fuzz matrix at
+30 minutes per target, and a 4-hour soak, with a report job
+that assembles the proven / not-proven summary — including the
+latest nightly's conclusion — and files an issue on any red
+leg. Two implementation choices are recorded. (1) The
+disk-full floor is a genuine ENOSPC on a 96 MB loopback ext4
+filesystem, not a simulated write error; where the loopback
+setup is unavailable the leg reports NOT RUN with its reason,
+never a synthetic pass. The floor as stated requires the
+reopened store to verify at exactly the count of successful
+appends — if a failure mode ever leaves an unacknowledged
+record in the store, that tension with S1's one-in-flight
+tolerance is a finding to report, not a tolerance to quietly
+adopt here. (2) The memory floor enforces its 256 MB ceiling
+with a cgroup scope where systemd-run is available, and
+otherwise measures the verifying child's peak resident size
+and compares — the report states which mode produced the
+verdict (`enforced`). Release-notes reporting: the tier's
+summary is written for the release notes verbatim — the claims
+with their latest measured values, misses stated as misses.
+
 ## 5. Honest scope — what this does not establish
 
 - Killing a process is not cutting power. Behavior under real power
