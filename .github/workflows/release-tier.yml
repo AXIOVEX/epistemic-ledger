@@ -86,9 +86,33 @@ jobs:
           name: report-soak4h
           path: soak.json
 
+  soak4h-append:
+    name: Soak, append leg, 4 hours (S3)
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: dtolnay/rust-toolchain@stable
+      - run: python -m venv /tmp/tier-venv
+      - run: /tmp/tier-venv/bin/pip install -q maturin pytest cryptography hypothesis
+      - name: Build the bindings wheel
+        run: /tmp/tier-venv/bin/maturin build --release --interpreter /tmp/tier-venv/bin/python -o /tmp/wheels
+      - run: /tmp/tier-venv/bin/pip install -q .
+      - run: /tmp/tier-venv/bin/pip install -q --force-reinstall /tmp/wheels/*.whl
+      - name: Run the 4-hour append soak leg
+        run: /tmp/tier-venv/bin/python -m tools.stress.soak --leg append --duration-seconds 14400 --out soak-append.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: report-soak4h-append
+          path: soak-append.json
+
   report:
     name: Report (proven / not-proven summary)
-    needs: [floors, fuzz, soak4h]
+    needs: [floors, fuzz, soak4h, soak4h-append]
     if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 15

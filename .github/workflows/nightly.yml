@@ -1,7 +1,7 @@
 name: Nightly stress tier
 
 # DESIGN-16 T-Nightly: the long stress legs that cannot run per
-# pull request — a 2-hour mixed soak, 500 kill-point trials, the
+# pull request — the 2-hour soak legs, 500 kill-point trials, the
 # full bit-rot program, reader concurrency, and the 1M-record
 # scale run. Every leg emits a machine-readable report; the
 # report job files an issue when any leg fails, so a red nightly
@@ -39,6 +39,30 @@ jobs:
         with:
           name: report-soak
           path: soak.json
+
+  soak-append:
+    name: Soak, append leg (2h, S3)
+    runs-on: ubuntu-latest
+    timeout-minutes: 170
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: dtolnay/rust-toolchain@stable
+      - run: python -m venv /tmp/nightly-venv
+      - run: /tmp/nightly-venv/bin/pip install -q maturin pytest cryptography hypothesis
+      - name: Build the bindings wheel
+        run: /tmp/nightly-venv/bin/maturin build --release --interpreter /tmp/nightly-venv/bin/python -o /tmp/wheels
+      - run: /tmp/nightly-venv/bin/pip install -q .
+      - run: /tmp/nightly-venv/bin/pip install -q --force-reinstall /tmp/wheels/*.whl
+      - name: Run the append soak leg
+        run: /tmp/nightly-venv/bin/python -m tools.stress.soak --leg append --duration-seconds 7200 --out soak-append.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: report-soak-append
+          path: soak-append.json
 
   killpoint-rust:
     name: Kill-point sweep, Rust (250 kills, S1)
@@ -172,7 +196,7 @@ jobs:
 
   report:
     name: Report (files an issue on failure)
-    needs: [soak, killpoint-rust, killpoint-python, bitrot, readers, scale]
+    needs: [soak, soak-append, killpoint-rust, killpoint-python, bitrot, readers, scale]
     if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 15

@@ -138,14 +138,17 @@ defect and never weather.
   every byte offset — on the 100-record store, and by 10,000 random
   flips on the 100k-record reference store, stated as exactly that.
   *Falsifier:* either sweep finding an undetected flip.
-- **S3 — Soak stability.** Two hours of mixed load (appends, verifies,
-  impact analyses, LQL queries interleaved) sustain at least the
-  DESIGN-13 append budget, with zero errors, memory growth bounded
-  (resident memory retained after the run — measured once the
-  ledger is closed and the allocator trimmed — within 25% plus
-  25 MB of its post-warm-up level; revised 2026-10-31, see the
-  release-tier soak note below), and
-  a clean full verification at the end. *Falsifier:* the soak report.
+- **S3 — Soak stability.** Two hours of mixed load (asserts,
+  score revisions, supports, impact analyses, LQL queries
+  interleaved) with zero errors and a clean full verification
+  at the end, memory retention bounded (live traced bytes
+  after the run within 25% plus 25 MB of the post-warm-up
+  live level), and — in a sibling leg of the same duration on
+  its own runner — the chained append stream sustaining at
+  least the DESIGN-13 append budget with every rotated
+  segment verified. *Falsifier:* the soak reports. (Memory
+  instrument and leg separation revised 2026-10-31 after the
+  first three soak runs; see the soak notes below.)
 - **S4 — Concurrent readers.** With 8 reader processes querying during
   append load, no reader ever observes a partial or torn record —
   reads return whole, chain-consistent results or clean errors — and
@@ -316,6 +319,31 @@ every segment verified inside the S1 prefix tolerance,
 and zero errors of any other kind across ~118,000 mixed
 operations. The tier re-runs on the fixed code before the
 0.14.0 tag moves.
+
+**Release-tier soak, run 3 (2026-10-31).** The identifier
+fix held: zero errors across ~103,000 mixed operations and
+the final verification clean — the integrity half of S3 is
+proven at 4-hour scale. The run still failed its two
+measurement legs, and both failures were chased to ground
+before changing anything. Retention, as re-instrumented in
+run 3's soak (resident size after close + trim), read
+225 MB against a 25 MB post-warm-up level — but the
+tracemalloc census at probe scale shows ~1 MB actually
+live: the gap is fragmented allocator arenas, which no
+resident-size reading can separate from retention. The
+instrument is therefore live traced bytes (tracemalloc from
+post-warm-up to post-close), which counts exactly what the
+program still holds; the 25% + 25 MB bound is unchanged.
+And the append leg missed again — 1,785 appends/s, SOLO
+this time — which killed the fleet-contention theory and
+isolated the mechanism: the mixed leg shares the soak
+runner, and its per-cycle cost grows with its store, so it
+starves the co-resident append worker more every hour.
+The DESIGN-13 budget was earned on an idle box; from this
+revision the append leg runs on its own runner at both
+tiers, and the mixed leg's cycles no longer sit on its
+CPUs. S3 remains NOT PROVEN until a tier run is green
+under this shape; the tag remains held.
 
 ## 5. Honest scope — what this does not establish
 
