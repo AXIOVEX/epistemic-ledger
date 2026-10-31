@@ -144,9 +144,12 @@ defect and never weather.
   at the end, memory retention bounded (live traced bytes
   after the run within 25% plus 25 MB of the post-warm-up
   live level), and — in a sibling leg of the same duration on
-  its own runner — the chained append stream sustaining at
-  least the DESIGN-13 append budget with every rotated
-  segment verified. *Falsifier:* the soak reports. (Memory
+  its own runner — the chained append stream sustaining the
+  full duration with every rotated segment verified (its
+  rate reported as measured; the DESIGN-13 append budget
+  itself is gated by the per-PR bench, whose workload it
+  describes — re-scoped 2026-10-31 on the owner's decision,
+  see the run-3 note below). *Falsifier:* the soak reports. (Memory
   instrument and leg separation revised 2026-10-31 after the
   first three soak runs; see the soak notes below.)
 - **S4 — Concurrent readers.** With 8 reader processes querying during
@@ -344,6 +347,30 @@ revision the append leg runs on its own runner at both
 tiers, and the mixed leg's cycles no longer sit on its
 CPUs. S3 remains NOT PROVEN until a tier run is green
 under this shape; the tag remains held.
+
+**Append-gate re-scope (owner's decision, 2026-10-31).**
+The manually dispatched nightly that followed run 3
+completed the picture: S7 proven in full at 1M records
+(impact 69.6 ms against 250 ms with the corrected
+methodology — the run-1 miss was its cold single-shot
+measurement), S4 proven on both surfaces (point reads p99
+0.039 ms; projection p99 18.5 ms; zero torn reads), the
+mixed soak green at 2 hours with traced-live retention of
+1.7 MB, and the append leg missing a fourth time — 1,686
+appends/s on its own runner, 12.2M appends, all segments
+verified. Four misses under every co-location theory, and
+the remaining candidates (the soak worker's second,
+fsynced acknowledgement per record — a stricter workload
+than the bench's; sustained-write throttling on hosted
+storage) could not be separated with the evidence
+available; a local A/B could not price the fsync because
+this machine's sync is ~free at 8–9k appends/s in both
+arms. The owner chose the re-scope: the soak's append leg
+gates on endurance and integrity with its rate reported,
+and the append budget stays gated at the per-PR bench,
+green on this code in every Battery run. Nothing about
+the store's measured burst rate changed; what changed is
+which instrument carries the release gate for it.
 
 ## 5. Honest scope — what this does not establish
 

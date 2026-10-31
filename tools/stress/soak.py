@@ -11,8 +11,10 @@ each on its own runner at both tiers:
   errors, a clean full verification at the end, and memory
   retention inside its bound (below).
 - the append leg (`--leg append`) — the chained store under a
-  full-rate append worker, measured against the DESIGN-13
-  append budget. The append store ROTATES every 30 minutes:
+  full-rate append worker. It gates on endurance and
+  integrity: the full duration sustained, every rotated
+  segment verified, the sustained rate reported as measured.
+  The append store ROTATES every 30 minutes:
   the worker is stopped, its segment verified, and a fresh
   store started. Rotation is what the first nightly taught:
   an unbounded 2-hour append leg heads toward ~18M records
@@ -21,15 +23,27 @@ each on its own runner at both tiers:
   was written. Segments bound every verification, and the leg
   keeps its headroom.
 
-Why separate runners: the first three soak runs co-located
-the legs, and the append leg missed its budget every time
-(1,807 / 1,972 / 1,785 against 2,000 appends/s) — including
-a run with nothing else on the fleet. The mixed leg's
-per-cycle cost grows with its store, so over four hours it
-eats an ever-larger share of the shared runner's CPUs and
-starves the append worker it shares them with. The budget
-was earned on an idle box (the bench); it is measured on
-one. The legs' separation is recorded in DESIGN-16.
+Why separate runners, and why the append leg no longer
+gates on the rate budget (owner's decision, 2026-10-31):
+across four soak runs the append leg measured 1,807 /
+1,972 / 1,785 / 1,686 appends/s against the 2,000 budget —
+co-located, solo, and on its own runner alike. The gap
+could not be attributed to the store from the available
+evidence: the soak worker's workload is stricter than the
+bench's (a second, fsynced acknowledgement write per
+record, which the budget workload does not carry), and
+sustained multi-gigabyte writes on hosted-runner storage
+throttle in ways a 100k-append bench burst never meets.
+The DESIGN-13 budget therefore stays gated where its
+workload is measured cleanly — the per-PR bench in the
+Battery job, green on this code — and the soak's append
+leg gates on what a soak can honestly prove: hours of
+sustained appends with every segment verified. Its rate
+is still measured and reported every run, so a genuine
+regression would show in the record. The legs also run on
+separate runners (the co-located shape let the mixed leg's
+growing per-cycle cost starve the append worker sharing
+its CPUs). All of this is recorded in DESIGN-16.
 
 Memory retention is measured as LIVE TRACED BYTES
 (tracemalloc): tracing starts after warm-up, and the leg
@@ -187,9 +201,13 @@ class _AppendLeg:
 
 def run_append_soak(duration: float) -> dict:
     """The append leg alone: a full-rate chained-store worker
-    on this runner, rotated and verified per segment, its
-    sustained rate (appends over the whole window, segment
-    verifications included) against the DESIGN-13 budget."""
+    on this runner, rotated and verified per segment. The
+    leg passes on endurance and integrity — every segment
+    verified inside the S1 prefix tolerance; the sustained
+    rate (appends over the whole window, segment
+    verifications included) is reported as measured, and
+    the DESIGN-13 rate budget is gated by the per-PR bench
+    (see the module docstring's re-scope note)."""
     tmp = Path(tempfile.mkdtemp(prefix="soak-append-"))
     env = dict(os.environ)
     env["PYTHONPATH"] = str(REPO_ROOT) + os.pathsep + env.get("PYTHONPATH", "")
@@ -215,7 +233,7 @@ def run_append_soak(duration: float) -> dict:
         "append_budget_rps": APPEND_BUDGET_RPS,
         "append_segments": leg.segments,
         "append_verify_ok": append_verify_ok,
-        "passed": append_verify_ok and append_rps >= APPEND_BUDGET_RPS,
+        "passed": append_verify_ok,
     }
 
 

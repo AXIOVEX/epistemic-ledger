@@ -207,8 +207,12 @@ this project follows [Semantic Versioning](https://semver.org/).
   size figures read the allocator's high-water mark and
   its fragmented arenas, not what the program holds);
   resident size is still reported, and the soak's append
-  leg now runs on its own runner — sharing one with the
-  mixed leg starved it below the append budget.
+  leg now runs on its own runner and gates on endurance
+  and segment verification, its rate reported as measured
+  (four soak measurements: 1,686–1,972 appends/s under a
+  stricter, per-record-acknowledged workload on hosted
+  storage); the append budget itself stays gated by the
+  per-PR bench, where that workload is measured cleanly.
 
 ## [0.13.1] - 2026-10-28
 
