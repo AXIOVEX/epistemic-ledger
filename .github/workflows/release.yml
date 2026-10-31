@@ -39,9 +39,30 @@ jobs:
           name: dist
           path: dist/
 
+  wheels:
+    name: Platform wheels (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - uses: dtolnay/rust-toolchain@stable
+      - run: pip install maturin
+      - name: Build the platform wheel (abi3; CPython 3.10 and newer)
+        run: maturin build --release --interpreter python -o dist-wheels
+      - uses: actions/upload-artifact@v7
+        with:
+          name: wheels-${{ matrix.os }}
+          path: dist-wheels/
+
   publish-testpypi:
     name: Publish to TestPyPI
-    needs: build
+    needs: [build, wheels]
     runs-on: ubuntu-latest
     environment:
       name: testpypi
@@ -53,6 +74,11 @@ jobs:
         with:
           name: dist
           path: dist/
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: wheels-*
+          path: dist/
+          merge-multiple: true
       - uses: pypa/gh-action-pypi-publish@release/v1
         with:
           repository-url: https://test.pypi.org/legacy/
@@ -71,6 +97,11 @@ jobs:
         with:
           name: dist
           path: dist/
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: wheels-*
+          path: dist/
+          merge-multiple: true
       - uses: pypa/gh-action-pypi-publish@release/v1
 
   github-release:
@@ -85,6 +116,11 @@ jobs:
         with:
           name: dist
           path: dist/
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: wheels-*
+          path: dist/
+          merge-multiple: true
       - run: gh release create "$GITHUB_REF_NAME" dist/* --title "$GITHUB_REF_NAME" --generate-notes
         env:
           GH_TOKEN: ${{ github.token }}

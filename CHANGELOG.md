@@ -6,6 +6,8 @@ this project follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.14.0] - 2026-10-31
+
 ### Added
 
 - DESIGN-15 design memo (`docs/DESIGN-15-arcturus-substrate.md`): the
