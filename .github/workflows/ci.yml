@@ -295,10 +295,17 @@ jobs:
       - run: /tmp/w1-build/bin/pip install -q maturin cryptography
       - name: Build the platform wheel
         run: cd rust/crates/epistemic-ledger-py && /tmp/w1-build/bin/maturin build --release --interpreter /tmp/w1-build/bin/python -o /tmp/w1-wheels
+      - name: DIAGNOSTIC wheel contents
+        run: |
+          set +e
+          for w in /tmp/w1-wheels/*.whl; do echo "::error::WHEEL $w"; /tmp/w1-build/bin/python -c "import zipfile,sys; [print('::error::entry', n) for n in zipfile.ZipFile(sys.argv[1]).namelist()]" "$w"; done
+          true
       - name: Install with no Rust toolchain; smoke the chained store
         run: |
           python -m venv /tmp/w1-run
           /tmp/w1-run/bin/pip install -q /tmp/w1-wheels/*.whl cryptography
+          /tmp/w1-run/bin/python -c "import epistemic_ledger, os; p=os.path.dirname(epistemic_ledger.__file__); print('::error::PKGDIR', p); [print('::error::pkg entry', n) for n in sorted(os.listdir(p))]" || true
+          ls /tmp/w1-run/lib/python3.12/site-packages/ | while IFS= read -r line; do echo "::error::sitepkg $line"; done || true
           cd /tmp && PATH=/tmp/w1-run/bin:/usr/bin:/bin /tmp/w1-run/bin/python - <<'EOF'
           import shutil
           assert shutil.which("cargo") is None, "toolchain leaked into the run env"
