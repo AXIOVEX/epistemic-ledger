@@ -148,7 +148,7 @@ jobs:
       # the compiled _core — installing the pure package after
       # it would uninstall the wheel's files and take _core
       # with them (PR #49's CI proved exactly that).
-      - run: /tmp/battery-venv/bin/pip install -q /tmp/wheels/*.whl
+      - run: /tmp/battery-venv/bin/pip install -q --force-reinstall /tmp/wheels/*.whl
       - name: Run the adversarial battery (failures annotated)
         run: |
           set +e
@@ -273,7 +273,7 @@ jobs:
       # the compiled _core — installing the pure package after
       # it would uninstall the wheel's files and take _core
       # with them (PR #49's CI proved exactly that).
-      - run: /tmp/bindings-venv/bin/pip install -q /tmp/wheels/*.whl
+      - run: /tmp/bindings-venv/bin/pip install -q --force-reinstall /tmp/wheels/*.whl
       - name: Run bindings tests (failures annotated)
         run: |
           set +e
