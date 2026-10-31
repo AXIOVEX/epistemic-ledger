@@ -3,12 +3,12 @@ requires = ["maturin>=1.7,<2.0"]
 build-backend = "maturin"
 
 [project]
-name = "epistemic-ledger-bindings-dev"
-version = "0.13.0"
-description = "Development wheel for the epistemic_ledger._core bindings (not published standalone)."
+name = "epistemic-ledger"
+version = "0.13.1"
+description = "Platform wheel for epistemic-ledger: the full Python package plus the compiled Rust core (epistemic_ledger._core)."
 requires-python = ">=3.10"
 
 [tool.maturin]
 bindings = "pyo3"
 module-name = "epistemic_ledger._core"
-python-source = "python"
+python-source = "../../../src"

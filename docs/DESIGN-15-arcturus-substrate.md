@@ -323,6 +323,29 @@ verification is what binds it.
 - Partner-facing provenance exports: gated on **Stage 4**.
 - Deployed service on the package from the index: gated on **Stage 5**.
 
+**Stage 5 implementation notes (2026-10-30, PR A of the
+release train).** The bindings crate now builds the real
+distribution wheel: its project is named `epistemic-ledger`,
+and maturin's python-source points at the repository's `src/`
+tree, so the platform wheel carries the full Python package
+plus the compiled `_core` (the development shim package is
+gone). Because the bindings use abi3 (pyo3 `abi3-py310`), one
+wheel per operating system covers CPython 3.10–3.13. The
+sdist gains a manifest (`MANIFEST.in`: `graft rust`) carrying
+the Rust sources and the committed lockfile, with a CI
+assertion on the built sdist's contents. W1's falsifier runs
+as a CI job: the platform wheel is built, installed into a
+clean environment with the Rust toolchain scrubbed from PATH,
+and the chained-store path (legacy store → migration → open)
+runs on the wheel alone. The PyPI readme is refreshed to the
+current feature set in the same motion. Version discipline
+from this stage on: the bindings project version moves with
+the package version in the release PR, and the release
+workflow's tag check asserts they match. The remaining train
+— the wheels job in the release workflow, the pre-tag
+release-tier run, and the 0.14.0 release itself — follows as
+its own steps.
+
 ## 9. Honest scope — what this does not establish
 
 - Anchoring proves a history existed by the anchor time and has not

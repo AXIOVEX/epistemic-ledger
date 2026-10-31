@@ -1,0 +1,5 @@
+graft rust
+include CHANGELOG.md
+global-exclude *.pyc
+global-exclude __pycache__
+prune rust/target

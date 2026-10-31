@@ -143,8 +143,9 @@ jobs:
       - name: Build the bindings wheel
         run: cd rust/crates/epistemic-ledger-py && /tmp/battery-venv/bin/maturin build --release --interpreter /tmp/battery-venv/bin/python -o /tmp/wheels
       - run: /tmp/battery-venv/bin/pip install -q /tmp/wheels/*.whl
-      # The real package installs last so its __init__ replaces the
-      # bindings wheel's shim; the compiled _core stays beside it.
+      # The checkout's sources install last so they stay authoritative
+      # over the wheel's identical copy of the package; the compiled
+      # _core from the wheel stays beside it.
       - run: /tmp/battery-venv/bin/pip install -q .
       - name: Run the adversarial battery (failures annotated)
         run: |
@@ -186,6 +187,18 @@ jobs:
       - run: pip install build twine
       - run: python -m build
       - run: twine check dist/*
+      - name: Sdist carries the Rust sources and lockfile
+        run: |
+          python - <<'EOF'
+          import glob, tarfile
+          sdist = glob.glob("dist/*.tar.gz")[0]
+          names = tarfile.open(sdist).getnames()
+          for needle in ("rust/Cargo.lock",
+                         "rust/crates/epistemic-ledger-core/src/store.rs",
+                         "rust/crates/epistemic-ledger-py/pyproject.toml"):
+              assert any(n.endswith(needle) for n in names), f"{needle} missing from {sdist}"
+          print(f"{sdist}: rust sources + lockfile present ({len(names)} files)")
+          EOF
       - name: Wheel contents are clean
         run: |
           python - <<'EOF'
@@ -253,8 +266,9 @@ jobs:
       - name: Build the bindings wheel
         run: cd rust/crates/epistemic-ledger-py && /tmp/bindings-venv/bin/maturin build --release --interpreter /tmp/bindings-venv/bin/python -o /tmp/wheels
       - run: /tmp/bindings-venv/bin/pip install -q /tmp/wheels/*.whl
-      # The real package installs last so its __init__ replaces the
-      # bindings wheel's shim; the compiled _core stays beside it.
+      # The checkout's sources install last so they stay authoritative
+      # over the wheel's identical copy of the package; the compiled
+      # _core from the wheel stays beside it.
       - run: /tmp/bindings-venv/bin/pip install -q .
       - name: Run bindings tests (failures annotated)
         run: |
@@ -267,3 +281,35 @@ jobs:
           grep -E "^[A-Za-z_.]+(Error|Exception)" /tmp/pytest.out | head -20 | while IFS= read -r line; do echo "::error::exc $line"; done
           grep -E "^(E |E  )" /tmp/pytest.out | head -20 | while IFS= read -r line; do echo "::error::E $line"; done
           exit $rc
+
+  platform-wheel:
+    name: Platform wheel, toolchain-free (W1)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: dtolnay/rust-toolchain@stable
+      - run: python -m venv /tmp/w1-build
+      - run: /tmp/w1-build/bin/pip install -q maturin cryptography
+      - name: Build the platform wheel
+        run: cd rust/crates/epistemic-ledger-py && /tmp/w1-build/bin/maturin build --release --interpreter /tmp/w1-build/bin/python -o /tmp/w1-wheels
+      - name: Install with no Rust toolchain; smoke the chained store
+        run: |
+          python -m venv /tmp/w1-run
+          /tmp/w1-run/bin/pip install -q /tmp/w1-wheels/*.whl cryptography
+          cd /tmp && PATH=/tmp/w1-run/bin:/usr/bin:/bin /tmp/w1-run/bin/python - <<'EOF'
+          import shutil
+          assert shutil.which("cargo") is None, "toolchain leaked into the run env"
+          from epistemic_ledger import Ledger
+          from epistemic_ledger._core import RustStore
+          from epistemic_ledger.migrate import migrate_store
+          led = Ledger("/tmp/w1-legacy")
+          led.assert_claim("wheel-only store", 0.5)
+          led.close()
+          migrate_store("/tmp/w1-legacy", "/tmp/w1-chained")
+          store = RustStore.open("/tmp/w1-chained")
+          assert store.next_seq >= 2
+          print("W1 smoke ok: migrated store opens from the wheel alone")
+          EOF

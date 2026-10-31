@@ -163,6 +163,16 @@ this project follows [Semantic Versioning](https://semver.org/).
   nightly's conclusion) for the release notes and files an
   issue on any red leg.
 
+- Distribution (DESIGN-15 stage 5, PR A): the bindings crate
+  now builds the real platform wheel — the full Python package
+  plus the compiled core, one abi3 wheel per operating system
+  covering CPython 3.10–3.13 — replacing the development shim
+  wheel; the sdist carries the Rust sources and the committed
+  lockfile via a new manifest, asserted in CI; a toolchain-free
+  CI job installs the platform wheel alone and runs the
+  chained-store path on it (claim W1); the PyPI readme is
+  refreshed to the current feature set.
+
 ## [0.13.1] - 2026-10-28
 
 ### Fixed
