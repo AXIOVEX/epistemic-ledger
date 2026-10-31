@@ -185,6 +185,18 @@ this project follows [Semantic Versioning](https://semver.org/).
   latency budget in the first nightly. The nightly readers
   leg now measures the chained store through point reads.
 
+### Fixed
+
+- Correctly-rounded float parsing in the Rust core and
+  bindings (serde_json's `float_roundtrip`): the default
+  parser rounded some decimal strings to the neighboring
+  double — the release-tier fuzz campaign caught
+  `123456789.1267893456` canonicalizing two different ways
+  across a reparse. A chain written before this fix that
+  contains a float in that narrow class may fail
+  verification after it; its hashes were computed over the
+  mis-parsed value.
+
 ## [0.13.1] - 2026-10-28
 
 ### Fixed

@@ -244,6 +244,36 @@ read. The bindings expose it as `RustReader`, and the
 readers leg's rust surface now measures point reads, so S4's
 latency leg is measured as written from the next nightly on.
 
+**Release-tier find (2026-10-31).** The tier's first run
+(run 41156583580, on the 0.14.0 release commit) went red on
+the canon_json fuzz campaign inside 25 minutes: the input
+`{"n":123456789.1267893456}` broke canonicalization
+idempotence — first pass ending ...35, second ...36.
+Reproduced locally, the root cause is serde_json's default
+float parser, which is not correctly rounded: the string
+"123456789.12678935" parses to the neighboring double.
+`canon.rs` is innocent; the parsed value itself moved. The
+hazard is larger than the fuzz property: append and verify
+both parse through serde_json, so a payload float in this
+one-ulp class could hash differently across a reparse than
+it did at append — and the Python reference parser, which
+rounds correctly, would disagree with the Rust one. The fix
+turns on serde_json's precise parser (`float_roundtrip`) in
+both crates and pins the found input as a corpus seed and a
+unit test (S6's crash-becomes-a-drill rule); the tier
+re-runs before the 0.14.0 tag moves. Recorded honestly for
+existing stores: a chain written before this fix that
+contains a float in the affected class may fail
+verification after it, because its hashes were computed
+over the mis-parsed value. The class is narrow — a decimal
+string the fast parser rounds the wrong way — and no
+battery or bench chain contains one; the alternative,
+keeping a parser that misreads its own canonical output,
+is worse. The same run's floors leg passed outright (real
+ENOSPC: 18,436 appends, the next failed loudly, the store
+verified at exactly that count; verification of 100,000
+records inside an enforced 256 MB ceiling, peak 187.5 MB).
+
 ## 5. Honest scope — what this does not establish
 
 - Killing a process is not cutting power. Behavior under real power
