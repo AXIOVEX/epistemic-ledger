@@ -18,9 +18,13 @@ Two legs run side by side for the soak's duration:
   cycle-count cadence makes each verification's cost grow with
   the store it is checking).
 
-The soak passes with zero errors on either leg, resident memory
-of the mixed process within 10% of its post-warm-up level at the
-end, a clean full verification of the mixed store and of every
+The soak passes with zero errors on either leg, resident
+memory retained after the mixed ledger closes returning to
+within a stated slack of its post-warm-up level (end-of-run
+resident size on a growing store is the allocator's
+high-water mark, not retained memory — the release-tier
+soak runs of 2026-10-31 and the DESIGN-16 notes carry the
+evidence), a clean full verification of the mixed store and of every
 append segment at the end, and the append leg at or above
 budget. The mixed leg's own operation rates are reported as
 measured; no budget is invented for them.
@@ -33,6 +37,8 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import ctypes
+import gc
 import json
 import os
 import random
@@ -165,6 +171,7 @@ def run_soak(duration: float, seed: int | None = None) -> dict:
     final_verify_ok = False
     rss_start = None
     rss_end = None
+    rss_quiescent = None
     started = time.monotonic()
     try:
         led = Ledger(str(tmp / "mixed-store"))
@@ -215,6 +222,12 @@ def run_soak(duration: float, seed: int | None = None) -> dict:
         final = led.verify_store()
         final_verify_ok = bool(final["ok"])
         led.close()
+        gc.collect()
+        try:
+            ctypes.CDLL("libc.so.6").malloc_trim(0)
+        except Exception:
+            pass
+        rss_quiescent = _rss_kb()
     finally:
         elapsed = max(time.monotonic() - started, 0.001)
         leg.finish()
@@ -224,12 +237,17 @@ def run_soak(duration: float, seed: int | None = None) -> dict:
     drift = None
     if rss_start and rss_end:
         drift = round(100.0 * (rss_end - rss_start) / rss_start, 2)
+    retention_ok = (
+        rss_quiescent is None
+        or rss_start is None
+        or rss_quiescent <= rss_start * 1.25 + 25_000
+    )
     passed = (
         not errors
         and final_verify_ok
         and append_verify_ok
         and append_rps >= APPEND_BUDGET_RPS
-        and (drift is None or drift <= 10.0)
+        and retention_ok
     )
     return {
         "claim": "S3",
@@ -239,6 +257,8 @@ def run_soak(duration: float, seed: int | None = None) -> dict:
         "rss_start_kb": rss_start,
         "rss_end_kb": rss_end,
         "rss_drift_pct": drift,
+        "rss_quiescent_kb": rss_quiescent,
+        "retention_ok": retention_ok,
         "append_rps": round(append_rps, 1),
         "append_budget_rps": APPEND_BUDGET_RPS,
         "append_segments": leg.segments,

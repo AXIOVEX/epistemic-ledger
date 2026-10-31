@@ -196,6 +196,16 @@ this project follows [Semantic Versioning](https://semver.org/).
   contains a float in that narrow class may fail
   verification after it; its hashes were computed over the
   mis-parsed value.
+- Identifier width in the Python ledger: event, claim, and
+  decision ids now carry a full 128-bit UUID instead of
+  8 hex characters (32 bits), whose birthday bound the
+  first completed 4-hour soak crossed — duplicate event
+  ids failed every subsequent verification. Ids are opaque
+  strings; existing stores keep working.
+- The soak's memory criterion now measures memory retained
+  after the run (the old end-of-run resident-size figure
+  is an allocator high-water mark on a growing store, not
+  retained memory); peak resident size is still reported.
 
 ## [0.13.1] - 2026-10-28
 

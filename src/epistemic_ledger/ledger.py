@@ -174,7 +174,7 @@ def _now():
 
 
 def _new_id(prefix):
-    return f"{prefix}{uuid.uuid4().hex[:8]}"
+    return f"{prefix}{uuid.uuid4().hex}"
 
 
 def jeffrey(prior, p_h_given_e, p_h_given_not_e, p_e_new):

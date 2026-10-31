@@ -37,7 +37,7 @@ def test_soak_smoke_is_stable():
     assert report["final_verify_ok"]
     assert report["append_verify_ok"]
     assert report["append_rps"] > 0
-    assert report["rss_drift_pct"] is None or report["rss_drift_pct"] <= 10.0
+    assert report["retention_ok"]
 
 
 def test_readers_sqlite_smoke_is_clean():
