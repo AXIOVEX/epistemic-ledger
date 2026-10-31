@@ -29,9 +29,9 @@ jobs:
       - run: python -m venv /tmp/tier-venv
       - run: /tmp/tier-venv/bin/pip install -q maturin pytest cryptography hypothesis
       - name: Build the bindings wheel
-        run: cd rust/crates/epistemic-ledger-py && /tmp/tier-venv/bin/maturin build --release --interpreter /tmp/tier-venv/bin/python -o /tmp/wheels
-      - run: /tmp/tier-venv/bin/pip install -q /tmp/wheels/*.whl
+        run: /tmp/tier-venv/bin/maturin build --release --interpreter /tmp/tier-venv/bin/python -o /tmp/wheels
       - run: /tmp/tier-venv/bin/pip install -q .
+      - run: /tmp/tier-venv/bin/pip install -q --force-reinstall /tmp/wheels/*.whl
       - name: Run the floors
         run: /tmp/tier-venv/bin/python -m tools.stress.floors --out floors.json
       - uses: actions/upload-artifact@v4
@@ -75,9 +75,9 @@ jobs:
       - run: python -m venv /tmp/tier-venv
       - run: /tmp/tier-venv/bin/pip install -q maturin pytest cryptography hypothesis
       - name: Build the bindings wheel
-        run: cd rust/crates/epistemic-ledger-py && /tmp/tier-venv/bin/maturin build --release --interpreter /tmp/tier-venv/bin/python -o /tmp/wheels
-      - run: /tmp/tier-venv/bin/pip install -q /tmp/wheels/*.whl
+        run: /tmp/tier-venv/bin/maturin build --release --interpreter /tmp/tier-venv/bin/python -o /tmp/wheels
       - run: /tmp/tier-venv/bin/pip install -q .
+      - run: /tmp/tier-venv/bin/pip install -q --force-reinstall /tmp/wheels/*.whl
       - name: Run the 4-hour soak
         run: /tmp/tier-venv/bin/python -m tools.stress.soak --duration-seconds 14400 --out soak.json
       - uses: actions/upload-artifact@v4
