@@ -110,3 +110,37 @@ fn write_canonical(value: &Value, out: &mut String) {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::canonical_json;
+
+    /// Regression for the release-tier fuzz find (2026-10-31):
+    /// serde_json's default float parser is not correctly
+    /// rounded — the string "123456789.12678935" parsed to the
+    /// neighboring double — which broke canonicalization
+    /// idempotence and could make a reparse disagree with the
+    /// value a hash was computed over. Both crates now parse
+    /// with serde_json's precise parser (`float_roundtrip`);
+    /// these cases pin the found input and its neighborhood.
+    #[test]
+    fn canonical_json_is_idempotent_on_the_fuzz_find() {
+        for input in [
+            r#"{"n":123456789.1267893456}"#,
+            r#"{"n":123456789.12678935}"#,
+            r#"{"n":0.1}"#,
+            r#"{"n":1.5e-7}"#,
+            r#"{"n":-2026.125}"#,
+        ] {
+            let value: serde_json::Value =
+                serde_json::from_slice(input.as_bytes()).unwrap();
+            let once = canonical_json(&value);
+            let reparsed: serde_json::Value =
+                serde_json::from_slice(once.as_bytes()).unwrap();
+            assert_eq!(canonical_json(&reparsed), once, "input {input}");
+        }
+        let value: serde_json::Value =
+            serde_json::from_slice(br#"{"n":123456789.1267893456}"#).unwrap();
+        assert_eq!(canonical_json(&value), r#"{"n":123456789.12678935}"#);
+    }
+}
