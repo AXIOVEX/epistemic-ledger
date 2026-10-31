@@ -197,7 +197,7 @@ jobs:
           names = tarfile.open(sdist).getnames()
           for needle in ("rust/Cargo.lock",
                          "rust/crates/epistemic-ledger-core/src/store.rs",
-                         "rust/crates/epistemic-ledger-py/pyproject.toml"):
+                         "rust/crates/epistemic-ledger-py/Cargo.toml"):
               assert any(n.endswith(needle) for n in names), f"{needle} missing from {sdist}"
           print(f"{sdist}: rust sources + lockfile present ({len(names)} files)")
           EOF
