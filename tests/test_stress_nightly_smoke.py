@@ -42,6 +42,10 @@ def test_append_soak_smoke_verifies():
     report = run_append_soak(5.0)
     assert report["append_verify_ok"]
     assert report["appends"] > 0
+    # The leg gates on endurance + integrity; the rate is
+    # reported, not gated (the bench gates the budget).
+    assert report["passed"] == report["append_verify_ok"]
+    assert report["append_rps"] > 0
 
 
 def test_readers_sqlite_smoke_is_clean():
