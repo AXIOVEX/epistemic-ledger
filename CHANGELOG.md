@@ -202,10 +202,13 @@ this project follows [Semantic Versioning](https://semver.org/).
   first completed 4-hour soak crossed — duplicate event
   ids failed every subsequent verification. Ids are opaque
   strings; existing stores keep working.
-- The soak's memory criterion now measures memory retained
-  after the run (the old end-of-run resident-size figure
-  is an allocator high-water mark on a growing store, not
-  retained memory); peak resident size is still reported.
+- The soak's memory criterion now measures retained memory
+  directly, as live traced bytes after the run (resident-
+  size figures read the allocator's high-water mark and
+  its fragmented arenas, not what the program holds);
+  resident size is still reported, and the soak's append
+  leg now runs on its own runner — sharing one with the
+  mixed leg starved it below the append budget.
 
 ## [0.13.1] - 2026-10-28
 

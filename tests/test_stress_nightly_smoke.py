@@ -23,7 +23,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from tools.stress.readers import run_readers  # noqa: E402
 from tools.stress.scale import run_scale  # noqa: E402
-from tools.stress.soak import run_soak  # noqa: E402
+from tools.stress.soak import run_append_soak, run_soak  # noqa: E402
 
 pytestmark = pytest.mark.skipif(
     sys.platform == "win32", reason="stress workers are POSIX (DESIGN-16)"
@@ -31,13 +31,17 @@ pytestmark = pytest.mark.skipif(
 
 
 def test_soak_smoke_is_stable():
-    pytest.importorskip("epistemic_ledger._core")
     report = run_soak(5.0, seed=7)
     assert report["errors"] == []
     assert report["final_verify_ok"]
-    assert report["append_verify_ok"]
-    assert report["append_rps"] > 0
     assert report["retention_ok"]
+
+
+def test_append_soak_smoke_verifies():
+    pytest.importorskip("epistemic_ledger._core")
+    report = run_append_soak(5.0)
+    assert report["append_verify_ok"]
+    assert report["appends"] > 0
 
 
 def test_readers_sqlite_smoke_is_clean():
