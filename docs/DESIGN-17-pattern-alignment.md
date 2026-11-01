@@ -264,6 +264,63 @@ into CI as a required job that regenerates and diffs on
 every change. What remains is the 0.15.0 release itself,
 run through the standard release tier.
 
+
+**Harmonization inbound (2026-11-01): the MPCodec
+pattern note.** Six findings from MPCodec's completed
+adoption (spec 031), assessed one by one; no ratified
+local decision conflicts.
+
+1. *Measurements as first-class ledger entries.*
+   Adopted as the framework convention this package will
+   follow: a measurement is a record carrying value,
+   unit, direction, condition class, and artifact hash,
+   so relation checks run over data and never parse
+   prose. This package's own program ledger today cites
+   its measurements in claim sources (prose) — stated
+   plainly, that is the weaker form. A typed measurement
+   record for the pattern layer is a design item for the
+   shared-component phase, not a mid-release invention;
+   when it is specced, the measured/unmeasured state of
+   a claim becomes computable from the ledger (their
+   finding 4's converse) instead of annotated by hand.
+2. *The relation check needs its numeric arm.* Adopted
+   in substance: this package's budget enforcement is
+   already numeric (measured values compared against
+   coded budget constants, per-PR and at the tier). The
+   prose-parsing form is not adopted — our bounds live
+   as constants beside the checker, which is the
+   stronger arrangement; the principle (class match is
+   not enough; check the number against the bound) is
+   the standing rule either way.
+3. *Hand-derived canonical settle outputs, before the
+   engine.* Already this package's practice: the stage-5
+   golden test's expectations were derived by hand from
+   the documented Jeffrey rule and confirmed against the
+   engine before being pinned. Their naming distinction
+   is adopted verbatim into our vocabulary: a settled
+   score is a computation, a claim's status is a
+   disposition; the matrix carries both, in separate
+   columns, and neither substitutes for the other.
+4. *Prose-only figures decompose into counters; the
+   converse is honestly UNMEASURED.* Adopted as search
+   discipline for future expectations. For our program
+   ledger, the unsettled claims (DESIGN-15 R1/R2) are
+   the local instance of the converse and are labeled
+   unsettled in their sources and the demo README; the
+   mechanical form arrives with finding 1's record type.
+5. *A gate must never mutate the tree it checks.*
+   Already conformant since PR #66 (write-free gate,
+   pure builders, byte comparison) — their independent
+   catch of the same failure class is corroboration,
+   recorded with thanks.
+6. *Narrative confidence is not a number.* Adopted:
+   qualitative confidence migrates verbatim or not at
+   all, and any classification layered on it is recorded
+   as its own labeled judgment. Our stage-6 application
+   was the mirror-image guard — priors entered at a
+   flat, stated, uninformative 0.5 rather than invented
+   per-claim numbers.
+
 ## 6. Honest scope
 
 The package can produce and check a ledger in the
