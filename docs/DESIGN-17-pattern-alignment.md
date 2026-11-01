@@ -401,6 +401,26 @@ verification — the amendment's failure mode is
 checkout-induced drift on ledgers and generated
 layers, which are covered above.
 
+
+**Ruling recorded (2026-11-01): duplicate propositions
+are layer-scoped.** The divergence surfaced with the
+Amendment 3 adoption is resolved by the owner's ruling
+(canonical pattern note, commit 3bcd1fd): in a claim
+ledger a duplicate fingerprint at intake is refused
+(D-B as written); in an assertion or evidence ledger
+duplicates are counted in the published census, grouped
+by recomputed fingerprint, so corroboration is explicit
+and countable; a project declares its ledger's type in
+its schema document, and neither branch permits an
+uncounted duplicate. This package's counted practice is
+conformant under branch 2 — no remodel owed. Two
+recordings land here: SCHEMA.md now declares this an
+ASSERTION ledger with the ruling stated, and the
+census carries the ruling's grouping form
+(`duplicate_groups`: fingerprint → count wherever a
+fingerprint is asserted more than once; empty in the
+program ledger today, where duplicates stand at 0).
+
 ## 6. Honest scope
 
 The package can produce and check a ledger in the

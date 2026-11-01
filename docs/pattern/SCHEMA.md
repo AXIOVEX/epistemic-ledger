@@ -49,13 +49,26 @@ distinct propositions, duplicates. This package stores
 no fingerprint, so there is no stored value to trust;
 the census is the check.
 
-One deliberate divergence from Glossa-Lab's D-B
-discipline, surfaced to the owner with this adoption:
-duplicates are *counted*, not refused at intake. In
-this package each assertion is a distinct evidence
-node, and independent assertions of one proposition
-are how corroboration is represented; refusing them
-would change the scoring engine's semantics.
+**Ledger type (owner's layer-scoped ruling, canonical
+pattern note, 2026-11-01): this ledger is an ASSERTION
+ledger.** The ruling scopes duplicate propositions by
+layer: in a claim ledger (one entry per proposition) a
+duplicate fingerprint at intake is refused, per
+Glossa-Lab's D-B; in an assertion or evidence ledger
+(each assertion a distinct evidence node, where
+independent assertions of one proposition are how
+corroboration is represented) duplicates are not
+refused and not silently kept — they are counted in
+the published census, grouped by their recomputed
+fingerprint, so corroboration is an explicit, countable
+structure. This package's ledger is the second kind,
+and its census carries the grouping
+(`duplicate_groups`: fingerprint → count, for every
+fingerprint asserted more than once). Neither branch
+of the ruling permits a duplicate to pass uncounted.
+(The point was surfaced from here as a divergence on
+adoption and resolved by the ruling as conformance
+under branch 2 — recorded in the DESIGN-17 memo.)
 
 ## Coverage, published
 

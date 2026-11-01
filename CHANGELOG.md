@@ -18,6 +18,10 @@ this project follows [Semantic Versioning](https://semver.org/).
   importing the pattern module, and the write-free
   drill now proves the property over a red run on both
   trees.
+- Owner's layer-scoped ruling on duplicate propositions
+  recorded: SCHEMA.md declares this an assertion
+  ledger, and the validation census groups duplicates
+  by recomputed fingerprint (`duplicate_groups`).
 
 - DESIGN-17 memo: MPCodec harmonization note assessed
   and adopted (measurement records as the framework

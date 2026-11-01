@@ -77,19 +77,20 @@ def validate_ledger(events):
 
     Coverage is published on every run: claim count,
     per-field non-null counts, and the fingerprint
-    census (distinct propositions vs total, so duplicate
-    propositions are a standing number). Note the one
-    deliberate divergence from Glossa's D-B discipline,
-    surfaced to the owner with this adoption: duplicate
-    propositions are COUNTED, not refused at intake —
-    in this package each assertion is a distinct
-    evidence node, and independent assertions of one
-    proposition are how corroboration is represented.
+    census (distinct propositions vs total, with any
+    duplicates GROUPED by fingerprint). This ledger is
+    an assertion ledger under the owner's layer-scoped
+    ruling (canonical pattern note, 2026-11-01): each
+    assertion is a distinct evidence node, independent
+    assertions of one proposition are how corroboration
+    is represented, and duplicates are counted and
+    grouped — never refused (that is the claim-ledger
+    branch, D-B) and never silently kept.
     """
     problems = []
     claims = 0
     coverage = {f"with_{f}": 0 for f in PATTERN_FIELDS}
-    fingerprints = set()
+    fingerprint_counts: dict[str, int] = {}
     for i, event in enumerate(events):
         if event.get("type") != "assert":
             continue
@@ -101,7 +102,8 @@ def validate_ledger(events):
         if not isinstance(statement, str) or not statement.strip():
             problems.append(f"{where}: statement missing or not a string")
         else:
-            fingerprints.add(proposition_fingerprint(statement))
+            fp = proposition_fingerprint(statement)
+            fingerprint_counts[fp] = fingerprint_counts.get(fp, 0) + 1
         prior = p.get("prior")
         if (
             not isinstance(prior, (int, float))
@@ -121,8 +123,11 @@ def validate_ledger(events):
         "coverage": {
             "claims": claims,
             **coverage,
-            "distinct_propositions": len(fingerprints),
-            "duplicate_propositions": claims - len(fingerprints),
+            "distinct_propositions": len(fingerprint_counts),
+            "duplicate_propositions": claims - len(fingerprint_counts),
+            "duplicate_groups": {
+                fp: n for fp, n in sorted(fingerprint_counts.items()) if n > 1
+            },
         },
         "schema": SCHEMA_VERSION,
     }
