@@ -60,6 +60,9 @@ CREATE TABLE IF NOT EXISTS claims(
   critical    INTEGER NOT NULL DEFAULT 0,
   entrenchment REAL NOT NULL DEFAULT 0.5,
   writer      TEXT,
+  source      TEXT,
+  falsifier   TEXT,
+  does_not_establish TEXT,
   PRIMARY KEY (claim_id, txn_from)
 );
 CREATE TABLE IF NOT EXISTS support_edges(
@@ -338,8 +341,9 @@ def _fold_claim_version(db, claim_id, t, score=None, entrenchment=None, status=N
     db.execute(
         """INSERT INTO claims(claim_id, txn_from, statement, valid_from,
                               valid_to, score, score_kind, status,
-                              materiality, critical, entrenchment, writer)
-           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                              materiality, critical, entrenchment, writer,
+                              source, falsifier, does_not_establish)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
         (
             claim_id,
             t,
@@ -353,6 +357,9 @@ def _fold_claim_version(db, claim_id, t, score=None, entrenchment=None, status=N
             row["critical"],
             float(row["entrenchment"] if entrenchment is None else entrenchment),
             row["writer"],
+            row["source"],
+            row["falsifier"],
+            row["does_not_establish"],
         ),
     )
 
@@ -377,8 +384,9 @@ def _fold_event(db, event):
         db.execute(
             """INSERT INTO claims(claim_id, txn_from, statement, valid_from,
                                   valid_to, score, score_kind, status,
-                                  materiality, critical, entrenchment, writer)
-               VALUES (?, ?, ?, ?, ?, ?, ?, 'active', ?, ?, ?, ?)""",
+                                  materiality, critical, entrenchment, writer,
+                                  source, falsifier, does_not_establish)
+               VALUES (?, ?, ?, ?, ?, ?, ?, 'active', ?, ?, ?, ?, ?, ?, ?)""",
             (
                 p["claim_id"],
                 t,
@@ -391,6 +399,9 @@ def _fold_event(db, event):
                 int(bool(p.get("critical", False))),
                 entrenchment,
                 p.get("writer"),
+                p.get("source"),
+                p.get("falsifier"),
+                p.get("does_not_establish"),
             ),
         )
         return
@@ -730,8 +741,9 @@ class Ledger:
     @staticmethod
     def _ensure_columns(db):
         """Backfill columns added after the first schema (strength
-        in v0.4, writer in v0.6, pubkey in v0.9, rule in v0.10) so
-        fresh and historical databases converge on one shape."""
+        in v0.4, writer in v0.6, pubkey in v0.9, rule in v0.10,
+        the DESIGN-17 pattern fields in v0.15) so fresh and
+        historical databases converge on one shape."""
         cols = [r["name"] for r in db.execute("PRAGMA table_info(support_edges)")]
         if "strength" not in cols:
             db.execute(
@@ -740,6 +752,9 @@ class Ledger:
         cols = [r["name"] for r in db.execute("PRAGMA table_info(claims)")]
         if "writer" not in cols:
             db.execute("ALTER TABLE claims ADD COLUMN writer TEXT")
+        for pattern_col in ("source", "falsifier", "does_not_establish"):
+            if pattern_col not in cols:
+                db.execute(f"ALTER TABLE claims ADD COLUMN {pattern_col} TEXT")
         cols = [r["name"] for r in db.execute("PRAGMA table_info(writers)")]
         if "pubkey" not in cols:
             db.execute("ALTER TABLE writers ADD COLUMN pubkey TEXT")
@@ -1023,6 +1038,9 @@ class Ledger:
         critical=False,
         entrenchment=None,
         writer=None,
+        source=None,
+        falsifier=None,
+        does_not_establish=None,
         actor="system",
         t=None,
     ):
@@ -1030,7 +1048,15 @@ class Ledger:
 
         entrenchment=None resolves via the writer's trust tier (Design
         Memo 06): owner 0.75, contributor 0.5, provisional 0.25, unregistered
-        writer 0.25, no writer 0.5. Explicit entrenchment always overrides."""
+        writer 0.25, no writer 0.5. Explicit entrenchment always overrides.
+
+        The DESIGN-17 pattern fields (all optional): `source` says
+        where the claim comes from (distinct from `writer`, who
+        recorded it), `falsifier` says what observation would
+        settle it against the claim, and `does_not_establish`
+        bounds what the claim, even if true, does not show. They
+        are carried on the claim row and the assert event, and
+        survive score revisions and projection rebuilds."""
         t = t or _now()
         if entrenchment is None:
             if writer is None:
@@ -1043,8 +1069,9 @@ class Ledger:
         self.db.execute(
             """INSERT INTO claims(claim_id, txn_from, statement, valid_from,
                                   valid_to, score, score_kind, status,
-                                  materiality, critical, entrenchment, writer)
-               VALUES (?, ?, ?, ?, ?, ?, ?, 'active', ?, ?, ?, ?)""",
+                                  materiality, critical, entrenchment, writer,
+                                  source, falsifier, does_not_establish)
+               VALUES (?, ?, ?, ?, ?, ?, ?, 'active', ?, ?, ?, ?, ?, ?, ?)""",
             (
                 claim_id,
                 t,
@@ -1057,6 +1084,9 @@ class Ledger:
                 int(critical),
                 float(entrenchment),
                 writer,
+                source,
+                falsifier,
+                does_not_establish,
             ),
         )
         self.db.commit()
@@ -1077,6 +1107,9 @@ class Ledger:
                 "materiality": float(materiality),
                 "critical": bool(critical),
                 "entrenchment": float(entrenchment),
+                "source": source,
+                "falsifier": falsifier,
+                "does_not_establish": does_not_establish,
             },
             actor=actor,
             t=t,
@@ -1093,8 +1126,9 @@ class Ledger:
         self.db.execute(
             """INSERT INTO claims(claim_id, txn_from, statement, valid_from,
                                   valid_to, score, score_kind, status,
-                                  materiality, critical, entrenchment, writer)
-               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                                  materiality, critical, entrenchment, writer,
+                                  source, falsifier, does_not_establish)
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
             (
                 claim_id,
                 t,
@@ -1108,6 +1142,11 @@ class Ledger:
                 row["critical"],
                 float(entrenchment),
                 row["writer"] if "writer" in row.keys() else None,
+                row["source"] if "source" in row.keys() else None,
+                row["falsifier"] if "falsifier" in row.keys() else None,
+                row["does_not_establish"]
+                if "does_not_establish" in row.keys()
+                else None,
             ),
         )
         self.db.commit()
@@ -1315,14 +1354,32 @@ class Ledger:
             raise ValueError("a non-empty source is required")
 
     def supersede(
-        self, old_claim_id, statement, prior, *, reason, source, actor="system", t=None
+        self,
+        old_claim_id,
+        statement,
+        prior,
+        *,
+        reason,
+        source,
+        claim_source=None,
+        falsifier=None,
+        does_not_establish=None,
+        actor="system",
+        t=None,
     ):
         """Correction: close the old claim's transaction-time interval, open a new claim.
 
         The reason bundle is required (keyword-only): `reason` says
         why the old claim is being replaced and `source` says where
         that judgment came from; `actor` (recorded on the event) says
-        who did it. The bundle is carried on the supersede event."""
+        who did it. The bundle is carried on the supersede event.
+
+        The successor is a new claim with its own pattern fields:
+        its `source` field is `claim_source` when given, else the
+        bundle `source` (the correction's source is ordinarily the
+        corrected claim's origin). `falsifier` and
+        `does_not_establish` are never inherited from the old
+        claim — the successor restates its own, or carries none."""
         self._require_reason_bundle(reason, source)
         t = t or _now()
         old = self._live_claim(old_claim_id)
@@ -1341,6 +1398,9 @@ class Ledger:
             materiality=old["materiality"],
             critical=bool(old["critical"]),
             entrenchment=old["entrenchment"],
+            source=claim_source if claim_source is not None else source,
+            falsifier=falsifier,
+            does_not_establish=does_not_establish,
         )
         self.db.commit()
         self._emit(

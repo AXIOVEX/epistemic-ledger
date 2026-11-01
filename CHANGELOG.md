@@ -14,6 +14,11 @@ this project follows [Semantic Versioning](https://semver.org/).
   does-not-establish, generated matrix and layered map,
   recompute-and-diff gate, pre-registered engine
   expectations).
+- DESIGN-17 stage 2: `source`, `falsifier`, and
+  `does_not_establish` are first-class optional claim
+  fields — on the claim row, the assert event, and
+  through projection rebuilds; `supersede` restates them
+  for the successor (never silently inherited).
 
 ## [0.14.0] - 2026-10-31
 
