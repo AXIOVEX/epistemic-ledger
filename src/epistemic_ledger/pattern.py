@@ -31,8 +31,33 @@ a downstream defect, reported by layer.
 from __future__ import annotations
 
 import json
+import os
 
 MATRIX_FORMAT = "epistemic-ledger-matrix/1"
+
+
+def events_from_log(ledger_dir):
+    """The event list of the ledger at `ledger_dir`, read
+    WITHOUT opening the store: no writer lock, no database,
+    no repair — a pure read of events.jsonl with the same
+    parse semantics as `Ledger._events`. The gate uses this
+    so checking a ledger writes nothing (the harmonization
+    corollary: a read-only gate must be write-free). A line
+    that does not parse raises ValueError naming the line.
+    """
+    path = os.path.join(ledger_dir, "events.jsonl")
+    try:
+        with open(path, encoding="utf-8") as f:
+            lines = [line for line in f if line.strip()]
+    except FileNotFoundError:
+        return []
+    events = []
+    for i, line in enumerate(lines, start=1):
+        try:
+            events.append(json.loads(line))
+        except json.JSONDecodeError as exc:
+            raise ValueError(f"{path}: line {i}: {exc}") from exc
+    return events
 
 
 def build_matrix(events):

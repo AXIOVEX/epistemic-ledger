@@ -162,6 +162,63 @@ def main(argv=None):
             return 2
         print(json.dumps(report, indent=2, default=str))
         return 0
+    if args.command in ("pattern-export", "pattern-check"):
+        # Handled before the shared Ledger open, deliberately:
+        # the pattern gate must be write-free (no writer lock,
+        # no database, no repair at open), and both commands
+        # compare BYTES — artifacts are written with pinned LF
+        # newlines and read back as bytes, so a CRLF checkout
+        # or a text-mode read can neither create nor hide
+        # drift (harmonization note, 2026-11-01: canonicalize
+        # before you hash).
+        from .pattern import (
+            build_map,
+            build_matrix,
+            events_from_log,
+            map_json,
+            map_markdown,
+            matrix_json,
+            matrix_markdown,
+        )
+
+        try:
+            events = events_from_log(args.ledger_dir)
+        except ValueError as exc:
+            print(f"error: {exc}", file=sys.stderr)
+            return 2
+        matrix = build_matrix(events)
+        map_dict = build_map(events)
+        rendered = {
+            "matrix.json": matrix_json(matrix),
+            "matrix.md": matrix_markdown(matrix),
+            "map.json": map_json(map_dict),
+            "map.md": map_markdown(map_dict),
+        }
+        if args.command == "pattern-export":
+            os.makedirs(args.out_dir, exist_ok=True)
+            for name, text in rendered.items():
+                with open(os.path.join(args.out_dir, name), "wb") as f:
+                    f.write(text.encode("utf-8"))
+            print(
+                json.dumps(
+                    {"written": sorted(rendered), "out_dir": args.out_dir},
+                    indent=2,
+                )
+            )
+            return 0
+        problems = []
+        for name, text in rendered.items():
+            path = os.path.join(args.pattern_dir, name)
+            try:
+                with open(path, "rb") as f:
+                    actual = f.read()
+            except OSError:
+                problems.append(f"{name}: missing")
+                continue
+            if actual != text.encode("utf-8"):
+                problems.append(f"{name}: diverges from the ledger (regenerate it)")
+        print(json.dumps({"ok": not problems, "problems": problems}, indent=2))
+        return 0 if not problems else 1
     if args.command in ("snapshot", "restore"):
         from .snapshots import restore_snapshot, snapshot_store
 
@@ -244,50 +301,7 @@ def main(argv=None):
                 return 2
             print(json.dumps(result, indent=2, default=str))
             return 0
-        if args.command in ("pattern-export", "pattern-check"):
-            from .pattern import (
-                build_map,
-                build_matrix,
-                map_json,
-                map_markdown,
-                matrix_json,
-                matrix_markdown,
-            )
 
-            events = L._events()
-            rendered = {
-                "matrix.json": matrix_json(build_matrix(events)),
-                "matrix.md": matrix_markdown(build_matrix(events)),
-                "map.json": map_json(build_map(events)),
-                "map.md": map_markdown(build_map(events)),
-            }
-            if args.command == "pattern-export":
-                os.makedirs(args.out_dir, exist_ok=True)
-                for name, text in rendered.items():
-                    with open(
-                        os.path.join(args.out_dir, name), "w", encoding="utf-8"
-                    ) as f:
-                        f.write(text)
-                print(
-                    json.dumps(
-                        {"written": sorted(rendered), "out_dir": args.out_dir},
-                        indent=2,
-                    )
-                )
-                return 0
-            problems = []
-            for name, text in rendered.items():
-                path = os.path.join(args.pattern_dir, name)
-                try:
-                    with open(path, encoding="utf-8") as f:
-                        actual = f.read()
-                except OSError:
-                    problems.append(f"{name}: missing")
-                    continue
-                if actual != text:
-                    problems.append(f"{name}: diverges from the ledger (regenerate it)")
-            print(json.dumps({"ok": not problems, "problems": problems}, indent=2))
-            return 0 if not problems else 1
     except KeyError as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 2
