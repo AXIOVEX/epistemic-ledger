@@ -143,3 +143,12 @@ def test_gate_is_write_free_and_byte_exact(tmp_path):
     with open(target, "wb") as f:
         f.write(raw.replace(b"\n", b"\r\n"))
     assert cli_main(["pattern-check", path, out]) == 1
+    # Amendment 2's corollary, in its proof form: hash both
+    # trees, run the gate RED, and the gate has written
+    # nothing anywhere — not in the store, not in the
+    # artifact tree it just failed.
+    store_after = _tree_bytes(path)
+    out_after = _tree_bytes(out)
+    assert cli_main(["pattern-check", path, out]) == 1
+    assert _tree_bytes(path) == store_after
+    assert _tree_bytes(out) == out_after
