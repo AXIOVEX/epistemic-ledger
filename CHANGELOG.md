@@ -6,6 +6,15 @@ this project follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- DESIGN-17 design memo: aligning the package's data model
+  and generated exports with the framework's canonical
+  pattern (claim fields incl. falsifier and
+  does-not-establish, generated matrix and layered map,
+  recompute-and-diff gate, pre-registered engine
+  expectations).
+
 ## [0.14.0] - 2026-10-31
 
 ### Added
