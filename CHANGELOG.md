@@ -6,6 +6,8 @@ this project follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.15.0] - 2026-11-01
+
 ### Added
 
 - DESIGN-17 design memo: aligning the package's data model

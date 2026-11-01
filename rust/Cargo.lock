@@ -130,7 +130,7 @@ dependencies = [
 
 [[package]]
 name = "epistemic-ledger-core"
-version = "0.13.0"
+version = "0.15.0"
 dependencies = [
  "crc32c",
  "curve25519-dalek",
@@ -144,7 +144,7 @@ dependencies = [
 
 [[package]]
 name = "epistemic-ledger-py"
-version = "0.13.0"
+version = "0.15.0"
 dependencies = [
  "ed25519-dalek",
  "epistemic-ledger-core",
