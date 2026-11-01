@@ -6,6 +6,14 @@ this project follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+- Amendment 3 adopted: the pinned claim schema
+  (`epistemic-ledger-claims/1`, docs/pattern/SCHEMA.md),
+  `validate_ledger` + the `pattern-validate` CLI
+  command with published coverage and a recomputed
+  fingerprint census, intake refusal of non-string
+  pattern fields, and a schema-validation step in the
+  CI pattern gate.
+
 - DESIGN-17 memo: MPCodec harmonization note assessed
   and adopted (measurement records as the framework
   convention, the numeric-arm principle, the

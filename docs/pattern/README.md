@@ -26,6 +26,12 @@ project itself, end to end:
   write-free (it reads the log directly and never opens
   the store) and byte-exact (artifacts are compared as
   bytes, with LF newlines pinned by `.gitattributes`).
+- `SCHEMA.md` — the pinned claim schema
+  (`epistemic-ledger-claims/1`, Amendment 3): field
+  provenance rules, the refusal discipline, the
+  proposition-fingerprint census, and the coverage the
+  gate publishes on every run (the same CI job runs
+  `pattern-validate` on this ledger).
 
 Conventions, stated once: statements are compressed
 from the design memos, which remain the text of record;

@@ -30,10 +30,102 @@ a downstream defect, reported by layer.
 
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 
 MATRIX_FORMAT = "epistemic-ledger-matrix/1"
+
+# Amendment 3 to the canonical pattern (ratified
+# 2026-11-01): the ledger's schema is declared, versioned,
+# and pinned; a validator enforces it at intake and in
+# CI; coverage of the pattern-required fields is
+# published on every run. The declaration lives in
+# docs/pattern/SCHEMA.md; the rules it states are the
+# ones enforced here.
+SCHEMA_VERSION = "epistemic-ledger-claims/1"
+
+#: The pattern-required claim fields (DESIGN-17 D1: all
+#: nullable; absence is counted, never filled in).
+PATTERN_FIELDS = ("source", "falsifier", "does_not_establish")
+
+
+def proposition_fingerprint(statement):
+    """The proposition fingerprint of a statement: SHA-256
+    over its canonical form (line endings normalized,
+    whitespace runs collapsed, ends stripped — the
+    canonicalize-before-you-hash discipline). Computed
+    fresh by the validator on every run; this package
+    stores no fingerprint, so there is no stored value
+    to trust.
+    """
+    canonical = " ".join(statement.replace("\r\n", "\n").split())
+    return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
+
+
+def validate_ledger(events):
+    """Validate a ledger's claim records against the
+    pinned schema (SCHEMA_VERSION). Returns
+    {"ok", "problems", "coverage", "schema"}.
+
+    Every assert event is checked: statement present and
+    a non-empty string; prior a number in [0, 1]; each
+    pattern field a string or null (a missing key is a
+    legacy null and is counted, not refused — DESIGN-17
+    D1). A violation is a named problem; validation
+    writes nothing.
+
+    Coverage is published on every run: claim count,
+    per-field non-null counts, and the fingerprint
+    census (distinct propositions vs total, so duplicate
+    propositions are a standing number). Note the one
+    deliberate divergence from Glossa's D-B discipline,
+    surfaced to the owner with this adoption: duplicate
+    propositions are COUNTED, not refused at intake —
+    in this package each assertion is a distinct
+    evidence node, and independent assertions of one
+    proposition are how corroboration is represented.
+    """
+    problems = []
+    claims = 0
+    coverage = {f"with_{f}": 0 for f in PATTERN_FIELDS}
+    fingerprints = set()
+    for i, event in enumerate(events):
+        if event.get("type") != "assert":
+            continue
+        claims += 1
+        p = event.get("payload") or {}
+        cid = p.get("claim_id", "?")
+        where = f"event {i + 1} (claim {cid})"
+        statement = p.get("statement")
+        if not isinstance(statement, str) or not statement.strip():
+            problems.append(f"{where}: statement missing or not a string")
+        else:
+            fingerprints.add(proposition_fingerprint(statement))
+        prior = p.get("prior")
+        if (
+            not isinstance(prior, (int, float))
+            or isinstance(prior, bool)
+            or not 0.0 <= float(prior) <= 1.0
+        ):
+            problems.append(f"{where}: prior missing or not a number in [0, 1]")
+        for f in PATTERN_FIELDS:
+            v = p.get(f)
+            if v is not None and not isinstance(v, str):
+                problems.append(f"{where}: {f} is not a string or null")
+            if v is not None:
+                coverage[f"with_{f}"] += 1
+    return {
+        "ok": not problems,
+        "problems": problems,
+        "coverage": {
+            "claims": claims,
+            **coverage,
+            "distinct_propositions": len(fingerprints),
+            "duplicate_propositions": claims - len(fingerprints),
+        },
+        "schema": SCHEMA_VERSION,
+    }
 
 
 def events_from_log(ledger_dir):

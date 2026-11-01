@@ -1057,6 +1057,20 @@ class Ledger:
         bounds what the claim, even if true, does not show. They
         are carried on the claim row and the assert event, and
         survive score revisions and projection rebuilds."""
+        # Intake validation (Amendment 3): the pattern
+        # fields are strings or None by the pinned schema;
+        # anything else is refused loudly BEFORE any write,
+        # and the refusal writes nothing.
+        for _field, _value in (
+            ("source", source),
+            ("falsifier", falsifier),
+            ("does_not_establish", does_not_establish),
+        ):
+            if _value is not None and not isinstance(_value, str):
+                raise ValueError(
+                    f"pattern field {_field} must be a string or None, "
+                    f"got {type(_value).__name__}"
+                )
         t = t or _now()
         if entrenchment is None:
             if writer is None:

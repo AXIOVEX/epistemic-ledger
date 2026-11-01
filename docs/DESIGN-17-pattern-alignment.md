@@ -340,6 +340,37 @@ framework settles on one form at centralization, the
 evidence points to registered data. Both chats record
 the loop closed, no conflicts.
 
+
+**Amendment 3 adoption (2026-11-01): pin the ledger's
+schema and gate it in CI.** The ratified amendment
+(Glossa-Lab's T105 generalization of its D-A) is adopted:
+the claim schema is declared and pinned as
+`epistemic-ledger-claims/1` in docs/pattern/SCHEMA.md
+(each field's type and provenance rule stated);
+`validate_ledger` enforces it over the log and the CLI
+gains `pattern-validate` (write-free, like the rest of
+the gate); `Ledger.assert_claim` refuses a non-string
+pattern field at intake, loudly, before any write; and
+every validation run publishes coverage. First run on
+the program ledger: 34 claims, source 34/34, falsifier
+34/34, does_not_establish 8/34 — the gap is now a
+standing number, exactly the amendment's intent. The
+fingerprint discipline is adopted in its recomputation
+form: the validator computes every proposition
+fingerprint fresh (SHA-256 over the canonicalized
+statement) and publishes the census; this package
+stores no fingerprint, so there is no stored value to
+trust. ONE DELIBERATE DIVERGENCE, surfaced to the owner
+with this adoption rather than taken silently:
+duplicate propositions are counted, not refused at
+intake as Glossa's D-B prescribes for its ledger — here
+each assertion is a distinct evidence node and
+independent assertions of one proposition are how
+corroboration is represented, so an intake refusal
+would change the scoring engine's semantics. The
+divergence is recorded in SCHEMA.md as well; it stands
+until the owner rules otherwise.
+
 ## 6. Honest scope
 
 The package can produce and check a ledger in the
