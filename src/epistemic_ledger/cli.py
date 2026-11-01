@@ -176,6 +176,12 @@ def main(argv=None):
         # or a text-mode read can neither create nor hide
         # drift (harmonization note, 2026-11-01: canonicalize
         # before you hash).
+        # Amendment 2's corollary, in-process form: nothing
+        # imported from here on may leave bytecode caches in
+        # a tree under check. (The complete form is the
+        # interpreter flag — CI sets PYTHONDONTWRITEBYTECODE —
+        # since a module cannot unwrite its own cache.)
+        sys.dont_write_bytecode = True
         from .pattern import (
             build_map,
             build_matrix,

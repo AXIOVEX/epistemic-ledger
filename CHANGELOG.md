@@ -13,6 +13,11 @@ this project follows [Semantic Versioning](https://semver.org/).
   fingerprint census, intake refusal of non-string
   pattern fields, and a schema-validation step in the
   CI pattern gate.
+- Amendment 2 (ratified): conformance recorded — the
+  pattern CLI path sets `dont_write_bytecode` before
+  importing the pattern module, and the write-free
+  drill now proves the property over a red run on both
+  trees.
 
 - DESIGN-17 memo: MPCodec harmonization note assessed
   and adopted (measurement records as the framework

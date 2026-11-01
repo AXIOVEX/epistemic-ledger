@@ -371,6 +371,36 @@ would change the scoring engine's semantics. The
 divergence is recorded in SCHEMA.md as well; it stands
 until the owner rules otherwise.
 
+
+**Amendment 2 — ratified; conformance recorded
+(2026-11-01).** Canonicalize-before-you-hash was adopted
+ahead of ratification in PR #66; with ratification
+(commit d1de85d of the canonical note) the conformance
+record is: (1) one shared helper — no generated layer
+in this package hashes files at all (the gate
+recomputes rather than comparing hashes), the chain
+hashes RFC 8785 canonical JSON (the record layer's
+canonical form, DESIGN-13), and the proposition
+fingerprint hashes LF-normalized UTF-8 text through
+the pattern module's single helper; the two
+canonicalizers serve different layers by design.
+(2) Pinned-LF writes and byte comparison: PR #66.
+(3) eol=lf attributes covering the ledger and its
+generated layers: PR #66. Corollary (write-free gate,
+caches included): closed here — the CLI's pattern path
+sets dont_write_bytecode before importing the pattern
+module (the complete form is the interpreter flag,
+which CI sets, since a module cannot unwrite its own
+cache), and the write-free drill now runs in the
+corollary's proof form: both trees hashed, a RED run,
+nothing written anywhere. Assessed not applicable,
+with the reason stated: snapshot manifests hash the
+store's own runtime files (written by the store
+itself, never checkout-crossing) for restore
+verification — the amendment's failure mode is
+checkout-induced drift on ledgers and generated
+layers, which are covered above.
+
 ## 6. Honest scope
 
 The package can produce and check a ledger in the
