@@ -147,6 +147,30 @@ carry t and actor):
   running unmodified against old-format stores, plus a
   source scan of the module.
 
+## 5.5 Stage notes
+
+**Stage 2 (claim fields) — implemented.** `source`,
+`falsifier`, and `does_not_establish` are first-class
+optional claim fields: three nullable columns on the
+claims table (added to the CREATE TABLE and backfilled by
+`_ensure_columns`, the writer-column precedent), three
+kwargs on `assert_claim`, carried on the assert event's
+payload, read by the rebuild fold (pre-0.15 logs, whose
+payloads lack the keys, fold with null fields), and copied
+forward by both version-copy paths so score revisions
+never drop them. One naming collision, resolved in the
+open: `supersede` already takes a required bundle
+`source` — the source of the correction judgment, carried
+on the supersede event. The successor claim's field is
+set by a new `claim_source` kwarg, defaulting to the
+bundle source; `falsifier` and `does_not_establish` are
+never inherited — a corrected claim restates its own.
+Drills in `tests/test_pattern_fields.py`: field
+round-trip through reads, a score revision, and a full
+projection rebuild; fieldless claims read null; a
+hand-written pre-0.15 log folds clean; supersede leaves
+the original assert event byte-identical (P1, P2).
+
 ## 6. Honest scope
 
 The package can produce and check a ledger in the
