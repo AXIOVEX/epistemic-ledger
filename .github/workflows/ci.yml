@@ -144,6 +144,12 @@ jobs:
         run: >-
           python -m epistemic_ledger pattern-check
           docs/pattern/program-ledger docs/pattern
+      - name: Validate the program ledger against the pinned schema
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: >-
+          python -m epistemic_ledger pattern-validate
+          docs/pattern/program-ledger
 
   battery:
     name: Battery + budgets

@@ -148,6 +148,11 @@ def main(argv=None):
     )
     p_pc.add_argument("ledger_dir")
     p_pc.add_argument("pattern_dir")
+    p_pv = sub.add_parser(
+        "pattern-validate",
+        help="validate a ledger against the pinned claim schema (Amendment 3)",
+    )
+    p_pv.add_argument("ledger_dir")
     args = parser.parse_args(argv)
 
     if args.command == "demo":
@@ -162,7 +167,7 @@ def main(argv=None):
             return 2
         print(json.dumps(report, indent=2, default=str))
         return 0
-    if args.command in ("pattern-export", "pattern-check"):
+    if args.command in ("pattern-export", "pattern-check", "pattern-validate"):
         # Handled before the shared Ledger open, deliberately:
         # the pattern gate must be write-free (no writer lock,
         # no database, no repair at open), and both commands
@@ -186,6 +191,12 @@ def main(argv=None):
         except ValueError as exc:
             print(f"error: {exc}", file=sys.stderr)
             return 2
+        if args.command == "pattern-validate":
+            from .pattern import validate_ledger
+
+            report = validate_ledger(events)
+            print(json.dumps(report, indent=2))
+            return 0 if report["ok"] else 1
         matrix = build_matrix(events)
         map_dict = build_map(events)
         rendered = {
