@@ -136,6 +136,18 @@ def main(argv=None):
     p_res = sub.add_parser("restore", help="restore a snapshot bundle")
     p_res.add_argument("bundle_dir")
     p_res.add_argument("store_dir")
+    p_pe = sub.add_parser(
+        "pattern-export",
+        help="generate the pattern matrix and map for a ledger (DESIGN-17)",
+    )
+    p_pe.add_argument("ledger_dir")
+    p_pe.add_argument("out_dir")
+    p_pc = sub.add_parser(
+        "pattern-check",
+        help="gate: regenerate the pattern layers and diff them (DESIGN-17)",
+    )
+    p_pc.add_argument("ledger_dir")
+    p_pc.add_argument("pattern_dir")
     args = parser.parse_args(argv)
 
     if args.command == "demo":
@@ -232,6 +244,50 @@ def main(argv=None):
                 return 2
             print(json.dumps(result, indent=2, default=str))
             return 0
+        if args.command in ("pattern-export", "pattern-check"):
+            from .pattern import (
+                build_map,
+                build_matrix,
+                map_json,
+                map_markdown,
+                matrix_json,
+                matrix_markdown,
+            )
+
+            events = L._events()
+            rendered = {
+                "matrix.json": matrix_json(build_matrix(events)),
+                "matrix.md": matrix_markdown(build_matrix(events)),
+                "map.json": map_json(build_map(events)),
+                "map.md": map_markdown(build_map(events)),
+            }
+            if args.command == "pattern-export":
+                os.makedirs(args.out_dir, exist_ok=True)
+                for name, text in rendered.items():
+                    with open(
+                        os.path.join(args.out_dir, name), "w", encoding="utf-8"
+                    ) as f:
+                        f.write(text)
+                print(
+                    json.dumps(
+                        {"written": sorted(rendered), "out_dir": args.out_dir},
+                        indent=2,
+                    )
+                )
+                return 0
+            problems = []
+            for name, text in rendered.items():
+                path = os.path.join(args.pattern_dir, name)
+                try:
+                    with open(path, encoding="utf-8") as f:
+                        actual = f.read()
+                except OSError:
+                    problems.append(f"{name}: missing")
+                    continue
+                if actual != text:
+                    problems.append(f"{name}: diverges from the ledger (regenerate it)")
+            print(json.dumps({"ok": not problems, "problems": problems}, indent=2))
+            return 0 if not problems else 1
     except KeyError as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 2

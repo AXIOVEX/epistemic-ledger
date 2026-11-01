@@ -28,6 +28,11 @@ this project follows [Semantic Versioning](https://semver.org/).
   `map_from_ledger`, JSON and Markdown renderings) —
   headline state, claim groups by status, decisions with
   their basis, and per-claim evidence event ids.
+- DESIGN-17 stage 5: the verification gate —
+  `check_pattern` plus the CLI's `pattern-export` and
+  `pattern-check` commands (regenerate-and-diff over all
+  four generated files) — and the golden engine test
+  pinning pre-registered expectations.
 
 ## [0.14.0] - 2026-10-31
 
