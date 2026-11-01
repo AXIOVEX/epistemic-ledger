@@ -1,6 +1,6 @@
 # Ledger map (generated — do not edit)
 
-Events: 40 · Claims: 34 (active: 32, superseded: 2) · Decisions: 3
+Events: 41 · Claims: 34 (active: 32, superseded: 2) · Decisions: 4
 
 ## Claims by status
 
@@ -12,6 +12,7 @@ Events: 40 · Claims: 34 (active: 32, superseded: 2) · Decisions: 3
 - Dc4f525e0f3e2415f8873944b32472e4d (Re-scope the soak append gate to the bench) — basis: Cd248043e1ff14ccf9adc85bd0c9d4203 — event E08f946da6a424c9ab214ffd61bef0ce1
 - D69d1cb0e59304f75bc09f3635c435b86 (Release 0.14.0) — basis: Ceb187d0ca4a74514929e84dfca9bbb8b, C2fe372f4c5ee4d4fb7558f7c4004cc2e, Cd248043e1ff14ccf9adc85bd0c9d4203, C2bedff3f7d404cad8816f40ca819c38c, C40fa3f2a49014ae7af67e6bd4fad33a2, C17255bbfa3274556abea4a506fa8afeb — event Ef7d4a69d0aad459488dc0459d4bb0677
 - D79652ab483d843318474ac862689c737 (Adopt the winning-combination pattern (DESIGN-17)) — basis: C5d124b710ef94c5384dc7d6c5fdf5091, Cd5c75b7a3aab44728a1c93dc45eb7290, C9ea6071e79a841c2aeeb1f02d84513c0, C6e053bd7ce6d492f90b8e0611120cfbe, Cd1dc66d0d6e640a89f52fda7ecb8fe8e, Ca0877ee6909a4be28d5f876bbaf09a22 — event E63141373eb5b44f7a2b90af7cdc9baaf
+- D28d5640daf3f40718b53bddeebe5bfe6 (Release 0.15.0) — basis: C5d124b710ef94c5384dc7d6c5fdf5091, Cd5c75b7a3aab44728a1c93dc45eb7290, C9ea6071e79a841c2aeeb1f02d84513c0, C6e053bd7ce6d492f90b8e0611120cfbe, Cd1dc66d0d6e640a89f52fda7ecb8fe8e, Ca0877ee6909a4be28d5f876bbaf09a22, Cd9c9ca1c752a4382ba248309999c31de — event E906b2d38502c4170ad65896fba402965
 
 ## Evidence
 
