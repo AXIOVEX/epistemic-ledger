@@ -223,6 +223,30 @@ claim at distance 1), verification counts, and the
 matrix's confidence tracking the engine's settled score
 at each step (P5, P6).
 
+
+**Harmonization adoption (2026-11-01): canonicalize
+before you hash.** The Spec-Kit AEE chat's pattern note
+was assessed against this package and adopted in full;
+no ratified local decision conflicts. Already conformant:
+the chain hashes RFC 8785 canonical JSON, never raw file
+bytes, and the pattern layers carry no raw-byte
+provenance hash. Two real gaps the note caught in the
+stage-5 work, both fixed here: the CLI's pattern commands
+wrote and read artifacts in text mode (a Windows export
+would have been CRLF, and a text-mode read would have
+hidden CRLF drift — the note's exact failure), and
+`pattern-check` opened the store through the shared CLI
+path, taking the writer lock and risking repair — a gate
+must write nothing. Now: both commands run before the
+Ledger open and read the log through `events_from_log`
+(a pure read), artifacts are written and compared as
+bytes with pinned LF, and a `.gitattributes` pins eol=lf
+across the repo's text formats (verified CRLF-free
+beforehand, so the pin is noise-free). Drills: exported
+bytes contain no CR; a check run leaves the store tree
+byte-identical and works on a bare log with no database;
+a CRLF-converted artifact fails the gate.
+
 ## 6. Honest scope
 
 The package can produce and check a ledger in the

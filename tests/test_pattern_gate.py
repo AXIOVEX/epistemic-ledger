@@ -96,3 +96,50 @@ def test_cli_export_then_check_then_tamper(tmp_path):
     # The exported JSON parses and carries the format tags.
     with open(os.path.join(out, "map.json"), encoding="utf-8") as f:
         assert json.load(f)["format"] == "epistemic-ledger-map/1"
+
+
+def _tree_bytes(root):
+    snap = {}
+    for dirpath, _dirs, files in os.walk(root):
+        for name in files:
+            p = os.path.join(dirpath, name)
+            with open(p, "rb") as f:
+                snap[os.path.relpath(p, root)] = f.read()
+    return snap
+
+
+def test_gate_is_write_free_and_byte_exact(tmp_path):
+    # Harmonization adoption (canonicalize before you hash,
+    # 2026-11-01): the gate writes nothing and compares
+    # bytes, so CRLF drift can neither be created by the
+    # export nor hidden by the check.
+    path, _ = _store(tmp_path)
+    out = str(tmp_path / "pattern")
+    assert cli_main(["pattern-export", path, out]) == 0
+    # Exported bytes are pinned LF.
+    for name in ("matrix.json", "matrix.md", "map.json", "map.md"):
+        with open(os.path.join(out, name), "rb") as f:
+            assert b"\r" not in f.read(), name
+    # A check run leaves the store tree byte-identical:
+    # no lock file, no database churn, nothing.
+    before = _tree_bytes(path)
+    assert cli_main(["pattern-check", path, out]) == 0
+    assert _tree_bytes(path) == before
+    # The gate works on a bare log — no database at all —
+    # because it never opens the store.
+    bare = str(tmp_path / "bare")
+    os.makedirs(bare)
+    with open(os.path.join(path, "events.jsonl"), "rb") as f:
+        log = f.read()
+    with open(os.path.join(bare, "events.jsonl"), "wb") as f:
+        f.write(log)
+    assert cli_main(["pattern-check", bare, out]) == 0
+    assert _tree_bytes(bare) == {"events.jsonl": log}
+    # A CRLF-converted artifact FAILS the byte comparison
+    # (a text-mode read would have hidden exactly this).
+    target = os.path.join(out, "map.json")
+    with open(target, "rb") as f:
+        raw = f.read()
+    with open(target, "wb") as f:
+        f.write(raw.replace(b"\n", b"\r\n"))
+    assert cli_main(["pattern-check", path, out]) == 1

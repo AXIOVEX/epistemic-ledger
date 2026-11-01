@@ -33,6 +33,12 @@ this project follows [Semantic Versioning](https://semver.org/).
   `pattern-check` commands (regenerate-and-diff over all
   four generated files) — and the golden engine test
   pinning pre-registered expectations.
+- Harmonization adoption (canonicalize before you hash):
+  the pattern CLI commands are write-free (the log is
+  read directly; the store is never opened) and
+  byte-exact (artifacts written and compared as bytes
+  with pinned LF newlines); `.gitattributes` pins
+  `eol=lf` for the repo's text formats.
 
 ## [0.14.0] - 2026-10-31
 
