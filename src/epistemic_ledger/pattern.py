@@ -16,6 +16,11 @@ Stage 3: the matrix. `build_matrix` folds the ledger's
 event list into one canonical dict — a row per claim,
 live and terminal, in assertion order — and the renderers
 derive the JSON and Markdown forms from that one dict.
+
+Stage 4: the map. `build_map` renders the layered surface
+— headline, claim groups by status, decisions with their
+basis, and per-claim evidence (the ids of the events that
+touch each claim) — from the same fold.
 """
 
 from __future__ import annotations
@@ -126,4 +131,114 @@ def matrix_markdown(matrix):
             )
             + " |"
         )
+    return "\n".join(lines) + "\n"
+
+
+MAP_FORMAT = "epistemic-ledger-map/1"
+
+# Payload keys through which an event can reference a claim.
+_CLAIM_REF_KEYS = ("claim_id", "old_claim_id", "new_claim_id", "supports_id")
+
+
+def build_map(events):
+    """Fold an event list into the layered map.
+
+    Layers: the headline (event, claim, and decision totals
+    plus the matrix's per-status counts); claim groups by
+    status, in assertion order; decisions with their basis
+    claim ids and their event id; and per-claim evidence —
+    the ids of every event whose payload references the
+    claim. Every element is a ledger id or a count folded
+    from them: nothing appears that is not in the ledger.
+    """
+    matrix = build_matrix(events)
+    touched: dict[str, list[str]] = {row["claim_id"]: [] for row in matrix["claims"]}
+    decisions = []
+    for event in events:
+        payload = event.get("payload") or {}
+        event_id = event.get("event_id")
+        for key in _CLAIM_REF_KEYS:
+            ref = payload.get(key)
+            if ref in touched and event_id not in touched[ref]:
+                touched[ref].append(event_id)
+        if event.get("type") == "decision":
+            decisions.append(
+                {
+                    "decision_id": payload["decision_id"],
+                    "label": payload.get("label"),
+                    "basis": list(payload.get("basis") or []),
+                    "event_id": event_id,
+                }
+            )
+    groups = []
+    for status in sorted(matrix["counts"]):
+        groups.append(
+            {
+                "status": status,
+                "claim_ids": [
+                    row["claim_id"]
+                    for row in matrix["claims"]
+                    if row["status"] == status
+                ],
+            }
+        )
+    return {
+        "format": MAP_FORMAT,
+        "headline": {
+            "events": len(events),
+            "claims": len(matrix["claims"]),
+            "decisions": len(decisions),
+            "counts": matrix["counts"],
+        },
+        "groups": groups,
+        "decisions": decisions,
+        "evidence": [
+            {"claim_id": row["claim_id"], "events": touched[row["claim_id"]]}
+            for row in matrix["claims"]
+        ],
+    }
+
+
+def map_from_ledger(ledger):
+    """The canonical map for a live Ledger instance."""
+    return build_map(ledger._events())
+
+
+def map_json(map_dict):
+    """The canonical JSON rendering of the map — the byte
+    form the verification gate compares."""
+    return json.dumps(map_dict, indent=2, sort_keys=True) + "\n"
+
+
+def map_markdown(map_dict):
+    """The Markdown rendering: headline first, then the
+    layers — groups, decisions with their basis, and
+    per-claim evidence event ids."""
+    head = map_dict["headline"]
+    counts = head["counts"]
+    headline = ", ".join(f"{k}: {counts[k]}" for k in sorted(counts))
+    lines = [
+        "# Ledger map (generated — do not edit)",
+        "",
+        f"Events: {head['events']} · Claims: {head['claims']} "
+        f"({headline}) · Decisions: {head['decisions']}",
+        "",
+        "## Claims by status",
+        "",
+    ]
+    for group in map_dict["groups"]:
+        lines.append(f"- {group['status']}: " + ", ".join(group["claim_ids"]))
+    lines += ["", "## Decisions", ""]
+    if map_dict["decisions"]:
+        for d in map_dict["decisions"]:
+            lines.append(
+                f"- {d['decision_id']} ({_cell(d['label'])}) — basis: "
+                + ", ".join(d["basis"])
+                + f" — event {d['event_id']}"
+            )
+    else:
+        lines.append("- none")
+    lines += ["", "## Evidence", ""]
+    for entry in map_dict["evidence"]:
+        lines.append(f"- {entry['claim_id']}: " + ", ".join(entry["events"]))
     return "\n".join(lines) + "\n"

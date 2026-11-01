@@ -189,6 +189,21 @@ revised, a superseded, and a dead claim; agreement with
 the live projection on every shared field; byte-identical
 regeneration.
 
+
+**Stage 4 (layered map) — implemented.** `build_map`
+renders the three layers from the same fold: the headline
+(event, claim, and decision totals plus the matrix's
+per-status counts — pinned by drill against
+`verify_store()`'s verified event count), claim groups by
+status (a checked partition of the claim set), decisions
+with their basis claim ids and event ids, and per-claim
+evidence — the ids of every event whose payload references
+the claim, so a support edge appears in both endpoints'
+evidence. For the Python claim ledger there is no head
+hash (hashes live in the chained store); the headline is
+counts and totals, and no head field is faked. JSON and
+Markdown renderings derive from the one dict.
+
 ## 6. Honest scope
 
 The package can produce and check a ledger in the

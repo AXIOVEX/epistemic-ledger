@@ -24,6 +24,10 @@ this project follows [Semantic Versioning](https://semver.org/).
   `matrix_from_ledger`, JSON and Markdown renderings):
   every claim, live and terminal, in assertion order,
   byte-identical on regeneration.
+- DESIGN-17 stage 4: the layered map (`build_map`,
+  `map_from_ledger`, JSON and Markdown renderings) —
+  headline state, claim groups by status, decisions with
+  their basis, and per-claim evidence event ids.
 
 ## [0.14.0] - 2026-10-31
 
