@@ -1,0 +1,159 @@
+# DESIGN-17 — Winning-combination alignment: the ledger layer as a product
+
+Status: design memo (2026-11-01). Claims P1–P6, G1 below are
+the contract; implementation proceeds stage by stage against
+them, as with DESIGN-13/15/16.
+
+## 1. Why
+
+On 2026-11-01 the framework's canonical pattern note (the
+winning combination, issued from the projected-constraints
+program) named this package "the ledger layer as a product":
+every framework project keeps an epistemic ledger in the
+pattern's shape — every material claim with statement,
+source, date, status, confidence, falsifier, and a
+does-not-establish line; corrections as append-only
+reclassifications; a matrix generated from the ledger by
+script; a layered map as the primary surface; an engine
+that computes mechanically from the ledger's claims; and a
+verification gate that recomputes every downstream layer
+and fails on divergence.
+
+This package is the ledger half of the future shared
+component (the RCPH side is currently the engine half).
+For other projects' ledgers to be produced and checked by
+this package, its data model and its generated exports must
+speak the pattern natively. That alignment is this memo.
+
+## 2. Where the shipped model stands against the pattern
+
+Measured against 0.14.0's claim record (claim_id, txn_from,
+statement, valid window, score, score_kind, status,
+materiality, critical, entrenchment, writer; chain events
+carry t and actor):
+
+- statement — present.
+- date — present (txn_from; event timestamps).
+- status — present, with append-only lifecycle transitions
+  (supersede / set_claim_status, reason bundle required).
+- confidence — present (prior at assertion; the computed
+  score is the engine's settlement of it).
+- source — NOT a first-class claim field (writer/actor is
+  who wrote the record, not where the claim comes from).
+- falsifier — NOT a field (falsifiers live in this
+  program's design memos, not in the package's data model).
+- does-not-establish — NOT a field.
+- append-only reclassification — present by construction
+  (the chain is append-only; no mutator edits a claim's
+  fields in place).
+- generated matrix / layered map — NOT present (the PROV
+  export is a generated export, but it is a provenance
+  rendering, not the pattern's matrix or map).
+- verification gate over generated layers — NOT present
+  (chain verification exists; nothing recomputes a matrix
+  or map and diffs it).
+- engine — present in substance: scoring settlement,
+  structural and propagated impact, and chain verification
+  compute mechanically from the records. What the pattern
+  adds is pre-registered expectations the engine must
+  reproduce exactly (a pinned golden ledger).
+
+## 3. Decisions
+
+- **D1 — Fields are additive and optional.** `source`,
+  `falsifier`, and `does_not_establish` become first-class
+  claim fields on assertion, carried in the claim row, the
+  chain event, and projection rebuild. Existing stores open
+  unchanged; claims asserted before this change read back
+  with null pattern fields. (Ships as 0.15.0, a minor.)
+- **D2 — One pattern module.** `epistemic_ledger.pattern`
+  holds the matrix generator, the map generator, and the
+  gate — pure functions of the ledger's records, no wall
+  clock, no project-specific content of any kind (the
+  future shared component extracts from here).
+- **D3 — Matrix shape.** Rows are claims (live and
+  terminal), columns are the pattern fields plus the
+  settled score; ordering is by assertion sequence;
+  rendering is JSON and Markdown from one canonical dict,
+  so the gate compares one thing, not two renderings.
+- **D4 — Map shape.** Three layers: the ledger headline
+  (record counts by status, head hash, latest tree head
+  where present) → claim groups (by status, then by
+  decision linkage) → evidence (support edges and source
+  events). Every element carries the ledger ids it came
+  from; nothing appears that is not in the ledger.
+- **D5 — The gate is a recompute-and-diff.** Given a
+  ledger and a matrix/map pair, the gate regenerates both
+  from the ledger and fails on any byte of divergence,
+  through the library and the CLI. A hand-edit downstream
+  is a failing gate, never a silent difference.
+- **D6 — Engine expectations are pre-registered.** A
+  golden ledger (fixed seeds, fixed timestamps) ships in
+  the test suite with its settled scores, impact results,
+  and verification outcome pinned; the engine must
+  reproduce them exactly, in CI, on every change.
+
+## 4. Stages
+
+1. This memo.
+2. Claim fields (P1, P2): fields end to end — assertion,
+   storage, event, rebuild, reads.
+3. Matrix generator (P3).
+4. Map generator (P4).
+5. Gate + golden engine expectations (P5, P6).
+6. Conformance demonstration: this program's own design
+   claims (DESIGN-13/15/16/17) entered through the package
+   as a ledger, its matrix and map generated into the
+   repo's docs, the gate wired into CI; then release
+   0.15.0 through the standard release-tier gate.
+
+## 5. Claims
+
+- **P1 (fields round-trip).** A claim asserted with
+  source, falsifier, and does_not_establish carries all
+  three in its live row, in its chain event, and after a
+  full projection rebuild, unchanged. *Falsifier:* the
+  field-diff drill across assert → rebuild → read.
+- **P2 (append-only).** Pattern fields obey the existing
+  lifecycle: they change only through supersede or a
+  status transition carrying its reason bundle; the
+  original assertion event is never altered. *Falsifier:*
+  a drill that supersedes a field-bearing claim and checks
+  the original event byte-for-byte.
+- **P3 (matrix is generated, completely).** The matrix is
+  a pure function of the ledger's records: regeneration
+  from the same ledger is byte-identical; every live and
+  terminal claim appears exactly once; every row traces
+  to a claim id in the ledger. *Falsifier:* determinism
+  and completeness drills.
+- **P4 (map is generated, traceable).** The map renders
+  exactly the generated data: its headline equals the
+  ledger's verified headline state, and every element
+  carries the ids of the records it renders. *Falsifier:*
+  headline and traceability drills against a live ledger.
+- **P5 (gate).** The gate passes on artifacts regenerated
+  from the ledger it checks, and fails on a one-byte
+  change to either artifact, on a missing claim row, and
+  on a headline that disagrees with the ledger.
+  *Falsifier:* the tamper drills themselves.
+- **P6 (engine expectations).** On the pinned golden
+  ledger, the engine's settled scores, impact results,
+  and verification outcome equal the pre-registered values
+  exactly. *Falsifier:* the golden test.
+- **G1 (no hardcoding, no breakage).** The pattern module
+  contains no project-specific identifiers, field names
+  beyond the pattern's, or content; pre-0.15 stores open
+  and verify unchanged. *Falsifier:* the existing battery
+  running unmodified against old-format stores, plus a
+  source scan of the module.
+
+## 6. Honest scope
+
+The package can produce and check a ledger in the
+pattern's shape; that makes downstream layers provably
+faithful to the ledger, never the ledger faithful to the
+world. A falsifier field records what would settle a
+claim; it does not settle it. The gate proves the matrix
+and map are the ledger, rendered — drift is a downstream
+defect by definition, and truth still enters only through
+the ledger's own discipline.
