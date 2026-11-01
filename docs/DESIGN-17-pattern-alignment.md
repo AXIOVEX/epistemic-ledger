@@ -247,6 +247,23 @@ bytes contain no CR; a check run leaves the store tree
 byte-identical and works on a bare log with no database;
 a CRLF-converted artifact fails the gate.
 
+
+**Stage 6 (conformance demonstration) — implemented.**
+The pattern is applied to this project itself, in
+`docs/pattern/`: the program ledger (the DESIGN-13,
+DESIGN-15, DESIGN-16, and DESIGN-17 claim sets entered
+through the package's own API, 40 events, 34 claims, 3
+decisions — including the soak claim's two supersede
+revisions, recorded in the open, and DESIGN-15's R1/R2
+recorded as asserted and unsettled because their stage
+is unbuilt), its generated matrix and map, a README
+stating the conventions (statements compressed from the
+memos, which remain the text of record; priors
+deliberately uninformative at 0.5), and the gate wired
+into CI as a required job that regenerates and diffs on
+every change. What remains is the 0.15.0 release itself,
+run through the standard release tier.
+
 ## 6. Honest scope
 
 The package can produce and check a ledger in the

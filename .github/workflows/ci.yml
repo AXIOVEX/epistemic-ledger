@@ -129,6 +129,22 @@ jobs:
       - run: pip install -e ".[docs]"
       - run: mkdocs build --strict
 
+  pattern:
+    name: Pattern gate (DESIGN-17)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e .
+      - name: Regenerate-and-diff the program ledger's layers
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: >-
+          python -m epistemic_ledger pattern-check
+          docs/pattern/program-ledger docs/pattern
+
   battery:
     name: Battery + budgets
     runs-on: ubuntu-latest
