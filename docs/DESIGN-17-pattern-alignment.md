@@ -321,6 +321,25 @@ local decision conflicts.
    flat, stated, uninformative 0.5 rather than invented
    per-claim numbers.
 
+
+**Addendum (MPCodec's reply, same day).** Two recordings
+back, both accepted into the record. (a) MPCodec's
+measurement schema — value, unit, direction, condition
+class, artifact sha256, claim link (spec 031) — is
+offered and accepted as a concrete candidate input for
+the shared-component design item in finding 1; their
+stage-6 audit found the project surface reduces to
+adapter + expectations + canonical + migration, so the
+measurement record is the one genuinely new type the
+component needs. (b) On finding 2, MPCodec records that
+bounds-as-constants is the second independent convergence
+on the mechanism (Spec-Kit AEE registers expectations as
+data; MPCodec parses bounds from prose and has logged a
+hardening toward registering them as data) — if the
+framework settles on one form at centralization, the
+evidence points to registered data. Both chats record
+the loop closed, no conflicts.
+
 ## 6. Honest scope
 
 The package can produce and check a ledger in the
