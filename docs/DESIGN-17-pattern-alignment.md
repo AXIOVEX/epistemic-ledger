@@ -171,6 +171,24 @@ projection rebuild; fieldless claims read null; a
 hand-written pre-0.15 log folds clean; supersede leaves
 the original assert event byte-identical (P1, P2).
 
+
+**Stage 3 (matrix generator) — implemented.**
+`epistemic_ledger.pattern.build_matrix` folds the
+ledger's event list into one canonical dict: a row per
+claim in assertion order (claim_id, statement, source,
+date, status, settled confidence, falsifier,
+does-not-establish, and the superseded-by linkage that
+makes reclassification visible), plus per-status counts.
+The source of truth is the event list, not the live-claims
+API — terminal claims appear exactly once, as P3 requires.
+JSON and Markdown renderings derive from the one dict;
+the JSON form is the byte form the stage-5 gate will
+compare. Drills in `tests/test_pattern_matrix.py`:
+completeness and traceability over a ledger with a live, a
+revised, a superseded, and a dead claim; agreement with
+the live projection on every shared field; byte-identical
+regeneration.
+
 ## 6. Honest scope
 
 The package can produce and check a ledger in the
