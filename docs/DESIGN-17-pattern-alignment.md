@@ -204,6 +204,25 @@ hash (hashes live in the chained store); the headline is
 counts and totals, and no head field is faked. JSON and
 Markdown renderings derive from the one dict.
 
+
+**Stage 5 (gate + golden expectations) — implemented.**
+`check_pattern` regenerates both canonical JSON forms
+from the ledger's records and byte-compares them against
+the artifacts under check, naming the diverging layer;
+the CLI grows `pattern-export` (writes matrix.json,
+matrix.md, map.json, map.md) and `pattern-check`
+(regenerates all four and diffs each file — a hand-edit
+to a Markdown surface is drift too; a missing file is a
+failing gate). The golden test pins expectations derived
+from the documented rules rather than captured from the
+implementation: the Jeffrey settlement of an evidentially
+supported claim (supporter at 1.0 → 0.9 exactly, at 0.0
+→ 0.2 exactly, from p_given 0.9 / p_given_not 0.2), the
+supporter's structural impact (exactly the supported
+claim at distance 1), verification counts, and the
+matrix's confidence tracking the engine's settled score
+at each step (P5, P6).
+
 ## 6. Honest scope
 
 The package can produce and check a ledger in the

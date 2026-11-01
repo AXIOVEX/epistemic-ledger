@@ -21,6 +21,11 @@ Stage 4: the map. `build_map` renders the layered surface
 — headline, claim groups by status, decisions with their
 basis, and per-claim evidence (the ids of the events that
 touch each claim) — from the same fold.
+
+Stage 5: the gate. `check_pattern` regenerates the matrix
+and the map from the ledger's records and byte-compares
+them against the artifacts under check; any divergence is
+a downstream defect, reported by layer.
 """
 
 from __future__ import annotations
@@ -242,3 +247,25 @@ def map_markdown(map_dict):
     for entry in map_dict["evidence"]:
         lines.append(f"- {entry['claim_id']}: " + ", ".join(entry["events"]))
     return "\n".join(lines) + "\n"
+
+
+def check_pattern(events, matrix_text, map_text):
+    """The verification gate (DESIGN-17, P5).
+
+    Regenerates the matrix and the map from the ledger's
+    records and byte-compares them with the artifacts under
+    check. Returns {"ok": bool, "problems": [str]} — a
+    divergence is a defect in the downstream artifact,
+    never in the ledger, and the problem names the layer.
+    """
+    problems = []
+    if matrix_text != matrix_json(build_matrix(events)):
+        problems.append("matrix diverges from the ledger (regenerate it)")
+    if map_text != map_json(build_map(events)):
+        problems.append("map diverges from the ledger (regenerate it)")
+    return {"ok": not problems, "problems": problems}
+
+
+def check_pattern_for_ledger(ledger, matrix_text, map_text):
+    """The gate over a live Ledger instance's artifacts."""
+    return check_pattern(ledger._events(), matrix_text, map_text)
