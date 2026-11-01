@@ -24,18 +24,6 @@ import json
 
 MATRIX_FORMAT = "epistemic-ledger-matrix/1"
 
-_ROW_KEYS = (
-    "claim_id",
-    "statement",
-    "source",
-    "date",
-    "status",
-    "confidence",
-    "falsifier",
-    "does_not_establish",
-    "superseded_by",
-)
-
 
 def build_matrix(events):
     """Fold an event list into the canonical claims matrix.
@@ -81,7 +69,7 @@ def build_matrix(events):
             if row is not None:
                 row["status"] = payload["status"]
     claims = [rows[claim_id] for claim_id in order]
-    counts = {}
+    counts: dict[str, int] = {}
     for row in claims:
         counts[row["status"]] = counts.get(row["status"], 0) + 1
     return {"format": MATRIX_FORMAT, "claims": claims, "counts": counts}
