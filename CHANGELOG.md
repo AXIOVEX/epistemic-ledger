@@ -39,6 +39,11 @@ this project follows [Semantic Versioning](https://semver.org/).
   byte-exact (artifacts written and compared as bytes
   with pinned LF newlines); `.gitattributes` pins
   `eol=lf` for the repo's text formats.
+- DESIGN-17 stage 6: the conformance demonstration —
+  `docs/pattern/` carries this program's own ledger
+  (DESIGN-13/15/16/17 claims), its generated matrix and
+  map, and a CI pattern-gate job that fails on any
+  divergence.
 
 ## [0.14.0] - 2026-10-31
 

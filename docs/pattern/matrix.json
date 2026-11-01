@@ -1,0 +1,383 @@
+{
+  "claims": [
+    {
+      "claim_id": "C77272c7b327847cabfc9e0bbaca6ba53",
+      "confidence": 0.5,
+      "date": "2026-10-28T09:00:00+00:00",
+      "does_not_establish": null,
+      "falsifier": "The battery's history attacks pass undetected.",
+      "source": "DESIGN-13 sections 1 and 7; adversarial battery (CI)",
+      "statement": "Any rewrite of committed history - a flipped bit, or a deleted, inserted, or reordered record - is detected by chain verification.",
+      "status": "active",
+      "superseded_by": null
+    },
+    {
+      "claim_id": "C642080f357d9415fae334c2d977438a9",
+      "confidence": 0.5,
+      "date": "2026-10-28T09:00:00+00:00",
+      "does_not_establish": null,
+      "falsifier": "A covered record changes without its segment root changing.",
+      "source": "DESIGN-13 section 1.2; battery checkpoint drills",
+      "statement": "Merkle checkpoints commit to each 1,024-record segment; a segment's root changes if any record it covers changes.",
+      "status": "active",
+      "superseded_by": null
+    },
+    {
+      "claim_id": "Cc7c8da96f8864bf5a9458a53fef588f9",
+      "confidence": 0.5,
+      "date": "2026-10-28T09:00:00+00:00",
+      "does_not_establish": null,
+      "falsifier": "Two writers append to one store concurrently.",
+      "source": "DESIGN-13 section 2.2; concurrency drill",
+      "statement": "The chained store admits exactly one writer; a second concurrent writer is refused.",
+      "status": "active",
+      "superseded_by": null
+    },
+    {
+      "claim_id": "Cc64985fef2534b20b002adeb9ad8e646",
+      "confidence": 0.5,
+      "date": "2026-10-28T09:00:00+00:00",
+      "does_not_establish": null,
+      "falsifier": "A drill finds a silently repaired middle or a lost torn tail.",
+      "source": "DESIGN-13 section 2.3; kill-point and corruption drills",
+      "statement": "A torn final write is truncated at open and reported; damage in the middle of the log is a loud error, never a silent repair.",
+      "status": "active",
+      "superseded_by": null
+    },
+    {
+      "claim_id": "C9e5a57463d8d4c89a9d1febf61cf4d37",
+      "confidence": 0.5,
+      "date": "2026-10-28T09:00:00+00:00",
+      "does_not_establish": null,
+      "falsifier": "A dependent is missing from the closure, or a propagated movement disagrees with re-settlement.",
+      "source": "DESIGN-13 section 3; impact tests and bench",
+      "statement": "The impact query returns a claim's structural dependents and, in propagated mode, the score movement each dependent takes under a hypothetical revision.",
+      "status": "active",
+      "superseded_by": null
+    },
+    {
+      "claim_id": "Ca21805a2b4ca454b8e6a058c9608711f",
+      "confidence": 0.5,
+      "date": "2026-10-28T09:00:00+00:00",
+      "does_not_establish": "Runner-class numbers; not a guarantee on other hardware.",
+      "falsifier": "The bench reports any budget missed.",
+      "source": "DESIGN-13 section 8; per-PR bench with budgets enforced",
+      "statement": "The DESIGN-13 budgets hold on the reference class: append at or above 2,000 records/s, verification at or above 50,000 records/s, open within 250 ms at 100k records.",
+      "status": "active",
+      "superseded_by": null
+    },
+    {
+      "claim_id": "C904bc40fb9fc4d20841081183db1353d",
+      "confidence": 0.5,
+      "date": "2026-10-30T09:00:00+00:00",
+      "does_not_establish": "Proves a history existed and was not rewritten; not that its contents were true.",
+      "falsifier": "A drill anchors, rewrites history below the anchor, and verification accepts it.",
+      "source": "DESIGN-15 section 4; PRs #36 and #37 (stage 1)",
+      "statement": "After a checkpoint is anchored, any rewrite of pre-anchor history is detected by consistency verification against the anchored signed tree head.",
+      "status": "active",
+      "superseded_by": null
+    },
+    {
+      "claim_id": "C734a228cb2aa420783e63986834c2f70",
+      "confidence": 0.5,
+      "date": "2026-10-30T09:00:00+00:00",
+      "does_not_establish": null,
+      "falsifier": "A standalone verifier accepts a proof for a mutated record, a wrong record, or a wrong checkpoint.",
+      "source": "DESIGN-15 section 4; PRs #36 and #37 (stage 1)",
+      "statement": "For any record covered by an anchored checkpoint, an inclusion proof verifies against the anchored root with no access to the store.",
+      "status": "active",
+      "superseded_by": null
+    },
+    {
+      "claim_id": "Ce96266f76fd544b1a8e3ad82c40c8751",
+      "confidence": 0.5,
+      "date": "2026-10-30T09:00:00+00:00",
+      "does_not_establish": null,
+      "falsifier": "A drill signs two such heads with the real checkpoint key and the verifier accepts both.",
+      "source": "DESIGN-15 section 4; PRs #36 and #37 (stage 1)",
+      "statement": "A verifier holding a pinned tree head detects equivocation: two validly signed heads at one tree size with different roots produce a hard fork error.",
+      "status": "active",
+      "superseded_by": null
+    },
+    {
+      "claim_id": "C1f8479a6089547b4b1f0cee754c6f4bb",
+      "confidence": 0.5,
+      "date": "2026-10-30T09:00:00+00:00",
+      "does_not_establish": null,
+      "falsifier": "A cross-partition probe succeeds, or a record signed outside its key's window verifies.",
+      "source": "DESIGN-15 section 5; PR #41 (stage 2a)",
+      "statement": "No package API path reads from or appends to a partition other than the one opened, and governed verification enforces key enrollment windows.",
+      "status": "active",
+      "superseded_by": null
+    },
+    {
+      "claim_id": "C95f6a99372f044db84aafcdc04d30712",
+      "confidence": 0.5,
+      "date": "2026-10-30T09:00:00+00:00",
+      "does_not_establish": null,
+      "falsifier": "The drill's keyless attack recovers a payload, or the key holder's recomputation fails.",
+      "source": "DESIGN-15 section 5; PR #42 (stage 2b)",
+      "statement": "Without the tenant's HMAC key, the store's bytes do not yield payload content: a dictionary attack over a known payload space fails against the commitments, while the key holder's recomputation verifies.",
+      "status": "active",
+      "superseded_by": null
+    },
+    {
+      "claim_id": "C6c9691a194cf4264b7f49df313a9a316",
+      "confidence": 0.5,
+      "date": "2026-10-30T09:00:00+00:00",
+      "does_not_establish": "An erasure record attests the act was recorded, not that a key was destroyed; destruction happens outside the ledger.",
+      "falsifier": "An erasure drill recovers the payload from the store, a snapshot, or an export.",
+      "source": "DESIGN-15 section 5; PR #42 (stage 2b)",
+      "statement": "After an erasure record and destruction of the payload key and salt, the payload is unrecoverable from any ledger artifact, while chain verification, checkpoints, and proofs over the affected region still pass.",
+      "status": "active",
+      "superseded_by": null
+    },
+    {
+      "claim_id": "Ca28deb13eb9649db852aa53dbc5f634d",
+      "confidence": 0.5,
+      "date": "2026-10-30T09:00:00+00:00",
+      "does_not_establish": null,
+      "falsifier": "The refusal suite accepts a violating append, or a regression run of the existing suite changes behavior.",
+      "source": "DESIGN-15 section 6 (stage 3 - not yet built; awaits the Arcturus field-level requirements)",
+      "statement": "Appends that violate a registered schema version are refused at append time with the violated field named; appends of unregistered types behave exactly as they do today.",
+      "status": "active",
+      "superseded_by": null
+    },
+    {
+      "claim_id": "C09afd934f3c6491b852cbeee1f7e8c76",
+      "confidence": 0.5,
+      "date": "2026-10-30T09:00:00+00:00",
+      "does_not_establish": null,
+      "falsifier": "A receipt-swap or receipt-mutation drill validates.",
+      "source": "DESIGN-15 section 6 (stage 3 - not yet built; awaits the Arcturus field-level requirements)",
+      "statement": "A disclosure receipt validates for exactly the disclosure record it was issued from - not for another disclosure, another partition, or a mutated record.",
+      "status": "active",
+      "superseded_by": null
+    },
+    {
+      "claim_id": "C051b5cda024b4ea6985f340d3ce9a3fa",
+      "confidence": 0.5,
+      "date": "2026-10-30T09:00:00+00:00",
+      "does_not_establish": "Accounts for the store's records; does not establish the records' contents are true.",
+      "falsifier": "A round-trip accounting test over generated stores finds a mismatch.",
+      "source": "DESIGN-15 section 7; PR #44 (stage 4)",
+      "statement": "The PROV export accounts for the store exactly: every exported activity maps to exactly one ledger record, the export's stated head hash equals the store's, and a re-derived export of an unchanged store is identical.",
+      "status": "active",
+      "superseded_by": null
+    },
+    {
+      "claim_id": "C5b321c77812d4f4f81b86d6399fb8e9d",
+      "confidence": 0.5,
+      "date": "2026-10-30T09:00:00+00:00",
+      "does_not_establish": null,
+      "falsifier": "The toolchain-scrubbed install smoke fails.",
+      "source": "DESIGN-15 section 7; PR #49 (stage 5 PR A); every release since 0.14.0",
+      "statement": "A clean environment with no Rust toolchain installs the wheel from the package index and runs the chained-store path end to end: open, migrate, snapshot, verify.",
+      "status": "active",
+      "superseded_by": null
+    },
+    {
+      "claim_id": "Ca4b1dfa0bec041f38dcb3005f5f6db37",
+      "confidence": 0.5,
+      "date": "2026-10-30T09:00:00+00:00",
+      "does_not_establish": null,
+      "falsifier": "A release ships with a red budget or battery leg.",
+      "source": "DESIGN-15 G1; standing, checked at every release",
+      "statement": "The DESIGN-13 budgets and the full battery, extended per stage, stay green at every release; a stage that cannot keep them does not ship.",
+      "status": "active",
+      "superseded_by": null
+    },
+    {
+      "claim_id": "Ceb187d0ca4a74514929e84dfca9bbb8b",
+      "confidence": 0.5,
+      "date": "2026-10-30T10:00:00+00:00",
+      "does_not_establish": "Process kills, not power cuts; storage that lies to fsync is out of scope.",
+      "falsifier": "The kill-point sweep finds a dropped acknowledged record, a torn middle, or a failed verification.",
+      "source": "DESIGN-16 S1; kill-point sweeps (nightly 500, release tier)",
+      "statement": "Crash consistency (the prefix property): after a SIGKILL at a random moment, the reopened store verifies cleanly and contains exactly a prefix of the acknowledged appends.",
+      "status": "active",
+      "superseded_by": null
+    },
+    {
+      "claim_id": "C2fe372f4c5ee4d4fb7558f7c4004cc2e",
+      "confidence": 0.5,
+      "date": "2026-10-30T10:00:00+00:00",
+      "does_not_establish": "Stated as exactly the two sweeps; not a proof over all stores.",
+      "falsifier": "Either sweep finds an undetected flip.",
+      "source": "DESIGN-16 S2; bit-rot sweeps",
+      "statement": "Every single-byte corruption of the committed log is detected by verification - exhaustively on the 100-record store, and by 10,000 random flips on the 100k-record store.",
+      "status": "active",
+      "superseded_by": null
+    },
+    {
+      "claim_id": "C4f1336cae49b461dab91088d86fdef50",
+      "confidence": 0.5,
+      "date": "2026-10-30T10:00:00+00:00",
+      "does_not_establish": null,
+      "falsifier": "The soak reports.",
+      "source": "DESIGN-16 S3 as written 2026-10-30 (PR #32)",
+      "statement": "Soak stability, as first stated: two hours of mixed load with zero errors and a clean final verification, end-of-run memory drift bounded, and the append leg sustaining the DESIGN-13 append budget of 2,000 appends/s.",
+      "status": "superseded",
+      "superseded_by": "C5cbc52cbba63422bb53ac02765661d42"
+    },
+    {
+      "claim_id": "C5cbc52cbba63422bb53ac02765661d42",
+      "confidence": 0.5,
+      "date": "2026-10-31T09:00:00+00:00",
+      "does_not_establish": null,
+      "falsifier": "The soak reports.",
+      "source": "Soak runs 1-3; PRs #55 and #57 design notes",
+      "statement": "Soak stability, first revision: the drift criterion is quiescent retention (RSS after close, garbage collection, and allocator trim), and the mixed and append legs run as separate jobs on separate runners; the append leg sustains the append budget.",
+      "status": "superseded",
+      "superseded_by": "Cd248043e1ff14ccf9adc85bd0c9d4203"
+    },
+    {
+      "claim_id": "Cd248043e1ff14ccf9adc85bd0c9d4203",
+      "confidence": 0.5,
+      "date": "2026-10-31T12:30:00+00:00",
+      "does_not_establish": null,
+      "falsifier": "The soak reports.",
+      "source": "PR #60; release-tier run 5; nightly 2026-10-31",
+      "statement": "Soak stability: two hours of mixed load with zero errors and a clean final verification, live traced bytes after the run within 25% plus 25 MB of the post-warm-up live level, and a sibling append leg sustaining the full duration with every rotated segment verified, its rate reported as measured; the append budget itself is gated by the per-PR bench.",
+      "status": "active",
+      "superseded_by": null
+    },
+    {
+      "claim_id": "Cd6de353557cf4531a577ef183714e55c",
+      "confidence": 0.5,
+      "date": "2026-10-31T10:00:00+00:00",
+      "does_not_establish": null,
+      "falsifier": "The concurrency run records a torn observation or a p99 above budget.",
+      "source": "DESIGN-16 S4; PR #50 (point reads); S4 run 2026-10-31 (p99 0.039 ms point reads, 18.457 ms projection)",
+      "statement": "Concurrent readers: with 8 reader processes querying during append load, no reader observes a partial or torn record, and point-read latency stays within a p99 of 250 ms.",
+      "status": "active",
+      "superseded_by": null
+    },
+    {
+      "claim_id": "C2bedff3f7d404cad8816f40ca819c38c",
+      "confidence": 0.5,
+      "date": "2026-10-31T10:00:00+00:00",
+      "does_not_establish": null,
+      "falsifier": "The resource-floor runs.",
+      "source": "DESIGN-16 S5; floor legs on every tier run (18,436 appends to genuine ENOSPC, reopen verified at exactly 18,436)",
+      "statement": "Resource floors: on a real full disk mid-append, the append fails loudly and the store reopens and verifies at its pre-append state; under a 256 MB memory ceiling, full verification of the 100k-record store completes. Any floor that fails is re-stated at the level actually proven.",
+      "status": "active",
+      "superseded_by": null
+    },
+    {
+      "claim_id": "C40fa3f2a49014ae7af67e6bd4fad33a2",
+      "confidence": 0.5,
+      "date": "2026-10-31T10:00:00+00:00",
+      "does_not_establish": null,
+      "falsifier": "The campaign reports and their corpora.",
+      "source": "DESIGN-16 S6; fuzz legs (nightly and release tier)",
+      "statement": "Parser robustness: the fuzz campaigns find zero panics, aborts, or hangs in the fuzzed entry points; any crash found becomes a battery drill before the campaign counts green.",
+      "status": "active",
+      "superseded_by": null
+    },
+    {
+      "claim_id": "C17255bbfa3274556abea4a506fa8afeb",
+      "confidence": 0.5,
+      "date": "2026-10-31T10:00:00+00:00",
+      "does_not_establish": "Runner-class numbers on hosted CI hardware.",
+      "falsifier": "The nightly scale run misses a number; a miss is revised in the open with the measured number, never quietly edited.",
+      "source": "DESIGN-16 S7; scale run 2026-10-31 (open 2.432 s, verify 65,075 records/s, impact 69.6 ms, median of 5 after warm-up)",
+      "statement": "Scale point: at 1M records, open within 5 s, full verification at or above 20,000 records/s, structural impact within 250 ms.",
+      "status": "active",
+      "superseded_by": null
+    },
+    {
+      "claim_id": "C7c91f8a96d8f457a944a13298feeba49",
+      "confidence": 0.5,
+      "date": "2026-10-31T10:00:00+00:00",
+      "does_not_establish": null,
+      "falsifier": "A budget or battery leg goes red and the change ships anyway.",
+      "source": "DESIGN-16 G1; standing",
+      "statement": "The DESIGN-13 budgets and the full battery stay green throughout the stress program; a stress change that costs a budget is a finding, not a trade made silently.",
+      "status": "active",
+      "superseded_by": null
+    },
+    {
+      "claim_id": "C5d124b710ef94c5384dc7d6c5fdf5091",
+      "confidence": 0.5,
+      "date": "2026-11-01T08:00:00+00:00",
+      "does_not_establish": null,
+      "falsifier": "A fielded claim read back with a pattern field missing or altered, at any point in that set.",
+      "source": "DESIGN-17 P1; PR #62",
+      "statement": "Claim fields: a claim carries source, falsifier, and does-not-establish as first-class fields that round-trip through every read path, score revisions, and projection rebuilds.",
+      "status": "active",
+      "superseded_by": null
+    },
+    {
+      "claim_id": "Cd5c75b7a3aab44728a1c93dc45eb7290",
+      "confidence": 0.5,
+      "date": "2026-11-01T08:00:00+00:00",
+      "does_not_establish": null,
+      "falsifier": "A drill whose post-correction log differs anywhere before the correction's own event.",
+      "source": "DESIGN-17 P2; PR #62 (log-prefix assertion)",
+      "statement": "Append-only corrections: no operation mutates a recorded claim event; a correction is a new event, and the original stands readable as written.",
+      "status": "active",
+      "superseded_by": null
+    },
+    {
+      "claim_id": "C9ea6071e79a841c2aeeb1f02d84513c0",
+      "confidence": 0.5,
+      "date": "2026-11-01T08:00:00+00:00",
+      "does_not_establish": null,
+      "falsifier": "A generated matrix that omits a claim, duplicates one, or contradicts the live projection on any row.",
+      "source": "DESIGN-17 P3; PR #63",
+      "statement": "The matrix is generated, never made: every claim in the ledger, live or terminal, appears exactly once, and each row's fields equal the ledger's record for that claim.",
+      "status": "active",
+      "superseded_by": null
+    },
+    {
+      "claim_id": "C6e053bd7ce6d492f90b8e0611120cfbe",
+      "confidence": 0.5,
+      "date": "2026-11-01T08:00:00+00:00",
+      "does_not_establish": null,
+      "falsifier": "An element with no ledger id, or a headline count that diverges from verification.",
+      "source": "DESIGN-17 P4; PR #64",
+      "statement": "The map is generated and traceable: headline counts equal the store's own verification counts, and every element carries the ids of the ledger records it rests on.",
+      "status": "active",
+      "superseded_by": null
+    },
+    {
+      "claim_id": "Cd1dc66d0d6e640a89f52fda7ecb8fe8e",
+      "confidence": 0.5,
+      "date": "2026-11-01T08:00:00+00:00",
+      "does_not_establish": "Proves downstream layers are faithful to the ledger; never that the ledger is faithful to the world.",
+      "falsifier": "Tamper drills: edit one byte of either artifact, drop a row, or present a stale pair, and the gate passes.",
+      "source": "DESIGN-17 P5; PRs #65 and #66",
+      "statement": "The gate regenerates the matrix and the map from the ledger's records and fails on any byte of divergence, naming the diverging layer; it writes nothing.",
+      "status": "active",
+      "superseded_by": null
+    },
+    {
+      "claim_id": "Ca0877ee6909a4be28d5f876bbaf09a22",
+      "confidence": 0.5,
+      "date": "2026-11-01T08:00:00+00:00",
+      "does_not_establish": null,
+      "falsifier": "Any golden expectation the engine fails to reproduce.",
+      "source": "DESIGN-17 P6; PR #65 (golden test)",
+      "statement": "The engine meets pre-registered expectations on a golden ledger: expectations written from the documented rules before consulting the implementation, reproduced exactly by settlement, impact, and verification.",
+      "status": "active",
+      "superseded_by": null
+    },
+    {
+      "claim_id": "Cd9c9ca1c752a4382ba248309999c31de",
+      "confidence": 0.5,
+      "date": "2026-11-01T08:00:00+00:00",
+      "does_not_establish": null,
+      "falsifier": "A project term appears in the module, or any pre-existing test changes behavior.",
+      "source": "DESIGN-17 G1; PRs #62 to #66, full CI each",
+      "statement": "The pattern module is project-agnostic and ships without breaking the 0.14.0 surface.",
+      "status": "active",
+      "superseded_by": null
+    }
+  ],
+  "counts": {
+    "active": 32,
+    "superseded": 2
+  },
+  "format": "epistemic-ledger-matrix/1"
+}
