@@ -19,6 +19,11 @@ this project follows [Semantic Versioning](https://semver.org/).
   fields — on the claim row, the assert event, and
   through projection rebuilds; `supersede` restates them
   for the successor (never silently inherited).
+- DESIGN-17 stage 3: `epistemic_ledger.pattern` — the
+  generated claims matrix (`build_matrix`,
+  `matrix_from_ledger`, JSON and Markdown renderings):
+  every claim, live and terminal, in assertion order,
+  byte-identical on regeneration.
 
 ## [0.14.0] - 2026-10-31
 
