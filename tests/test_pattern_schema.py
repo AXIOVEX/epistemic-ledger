@@ -54,6 +54,7 @@ def test_validator_publishes_coverage(tmp_path):
     assert cov["with_does_not_establish"] == 0
     assert cov["distinct_propositions"] == 2
     assert cov["duplicate_propositions"] == 0
+    assert cov["duplicate_groups"] == {}
 
 
 def test_validator_names_type_violations(tmp_path):
@@ -117,6 +118,9 @@ def test_fingerprint_census_counts_duplicates():
     assert cov["claims"] == 2
     assert cov["distinct_propositions"] == 1
     assert cov["duplicate_propositions"] == 1
+    # The ruling's form: duplicates are grouped by their
+    # recomputed fingerprint, not just totaled.
+    assert cov["duplicate_groups"] == {proposition_fingerprint("same proposition"): 2}
 
 
 def test_intake_refusal_writes_nothing(tmp_path):
