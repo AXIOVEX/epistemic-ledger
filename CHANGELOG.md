@@ -6,6 +6,12 @@ this project follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+- DESIGN-17 memo: MPCodec harmonization note assessed
+  and adopted (measurement records as the framework
+  convention, the numeric-arm principle, the
+  computation/disposition naming, the narrative-
+  confidence migration rule).
+
 ## [0.15.0] - 2026-11-01
 
 ### Added
