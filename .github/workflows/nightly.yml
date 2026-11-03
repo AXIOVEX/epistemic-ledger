@@ -34,7 +34,7 @@ jobs:
       - run: /tmp/nightly-venv/bin/pip install -q --force-reinstall /tmp/wheels/*.whl
       - name: Run the soak
         run: /tmp/nightly-venv/bin/python -m tools.stress.soak --duration-seconds 7200 --out soak.json
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: report-soak
@@ -58,7 +58,7 @@ jobs:
       - run: /tmp/nightly-venv/bin/pip install -q --force-reinstall /tmp/wheels/*.whl
       - name: Run the append soak leg
         run: /tmp/nightly-venv/bin/python -m tools.stress.soak --leg append --duration-seconds 7200 --out soak-append.json
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: report-soak-append
@@ -82,7 +82,7 @@ jobs:
       - run: /tmp/nightly-venv/bin/pip install -q --force-reinstall /tmp/wheels/*.whl
       - name: Run the sweep
         run: /tmp/nightly-venv/bin/python -m tools.stress.killpoint --engine rust --trials 250 --out killpoint-rust.json
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: report-killpoint-rust
@@ -106,7 +106,7 @@ jobs:
       - run: /tmp/nightly-venv/bin/pip install -q --force-reinstall /tmp/wheels/*.whl
       - name: Run the sweep
         run: /tmp/nightly-venv/bin/python -m tools.stress.killpoint --engine python --trials 250 --out killpoint-python.json
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: report-killpoint-python
@@ -133,7 +133,7 @@ jobs:
       - name: Batched sweep, 10,000 flips on the 100k-record store
         if: always()
         run: /tmp/nightly-venv/bin/python -m tools.stress.bitrot --flips 10000 --records 100000 --batch-size 100 --out bitrot-batched.json
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: report-bitrot
@@ -162,7 +162,7 @@ jobs:
       - name: Projection surface
         if: always()
         run: /tmp/nightly-venv/bin/python -m tools.stress.readers --surface sqlite --duration-seconds 120 --readers 8 --out readers-sqlite.json
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: report-readers
@@ -188,7 +188,7 @@ jobs:
       - run: /tmp/nightly-venv/bin/pip install -q --force-reinstall /tmp/wheels/*.whl
       - name: Run the scale point
         run: /tmp/nightly-venv/bin/python -m tools.stress.scale --records 1000000 --out scale.json
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: report-scale

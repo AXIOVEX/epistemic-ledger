@@ -34,7 +34,7 @@ jobs:
       - run: /tmp/tier-venv/bin/pip install -q --force-reinstall /tmp/wheels/*.whl
       - name: Run the floors
         run: /tmp/tier-venv/bin/python -m tools.stress.floors --out floors.json
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: report-floors
@@ -56,7 +56,7 @@ jobs:
       - name: Run the campaign (30 minutes)
         working-directory: rust/fuzz
         run: cargo fuzz run ${{ matrix.target }} -- -max_total_time=1800
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: failure()
         with:
           name: fuzz-artifacts-${{ matrix.target }}
@@ -80,7 +80,7 @@ jobs:
       - run: /tmp/tier-venv/bin/pip install -q --force-reinstall /tmp/wheels/*.whl
       - name: Run the 4-hour soak
         run: /tmp/tier-venv/bin/python -m tools.stress.soak --duration-seconds 14400 --out soak.json
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: report-soak4h
@@ -104,7 +104,7 @@ jobs:
       - run: /tmp/tier-venv/bin/pip install -q --force-reinstall /tmp/wheels/*.whl
       - name: Run the 4-hour append soak leg
         run: /tmp/tier-venv/bin/python -m tools.stress.soak --leg append --duration-seconds 14400 --out soak-append.json
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: report-soak4h-append
@@ -174,7 +174,7 @@ jobs:
                   check=True,
               )
           EOF
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: release-tier-summary
