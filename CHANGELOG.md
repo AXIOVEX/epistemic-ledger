@@ -6,6 +6,17 @@ this project follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+- Test coverage is now held at 100% (lines and branches) for the
+  whole Python package by the CI coverage gate: the coverage
+  report has no omitted modules (the entry shim and the
+  core-bound migration/snapshot wrappers are measured, with the
+  compiled core built in the coverage job), and the consolidation
+  module's network client is exercised through fakes.
+- README badges audited: the coverage badge now reports the
+  CI-enforced 100% figure (the previous badge rendered "unknown"
+  because the external coverage service had no active project
+  for this repository), and the README status and SECURITY.md
+  supported-version table were brought current with v0.15.0.
 - Amendment 3 adopted: the pinned claim schema
   (`epistemic-ledger-claims/1`, docs/pattern/SCHEMA.md),
   `validate_ledger` + the `pattern-validate` CLI
