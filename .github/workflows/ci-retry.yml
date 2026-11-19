@@ -1,0 +1,52 @@
+name: CI auto-retry (cancelled jobs)
+
+# Why this exists: GitHub's macOS hosted-runner pool intermittently
+# cancels queued jobs before a single step executes (0 steps run,
+# ~15 minutes in the queue, conclusion "cancelled"). The job itself
+# is healthy — when a runner is allocated it passes in about
+# 80 seconds. Episodes: 2026-11-03 (three Dependabot PRs, three
+# cancellations in a row on one) and 2026-11-19 (PR #81, two
+# cancellations in a row). Each episode blocked a merge until a
+# human re-ran the jobs by hand.
+#
+# This workflow makes that recovery automatic and bounded:
+# when a CI run finishes as "failure" ONLY because one or more
+# jobs were cancelled (no job actually failed), the cancelled
+# jobs are re-run. A run with a genuine failure is never touched —
+# real red stays red. Re-runs are capped: attempts stop at 3, so a
+# persistently unavailable runner pool surfaces as a red run for
+# a human instead of looping.
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+
+permissions:
+  actions: write
+
+jobs:
+  rerun-cancelled:
+    name: Re-run cancelled-only CI jobs
+    if: >-
+      github.event.workflow_run.conclusion == 'failure'
+      && github.event.workflow_run.run_attempt < 3
+    runs-on: ubuntu-latest
+    steps:
+      - name: Re-run when only cancellations are red
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+        run: |
+          set -euo pipefail
+          conclusions=$(gh api "repos/${{ github.repository }}/actions/runs/${RUN_ID}/jobs" \
+            --paginate --jq '[.jobs[].conclusion]')
+          cancelled=$(echo "$conclusions" | jq '[.[] | select(. == "cancelled")] | length')
+          failed=$(echo "$conclusions" | jq '[.[] | select(. == "failure")] | length')
+          echo "run ${RUN_ID}: cancelled=${cancelled} failed=${failed}" >> "$GITHUB_STEP_SUMMARY"
+          if [ "$cancelled" -gt 0 ] && [ "$failed" -eq 0 ]; then
+            echo "Only cancellations are red; re-running those jobs." >> "$GITHUB_STEP_SUMMARY"
+            gh api -X POST "repos/${{ github.repository }}/actions/runs/${RUN_ID}/rerun-failed-jobs"
+          else
+            echo "Not a cancellations-only run; leaving it for a human." >> "$GITHUB_STEP_SUMMARY"
+          fi

@@ -6,6 +6,14 @@ this project follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+- CI reliability: a new auto-retry workflow re-runs a CI run's
+  jobs automatically when the run is red only because jobs were
+  cancelled before executing (GitHub's macOS runner pool
+  intermittently cancels queued jobs with zero steps run, which
+  blocked merges on 2026-11-03 and 2026-11-19 until a human
+  re-ran them). Runs containing a genuine failure are never
+  re-run by it, and re-runs stop after 3 attempts.
+
 ## [0.16.0] - 2026-11-19
 
 - Test coverage is now held at 100% (lines and branches) for the
