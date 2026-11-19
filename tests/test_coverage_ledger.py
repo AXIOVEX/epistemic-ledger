@@ -1043,4 +1043,9 @@ def test_fcntl_import_fallback_sets_none():
         importlib.reload(ledger_module)
         assert ledger_module.fcntl is None
     importlib.reload(ledger_module)
-    assert ledger_module.fcntl is not None
+    if sys.platform == "win32":
+        # Windows has no fcntl at all: the fallback is the platform's
+        # native state, before and after the reload.
+        assert ledger_module.fcntl is None
+    else:
+        assert ledger_module.fcntl is not None
