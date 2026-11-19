@@ -6,6 +6,8 @@ this project follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.16.0] - 2026-11-19
+
 - Test coverage is now held at 100% (lines and branches) for the
   whole Python package by the CI coverage gate: the coverage
   report has no omitted modules (the entry shim and the
