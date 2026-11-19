@@ -47,6 +47,20 @@
       "decision_id": "D28d5640daf3f40718b53bddeebe5bfe6",
       "event_id": "E906b2d38502c4170ad65896fba402965",
       "label": "Release 0.15.0"
+    },
+    {
+      "basis": [
+        "C5d124b710ef94c5384dc7d6c5fdf5091",
+        "Cd5c75b7a3aab44728a1c93dc45eb7290",
+        "C9ea6071e79a841c2aeeb1f02d84513c0",
+        "C6e053bd7ce6d492f90b8e0611120cfbe",
+        "Cd1dc66d0d6e640a89f52fda7ecb8fe8e",
+        "Ca0877ee6909a4be28d5f876bbaf09a22",
+        "Cd9c9ca1c752a4382ba248309999c31de"
+      ],
+      "decision_id": "D7aaab9bb944646d5a9f3f3aead03a289",
+      "event_id": "E70c9a6a9889b49929d6701722ee448fd",
+      "label": "Release 0.16.0"
     }
   ],
   "evidence": [
@@ -312,7 +326,7 @@
       "active": 32,
       "superseded": 2
     },
-    "decisions": 4,
-    "events": 41
+    "decisions": 5,
+    "events": 42
   }
 }
