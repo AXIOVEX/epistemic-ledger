@@ -1,7 +1,7 @@
 # Epistemic Ledger
 
 [![CI](https://github.com/AXIOVEX/epistemic-ledger/actions/workflows/ci.yml/badge.svg)](https://github.com/AXIOVEX/epistemic-ledger/actions/workflows/ci.yml)
-[![codecov](https://codecov.io/gh/AXIOVEX/epistemic-ledger/graph/badge.svg)](https://codecov.io/gh/AXIOVEX/epistemic-ledger)
+[![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)](https://github.com/AXIOVEX/epistemic-ledger/actions/workflows/ci.yml)
 [![PyPI](https://img.shields.io/pypi/v/epistemic-ledger.svg)](https://pypi.org/project/epistemic-ledger/)
 [![Documentation](https://readthedocs.org/projects/epistemic-ledger/badge/?version=latest)](https://epistemic-ledger.readthedocs.io/)
 [![Python](https://img.shields.io/pypi/pyversions/epistemic-ledger.svg)](https://pypi.org/project/epistemic-ledger/)
@@ -12,7 +12,7 @@ Databases are deeply flawed: there is no built-in way to keep challenging the da
 
 ## Status
 
-**Implemented and validated** (v0.11.1, 2026-10-09). The framing below became a working prototype: an event-sourced, bitemporal ledger with a dependency-propagated revisit loop, learned entrenchment, Dempster-Shafer intervals, joint likelihoods, contradiction detection and resolution, governance (writer tiers, signed verdicts, escalation, named-graph authority ceilings, predicate policies), an offline LLM consolidation pass, and a hardened single-writer store with integrity verification. See [`docs/PAPER.md`](docs/PAPER.md) for the framing paper, `docs/DESIGN-*.md` for the design memos, and `docs/research/` for the raw research notes with provenance.
+**Implemented and validated** (v0.15.0, 2026-11-01). The framing below became a working system: an event-sourced, bitemporal ledger with a dependency-propagated revisit loop, learned entrenchment, Dempster-Shafer intervals, joint likelihoods, contradiction detection and resolution, governance (writer tiers, signed verdicts, escalation, named-graph authority ceilings, predicate policies), an offline LLM consolidation pass, a hardened hash-chained and signed store with verified writes (a compiled Rust core alongside the Python implementation), tenant partitions with key governance, keyed commitments and erasure records, signed tree heads with inclusion and consistency proofs, provenance export, and a claim-pattern layer (generated matrix and map with a recompute-and-diff gate). The Python package's test coverage is held at 100% (lines and branches) by a CI gate. See [`docs/PAPER.md`](docs/PAPER.md) for the framing paper, `docs/DESIGN-*.md` for the design memos, and `docs/research/` for the raw research notes with provenance.
 
 Measured results so far, each with its own report in `docs/`:
 
@@ -96,7 +96,8 @@ The same machinery answers a pressing LLM problem: **context cleanup**. Retrieva
 │   ├── CONTEXT-CLEANUP-01.md  # LLM context-cleanup experiment report
 │   └── research/        # Raw research notes with provenance (2026-09-30)
 │       └── BIBLIOGRAPHY.md  # Annotated bibliography: primary-source verification (2026-10-01)
-├── src/epistemic_ledger/  # The package (stdlib-only Python)
+├── src/epistemic_ledger/  # The package (Python, plus the compiled core when installed from a wheel)
+├── rust/                # The compiled chained-store core and its bindings
 ├── tests/               # Test suite
 ├── prototype/           # Research scripts + compatibility shims
 │   ├── validation/      # Measured-result harnesses (not shipped)

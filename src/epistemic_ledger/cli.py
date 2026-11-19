@@ -308,23 +308,24 @@ def main(argv=None):
                 )
             print(json.dumps(result, indent=2, default=str))
             return 0
-        if args.command == "query":
-            from .lql import LQLParseError
+        # The only command left is "query": every other subcommand
+        # that reaches the shared open returns above, and argparse
+        # admits no others.
+        from .lql import LQLParseError
 
-            try:
-                result = L.query(args.lql)
-            except LQLParseError as exc:
-                print(f"error: {exc}", file=sys.stderr)
-                return 2
-            print(json.dumps(result, indent=2, default=str))
-            return 0
+        try:
+            result = L.query(args.lql)
+        except LQLParseError as exc:
+            print(f"error: {exc}", file=sys.stderr)
+            return 2
+        print(json.dumps(result, indent=2, default=str))
+        return 0
 
     except KeyError as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 2
     finally:
         L.close()
-    return 2
 
 
 if __name__ == "__main__":

@@ -89,34 +89,21 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
-      - run: pip install -e ".[dev]"
-      # Overall floor 85%; the core ledger module floor 90% (line rate)
-      # is checked separately from the coverage data below. Measured at
-      # packaging time: overall 88%, ledger.py 91% — the main uncovered
-      # area is the consolidation module's live network client, which
-      # unit tests deliberately do not call.
+      - uses: dtolnay/rust-toolchain@stable
+      - run: python -m venv /tmp/cov-venv
+      - run: /tmp/cov-venv/bin/pip install -q -e ".[dev]" maturin
+      # Build the compiled core into the editable package so the
+      # core-bound modules (migrate, snapshots) are exercised and
+      # measured here too; nothing is omitted from the report.
+      - name: Build the compiled core (maturin develop)
+        run: VIRTUAL_ENV=/tmp/cov-venv /tmp/cov-venv/bin/maturin develop --release
+      # The gate is 100% (lines and branches) for the whole package,
+      # enforced by --cov-fail-under and by fail_under in pyproject.
       - run: >-
-          python -m pytest
+          /tmp/cov-venv/bin/python -m pytest tests
+          rust/crates/epistemic-ledger-py/tests/test_migration.py
           --cov=epistemic_ledger --cov-report=xml --cov-report=term-missing
-          --cov-fail-under=85
-      - name: Core-module floor (90%)
-        run: |
-          python - <<'EOF'
-          import xml.etree.ElementTree as ET
-          tree = ET.parse("coverage.xml")
-          for cls in tree.getroot().iter("class"):
-              if cls.get("filename", "").endswith("ledger.py"):
-                  rate = float(cls.get("line-rate"))
-                  print(f"ledger.py line coverage: {rate:.1%}")
-                  assert rate >= 0.90, "core module below the 90% floor"
-                  break
-          else:
-              raise SystemExit("ledger.py not found in coverage report")
-          EOF
-      - uses: codecov/codecov-action@v7
-        with:
-          files: coverage.xml
-          fail_ci_if_error: false
+          --cov-fail-under=100
 
   docs:
     name: Docs (mkdocs --strict)

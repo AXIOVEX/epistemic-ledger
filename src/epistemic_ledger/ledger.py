@@ -2086,8 +2086,9 @@ class Ledger:
                             continue
                         p = float(prow["score"])
                     parent_scores[pid] = (strengths.get(pid, 1.0), p)
-                if not parent_scores:
-                    continue
+                # The gate above requires an edge whose supporter is in
+                # updated, and that supporter is always added here, so
+                # parent_scores cannot be empty at this point.
                 score = self._combine_score(name, leak, parent_scores)
             else:
                 score = float(row["score"])
@@ -2978,11 +2979,10 @@ class Ledger:
                     else:
                         continue
                     parent_scores[pid] = (float(e["strength"]), p)
-                if not parent_scores:
-                    continue
+                # As in _revisit: the gate above guarantees
+                # parent_scores is non-empty, so _combine_score
+                # cannot return None here.
                 score = self._combine_score(name, leak, parent_scores)
-                if score is None:
-                    continue
             else:
                 score = scores[cid]
                 for e in edges:
@@ -3122,9 +3122,10 @@ class Ledger:
         nd_get = node_distance.get
         lp_add = layer_parents.setdefault
         for u in [claim_id] + [cid for _, cid in layer_order]:
-            du = nd_get(u)
-            if du is None:
-                continue
+            # Every u is a node_distance key by construction: the
+            # root is always in kept_claims, and layer_order is
+            # built from node_distance itself.
+            du = node_distance[u]
             for v in adjacency.get(u, ()):
                 if v in kept and nd_get(v) == du + 1:
                     lp_add(v, []).append(u)

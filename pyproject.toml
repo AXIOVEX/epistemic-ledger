@@ -81,15 +81,14 @@ markers = [
 [tool.coverage.run]
 source = ["epistemic_ledger"]
 branch = true
-omit = [
-    "*/epistemic_ledger/__main__.py",  # 3-line entry shim, exercised via the CLI tests' subprocess check
-    "*/epistemic_ledger/migrate.py",  # exercised end-to-end by the Rust bindings job's migration tests (needs the compiled core)
-    "*/epistemic_ledger/snapshots.py",  # exercised end-to-end by the Rust bindings job's snapshot tests (needs the compiled core)
-]
+# No omissions: every module is measured, including the entry shim
+# and the core-bound migration/snapshot wrappers. The CI coverage
+# job builds the compiled core so those paths run there too.
 
 [tool.coverage.report]
 show_missing = true
 skip_covered = false
+fail_under = 100
 
 [tool.ruff]
 line-length = 88

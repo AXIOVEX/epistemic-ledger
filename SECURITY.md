@@ -4,8 +4,8 @@
 
 | Version | Supported |
 | --- | --- |
-| 0.12.x | Yes |
-| < 0.12 | No (research prototype releases, pre-PyPI) |
+| 0.15.x | Yes |
+| < 0.15 | No |
 
 ## Reporting a vulnerability
 
